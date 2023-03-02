@@ -125,10 +125,10 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 			return (code);
 	}
 
-	        optind--;
-        for( ;optind < argc && *argv[optind] != '-'; optind++){
-              DoSomething( argv[optind] );         
-        }
+//	        optind--;
+  //      for( ;optind < argc && *argv[optind] != '-'; optind++){
+    //          DoSomething( argv[optind] );         
+      //  }
 
 	// Checks
 	printf("port : %d\n", env->settings.port);
