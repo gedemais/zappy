@@ -16,7 +16,7 @@ static bool	is_valid_number(char *nbr, size_t max_len)
 
 static uint8_t	opt_load_port(t_env *env, char **args)
 {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_PORT_NUMBER);
@@ -31,7 +31,7 @@ static uint8_t	opt_load_width(t_env *env, char **args)
 		return (ERR_INVALID_MAP_DIMS);
 
 	env->settings.map_width = (uint16_t)ft_atoi((*args));
-	printf("%s succeeded\n", __FUNCTION__);
+	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
 
@@ -41,7 +41,7 @@ static uint8_t	opt_load_height(t_env *env, char **args)
 		return (ERR_INVALID_MAP_DIMS);
 
 	env->settings.map_height = (uint16_t)ft_atoi((*args));
-	printf("%s succeeded\n", __FUNCTION__);
+	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
 
@@ -49,7 +49,7 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 {
 	t_team	team;
 
-	printf("%s succeeded\n", __FUNCTION__);
+	//printf("%s succeeded\n", __FUNCTION__);
 	if (init_dynarray(&env->world.teams, sizeof(t_team), 8))
 		return (ERR_MALLOC_FAILED);
 
@@ -71,7 +71,7 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 
 static uint8_t	opt_load_c(t_env *env, char **args)
 {
-	printf("%s succeeded\n", __FUNCTION__);
+	//printf("%s succeeded\n", __FUNCTION__);
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_CONNECTION_ARG);
 
@@ -86,7 +86,7 @@ static uint8_t	opt_load_t(t_env *env, char **args)
 		return (ERR_INVALID_TIME_SETTING);
 
 	env->settings.t = ft_atoi(*args);
-	printf("%s succeeded\n", __FUNCTION__);
+	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
 

@@ -12,7 +12,8 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	bool	run = true;
 	uint8_t	code;
 
-	if ((code = parse_options(env, argc, argv)) != ERR_NONE)
+	if ((code = parse_options(env, argc, argv)) != ERR_NONE
+		|| (code = init_world(env)) != ERR_NONE)
 		return (code);
 
 	while (run)

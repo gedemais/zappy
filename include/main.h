@@ -35,5 +35,6 @@ uint32_t	error(t_env *env, unsigned char code);
 void		free_env(t_env *env);
 
 uint8_t		parse_options(t_env *env, int argc, char **argv);
+uint8_t		init_world(t_env *env);
 
 #endif
