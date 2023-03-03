@@ -28,6 +28,7 @@ int		main(int argc, char **argv)
 	t_env			env;
 	unsigned char	err_code;
 
+	srand(time(NULL));
 	memset(&env, 0, sizeof(t_env));
 
 	intro();

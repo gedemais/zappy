@@ -4,6 +4,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdint.h>
+# include <time.h>
 
 # include "libft.h"
 
@@ -36,5 +37,7 @@ void		free_env(t_env *env);
 
 uint8_t		parse_options(t_env *env, int argc, char **argv);
 uint8_t		init_world(t_env *env);
+
+uint8_t		spawn_loot_pieces(t_env *env, uint32_t count);
 
 #endif
