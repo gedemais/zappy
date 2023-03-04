@@ -55,6 +55,7 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 
 	for (uint32_t i = 0; args[i] && args[i][0] != '-'; i++)
 	{
+		printf("%s\n", args[i]);
 		memset(&team, 0, sizeof(t_team));
 		if (!(team.name = ft_strdup(args[i])))
 			return (ERR_MALLOC_FAILED);

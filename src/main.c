@@ -16,10 +16,25 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 		|| (code = init_world(env)) != ERR_NONE)
 		return (code);
 
+
+	add_player(env, dyacc(&env->world.teams, 0));
+	add_player(env, dyacc(&env->world.teams, 0));
+	add_player(env, dyacc(&env->world.teams, 0));
+	add_player(env, dyacc(&env->world.teams, 0));
+	add_player(env, dyacc(&env->world.teams, 0));
+	add_player(env, dyacc(&env->world.teams, 0));
+
+	add_player(env, dyacc(&env->world.teams, 1));
+	add_player(env, dyacc(&env->world.teams, 1));
+	add_player(env, dyacc(&env->world.teams, 1));
+	add_player(env, dyacc(&env->world.teams, 1));
+	add_player(env, dyacc(&env->world.teams, 1));
+	add_player(env, dyacc(&env->world.teams, 1));
+
 	while (run)
-	{
-		break;
-	}
+		if ((code = tick(env)))
+			return (code);
+
 	return (ERR_NONE);
 }
 

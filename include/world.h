@@ -2,7 +2,7 @@
 # define WORLD_H
 
 // Percentage of cases supposed to contain loot at every moment
-# define LOOT_DENSITY 1
+# define LOOT_DENSITY 5
 // Percentage of loot pieces destined to be food
 # define FOOD_DENSITY 10
 
