@@ -25,7 +25,7 @@ enum			e_directions
 	DIR_SOUTH,
 	DIR_WEST,
 	DIR_MAX
-}
+};
 
 typedef struct	s_player
 {
