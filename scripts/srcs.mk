@@ -4,5 +4,6 @@ SRCS_NAME=main.c\
 		  free.c\
 		  tick.c\
 		  player/player.c\
+		  player/commands.c\
 		  world/init.c\
 		  world/resources.c

@@ -43,7 +43,7 @@ uint8_t	add_player(t_env *env, t_team *team)
 	new.tile_x = rand() % env->settings.map_width;
 	new.tile_y = rand() % env->settings.map_height;
 	new.food = 10;
-	new.level = 1;
+	new.level = 8;
 	new.alive = true;
 
 	if (push_dynarray(&team->players, &new, false))

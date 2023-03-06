@@ -26,14 +26,8 @@ static uint8_t	fill_resources(t_env *env)
 	return (ERR_NONE);
 }
 
-uint8_t	init_world(t_env *env)
+void	print_map(t_env *env)
 {
-	uint8_t	code;
-
-	if ((code = allocate_map_tiles(env))
-		|| (code = fill_resources(env)))
-		return (code);
-
 	uint8_t	*t;
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
@@ -48,6 +42,15 @@ uint8_t	init_world(t_env *env)
 
 		printf("\n");
 	}
+}
+
+uint8_t	init_world(t_env *env)
+{
+	uint8_t	code;
+
+	if ((code = allocate_map_tiles(env))
+		|| (code = fill_resources(env)))
+		return (code);
 
 	return (ERR_NONE);
 }

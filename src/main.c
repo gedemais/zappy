@@ -18,19 +18,19 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 
 
 	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 0));
 
 	add_player(env, dyacc(&env->world.teams, 1));
-	add_player(env, dyacc(&env->world.teams, 1));
-	add_player(env, dyacc(&env->world.teams, 1));
-	add_player(env, dyacc(&env->world.teams, 1));
-	add_player(env, dyacc(&env->world.teams, 1));
-	add_player(env, dyacc(&env->world.teams, 1));
 
+	t_team *a = dyacc(&env->world.teams, 0);
+	t_team *b = dyacc(&env->world.teams, 1);
+
+	t_player *pa = dyacc(&a->players, 0);
+	t_player *pb = dyacc(&b->players, 0);
+
+	cmd_see(env, pa);
+	cmd_see(env, pb);
+
+	print_map(env);
 	while (run)
 		if ((code = tick(env)))
 			return (code);
