@@ -62,6 +62,7 @@ uint8_t	cmd_see(t_env *env, t_player *p)
 	//p->tile_x - (int)floor(fov_width[i] / 2.0f);
 	// add_tile_to_view
 
+	int16_t	tx, ty;
 	for (uint8_t i = 0; i <= p->level; i++)
 	{
 		middle_x = p->tile_x + moves[p->direction.d][0] * i;
@@ -78,23 +79,18 @@ uint8_t	cmd_see(t_env *env, t_player *p)
 		end_y = middle_y + moves[p->direction.d][1] * i;
 		p->direction.d -= 1;
 
-		clamp(&start_x, 0, env->settings.map_width);
-		clamp(&start_y, 0, env->settings.map_height);
-		clamp(&end_x, 0, env->settings.map_width);
-		clamp(&end_y, 0, env->settings.map_height);
-
 		uint8_t	loot = 9;
 		printf("%d %d %d %d\n", start_x, start_y, end_x, end_y);
 		for (int16_t x = min(start_x, end_x); x <= max(start_x, end_x); x++)
 			for (int16_t y = min(start_y, end_y); y <= max(start_y, end_y); y++)
 			{
-				clamp(&x, 0, env->settings.map_width);
-				clamp(&y, 0, env->settings.map_height);
-				printf("THERE\n");
-				fflush(stdout);
-				if (env->world.map[y][x].content.byte_size == 0)
-					init_dynarray(&env->world.map[y][x].content, sizeof(uint8_t), 8);
-				push_dynarray(&env->world.map[y][x].content, &loot, false);
+				tx = x;
+				ty = y;
+				clamp(&tx, 0, env->settings.map_width);
+				clamp(&ty, 0, env->settings.map_height);
+				if (env->world.map[ty][tx].content.byte_size == 0)
+					init_dynarray(&env->world.map[ty][tx].content, sizeof(uint8_t), 8);
+				push_dynarray(&env->world.map[ty][tx].content, &loot, false);
 			}
 				
 		//tx = p->tile_x + moves[p->direction][0];

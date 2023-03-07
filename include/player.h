@@ -29,6 +29,13 @@ enum			e_directions
 	DIR_MAX
 };
 
+typedef struct	s_cmd
+{
+	uint8_t		cmd_id;
+	uint8_t		player_id;
+	uint16_t	cycles;
+}				t_cmd;
+
 typedef struct s_direction // Useful for over / under flowing directions values
 {
 	unsigned char	d : 2;
