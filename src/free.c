@@ -28,6 +28,7 @@ static void	free_world(t_env *env)
 
 void		free_env(t_env *env)
 {
+	free(env->response);
 	free_teams(env);
 	free_world(env);
 }

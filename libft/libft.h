@@ -6,7 +6,7 @@
 /*   By: gedemais <gedemais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 09:05:11 by gedemais          #+#    #+#             */
-/*   Updated: 2020/07/08 22:53:42 by gedemais         ###   ########.fr       */
+/*   Updated: 2023/03/07 03:15:10 by gedemais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void				ft_swap(int *a, int *b);
 int					ft_constrain(int val, int min, int max);
 double				ft_to_radians(double degree);
 double				ft_to_degrees(double degree);
+void				clamp(int16_t *v, int16_t min, int16_t max);
 
 /*
 ** Maths functions

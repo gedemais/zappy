@@ -13,7 +13,7 @@ void	teams_log(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | x : %d | y : %d | food : %d | satiety : %d\n", player, p->tile_x, p->tile_y, p->food, p->satiety);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->food, p->satiety);
 		}
 	}
 	printf("=====================================\n");
@@ -51,6 +51,13 @@ uint8_t	add_player(t_env *env, t_team *team)
 
 	if (push_dynarray(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);
+
+	if (env->world.map[new.tile_y][new.tile_x].content.byte_size == 0
+		&& init_dynarray(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
+		return (ERR_MALLOC_FAILED);
+
+	uint8_t	loot = 9;
+	push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false);
 
 	return (ERR_NONE);
 }

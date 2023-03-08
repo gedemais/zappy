@@ -41,62 +41,35 @@ uint8_t	cmd_right(t_env *env, t_player *p)
 	return (ERR_NONE);
 }
 
-static void		clamp(int16_t *v, int16_t min, int16_t max)
-{
-	if (*v < min)
-		*v = max - (min - *v);
-	else if (*v >= max)
-		*v = min + (*v - max);
-}
-
 uint8_t	cmd_see(t_env *env, t_player *p)
 {
-	//char		*response;
-	int16_t		middle_x, middle_y, start_x, start_y, end_x, end_y;
-	int8_t		moves[DIR_MAX][2] ={{0, -1},
-								{1, 0},
-								{0, 1},
-								{-1, 0}};
+	t_view_ranges	ranges;
+	t_dynarray		view;
+	int16_t			tx, ty;
+	uint8_t			code;
 
-	
-	//p->tile_x - (int)floor(fov_width[i] / 2.0f);
-	// add_tile_to_view
+	if (init_dynarray(&view, sizeof(t_dynarray), 8))
+		return (ERR_MALLOC_FAILED);
 
-	int16_t	tx, ty;
-	for (uint8_t i = 0; i <= p->level; i++)
+	for (uint8_t i = 0; i < p->level; i++)
 	{
-		middle_x = p->tile_x + moves[p->direction.d][0] * i;
-		middle_y = p->tile_y + moves[p->direction.d][1] * i;
-
-		clamp(&middle_x, 0, env->settings.map_width);
-		clamp(&middle_y, 0, env->settings.map_height);
-
-		p->direction.d -= 1;
-		start_x = middle_x + moves[p->direction.d][0] * i;
-		start_y = middle_y + moves[p->direction.d][1] * i;
-		p->direction.d += 2;
-		end_x = middle_x + moves[p->direction.d][0] * i;
-		end_y = middle_y + moves[p->direction.d][1] * i;
-		p->direction.d -= 1;
-
-		uint8_t	loot = 9;
-		printf("%d %d %d %d\n", start_x, start_y, end_x, end_y);
-		for (int16_t x = min(start_x, end_x); x <= max(start_x, end_x); x++)
-			for (int16_t y = min(start_y, end_y); y <= max(start_y, end_y); y++)
+		compute_view_ranges(env, &ranges, p, i);
+		for (int16_t x = min(ranges.start_x, ranges.end_x); x <= max(ranges.start_x, ranges.end_x); x++)
+			for (int16_t y = min(ranges.start_y, ranges.end_y); y <= max(ranges.start_y, ranges.end_y); y++)
 			{
 				tx = x;
 				ty = y;
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
-				if (env->world.map[ty][tx].content.byte_size == 0)
-					init_dynarray(&env->world.map[ty][tx].content, sizeof(uint8_t), 8);
-				push_dynarray(&env->world.map[ty][tx].content, &loot, false);
+				if ((code = add_tile_to_view(&view, &env->world.map[ty][tx].content)))
+				{
+					free_view(&view);
+					return (code);
+				}
 			}
-				
-		//tx = p->tile_x + moves[p->direction][0];
-		//ty = p->tile_y + moves[p->direction][1] * i;
-		//p->tile_x - (int)floor(fov_width[i] / 2.0f);
 	}
+	send_see_response(env, &view);
+	free_view(&view);
 	return (ERR_NONE);
 }
 

@@ -29,12 +29,10 @@ enum			e_directions
 	DIR_MAX
 };
 
-typedef struct	s_cmd
+typedef struct	s_view_ranges
 {
-	uint8_t		cmd_id;
-	uint8_t		player_id;
-	uint16_t	cycles;
-}				t_cmd;
+	int16_t		middle_x, middle_y, start_x, start_y, end_x, end_y;
+}				t_view_ranges;
 
 typedef struct s_direction // Useful for over / under flowing directions values
 {

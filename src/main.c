@@ -16,6 +16,9 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 		|| (code = init_world(env)) != ERR_NONE)
 		return (code);
 
+	if (!(env->response = (char*)malloc(sizeof(char) * RESPONSE_SIZE)))
+		return (ERR_MALLOC_FAILED);
+	memset(env->response, 0, sizeof(char) * RESPONSE_SIZE);
 
 	add_player(env, dyacc(&env->world.teams, 0));
 
@@ -32,8 +35,11 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 
 	print_map(env);
 	while (run)
+	{
 		if ((code = tick(env)))
 			return (code);
+		break;
+	}
 
 	return (ERR_NONE);
 }
