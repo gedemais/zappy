@@ -30,9 +30,15 @@ typedef struct	s_settings
 	uint16_t	t; // Time unit (1 tick of the server lasts for 1/t second)
 }				t_settings;
 
-typedef	struct	s_env
+typedef struct	s_buffers
 {
 	char		*response;
+	t_dynarray	view;
+}				t_buffers;
+
+typedef	struct	s_env
+{
+	t_buffers	buffers;
 	t_world		world; // See world.h
 	t_settings	settings;
 }				t_env;
@@ -64,6 +70,7 @@ uint8_t		cmd_advance(t_env *env, t_player *p);
 uint8_t		cmd_left(t_env *env, t_player *p);
 uint8_t		cmd_right(t_env *env, t_player *p);
 uint8_t		cmd_see(t_env *env, t_player *p);
+uint8_t		cmd_inventory(t_env *env, t_player *p);
 
 // See
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
@@ -74,6 +81,16 @@ void		free_view(t_dynarray *view);
 
 // Core
 uint8_t		tick(t_env *env);
+
+static const char	*loot_titles[LOOT_MAX] = {
+	[LOOT_LINEMATE] = "linemate",
+	[LOOT_DERAUMERE] = "deraumere",
+	[LOOT_SIBUR] = "sibur",
+	[LOOT_MENDIANE] = "mendiane",
+	[LOOT_PHIRAS] = "phiras",
+	[LOOT_THYSTAME] = "thystame",
+	[LOOT_FOOD] = "nourriture"
+};
 
 static const t_cmd	commands[CMD_MAX] = {
 							[CMD_ADVANCE] = {.response = NULL, .cycles = 7, .cmd = &cmd_advance},
@@ -89,6 +106,5 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_FORK] = {.response = NULL, .cycles = 42, .cmd = NULL},
 							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd = NULL}
 };
-
 
 #endif

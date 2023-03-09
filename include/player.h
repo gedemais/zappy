@@ -50,7 +50,4 @@ typedef struct	s_player
 	bool		alive; // Is the player currently alive ?
 }				t_player;
 
-
-static const uint8_t	fov_width[LVL_MAX] = {3, 5, 7, 9, 11, 13, 15, 17};
-
 #endif

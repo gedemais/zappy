@@ -4,7 +4,7 @@ include scripts/incs.mk
 NAME=server
 
 CC=gcc
-FLAGS= -Wall -Werror -Wextra
+FLAGS= -Wall -Werror -Wextra -Wno-unused-variable
 
 # Flags variables
 DEBUG ?= 0

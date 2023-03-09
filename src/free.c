@@ -26,9 +26,15 @@ static void	free_world(t_env *env)
 	free(env->world.map);
 }
 
+static void	free_buffers(t_env *env)
+{
+	free(env->buffers.response);
+	free_dynarray(&env->buffers.view);
+}
+
 void		free_env(t_env *env)
 {
-	free(env->response);
+	free_buffers(env);
 	free_teams(env);
 	free_world(env);
 }

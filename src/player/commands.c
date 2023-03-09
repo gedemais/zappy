@@ -19,12 +19,10 @@ uint8_t	cmd_advance(t_env *env, t_player *p)
 
 			p->tile_x = p->tile_x < 0 ? env->settings.map_width - 1 : p->tile_x;
 			p->tile_y = p->tile_y < 0 ? env->settings.map_height - 1 : p->tile_y;
-
 			return (ERR_NONE);
 		}
 
 	return (ERR_NONE);
-	// todo return (ERR_INVALID_PLAYER_DIRECTION);
 }
 
 uint8_t	cmd_left(t_env *env, t_player *p)
@@ -44,12 +42,7 @@ uint8_t	cmd_right(t_env *env, t_player *p)
 uint8_t	cmd_see(t_env *env, t_player *p)
 {
 	t_view_ranges	ranges;
-	t_dynarray		view;
 	int16_t			tx, ty;
-	uint8_t			code;
-
-	if (init_dynarray(&view, sizeof(t_dynarray), 8))
-		return (ERR_MALLOC_FAILED);
 
 	for (uint8_t i = 0; i < p->level; i++)
 	{
@@ -61,24 +54,44 @@ uint8_t	cmd_see(t_env *env, t_player *p)
 				ty = y;
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
-				if ((code = add_tile_to_view(&view, &env->world.map[ty][tx].content)))
+				if (push_dynarray(&env->buffers.view, &env->world.map[ty][tx], false))
 				{
-					free_view(&view);
-					return (code);
+					clear_dynarray(&env->buffers.view);
+					return (ERR_MALLOC_FAILED);
 				}
 			}
 	}
-	send_see_response(env, &view);
-	free_view(&view);
+	send_see_response(env, &env->buffers.view);
+	clear_dynarray(&env->buffers.view);
+	return (ERR_NONE);
+}
+
+uint8_t	cmd_inventory(t_env *env, t_player *p)
+{
+	char	*amnt;
+
+	ft_strcat(env->buffers.response, "{");
+	for (uint16_t i = 0; i < LOOT_MAX; i++)
+	{
+		if (!(amnt = ft_itoa((int)p->inventory[i])))
+			return (ERR_MALLOC_FAILED);
+
+		ft_strcat(env->buffers.response, amnt);
+		free(amnt);
+
+		ft_strcat(env->buffers.response, " ");
+		ft_strcat(env->buffers.response, loot_titles[i]);
+
+		if (i < LOOT_MAX - 1)
+			ft_strcat(env->buffers.response, ", ");
+	}
+	ft_strcat(env->buffers.response, "}");
+	printf("%s\n", env->buffers.response);
+	memset(env->buffers.response, 0, strlen(env->buffers.response));
 	return (ERR_NONE);
 }
 
 /*
-uint8_t	cmd_inventory(t_env *env, t_player *p)
-{
-	return (ERR_NONE);
-}
-
 uint8_t	cmd_(t_env *env, t_player *p)
 {
 	return (ERR_NONE);
