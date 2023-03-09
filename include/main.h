@@ -33,6 +33,7 @@ typedef struct	s_settings
 typedef struct	s_buffers
 {
 	char		*response;
+	char		*cmd_param;
 	t_dynarray	view;
 }				t_buffers;
 
@@ -71,6 +72,8 @@ uint8_t		cmd_left(t_env *env, t_player *p);
 uint8_t		cmd_right(t_env *env, t_player *p);
 uint8_t		cmd_see(t_env *env, t_player *p);
 uint8_t		cmd_inventory(t_env *env, t_player *p);
+uint8_t		cmd_take(t_env *env, t_player *p);
+uint8_t		cmd_put(t_env *env, t_player *p);
 
 // See
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
@@ -82,6 +85,12 @@ void		free_view(t_dynarray *view);
 // Core
 uint8_t		tick(t_env *env);
 
+
+static const int8_t	moves[DIR_MAX][2] ={{0, -1},
+									{1, 0},
+									{0, 1},
+									{-1, 0}};
+
 static const char	*loot_titles[LOOT_MAX] = {
 	[LOOT_LINEMATE] = "linemate",
 	[LOOT_DERAUMERE] = "deraumere",
@@ -90,6 +99,21 @@ static const char	*loot_titles[LOOT_MAX] = {
 	[LOOT_PHIRAS] = "phiras",
 	[LOOT_THYSTAME] = "thystame",
 	[LOOT_FOOD] = "nourriture"
+};
+
+static const char	*cmd_names[CMD_MAX] = {
+					[CMD_ADVANCE] = "avance",
+					[CMD_RIGHT] = "droit",
+					[CMD_LEFT] = "gauche",
+					[CMD_SEE] = "voir",
+					[CMD_INVENTORY] = "inventaire",
+					[CMD_TAKE] = "prend",
+					[CMD_PUTDOWN] = "pose",
+					[CMD_KICK] = "expulse",
+					[CMD_BROADCAST] = "broadcast",
+					[CMD_INCANTATION] = "incantation",
+					[CMD_FORK] = "fork",
+					[CMD_CONNECT_NBR] = "connect_nbr"
 };
 
 static const t_cmd	commands[CMD_MAX] = {

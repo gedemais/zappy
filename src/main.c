@@ -20,6 +20,34 @@ static uint8_t		init_buffers(t_buffers *buffers)
 	return (ERR_NONE);
 }
 
+static void			launch_cmd(t_env *env, t_player *p, char *line)
+{
+	char	**tokens;
+	uint8_t	(*commands[CMD_MAX])(t_env*, t_player*) = {
+		cmd_advance,
+		cmd_right,
+		cmd_left,
+		cmd_see,
+		cmd_inventory,
+		cmd_take,
+		cmd_put,
+		NULL,
+		NULL,
+		NULL,
+		NULL,
+		NULL
+	};
+	uint8_t	code;
+
+	if (!(tokens = ft_strsplit(line, " ")))
+		return ;
+		//return (ERR_MALLOC_FAILED);
+
+	for (int i = 0; i < CMD_MAX; i++)
+		if (strcmp(line, cmd_names[i]) == 0)
+			commands[i](env, p);
+}
+
 static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 {
 	bool	run = true;
@@ -36,12 +64,18 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	t_player *pa = dyacc(&a->players, 0);
 	cmd_see(env, pa);
 	cmd_inventory(env, pa);
-	print_map(env);
+
+	char	*line;
 	while (run)
 	{
+		print_map(env);
 		if ((code = tick(env)))
 			return (code);
-		break;
+
+		write(1, "-> ", 3);
+		get_next_line(0, &line);
+		launch_cmd(env, pa, line);
+		//system("clear");
 	}
 
 	return (ERR_NONE);

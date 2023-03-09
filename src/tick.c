@@ -31,6 +31,6 @@ uint8_t	tick(t_env *env)
 	// Check for a winner team
 	// Execute clients commands and send responses with a limited time (one tick).
 	// Wait for elapsed time
-	sleep(1);
+	//sleep(1);
 	return (ERR_NONE);
 }

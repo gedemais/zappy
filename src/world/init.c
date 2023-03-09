@@ -28,14 +28,18 @@ static uint8_t	fill_resources(t_env *env)
 
 void	print_map(t_env *env)
 {
-	uint8_t	*t;
+	uint8_t		*t;
+	t_player	*p;
+
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
 		for (uint32_t x = 0; x < env->settings.map_width; x++)
 		{
 			t = dyacc(&env->world.map[y][x].content, 0);
-			if (t == NULL)
+			if (t == NULL || env->world.map[y][x].content.nb_cells == 0)
 				printf(". ");
+			else if (*t == 255)
+				printf("x ");
 			else
 				printf("%d ", *t);
 		}

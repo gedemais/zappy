@@ -13,7 +13,7 @@ void	teams_log(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->food, p->satiety);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety);
 		}
 	}
 	printf("=====================================\n");
@@ -21,11 +21,11 @@ void	teams_log(t_env *env)
 
 void	update_food(t_player *p)
 {
-	if (p->satiety <= 0 && p->food == 0)
+	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
 		p->alive = false;
 	else if (p->satiety == 0)
 	{
-		p->food--;
+		p->inventory[LOOT_FOOD]--;
 		p->satiety += 126;
 	}
 	p->satiety--;
@@ -42,9 +42,9 @@ uint8_t	add_player(t_env *env, t_team *team)
 		return (ERR_MALLOC_FAILED);
 
 	memset(&new, 0, sizeof(t_player));
+	new.inventory[LOOT_FOOD] = 10;
 	new.tile_x = rand() % env->settings.map_width;
 	new.tile_y = rand() % env->settings.map_height;
-	new.food = 10;
 	new.level = 8;
 	new.alive = true;
 	new.direction = *((t_direction*)&d);
@@ -56,7 +56,7 @@ uint8_t	add_player(t_env *env, t_team *team)
 		&& init_dynarray(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
 		return (ERR_MALLOC_FAILED);
 
-	uint8_t	loot = 9;
+	uint8_t	loot = 255;
 	push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false);
 
 	return (ERR_NONE);

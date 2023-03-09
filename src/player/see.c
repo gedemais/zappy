@@ -21,7 +21,7 @@ void	send_see_response(t_env *env, t_dynarray *view)
 		{
 			loot = dyacc(&tile->content, j);
 			ft_strcat(env->buffers.response, (j > 0 && j < tile->content.nb_cells - 1) ? " " : "");
-			if ((int)*loot != 9)
+			if ((int)*loot != 255)
 				ft_strcat(env->buffers.response, loot_titles[(int)*loot]);
 		}
 	}
@@ -32,11 +32,6 @@ void	send_see_response(t_env *env, t_dynarray *view)
 
 void	compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i)
 {
-	const int8_t	moves[DIR_MAX][2] = {[DIR_NORTH] = {0, -1},
-										 [DIR_EAST] = {1, 0},
-										 [DIR_SOUTH] = {0, 1},
-										 [DIR_WEST] = {-1, 0}};
-
 	ranges->middle_x = p->tile_x + moves[p->direction.d][0] * i;
 	ranges->middle_y = p->tile_y + moves[p->direction.d][1] * i;
 

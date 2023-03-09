@@ -43,7 +43,6 @@ typedef struct	s_player
 {
 	uint16_t	inventory[LOOT_MAX];
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
-	uint16_t	food; // Number of stored food (10 at start)
 	uint8_t		satiety; // Current satiety of the player (126 when food eaten)
 	uint8_t		level; // Current level of the player
 	t_direction	direction; // Current cardinal orientation of the player

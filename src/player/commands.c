@@ -1,44 +1,5 @@
 #include "main.h"
 
-uint8_t	cmd_advance(t_env *env, t_player *p)
-{
-	const int8_t	moves[DIR_MAX][2] ={{0, -1},
-										{1, 0},
-										{0, 1},
-										{-1, 0}};
-
-	for (int dir = 0; dir < DIR_MAX; dir++)
-		if (p->direction.d == dir)
-		{
-			p->tile_x += moves[dir][0];
-			p->tile_y += moves[dir][1];
-
-
-			p->tile_x = p->tile_x >= env->settings.map_width ? 0 : p->tile_x;
-			p->tile_y = p->tile_y >= env->settings.map_height ? 0 : p->tile_y;
-
-			p->tile_x = p->tile_x < 0 ? env->settings.map_width - 1 : p->tile_x;
-			p->tile_y = p->tile_y < 0 ? env->settings.map_height - 1 : p->tile_y;
-			return (ERR_NONE);
-		}
-
-	return (ERR_NONE);
-}
-
-uint8_t	cmd_left(t_env *env, t_player *p)
-{
-	(void)env;
-	p->direction.d--;
-	return (ERR_NONE);
-}
-
-uint8_t	cmd_right(t_env *env, t_player *p)
-{
-	(void)env;
-	p->direction.d++;
-	return (ERR_NONE);
-}
-
 uint8_t	cmd_see(t_env *env, t_player *p)
 {
 	t_view_ranges	ranges;
@@ -91,18 +52,60 @@ uint8_t	cmd_inventory(t_env *env, t_player *p)
 	return (ERR_NONE);
 }
 
+uint8_t	cmd_take(t_env *env, t_player *p)
+{
+	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
+	uint8_t	*loot_ptr;
+	uint8_t	loot = 255;
+	bool	found = false;
+
+	for (uint8_t i = 0; i < LOOT_MAX; i++)
+		if (strcmp(env->buffers.cmd_param, loot_titles[i]) == 0)
+			loot = i;
+
+	for (int i = 0; i < tile->content.nb_cells; i++)
+	{
+		loot_ptr = dyacc(&tile->content, i);
+		if ((uint8_t)*loot_ptr == loot && (found = true)
+			&& extract_dynarray(&tile->content, i))
+			return (ERR_MALLOC_FAILED);
+	}
+
+	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
+		ft_strcat(env->buffers.response, "ko");
+
+	else
+	{
+		p->inventory[(int)*loot_ptr]++;
+		memset(env->buffers.response, 0, strlen(env->buffers.response));
+		ft_strcat(env->buffers.response, "ok");
+		printf("%s\n", env->buffers.response);
+	}
+	return (ERR_NONE);
+}
+
+uint8_t	cmd_put(t_env *env, t_player *p)
+{
+	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
+	uint8_t	loot = 255;
+
+	for (uint8_t i = 0; i < LOOT_MAX; i++)
+		if (strcmp(env->buffers.cmd_param, loot_titles[i]) == 0)
+			loot = i;
+	
+	if (loot == 255 || p->inventory[loot] == 0)
+		ft_strcat(env->buffers.response, "ko");
+
+	p->inventory[loot]--;
+	if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
+		|| push_dynarray(&tile->content, &loot, false))
+		return (ERR_MALLOC_FAILED);
+
+	return (ERR_NONE);
+}
+
 /*
-uint8_t	cmd_(t_env *env, t_player *p)
-{
-	return (ERR_NONE);
-}
-
-uint8_t	cmd_(t_env *env, t_player *p)
-{
-	return (ERR_NONE);
-}
-
-uint8_t	cmd_(t_env *env, t_player *p)
+uint8_t	cmd_kick(t_env *env, t_player *p)
 {
 	return (ERR_NONE);
 }
