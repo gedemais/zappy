@@ -43,7 +43,6 @@ void	print_map(t_env *env)
 			else
 				printf("%d ", *t);
 		}
-
 		printf("\n");
 	}
 }

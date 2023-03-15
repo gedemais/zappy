@@ -13,10 +13,8 @@ static int find_player_index_in_tile(t_tile *tile)
 	return (-1);
 }
 
-uint8_t		cmd_advance(t_env *env, t_player *p)
+uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
-	system("clear");
 	t_tile	*tile;
 	uint8_t	loot = 255;
 
@@ -24,10 +22,8 @@ uint8_t		cmd_advance(t_env *env, t_player *p)
 		if (p->direction.d == dir)
 		{
 			tile = &env->world.map[p->tile_y][p->tile_x];
-			printf("%d\n", tile->content.nb_cells);
 			if (extract_dynarray(&tile->content, find_player_index_in_tile(tile)))
 				return (ERR_MALLOC_FAILED);
-			printf("%d\n----------\n", tile->content.nb_cells);
 
 			p->tile_x += moves[dir][0];
 			p->tile_y += moves[dir][1];
@@ -44,26 +40,39 @@ uint8_t		cmd_advance(t_env *env, t_player *p)
 				&& init_dynarray(&tile->content, sizeof(uint8_t), 4))
 				|| push_dynarray(&tile->content, &loot, false))
 				return (ERR_MALLOC_FAILED);
+
+			if (send_response)
+			{
+				FLUSH_RESPONSE
+				ft_strcat(env->buffers.response, "ok");
+				response(env, p);
+			}
 		}
 	
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_left(t_env *env, t_player *p)
+uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
-	system("clear");
-	(void)env;
 	p->direction.d--;
+	if (send_response)
+	{
+		FLUSH_RESPONSE
+		ft_strcat(env->buffers.response, "ok");
+		response(env, p);
+	}
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_right(t_env *env, t_player *p)
+uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
-	system("clear");
-	(void)env;
 	p->direction.d++;
+	if (send_response)
+	{
+		FLUSH_RESPONSE
+		ft_strcat(env->buffers.response, "ok");
+		response(env, p);
+	}
 	return (ERR_NONE);
 }
 

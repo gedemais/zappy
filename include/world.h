@@ -2,9 +2,22 @@
 # define WORLD_H
 
 // Percentage of cases supposed to contain loot at every moment
-# define LOOT_DENSITY 5
+# define LOOT_DENSITY 10
 // Percentage of loot pieces destined to be food
-# define FOOD_DENSITY 10
+# define FOOD_DENSITY 20
+
+enum			e_cardinal_directions
+{
+	CDIR_N,
+	CDIR_E,
+	CDIR_S,
+	CDIR_W,
+	CDIR_NE,
+	CDIR_SE,
+	CDIR_SW,
+	CDIR_NW,
+	CDIR_MAX
+};
 
 enum			e_minerals
 {

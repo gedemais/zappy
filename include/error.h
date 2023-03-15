@@ -15,6 +15,7 @@ enum	e_error_id
 	ERR_INVALID_CONNECTION_ARG,
 	ERR_DUPLICATE_OPT,
 	ERR_MISSING_OPT,
+	ERR_CMD_NOT_FOUND,
 	ERR_MAX
 };
 
@@ -33,7 +34,8 @@ static const t_error	errors[ERR_MAX] = {
 	[ERR_INVALID_TIME_SETTING] = {"Invalid time setting\n", true},
 	[ERR_INVALID_CONNECTION_ARG] = {"Invalid max number of connection\n", true},
 	[ERR_DUPLICATE_OPT] = {"Duplicate option in command line\n", true},
-	[ERR_MISSING_OPT] = {"Missing option in command line\n", true}
+	[ERR_MISSING_OPT] = {"Missing option in command line\n", true},
+	[ERR_CMD_NOT_FOUND] = {"Command not found\n", false}
 
 	//[] = {"", false}
 	//[] = {"", false}

@@ -1,10 +1,11 @@
 #include "main.h"
 
-uint8_t	cmd_see(t_env *env, t_player *p)
+uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 {
 	t_view_ranges	ranges;
 	int16_t			tx, ty;
 
+	(void)send_response;
 	for (uint8_t i = 0; i < p->level; i++)
 	{
 		compute_view_ranges(env, &ranges, p, i);
@@ -22,15 +23,17 @@ uint8_t	cmd_see(t_env *env, t_player *p)
 				}
 			}
 	}
-	send_see_response(env, &env->buffers.view);
+	send_see_response(env, &env->buffers.view, p);
 	clear_dynarray(&env->buffers.view);
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_inventory(t_env *env, t_player *p)
+uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 {
 	char	*amnt;
 
+	(void)send_response;
+	FLUSH_RESPONSE
 	ft_strcat(env->buffers.response, "{");
 	for (uint16_t i = 0; i < LOOT_MAX; i++)
 	{
@@ -47,12 +50,11 @@ uint8_t	cmd_inventory(t_env *env, t_player *p)
 			ft_strcat(env->buffers.response, ", ");
 	}
 	ft_strcat(env->buffers.response, "}");
-	printf("%s\n", env->buffers.response);
-	memset(env->buffers.response, 0, strlen(env->buffers.response));
+	response(env, p);
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_take(t_env *env, t_player *p)
+uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
 	uint8_t	*loot_ptr;
@@ -60,7 +62,7 @@ uint8_t	cmd_take(t_env *env, t_player *p)
 	bool	found = false;
 
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
-		if (strcmp(env->buffers.cmd_param, loot_titles[i]) == 0)
+		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
 			loot = i;
 
 	for (int i = 0; i < tile->content.nb_cells; i++)
@@ -71,51 +73,128 @@ uint8_t	cmd_take(t_env *env, t_player *p)
 			return (ERR_MALLOC_FAILED);
 	}
 
+	FLUSH_RESPONSE
 	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
 		ft_strcat(env->buffers.response, "ko");
-
 	else
 	{
-		p->inventory[(int)*loot_ptr]++;
-		memset(env->buffers.response, 0, strlen(env->buffers.response));
+		p->inventory[(int)loot]++;
 		ft_strcat(env->buffers.response, "ok");
-		printf("%s\n", env->buffers.response);
 	}
+	if (send_response)
+		response(env, p);
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_put(t_env *env, t_player *p)
+uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
 	uint8_t	loot = 255;
 
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
-		if (strcmp(env->buffers.cmd_param, loot_titles[i]) == 0)
+		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
 			loot = i;
-	
+
+	FLUSH_RESPONSE
 	if (loot == 255 || p->inventory[loot] == 0)
 		ft_strcat(env->buffers.response, "ko");
+	else
+	{
+		ft_strcat(env->buffers.response, "ok");
+		p->inventory[loot]--;
+		if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
+			|| push_dynarray(&tile->content, &loot, false))
+			return (ERR_MALLOC_FAILED);
+	}
 
-	p->inventory[loot]--;
-	if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
-		|| push_dynarray(&tile->content, &loot, false))
-		return (ERR_MALLOC_FAILED);
+	if (send_response)
+		response(env, p);
 
+	return (ERR_NONE);
+}
+
+uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
+{
+	t_direction	dir;
+	char		*s;
+	bool		kicked = false;
+
+	for (int t = 0; t < env->world.teams.nb_cells; t++)
+	{
+		t_team		*te;
+		t_player	*pl;
+
+		if (!(s = ft_itoa(directions[(int)p->direction.d])))
+			return (ERR_MALLOC_FAILED);
+
+		FLUSH_RESPONSE
+		ft_strcat(env->buffers.response, "deplacement ");
+		ft_strcat(env->buffers.response, s);
+
+		free(s);
+
+		for (int team = 0; team < env->world.teams.nb_cells; team++)
+		{
+			te = dyacc(&env->world.teams, team);
+			for (int player = 0; player < te->players.nb_cells; player++)
+			{
+				pl = dyacc(&te->players, player);
+				if (pl->tile_x == p->tile_x && pl->tile_y == p->tile_y && p != pl)
+				{
+					kicked = true;
+
+					dir = pl->direction;
+					pl->direction = p->direction;
+					cmd_advance(env, pl, false);
+					pl->direction = dir;
+
+					clamp(&pl->tile_x, 0, env->settings.map_width);
+					clamp(&pl->tile_y, 0, env->settings.map_height);
+					response(env, pl);
+				}
+			}
+		}
+	}
+
+	if (send_response)
+	{
+		FLUSH_RESPONSE
+		ft_strcat(env->buffers.response, kicked ? "ok" : "ko");
+		response(env, p);
+	}
+
+	return (ERR_NONE);
+}
+
+
+uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
+{
+	uint8_t	code;
+	(void)send_response;
+
+	if ((code = build_message_from_params(env)) != ERR_NONE
+		|| (code = deliver_message(env)) != ERR_NONE)
+		return (code);
+
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "ok");
+	response(env, p);
 	return (ERR_NONE);
 }
 
 /*
-uint8_t	cmd_kick(t_env *env, t_player *p)
+
+uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_(t_env *env, t_player *p)
+uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	return (ERR_NONE);
 }
 
-uint8_t	cmd_(t_env *env, t_player *p)
+uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 {
 	return (ERR_NONE);
 }

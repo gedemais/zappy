@@ -7,27 +7,27 @@ void	free_view(t_dynarray *view)
 	free_dynarray(view);
 }
 
-void	send_see_response(t_env *env, t_dynarray *view)
+void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 {
 	t_tile	*tile;
 	uint8_t	*loot;
 
+	FLUSH_RESPONSE
 	ft_strcat(env->buffers.response, "{");
 	for (int i = 0; i < view->nb_cells; i++)
 	{
 		tile = dyacc(view, i);
-		ft_strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? ", " : "");
+		ft_strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? "," : "");
 		for (int j = 0; j < tile->content.nb_cells; j++)
 		{
 			loot = dyacc(&tile->content, j);
-			ft_strcat(env->buffers.response, (j > 0 && j < tile->content.nb_cells - 1) ? " " : "");
+			ft_strcat(env->buffers.response, (j > 0 && j < tile->content.nb_cells) ? " " : "");
 			if ((int)*loot != 255)
 				ft_strcat(env->buffers.response, loot_titles[(int)*loot]);
 		}
 	}
 	ft_strcat(env->buffers.response, "}");
-	printf("%s\n", env->buffers.response);
-	memset(env->buffers.response, 0, strlen(env->buffers.response));
+	response(env, p);
 }
 
 void	compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i)
