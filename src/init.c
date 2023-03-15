@@ -25,10 +25,14 @@ uint8_t	init_server(t_env *env, int argc, char **argv)
 	uint8_t	code;
 
 	intro();
+
 	if ((code = parse_options(env, argc, argv)) != ERR_NONE
 		|| (code = init_buffers(&env->buffers))
-		|| (code = init_world(env)) != ERR_NONE)
+		|| (code = init_world(env)) != ERR_NONE
+		|| (code = init_tcp(env)))
 		return (code);
+
+	env->settings.tick_length = 1000000 / env->settings.t;
 
 	return (ERR_NONE);
 }

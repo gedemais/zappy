@@ -13,20 +13,20 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 	uint8_t	*loot;
 
 	FLUSH_RESPONSE
-	ft_strcat(env->buffers.response, "{");
+	strcat(env->buffers.response, "{");
 	for (int i = 0; i < view->nb_cells; i++)
 	{
 		tile = dyacc(view, i);
-		ft_strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? "," : "");
+		strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? "," : "");
 		for (int j = 0; j < tile->content.nb_cells; j++)
 		{
 			loot = dyacc(&tile->content, j);
-			ft_strcat(env->buffers.response, (j > 0 && j < tile->content.nb_cells) ? " " : "");
+			strcat(env->buffers.response, (j > 0 && j < tile->content.nb_cells) ? " " : "");
 			if ((int)*loot != 255)
-				ft_strcat(env->buffers.response, loot_titles[(int)*loot]);
+				strcat(env->buffers.response, loot_titles[(int)*loot]);
 		}
 	}
-	ft_strcat(env->buffers.response, "}");
+	strcat(env->buffers.response, "}");
 	response(env, p);
 }
 

@@ -44,7 +44,7 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 			if (send_response)
 			{
 				FLUSH_RESPONSE
-				ft_strcat(env->buffers.response, "ok");
+				strcat(env->buffers.response, "ok");
 				response(env, p);
 			}
 		}
@@ -58,7 +58,7 @@ uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 	if (send_response)
 	{
 		FLUSH_RESPONSE
-		ft_strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok");
 		response(env, p);
 	}
 	return (ERR_NONE);
@@ -70,7 +70,7 @@ uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 	if (send_response)
 	{
 		FLUSH_RESPONSE
-		ft_strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok");
 		response(env, p);
 	}
 	return (ERR_NONE);

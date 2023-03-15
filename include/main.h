@@ -1,11 +1,16 @@
 #ifndef MAIN_H
 # define MAIN_H
 
+# include <ctype.h>
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdint.h>
 # include <time.h>
 # include <math.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/time.h>
 
 # include "libft.h"
 
@@ -18,30 +23,41 @@
 
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
-
+# define REQUEST_BUFF_SIZE 128
 
 // Server settings
 typedef struct	s_settings
 {
 	uint16_t	map_width; // Map dimensions in tiles
 	uint16_t	map_height;
-	uint16_t	port; // TCP port number
 	uint16_t	nb_connections; // Current number of connected clients
 	uint16_t	max_connections; // Maximum number of connections
 	uint16_t	t; // Time unit (1 tick of the server lasts for 1/t second)
+	useconds_t	tick_length;
 }				t_settings;
 
 typedef struct	s_buffers
 {
-	char		*response;
-	char		**cmd_params;
-	t_dynarray	view;
+	int			*connections; // Clients sockets file descriptors
+	char		*request; // Buffer containing client-sent requests.
+	char		*response; // Buffer containing response text. Associated with FLUSH_BUFFER macro.
+	char		**cmd_params; // Params of the command received by the server (split by spaces)
+	t_dynarray	view; // Dynamic array of dynamic arrays, representing the content of a view.
 }				t_buffers;
+
+typedef	struct	s_tcp
+{
+	int					server_fd;
+	int					socket;
+	uint16_t			server_port;
+	struct sockaddr_in	address;
+}				t_tcp;
 
 typedef	struct	s_env
 {
 	t_buffers	buffers;
 	t_world		world; // See world.h
+	t_tcp		tcp;
 	t_settings	settings;
 }				t_env;
 
@@ -57,6 +73,10 @@ uint32_t	error(t_env *env, unsigned char code);
 void		free_env(t_env *env);
 uint8_t		parse_options(t_env *env, int argc, char **argv);
 uint8_t		init_server(t_env *env, int argc, char **argv);
+
+// Communication via TCP
+uint8_t		init_tcp(t_env *env);
+uint8_t		commands_receipt(t_env *env);
 
 // World
 uint8_t		init_world(t_env *env);
@@ -92,7 +112,7 @@ void		kick_players(t_env *env, int16_t tile_x, int16_t tile_y, uint16_t to_kick)
 
 // Broadcast
 uint8_t		build_message_from_params(t_env *env);
-uint8_t		deliver_message(t_env *env);
+uint8_t		deliver_message(t_env *env, t_player *p);
 
 // Core
 uint8_t		tick(t_env *env);

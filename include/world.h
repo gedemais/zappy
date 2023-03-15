@@ -32,13 +32,13 @@ enum			e_minerals
 
 enum			e_loot
 {
+	LOOT_FOOD,
 	LOOT_LINEMATE,
 	LOOT_DERAUMERE,
 	LOOT_SIBUR,
 	LOOT_MENDIANE,
 	LOOT_PHIRAS,
 	LOOT_THYSTAME,
-	LOOT_FOOD,
 	LOOT_MAX
 };
 

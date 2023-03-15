@@ -8,7 +8,7 @@ static bool	is_valid_number(char *nbr, size_t max_len)
 		return (false);
 
 	for (uint32_t i = 0; nbr[i]; i++)
-		if (ft_isdigit(nbr[i]) == 0)
+		if (isdigit(nbr[i]) == 0)
 			return (false);
 
 	return (true);
@@ -21,7 +21,7 @@ static uint8_t	opt_load_port(t_env *env, char **args)
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_PORT_NUMBER);
 
-	env->settings.port = (uint16_t)ft_atoi(*args);
+	env->tcp.server_port = (uint16_t)atoi(*args);
 	return (ERR_NONE);
 }
 
@@ -30,7 +30,7 @@ static uint8_t	opt_load_width(t_env *env, char **args)
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_MAP_DIMS);
 
-	env->settings.map_width = (uint16_t)ft_atoi((*args));
+	env->settings.map_width = (uint16_t)atoi((*args));
 	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
@@ -40,7 +40,7 @@ static uint8_t	opt_load_height(t_env *env, char **args)
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_MAP_DIMS);
 
-	env->settings.map_height = (uint16_t)ft_atoi((*args));
+	env->settings.map_height = (uint16_t)atoi((*args));
 	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
@@ -76,7 +76,7 @@ static uint8_t	opt_load_c(t_env *env, char **args)
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_CONNECTION_ARG);
 
-	env->settings.max_connections = ft_atoi(*args);
+	env->settings.max_connections = atoi(*args);
 	return (ERR_NONE);
 }
 
@@ -86,7 +86,7 @@ static uint8_t	opt_load_t(t_env *env, char **args)
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_TIME_SETTING);
 
-	env->settings.t = ft_atoi(*args);
+	env->settings.t = atoi(*args);
 	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
@@ -140,7 +140,7 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 			return (ERR_MISSING_OPT);
 
 	// Checks
-	printf("port : %d\n", env->settings.port);
+	printf("port : %d\n", env->tcp.server_port);
 	printf("x : %d\n", env->settings.map_width);
 	printf("y : %d\n", env->settings.map_height);
 	printf("nb_teams : %d\n", env->world.teams.nb_cells);

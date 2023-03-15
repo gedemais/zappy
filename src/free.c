@@ -29,6 +29,8 @@ static void	free_world(t_env *env)
 static void	free_buffers(t_env *env)
 {
 	free(env->buffers.response);
+	free(env->buffers.request);
+	free(env->buffers.connections);
 	free_dynarray(&env->buffers.view);
 }
 

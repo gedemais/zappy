@@ -34,22 +34,22 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 
 	(void)send_response;
 	FLUSH_RESPONSE
-	ft_strcat(env->buffers.response, "{");
+	strcat(env->buffers.response, "{");
 	for (uint16_t i = 0; i < LOOT_MAX; i++)
 	{
 		if (!(amnt = ft_itoa((int)p->inventory[i])))
 			return (ERR_MALLOC_FAILED);
 
-		ft_strcat(env->buffers.response, amnt);
+		strcat(env->buffers.response, amnt);
 		free(amnt);
 
-		ft_strcat(env->buffers.response, " ");
-		ft_strcat(env->buffers.response, loot_titles[i]);
+		strcat(env->buffers.response, " ");
+		strcat(env->buffers.response, loot_titles[i]);
 
 		if (i < LOOT_MAX - 1)
-			ft_strcat(env->buffers.response, ", ");
+			strcat(env->buffers.response, ", ");
 	}
-	ft_strcat(env->buffers.response, "}");
+	strcat(env->buffers.response, "}");
 	response(env, p);
 	return (ERR_NONE);
 }
@@ -75,11 +75,11 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 
 	FLUSH_RESPONSE
 	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
-		ft_strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko");
 	else
 	{
 		p->inventory[(int)loot]++;
-		ft_strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok");
 	}
 	if (send_response)
 		response(env, p);
@@ -97,10 +97,10 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	FLUSH_RESPONSE
 	if (loot == 255 || p->inventory[loot] == 0)
-		ft_strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko");
 	else
 	{
-		ft_strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok");
 		p->inventory[loot]--;
 		if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
 			|| push_dynarray(&tile->content, &loot, false))
@@ -128,8 +128,8 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 			return (ERR_MALLOC_FAILED);
 
 		FLUSH_RESPONSE
-		ft_strcat(env->buffers.response, "deplacement ");
-		ft_strcat(env->buffers.response, s);
+		strcat(env->buffers.response, "deplacement ");
+		strcat(env->buffers.response, s);
 
 		free(s);
 
@@ -159,7 +159,7 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 	if (send_response)
 	{
 		FLUSH_RESPONSE
-		ft_strcat(env->buffers.response, kicked ? "ok" : "ko");
+		strcat(env->buffers.response, kicked ? "ok" : "ko");
 		response(env, p);
 	}
 
@@ -173,7 +173,7 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	(void)send_response;
 
 	if ((code = build_message_from_params(env)) != ERR_NONE
-		|| (code = deliver_message(env)) != ERR_NONE)
+		|| (code = deliver_message(env, p)) != ERR_NONE)
 		return (code);
 
 	FLUSH_RESPONSE
@@ -183,7 +183,6 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 }
 
 /*
-
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
 	return (ERR_NONE);

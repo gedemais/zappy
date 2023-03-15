@@ -15,9 +15,19 @@ uint32_t	error(t_env *env, unsigned char code)
 	id = (int)code;
 	write(2, "========== ERROR ==========\n", 28);
 	write(2, errors[id].msg, strlen(errors[id].msg));
+	fflush(stderr);
+
+	if (errors[id].errno_display)
+	{
+		write(2, "\n", 1);
+		write(2, strerror(errno), strlen(strerror(errno)));
+		write(2, "\n", 1);
+	}
 
 	if (errors[id].usage)
 		write(2, usage, strlen(usage));
+
+	fflush(stderr);
 
 	free_env(env);
 	return (id);

@@ -16,27 +16,41 @@ enum	e_error_id
 	ERR_DUPLICATE_OPT,
 	ERR_MISSING_OPT,
 	ERR_CMD_NOT_FOUND,
+	ERR_SOCKET_FAILED,
+	ERR_SETSOCKOPT_FAILED,
+	ERR_BIND_FAILED,
+	ERR_LISTEN_FAILED,
+	ERR_ACCEPT_FAILED,
+	ERR_RECV_FAILED,
 	ERR_MAX
 };
 
 typedef	struct	s_error
 {
-	char			msg[64]; // Error message
+	char	msg[64]; // Error message
 	bool	usage; // Does usage needs to be displayed
+	bool	errno_display; // Does errno interpretation needs to be displayed
 }				t_error;
 
 static const t_error	errors[ERR_MAX] = {
-	[ERR_MALLOC_FAILED] = {"malloc() call failed\n", false},
-	[ERR_MISSING_ARGUMENT] = {"Missing argument for option\n", true},
-	[ERR_INVALID_OPT] = {"Invalid option\n", true},
-	[ERR_INVALID_PORT_NUMBER] = {"Invalid port number\n", true},
-	[ERR_INVALID_MAP_DIMS] = {"Invalid map dimensions\n", true},
-	[ERR_INVALID_TIME_SETTING] = {"Invalid time setting\n", true},
-	[ERR_INVALID_CONNECTION_ARG] = {"Invalid max number of connection\n", true},
-	[ERR_DUPLICATE_OPT] = {"Duplicate option in command line\n", true},
-	[ERR_MISSING_OPT] = {"Missing option in command line\n", true},
-	[ERR_CMD_NOT_FOUND] = {"Command not found\n", false}
-
+	[ERR_MALLOC_FAILED] = {"malloc() call failed\n", false, true},
+	[ERR_MISSING_ARGUMENT] = {"Missing argument for option\n", true, false},
+	[ERR_INVALID_OPT] = {"Invalid option\n", true, false},
+	[ERR_INVALID_PORT_NUMBER] = {"Invalid port number\n", true, false},
+	[ERR_INVALID_MAP_DIMS] = {"Invalid map dimensions\n", true, false},
+	[ERR_INVALID_TIME_SETTING] = {"Invalid time setting\n", true, false},
+	[ERR_INVALID_CONNECTION_ARG] = {"Invalid max number of connection\n", true, false},
+	[ERR_DUPLICATE_OPT] = {"Duplicate option in command line\n", true, false},
+	[ERR_MISSING_OPT] = {"Missing option in command line\n", true, false},
+	[ERR_CMD_NOT_FOUND] = {"Command not found\n", false, false},
+	[ERR_SOCKET_FAILED] = {"Socket creation failed\n", false, true},
+	[ERR_SETSOCKOPT_FAILED] = {"setsockopt() failed", false, true},
+	[ERR_BIND_FAILED] = {"bind() failed", false, true},
+	[ERR_LISTEN_FAILED] = {"listen() failed", false, true},
+	[ERR_ACCEPT_FAILED] = {"accept() failed", false, true},
+	[ERR_RECV_FAILED] = {"recv() failed", false, true}
+	//[] = {"", false}
+	//[] = {"", false}
 	//[] = {"", false}
 	//[] = {"", false}
 	//[] = {"", false}

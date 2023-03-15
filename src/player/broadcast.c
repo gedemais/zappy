@@ -11,9 +11,10 @@ uint8_t	build_message_from_params(t_env *env)
 		strcat(env->buffers.response, env->buffers.cmd_params[i + 1] ? " " : "");
 		i++;
 	}
+	return (ERR_NONE);
 }
 
-uint8_t	deliver_message(t_env *env)
+uint8_t	deliver_message(t_env *env, t_player *p)
 {
 	t_team		*te;
 	t_player	*pl;

@@ -41,6 +41,7 @@ typedef struct s_direction // Useful for over / under flowing directions values
 
 typedef struct	s_player
 {
+	int			socket;
 	uint16_t	inventory[LOOT_MAX];
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
 	uint8_t		satiety; // Current satiety of the player (126 when food eaten)
