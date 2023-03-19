@@ -25,6 +25,16 @@
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define REQUEST_BUFF_SIZE 128
 
+typedef struct s_env t_env;
+
+typedef struct	s_cmd
+{
+	char		**tokens;
+	char		*response;
+	uint16_t	cycles;
+	uint8_t		(*cmd_func)(t_env *, t_player*, bool);
+}				t_cmd;
+
 // Server settings
 typedef struct	s_settings
 {
@@ -42,6 +52,7 @@ typedef struct	s_buffers
 	char		*request; // Buffer containing client-sent requests.
 	char		*response; // Buffer containing response text. Associated with FLUSH_BUFFER macro.
 	char		**cmd_params; // Params of the command received by the server (split by spaces)
+	t_dynarray	cmd_queue;
 	t_dynarray	view; // Dynamic array of dynamic arrays, representing the content of a view.
 }				t_buffers;
 
@@ -53,30 +64,28 @@ typedef	struct	s_tcp
 	struct sockaddr_in	address;
 }				t_tcp;
 
-typedef	struct	s_env
+struct	s_env
 {
 	t_buffers	buffers;
 	t_world		world; // See world.h
 	t_tcp		tcp;
 	t_settings	settings;
-}				t_env;
-
-typedef struct	s_cmd
-{
-	char		*response;
-	uint16_t	cycles;
-	uint8_t		(*cmd)(t_env *, t_player*, bool);
-}				t_cmd;
+};
 
 // Boilerplate
-uint32_t	error(t_env *env, unsigned char code);
 void		free_env(t_env *env);
+void		free_cmd(t_cmd *cmd);
+
+uint32_t	error(t_env *env, unsigned char code);
+
 uint8_t		parse_options(t_env *env, int argc, char **argv);
 uint8_t		init_server(t_env *env, int argc, char **argv);
 
+
 // Communication via TCP
 uint8_t		init_tcp(t_env *env);
-uint8_t		commands_receipt(t_env *env);
+uint8_t		handle_connections(t_env *env);
+uint8_t		receipt(t_env *env);
 
 // World
 uint8_t		init_world(t_env *env);
@@ -84,7 +93,7 @@ uint8_t		spawn_loot_pieces(t_env *env, uint32_t count);
 void		print_map(t_env *env);
 
 // Players
-uint8_t		add_player(t_env *env, t_team *team);
+uint8_t		add_player(t_env *env, t_team *team, int connection);
 void		update_food(t_player *p);
 void		teams_log(t_env *env);
 uint8_t		response(t_env *env, t_player *p);
@@ -116,6 +125,7 @@ uint8_t		deliver_message(t_env *env, t_player *p);
 
 // Core
 uint8_t		tick(t_env *env);
+uint8_t		update_commands(t_env *env);
 
 
 static const uint8_t	directions[CDIR_MAX] = {3, 1, 7, 5, 2, 8, 6, 4};
@@ -151,18 +161,18 @@ static const char	*cmd_names[CMD_MAX] = {
 };
 
 static const t_cmd	commands[CMD_MAX] = {
-							[CMD_ADVANCE] = {.response = NULL, .cycles = 7, .cmd = &cmd_advance},
-							[CMD_RIGHT] = {.response = NULL, .cycles = 7, .cmd = &cmd_left},
-							[CMD_LEFT] = {.response = NULL, .cycles = 7, .cmd = &cmd_right},
-							[CMD_SEE] = {.response = NULL, .cycles = 7, .cmd = &cmd_see},
-							[CMD_INVENTORY] = {.response = NULL, .cycles = 1, .cmd = NULL},
-							[CMD_TAKE] = {.response = NULL, .cycles = 7, .cmd = NULL},
-							[CMD_PUTDOWN] = {.response = NULL, .cycles = 7, .cmd = NULL},
-							[CMD_KICK] = {.response = NULL, .cycles = 7, .cmd = NULL},
-							[CMD_BROADCAST] = {.response = NULL, .cycles = 7, .cmd = NULL},
-							[CMD_INCANTATION] = {.response = NULL, .cycles = 300, .cmd = NULL},
-							[CMD_FORK] = {.response = NULL, .cycles = 42, .cmd = NULL},
-							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd = NULL}
+							[CMD_ADVANCE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_advance},
+							[CMD_RIGHT] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_left},
+							[CMD_LEFT] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_right},
+							[CMD_SEE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_see},
+							[CMD_INVENTORY] = {.response = NULL, .cycles = 1, .cmd_func = &cmd_inventory},
+							[CMD_TAKE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_take},
+							[CMD_PUTDOWN] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_put},
+							[CMD_KICK] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_kick},
+							[CMD_BROADCAST] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_broadcast},
+							[CMD_INCANTATION] = {.response = NULL, .cycles = 300, .cmd_func = NULL},
+							[CMD_FORK] = {.response = NULL, .cycles = 42, .cmd_func = NULL},
+							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd_func = NULL}
 };
 
 #endif

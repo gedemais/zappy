@@ -31,7 +31,7 @@ void	update_food(t_player *p)
 	p->satiety--;
 }
 
-uint8_t	add_player(t_env *env, t_team *team)
+uint8_t	add_player(t_env *env, t_team *team, int connection)
 {
 	t_player	new;
 	uint8_t		d;
@@ -48,6 +48,7 @@ uint8_t	add_player(t_env *env, t_team *team)
 	new.level = 8;
 	new.alive = true;
 	new.direction = *((t_direction*)&d);
+	new.connection = connection;
 
 	if (push_dynarray(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);

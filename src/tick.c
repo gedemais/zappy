@@ -1,40 +1,4 @@
 #include "main.h"
-/*
-static uint8_t	launch_command(t_env *env, t_player *p, char *line)
-{
-	char	**tokens;
-	uint8_t	(*commands[CMD_MAX])(t_env*, t_player*, bool) = {
-		cmd_advance,
-		cmd_right,
-		cmd_left,
-		cmd_see,
-		cmd_inventory,
-		cmd_take,
-		cmd_put,
-		cmd_kick,
-		cmd_broadcast,
-		NULL,
-		NULL,
-		NULL
-	};
-	uint8_t	code;
-
-	if (!(tokens = ft_strsplit(line, " ")))
-		return (ERR_MALLOC_FAILED);
-
-	env->buffers.cmd_params = &tokens[1];
-	for (int i = 0; i < CMD_MAX; i++)
-	{
-		if (strcmp(tokens[0], cmd_names[i]) == 0)
-		{
-			code = commands[i](env, p, true);
-			ft_free_ctab(tokens);
-			return (code);
-		}
-	}
-	ft_free_ctab(tokens);
-	return (ERR_CMD_NOT_FOUND);
-}*/
 
 static uint8_t	update_players(t_env *env)
 {
@@ -52,7 +16,7 @@ static uint8_t	update_players(t_env *env)
 		}
 	}
 
-	teams_log(env);
+	//teams_log(env);
 
 	return (ERR_NONE);
 }
@@ -65,13 +29,14 @@ uint8_t	tick(t_env *env)
 
 	gettimeofday(&tick_start, NULL);
 
-	update_players(env);
-//	if ((code = commands_receipt(env)))
-//		return (code);
+	if ((code = update_players(env)) != ERR_NONE
+		|| (code = update_commands(env)) != ERR_NONE
+		|| (code = receipt(env)) != ERR_NONE)
+		return (code);
 	//send_responses
 	
 	// Decrement players satiety and kill them if at 0 (send "mort" to client)
-	// Check for disappeared loot, if so then generate the same amount
+	// Check for disappeared food, if so then generate the same amount
 	// Check for a winner team
 	// Execute clients commands and send responses with a limited time (one tick).
 	// Wait for elapsed time

@@ -34,9 +34,31 @@ static void	free_buffers(t_env *env)
 	free_dynarray(&env->buffers.view);
 }
 
+void		free_cmd(t_cmd *cmd)
+{
+	if (cmd->tokens)
+		ft_free_ctab(cmd->tokens);
+	if (cmd->response)
+		free(cmd->response);
+}
+
+static void	free_commands_queue(t_env *env)
+{
+	t_dynarray	*cmd_queue;
+	t_cmd		*cmd;
+
+	cmd_queue = &env->buffers.cmd_queue;
+	for (int i = 0; i < cmd_queue->nb_cells; i++)
+	{
+		cmd = dyacc(cmd_queue, i);
+		free_cmd(cmd);
+	}
+}
+
 void		free_env(t_env *env)
 {
 	free_buffers(env);
 	free_teams(env);
 	free_world(env);
+	free_commands_queue(env);
 }

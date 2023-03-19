@@ -8,16 +8,15 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	if ((code = init_server(env, argc, argv)))
 		return (code);
 
-// tmp
-	add_player(env, dyacc(&env->world.teams, 0));
-	add_player(env, dyacc(&env->world.teams, 1));
-// tmp
+	fflush(stdout);
 
+	add_player(env, (t_team*)env->world.teams.c, 0);
 	while (run)
 	{
-		print_map(env);
+		//print_map(env);
 		if ((code = tick(env)))
 			return (code);
+		//write(1, "\033[2J", 1);
 	}
 
 	return (ERR_NONE);
