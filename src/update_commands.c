@@ -6,8 +6,12 @@ static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, t_play
 
 	if ((code = cmd->cmd_func(env, p, true)))
 		return (code);
-	else if (extract_dynarray(cmd_queue, i))
-		return (ERR_MALLOC_FAILED);
+	else
+	{
+		free_cmd(dyacc(cmd_queue, i));
+		if (extract_dynarray(cmd_queue, i))
+			return (ERR_MALLOC_FAILED);
+	}
 
 	return (ERR_NONE);
 }

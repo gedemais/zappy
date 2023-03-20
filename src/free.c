@@ -53,6 +53,7 @@ static void	free_commands_queue(t_env *env)
 		cmd = dyacc(cmd_queue, i);
 		free_cmd(cmd);
 	}
+	free_dynarray(cmd_queue);
 }
 
 void		free_env(t_env *env)

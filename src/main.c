@@ -13,10 +13,10 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	add_player(env, (t_team*)env->world.teams.c, 0);
 	while (run)
 	{
-		//print_map(env);
+		print_map(env);
 		if ((code = tick(env)))
 			return (code);
-		//write(1, "\033[2J", 1);
+		write(1, "\033[2J", 1);
 	}
 
 	return (ERR_NONE);

@@ -2,18 +2,9 @@ import socket
 from time import sleep
 
 instructions = [
+    b"voir\n",
     b"avance\n",
     b"avance\n",
-    b"avance\n",
-    b"droite\n",
-    b"avance\n",
-    b"avance\n",
-    b"avance\n",
-    b"droite\n",
-    b"avance\n",
-    b"avance\n",
-    b"avance\n",
-    b"droite\n",
     b"avance\n",
     b"avance\n",
     b"avance\n",
@@ -31,7 +22,7 @@ while i < len(instructions):
     s.sendall(instructions[i])
 
     print(instructions[i])
-    sleep(0.5)
+    sleep(0.1)
     i += 1
 
     if i == len(instructions):

@@ -27,7 +27,10 @@ uint8_t	place_command_in_queue(t_env *env)
 			continue ;
 
 		if (!(tokens = ft_strsplit(lines[line], " ")))
+		{
+			ft_free_ctab(lines);
 			return (ERR_MALLOC_FAILED);
+		}
 
 		for (int i = 0; i < CMD_MAX; i++)
 		{
@@ -37,10 +40,14 @@ uint8_t	place_command_in_queue(t_env *env)
 				new = commands[i];
 				new.tokens = tokens;
 				// new.player = player;
-				printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
+				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				fflush(stdout);
 				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
+				{
+					ft_free_ctab(lines);
+					ft_free_ctab(tokens);
 					return (ERR_MALLOC_FAILED);
+				}
 				cmd_found = true;
 				break; // not enough
 			}
@@ -48,6 +55,7 @@ uint8_t	place_command_in_queue(t_env *env)
 
 		if (!cmd_found)
 		{
+			ft_free_ctab(tokens);
 			ft_free_ctab(lines);
 			return (ERR_CMD_NOT_FOUND);
 		}
@@ -102,12 +110,12 @@ uint8_t	receipt(t_env *env)
 		{
 			if (connections[i] >= 0 && FD_ISSET(connections[i], &read_fd_set))
 			{
-				/*if (ret == 0) // Connection closes
+				if (ret == 0) // Connection closes
 				{
 					printf("Client disconnected\n");
 					close(connections[i]);
 					connections[i] = -1;
-				}*/
+				}
 				if (ret > 0)
 				{
 					ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0);
