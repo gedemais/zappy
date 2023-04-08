@@ -58,6 +58,7 @@ typedef struct	s_team
 typedef struct	s_world
 {
 	t_dynarray	teams;
+	t_team		pending;
 	t_tile		**map;
 }				t_world;
 

@@ -56,6 +56,16 @@ static uint8_t	create_players_connections(t_env *env)
 	return (ERR_NONE);
 }
 
+static uint8_t	create_pending_team(t_env *env)
+{
+	t_team	*new;
+
+	new = &env->world.pending;
+	if (init_dynarray(&new->players, sizeof(t_player), env->settings.max_connections) != 0)
+		return (ERR_MALLOC_FAILED);
+	return (ERR_NONE);
+}
+
 uint8_t			init_tcp(t_env *env)
 {
 	t_tcp	*tcp;
@@ -64,6 +74,7 @@ uint8_t			init_tcp(t_env *env)
 	tcp = &env->tcp;
 	if ((code = create_socket(tcp))
 		|| (code = setup_tcp(env->settings.max_connections, tcp))
+		|| (code = create_pending_team(env))
 		|| (code = create_players_connections(env)))
 		return (code);
 

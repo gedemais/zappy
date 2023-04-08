@@ -10,6 +10,11 @@ uint8_t	commands_receipt(t_env *env)
 	return (ERR_NONE);
 }*/
 
+// remplacer connections par :
+// t_connection_slot:
+// int fd;
+// t_player *p;
+
 uint8_t	place_command_in_queue(t_env *env)
 {
 	t_cmd	new;
@@ -34,6 +39,7 @@ uint8_t	place_command_in_queue(t_env *env)
 
 		for (int i = 0; i < CMD_MAX; i++)
 		{
+			printf("|%s|%s|\n", tokens[0], cmd_names[i]);
 			if (strcmp(tokens[0], cmd_names[i]) == 0)
 			{
 				bzero(&new, sizeof(t_cmd));
@@ -41,7 +47,6 @@ uint8_t	place_command_in_queue(t_env *env)
 				new.tokens = tokens;
 				// new.player = player;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				fflush(stdout);
 				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
 				{
 					ft_free_ctab(lines);
@@ -49,7 +54,7 @@ uint8_t	place_command_in_queue(t_env *env)
 					return (ERR_MALLOC_FAILED);
 				}
 				cmd_found = true;
-				break; // not enough
+				break;
 			}
 		}
 
@@ -88,38 +93,44 @@ uint8_t	receipt(t_env *env)
 
 	if ((ret = select(env->settings.max_connections + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
-		if (FD_ISSET(env->tcp.server_fd, &read_fd_set))
+		if (FD_ISSET(env->tcp.server_fd, &read_fd_set)) // If a new event occured on the server
 		{
-			new_fd = accept(env->tcp.server_fd, (struct sockaddr*)&new_addr, &addrlen);
-			if (new_fd >= 0) // && at least one connection still available in one team
+			new_fd = accept(env->tcp.server_fd, (struct sockaddr*)&new_addr, &addrlen); // We try to accept a connection
+			if (new_fd >= 0) // && at least one connection still available in one team (we can also check it with a 'found' boolean set by the for loop before the break)
 			{
-				for (uint32_t i = 0; i < env->settings.max_connections; i++)
-					if (connections[i] < 0)
+				for (uint32_t i = 0; i < env->settings.max_connections; i++) // Looking for a connection slot
+					if (connections[i] < 0) // If the slot is available
 					{
 						printf("New client connected\n");
+						add_player(env, &env->world.pending, i); // We add a new player in the pending players list
 						// add pending player and start auth procedure
-						connections[i] = new_fd;
+						connections[i] = new_fd; // We save the connection for later
 						break;
 					}
 			}
 			else
 				return (ERR_ACCEPT_FAILED);
+
 		}
 
-		for (uint32_t i = 1; i < env->settings.max_connections; i++)
+		for (uint32_t i = 1; i < env->settings.max_connections; i++) // Starting from 1 because the first fd represents the server's connection
 		{
-			if (connections[i] >= 0 && FD_ISSET(connections[i], &read_fd_set))
+			if (connections[i] >= 0 && FD_ISSET(connections[i], &read_fd_set)) // If a player is connected on this slot, and an event occured on it
 			{
-				if (ret == 0) // Connection closes
-				{
-					printf("Client disconnected\n");
-					close(connections[i]);
-					connections[i] = -1;
-				}
 				if (ret > 0)
 				{
-					ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0);
+					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) == 0) // Connection closes
+					{
+						printf("Client disconnected of slot %d !\n", i);
+						fflush(stdout);
+						sleep(1);
+						// Remove player from his team
+						close(connections[i]);
+						connections[i] = -1;
+						continue;
+					}
 					env->buffers.request[ret] = '\0';
+					printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
 					if ((code = place_command_in_queue(env)))
 						return (code);
 				}
@@ -128,6 +139,8 @@ uint8_t	receipt(t_env *env)
 			}
 		}
 	}
+	else
+		return (ERR_SELECT_FAILED);
 
 	return (ERR_NONE);
 }

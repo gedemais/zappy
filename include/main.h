@@ -25,6 +25,9 @@
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define REQUEST_BUFF_SIZE 128
 
+# define MAP_PRINT true
+# define DATA_PRINT false
+
 typedef struct s_env t_env;
 
 typedef struct	s_cmd

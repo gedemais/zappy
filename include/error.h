@@ -22,6 +22,7 @@ enum	e_error_id
 	ERR_LISTEN_FAILED,
 	ERR_ACCEPT_FAILED,
 	ERR_RECV_FAILED,
+	ERR_SELECT_FAILED,
 	ERR_MAX
 };
 
@@ -48,8 +49,8 @@ static const t_error	errors[ERR_MAX] = {
 	[ERR_BIND_FAILED] = {"bind() failed", false, true},
 	[ERR_LISTEN_FAILED] = {"listen() failed", false, true},
 	[ERR_ACCEPT_FAILED] = {"accept() failed", false, true},
-	[ERR_RECV_FAILED] = {"recv() failed", false, true}
-	//[] = {"", false}
+	[ERR_RECV_FAILED] = {"recv() failed", false, true},
+	[ERR_SELECT_FAILED] = {"select() failed", false, true}
 	//[] = {"", false}
 	//[] = {"", false}
 	//[] = {"", false}

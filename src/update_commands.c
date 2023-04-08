@@ -28,7 +28,7 @@ uint8_t	update_commands(t_env *env)
 	t_team		*t;
 
 
-	t = dyacc(&env->world.teams, 0);
+	t = &env->world.pending;
 	p = dyacc(&t->players, 0);
 	// tmp
 
