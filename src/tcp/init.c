@@ -3,6 +3,7 @@
 static uint8_t	create_socket(t_tcp *tcp)
 {
 	const int	option = 1;
+	int			opts = 0;
 
     if ((tcp->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
@@ -11,8 +12,8 @@ static uint8_t	create_socket(t_tcp *tcp)
 	}
 
 	// Setting new socket options
-    if (setsockopt(	tcp->server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-					&option, sizeof(option)) != 0)
+    if (setsockopt(tcp->server_fd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option)) != 0
+		|| setsockopt(tcp->server_fd, SOL_SOCKET, SO_REUSEPORT, &option, sizeof(option)) != 0)
 	{
 		perror(strerror(errno));
         return (ERR_SETSOCKOPT_FAILED);

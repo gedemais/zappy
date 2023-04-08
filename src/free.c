@@ -16,12 +16,14 @@ static void	free_teams(t_env *env)
 
 static void	free_world(t_env *env)
 {
+	if (env->world.map == NULL)
+		return ;
+
 	for (uint32_t i = 0; i < env->settings.map_height; i++)
 	{
 		for (uint32_t j = 0; j < env->settings.map_width; j++)
 			if (env->world.map[i][j].content.byte_size > 0)
 				free_dynarray(&env->world.map[i][j].content);
-
 		free(env->world.map[i]);
 	}
 	free(env->world.map);

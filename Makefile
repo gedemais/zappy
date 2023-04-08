@@ -6,6 +6,17 @@ NAME=server
 CC=gcc
 FLAGS= -Wall -Werror -Wextra -Wno-unused-variable
 
+# Os detection
+OS=$(shell uname -s)
+
+ifeq ($(OS), "Darwin")
+	FLAGS += -DMACOS
+endif
+
+ifeq ($(OS), "Linux")
+	FLAGS += -DLINUX
+endif
+
 # Flags variables
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
