@@ -29,6 +29,16 @@ enum			e_directions
 	DIR_MAX
 };
 
+enum	e_auth_steps
+{
+	AS_NONE,
+	AS_WELCOME,
+	AS_TEAM_NAME,
+	AS_NB_CLIENT,
+	AS_X_Y,
+	AS_MAX
+};
+
 typedef struct	s_view_ranges
 {
 	int16_t		middle_x, middle_y, start_x, start_y, end_x, end_y;
@@ -48,6 +58,7 @@ typedef struct	s_player
 	uint8_t		level; // Current level of the player
 	t_direction	direction; // Current cardinal orientation of the player
 	bool		alive; // Is the player currently alive ?
+	uint8_t		auth_step; // Which step of authentication has the player reached yet.
 }				t_player;
 
 #endif

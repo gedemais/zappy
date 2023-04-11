@@ -6,7 +6,7 @@ const char *usage = "Usage: ./server -p <port> -x <width> -y <height> -n <team> 
 -y world height\n\
 -n team\\_name\\_1 team\\_name\\_2 ...\n\
 -c number of clients authorized at the beginning of the game\n\
--t time unit divider (the greater t is, the faster the game will go\n";
+-t time unit divider (the greater t is, the faster the game will go)\n";
 
 uint32_t	error(t_env *env, unsigned char code)
 {

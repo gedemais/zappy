@@ -39,7 +39,6 @@ uint8_t	place_command_in_queue(t_env *env)
 
 		for (int i = 0; i < CMD_MAX; i++)
 		{
-			printf("|%s|%s|\n", tokens[0], cmd_names[i]);
 			if (strcmp(tokens[0], cmd_names[i]) == 0)
 			{
 				bzero(&new, sizeof(t_cmd));
@@ -130,7 +129,7 @@ uint8_t	receipt(t_env *env)
 						continue;
 					}
 					env->buffers.request[ret] = '\0';
-					printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
+					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
 					if ((code = place_command_in_queue(env)))
 						return (code);
 				}

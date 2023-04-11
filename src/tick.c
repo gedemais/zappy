@@ -17,7 +17,6 @@ static uint8_t	update_players(t_env *env)
 	}
 
 	//teams_log(env);
-
 	return (ERR_NONE);
 }
 
@@ -31,10 +30,11 @@ uint8_t	tick(t_env *env)
 
 	if ((code = update_players(env)) != ERR_NONE
 		|| (code = update_commands(env)) != ERR_NONE
-		|| (code = receipt(env)) != ERR_NONE)
+		|| (code = receipt(env)) != ERR_NONE
+		|| (code = auth(env)))
 		return (code);
 	//send_responses
-	
+
 	// Decrement players satiety and kill them if at 0 (send "mort" to client)
 	// Check for disappeared food, if so then generate the same amount
 	// Check for a winner team

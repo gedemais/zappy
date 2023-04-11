@@ -10,6 +10,7 @@ SRCS_NAME=main.c\
 		  player/move_commands.c\
 		  player/commands.c\
 		  player/see.c\
+		  tcp/auth.c\
 		  tcp/init.c\
 		  tcp/receipt.c\
 		  tcp/response.c\
