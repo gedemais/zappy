@@ -11,6 +11,7 @@ tot = 100
 host = socket.gethostname()
 port = 8080                   # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.settimeout(0.5)
 s.connect((host, port))
 
 for t in range(tot):
@@ -18,9 +19,19 @@ for t in range(tot):
     while i < len(instructions):
 
         s.sendall(instructions[i])
+        try:
+            reply = s.recv(1024).decode('utf-8')
+        except:
+            reply = 'empty'
+            print('no reply')
+            pass
+
+        if reply != 'empty':
+            print(reply)
 
         print(instructions[i])
-        sleep(0.1)
+        sleep(0.5)
+        #sleep(0.1)
         i += 1
 
 s.close()
