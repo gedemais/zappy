@@ -1,25 +1,5 @@
 #include "main.h"
 
-static uint8_t	update_players(t_env *env)
-{
-	t_team		*t;
-	t_player	*p;
-
-	for (int team = 0; team < env->world.teams.nb_cells; team++)
-	{
-		t = dyacc(&env->world.teams, team);
-		for (int player = 0; player < t->players.nb_cells; player++)
-		{
-			p = dyacc(&t->players, player);
-			if (p->alive == true)
-				update_food(p);
-		}
-	}
-
-	//teams_log(env);
-	return (ERR_NONE);
-}
-
 uint8_t	tick(t_env *env)
 {
 	uint8_t			code;

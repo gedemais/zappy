@@ -1,10 +1,10 @@
 #include "main.h"
 
-static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, t_player *p, int i)
+static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, int i)
 {
 	uint8_t	code;
 
-	if ((code = cmd->cmd_func(env, p, true)))
+	if ((code = cmd->cmd_func(env, cmd->p, true)))
 		return (code);
 	else
 	{
@@ -16,6 +16,7 @@ static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, t_play
 	return (ERR_NONE);
 }
 
+// This function will process command queue by executing commands
 uint8_t	update_commands(t_env *env)
 {
 	t_cmd		*cmd;
@@ -33,15 +34,18 @@ uint8_t	update_commands(t_env *env)
 	// tmp
 
 	cmd_queue = &env->buffers.cmd_queue;
+	// Iterate on cmd queue
 	while (i < cmd_queue->nb_cells)
 	{
 		cmd = dyacc(cmd_queue, i);
 
+		// Cycles waiting mechanism
 		if (cmd->cycles > 0)
 			cmd->cycles--;
 		else
 		{
-			if ((code = run_command(env, cmd_queue, cmd, p, i))) // p to remove later as it will be stored where cmd points
+			// When time has come, we execute the command by the player who sent it
+			if ((code = run_command(env, cmd_queue, cmd, i)))
 				return (code);
 			continue;
 		}

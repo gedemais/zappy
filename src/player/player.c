@@ -19,46 +19,86 @@ void	teams_log(t_env *env)
 	printf("=====================================\n");
 }
 
-void	update_food(t_player *p)
+void			update_food(t_player *p)
 {
+	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
 		p->alive = false;
 	else if (p->satiety == 0)
-	{
+	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
 		p->satiety += 126;
 	}
+	// Normal satiety decrementation for each tick
 	p->satiety--;
 }
 
-uint8_t	add_player(t_env *env, t_team *team, int connection)
+// Update players's stats at each tick
+uint8_t			update_players(t_env *env)
 {
-	t_player	new;
-	uint8_t		d;
+	t_team		*t;
+	t_player	*p;
 
-	d = rand() % DIR_MAX;
-	if (team->players.byte_size == 0
-		&& init_dynarray(&team->players, sizeof(t_player), 6))
-		return (ERR_MALLOC_FAILED);
+	// Iterate on every team playing on the server
+	for (int team = 0; team < env->world.teams.nb_cells; team++)
+	{
+		t = dyacc(&env->world.teams, team);
+		// Iterate on every player if t
+		for (int player = 0; player < t->players.nb_cells; player++)
+		{
+			p = dyacc(&t->players, player);
 
+			if (p->alive == true)
+				update_food(p);
+		}
+	}
+
+	//teams_log(env);
+	return (ERR_NONE);
+}
+
+static void		fill_player(t_env *env, t_player *new)
+{
+	// Wipe new player variable
 	memset(&new, 0, sizeof(t_player));
-	new.inventory[LOOT_FOOD] = 10;
+
+	new.inventory[LOOT_FOOD] = 10; // Food starting quantity
+
+	// Player's random coordinates definition
 	new.tile_x = rand() % env->settings.map_width;
 	new.tile_y = rand() % env->settings.map_height;
-	new.level = 8;
-	new.alive = true;
-	new.direction = *((t_direction*)&d);
-	new.connection = connection;
 
+	new.level = 8; // Starting level
+	new.alive = true; // It's ALIVE !!!
+	new.direction = *((t_direction*)&d); // Direction assignment
+	new.connection = connection; // Connection fd assignment
+}
+
+// Add a new payer to a specific team
+uint8_t			add_player(t_env *env, t_team *team, int connection)
+{
+	t_player	new;
+	uint8_t		d = rand() % DIR_MAX; // Player's random spawn direction definition
+
+	// If this team does not count any player
+	if (team->players.byte_size == 0
+		&& init_dynarray(&team->players, sizeof(t_player), 6)) // Init the array of players
+		return (ERR_MALLOC_FAILED);
+
+	fill_player(env, &new);
+	// Add the newly created player to team
 	if (push_dynarray(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);
 
+	// Init the dynamic array containing loot on the tile where the player is located
 	if (env->world.map[new.tile_y][new.tile_x].content.byte_size == 0
 		&& init_dynarray(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
 		return (ERR_MALLOC_FAILED);
 
 	uint8_t	loot = 255;
-	push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false);
+	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
+	if (push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
+		return (ERR_MALLOC_FAILED);
 
 	return (ERR_NONE);
 }

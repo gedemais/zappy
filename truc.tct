@@ -1,0 +1,19 @@
+import json
+
+elementschimiques = {
+						"au":
+						{
+							"te/tf": [2970, 1063],
+							"Z/A":[79, 196.967]
+						},
+
+						"ga":
+						{
+							"te/tf":[2237, 29.8],
+							"Z/A":[31, 69.72]
+						}
+					}
+
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+

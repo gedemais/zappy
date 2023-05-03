@@ -1,10 +1,5 @@
 #include "main.h"
 /*
-uint8_t	connections_receipt(t_env *env)
-{
-	return (ERR_NONE);
-}
-
 uint8_t	commands_receipt(t_env *env)
 {
 	return (ERR_NONE);
@@ -69,6 +64,32 @@ uint8_t	place_command_in_queue(t_env *env)
 	return (ERR_NONE); // Send response to client ?
 }
 
+uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
+{
+	int	new_fd;
+
+	if (FD_ISSET(env->tcp.server_fd, read_fd_set)) // If a new event occured on the server
+	{
+		new_fd = accept(env->tcp.server_fd, (struct sockaddr*)new_addr, addrlen); // We try to accept a connection
+		if (new_fd >= 0) // && at least one connection still available in one team (we can also check it with a 'found' boolean set by the for loop before the break)
+		{
+			for (uint32_t i = 0; i < env->settings.max_connections; i++) // Looking for a connection slot
+				if (env->buffers.connections[i] < 0) // If the slot is available
+				{
+					printf("New client connected\n");
+					add_player(env, &env->world.pending, i); // We add a new player in the pending players list
+					// add pending player and start auth procedure
+					env->buffers.connections[i] = new_fd; // We save the connection for later
+					break;
+				}
+		}
+		else
+			return (ERR_ACCEPT_FAILED);
+
+	}
+	return (ERR_NONE);
+}
+
 uint8_t	receipt(t_env *env)
 {
 	fd_set				read_fd_set;
@@ -76,7 +97,7 @@ uint8_t	receipt(t_env *env)
 	struct timeval		timeout = {.tv_sec = 0, .tv_usec = env->settings.tick_length * (1.0f / env->settings.t)};
 	socklen_t			addrlen = sizeof(new_addr);
 	int					*connections = env->buffers.connections;
-	int					ret, new_fd;
+	int					ret;
 	uint8_t				code;
 
 	FD_ZERO(&read_fd_set);
@@ -92,25 +113,9 @@ uint8_t	receipt(t_env *env)
 
 	if ((ret = select(env->settings.max_connections + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
-		if (FD_ISSET(env->tcp.server_fd, &read_fd_set)) // If a new event occured on the server
-		{
-			new_fd = accept(env->tcp.server_fd, (struct sockaddr*)&new_addr, &addrlen); // We try to accept a connection
-			if (new_fd >= 0) // && at least one connection still available in one team (we can also check it with a 'found' boolean set by the for loop before the break)
-			{
-				for (uint32_t i = 0; i < env->settings.max_connections; i++) // Looking for a connection slot
-					if (connections[i] < 0) // If the slot is available
-					{
-						printf("New client connected\n");
-						add_player(env, &env->world.pending, i); // We add a new player in the pending players list
-						// add pending player and start auth procedure
-						connections[i] = new_fd; // We save the connection for later
-						break;
-					}
-			}
-			else
-				return (ERR_ACCEPT_FAILED);
 
-		}
+		if ((code = connections_receipt(env, &read_fd_set, &new_addr, &addrlen)) != ERR_NONE)
+			return (code);
 
 		for (uint32_t i = 1; i < env->settings.max_connections; i++) // Starting from 1 because the first fd represents the server's connection
 		{
@@ -118,7 +123,7 @@ uint8_t	receipt(t_env *env)
 			{
 				if (ret > 0)
 				{
-					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) == 0) // Connection closes
+					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) <= 0) // Connection closes
 					{
 						printf("Client disconnected of slot %d !\n", i);
 						fflush(stdout);
@@ -128,7 +133,7 @@ uint8_t	receipt(t_env *env)
 						connections[i] = -1;
 						continue;
 					}
-					env->buffers.request[ret] = '\0';
+					env->buffers.request[ret] = '\0'; // Segfault after some time...
 					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
 					if ((code = place_command_in_queue(env)))
 						return (code);

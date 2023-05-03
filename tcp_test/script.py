@@ -14,6 +14,8 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.settimeout(0.5)
 s.connect((host, port))
 
+al = 0
+
 for t in range(tot):
     i = 0
     while i < len(instructions):
@@ -30,8 +32,9 @@ for t in range(tot):
             print(reply)
 
         print(instructions[i])
-        sleep(0.5)
-        #sleep(0.1)
+        print(al)
+        sleep(0.1)
         i += 1
+        al += 1
 
 s.close()

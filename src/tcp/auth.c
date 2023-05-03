@@ -6,6 +6,7 @@ static uint8_t	auth_send_welcome(t_env *env, t_player *p)
 	FLUSH_RESPONSE
 	ft_strcat(env->buffers.response, "BIENVENUE\n");
 	response(env, p);
+	p->auth_step++;
 	return (ERR_NONE);
 }
 

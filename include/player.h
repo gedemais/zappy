@@ -3,6 +3,7 @@
 
 # define LVL_MAX 8
 
+// Commands identifiers enumeration
 enum			e_commands
 {
 	CMD_ADVANCE,
@@ -20,6 +21,7 @@ enum			e_commands
 	CMD_MAX
 };
 
+// Directions identifiers enumeration
 enum			e_directions
 {
 	DIR_NORTH,
@@ -29,6 +31,7 @@ enum			e_directions
 	DIR_MAX
 };
 
+// Player's authentication steps identifiers
 enum	e_auth_steps
 {
 	AS_NONE,
@@ -39,6 +42,7 @@ enum	e_auth_steps
 	AS_MAX
 };
 
+// Used to localy compute view range
 typedef struct	s_view_ranges
 {
 	int16_t		middle_x, middle_y, start_x, start_y, end_x, end_y;
@@ -51,8 +55,8 @@ typedef struct s_direction // Useful for over / under flowing directions values
 
 typedef struct	s_player
 {
-	int			connection;
-	uint16_t	inventory[LOOT_MAX];
+	int			connection; // Connection fd
+	uint16_t	inventory[LOOT_MAX]; // Inventory (quantity for each loot type)
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
 	uint8_t		satiety; // Current satiety of the player (126 when food eaten)
 	uint8_t		level; // Current level of the player

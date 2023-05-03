@@ -19,6 +19,7 @@ enum			e_cardinal_directions
 	CDIR_MAX
 };
 
+// Minerals types
 enum			e_minerals
 {
 	MIN_LINEMATE,
@@ -30,6 +31,7 @@ enum			e_minerals
 	MIN_MAX
 };
 
+// Loot types
 enum			e_loot
 {
 	LOOT_FOOD,
@@ -42,24 +44,25 @@ enum			e_loot
 	LOOT_MAX
 };
 
+// Structure used as an abstraction of a tile of the game board
 typedef struct	s_tile
 {
-	t_dynarray	content;
-	uint32_t	x;
+	t_dynarray	content; // Loot containing dynamic array
+	uint32_t	x; // Coordinates of the tile on the game board
 	uint32_t	y;
 }				t_tile;
 
 typedef struct	s_team
 {
-	char		*name;
-	t_dynarray	players;
+	char		*name; // Team title
+	t_dynarray	players; // Dynamic array of players
 }				t_team;
 
 typedef struct	s_world
 {
-	t_dynarray	teams;
-	t_team		pending;
-	t_tile		**map;
+	t_dynarray	teams; // Dynamic array storing playing teams
+	t_team		pending; // Dynamic array storing authentication-processing players
+	t_tile		**map; // 2D map of tiles representing the game board
 }				t_world;
 
 #endif

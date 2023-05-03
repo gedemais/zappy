@@ -33,10 +33,11 @@ typedef struct s_env t_env;
 
 typedef struct	s_cmd
 {
-	char		**tokens;
-	char		*response;
-	uint16_t	cycles;
-	uint8_t		(*cmd_func)(t_env *, t_player*, bool);
+	t_player	*p; // Player who sent the command
+	char		**tokens; // Word-tokens composing the command
+	char		*response; // Response written by the server
+	uint16_t	cycles; // Number of cycles remaining before to actually execute the instruction
+	uint8_t		(*cmd_func)(t_env *, t_player*, bool); // Function pointer storing the address of the instruction related function
 }				t_cmd;
 
 // Server settings
@@ -62,29 +63,34 @@ typedef struct	s_buffers
 
 typedef	struct	s_tcp
 {
-	int					server_fd;
-	int					socket;
-	uint16_t			server_port;
+	int					server_fd; // Connection fd of the server
+	int					socket; // Socket identifier
+	uint16_t			server_port; // Port to listen on
 	struct sockaddr_in	address;
 }				t_tcp;
 
 struct	s_env
 {
-	t_buffers	buffers;
+	t_buffers	buffers; // Buffers containing various data useful to the server
 	t_world		world; // See world.h
-	t_tcp		tcp;
+	t_tcp		tcp; // TCP logistic variables
 	t_settings	settings;
 };
 
-// Boilerplate
+// Core
+uint8_t		tick(t_env *env);
+uint8_t		update_commands(t_env *env);
+
+// Memory free
 void		free_env(t_env *env);
 void		free_cmd(t_cmd *cmd);
 
+// Error handling
 uint32_t	error(t_env *env, unsigned char code);
 
-uint8_t		parse_options(t_env *env, int argc, char **argv);
+// Server initialisation
 uint8_t		init_server(t_env *env, int argc, char **argv);
-
+uint8_t		parse_options(t_env *env, int argc, char **argv);
 
 // Communication via TCP
 uint8_t		init_tcp(t_env *env);
@@ -103,43 +109,46 @@ void		update_food(t_player *p);
 void		teams_log(t_env *env);
 uint8_t		response(t_env *env, t_player *p);
 
-// Commands procedures
+
+/* * * * * Commands procedures * * * * */
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_left(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_right(t_env *env, t_player *p, bool send_response);
+//
+// See command
 uint8_t		cmd_see(t_env *env, t_player *p, bool send_response);
-uint8_t		cmd_inventory(t_env *env, t_player *p, bool send_response);
-uint8_t		cmd_take(t_env *env, t_player *p, bool send_response);
-uint8_t		cmd_put(t_env *env, t_player *p, bool send_response);
-uint8_t		cmd_kick(t_env *env, t_player *p, bool send_response);
-uint8_t		cmd_broadcast(t_env *env, t_player *p, bool send_response);
-
-// See
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
 void		compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i);
 void		send_see_response(t_env *env, t_dynarray *view, t_player *p);
 void		free_view(t_dynarray *view);
-
-// Kick
+//
+uint8_t		cmd_inventory(t_env *env, t_player *p, bool send_response);
+uint8_t		cmd_take(t_env *env, t_player *p, bool send_response);
+uint8_t		cmd_put(t_env *env, t_player *p, bool send_response);
+//
+// Kick command
+uint8_t		cmd_kick(t_env *env, t_player *p, bool send_response);
 uint16_t	count_players_on_tile(t_env *env, int16_t tile_x, int16_t tile_y);
 void		kick_players(t_env *env, int16_t tile_x, int16_t tile_y, uint16_t to_kick);
 
-// Broadcast
+// Broadcast command
+uint8_t		cmd_broadcast(t_env *env, t_player *p, bool send_response);
 uint8_t		build_message_from_params(t_env *env);
 uint8_t		deliver_message(t_env *env, t_player *p);
 
-// Core
-uint8_t		tick(t_env *env);
-uint8_t		update_commands(t_env *env);
+/* * * * * * * * * * * * * * * * * */
 
 
+// Directions matched with indices corresponding to e_cardinal_directions members
 static const uint8_t	directions[CDIR_MAX] = {3, 1, 7, 5, 2, 8, 6, 4};
 
+// 2D vectors array representing a position offset in four different directions
 static const int8_t		moves[DIR_MAX][2] ={{0, -1},
 									{1, 0},
 									{0, 1},
 									{-1, 0}};
 
+// Strings array storing names of loot elements
 static const char	*loot_titles[LOOT_MAX] = {
 	[LOOT_LINEMATE] = "linemate",
 	[LOOT_DERAUMERE] = "deraumere",
@@ -150,6 +159,7 @@ static const char	*loot_titles[LOOT_MAX] = {
 	[LOOT_FOOD] = "nourriture"
 };
 
+// Strings array storing names of commands
 static const char	*cmd_names[CMD_MAX] = {
 					[CMD_ADVANCE] = "avance",
 					[CMD_RIGHT] = "droite",
@@ -165,6 +175,7 @@ static const char	*cmd_names[CMD_MAX] = {
 					[CMD_CONNECT_NBR] = "connect_nbr"
 };
 
+// Structures array storing the different features of each executable command
 static const t_cmd	commands[CMD_MAX] = {
 							[CMD_ADVANCE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_advance},
 							[CMD_RIGHT] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_left},
