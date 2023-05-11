@@ -1,5 +1,6 @@
 #include "main.h"
 
+// ASCII art drawing at server launch
 static void			intro(void)
 {
 	char art[1024] = "===================================\n  ______                       \n |___  /                       \n    / / __ _ _ __  _ __  _   _ \n   / / / _` | '_ \\| '_ \\| | | |\n  / /_| (_| | |_) | |_) | |_| |\n /_____\\__,_| .__/| .__/ \\__, |\n            | |   | |     __/ |\n            |_|   |_|    |___/ \n===================================\n";
@@ -7,6 +8,7 @@ static void			intro(void)
 	write(1, art, strlen(art));
 }
 
+// Allocation of buffers for the server
 static uint8_t		init_buffers(t_env *env, t_buffers *buffers)
 {
 	if (!(buffers->response = (char*)malloc(sizeof(char) * RESPONSE_SIZE)))
@@ -33,7 +35,7 @@ uint8_t	init_server(t_env *env, int argc, char **argv)
 		|| (code = init_tcp(env)))
 		return (code);
 
-	env->settings.tick_length = 1000000 / env->settings.t;
+	env->settings.tick_length = 1000000 / env->settings.t; // Duration of each tick in milliseconds
 
 	return (ERR_NONE);
 }

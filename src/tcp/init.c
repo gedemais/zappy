@@ -1,10 +1,12 @@
 #include "main.h"
 
+// Creation of the server socket
 static uint8_t	create_socket(t_tcp *tcp)
 {
 	const int	option = 1;
 	int			opts = 0;
 
+	// Socket creation
     if ((tcp->server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		perror(strerror(errno));
@@ -25,14 +27,16 @@ static uint8_t	setup_tcp(uint16_t max_connections, t_tcp *tcp)
 {
     tcp->address.sin_family = AF_INET;
     tcp->address.sin_addr.s_addr = INADDR_ANY;
-    tcp->address.sin_port = htons(tcp->server_port);
-  
+    tcp->address.sin_port = htons(tcp->server_port); // Assign port to listen on later
+
+	// Binds the server connection fd to its address
     if (bind(tcp->server_fd, (struct sockaddr*)&tcp->address, sizeof(tcp->address)) < 0)
 	{
 		perror(strerror(errno));
 		return (ERR_BIND_FAILED);
     }
 
+	// Listen on the specified port
 	if (listen(tcp->server_fd, max_connections))
 	{
 		perror(strerror(errno));

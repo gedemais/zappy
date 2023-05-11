@@ -4,6 +4,7 @@ static void	free_teams(t_env *env)
 {
 	t_team	*t;
 
+	// For each team
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
@@ -12,6 +13,9 @@ static void	free_teams(t_env *env)
 		free_dynarray(&t->players);
 	}
 	free_dynarray(&env->world.teams);
+
+	// Pending team
+	free_dynarray(&env->world.pending.players);
 }
 
 static void	free_world(t_env *env)

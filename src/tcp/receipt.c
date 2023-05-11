@@ -10,13 +10,45 @@ uint8_t	commands_receipt(t_env *env)
 // int fd;
 // t_player *p;
 
-uint8_t	place_command_in_queue(t_env *env)
+static t_player	*get_client(t_env *env, int client_fd)
 {
-	t_cmd	new;
-	char	**lines;
-	char	**tokens;
-	bool	cmd_found;
+	t_player	*p;
+	t_team		*team;
 
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		team = dyacc(&env->world.teams, i);
+		for (int j = 0; j < team->players.nb_cells; j++)
+		{
+			printf("%d %d / %d\n", i, j, team->players.nb_cells);
+			p = dyacc(&team->players, j);
+			if (p->connection == client_fd)
+				return (p);
+		}
+	}
+
+	team = &env->world.pending;
+
+	for (int i = 0; i < team->players.nb_cells; i++)
+	{
+		p = dyacc(&team->players, i);
+		if (p->connection == client_fd)
+			return (p);
+	}
+
+	return (NULL);
+}
+
+uint8_t	place_command_in_queue(t_env *env, int client_fd)
+{
+	t_player	*p;
+	t_cmd		new;
+	char		**lines;
+	char		**tokens;
+	bool		cmd_found;
+
+	(void)client_fd;
+	p = dyacc(&env->world.pending.players, 0);
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
@@ -39,6 +71,10 @@ uint8_t	place_command_in_queue(t_env *env)
 				bzero(&new, sizeof(t_cmd));
 				new = commands[i];
 				new.tokens = tokens;
+
+				p = get_client(env, client_fd);
+
+				new.p = p;
 				// new.player = player;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
@@ -76,9 +112,13 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 			for (uint32_t i = 0; i < env->settings.max_connections; i++) // Looking for a connection slot
 				if (env->buffers.connections[i] < 0) // If the slot is available
 				{
-					printf("New client connected\n");
-					add_player(env, &env->world.pending, i); // We add a new player in the pending players list
+					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
+					fflush(stdout);
+					sleep(1);
+
+					add_player(env, &env->world.pending, new_fd); // We add a new player in the pending players list
 					// add pending player and start auth procedure
+					t_team	*a = dyacc(&env->world.teams, 0);
 					env->buffers.connections[i] = new_fd; // We save the connection for later
 					break;
 				}
@@ -110,7 +150,6 @@ uint8_t	receipt(t_env *env)
 			sets++;
 		}
 
-
 	if ((ret = select(env->settings.max_connections + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
 
@@ -125,17 +164,22 @@ uint8_t	receipt(t_env *env)
 				{
 					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) <= 0) // Connection closes
 					{
-						printf("Client disconnected of slot %d !\n", i);
+						printf("Client disconnected of slot %d (fd : %d)!\n", i, connections[i]);
 						fflush(stdout);
 						sleep(1);
+
 						// Remove player from his team
+						if ((code = remove_player(env, connections[i])))
+							return (code);
+
 						close(connections[i]);
 						connections[i] = -1;
+
 						continue;
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
 					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
-					if ((code = place_command_in_queue(env)))
+					if ((code = place_command_in_queue(env, connections[i])))
 						return (code);
 				}
 				else if (ret == -1)

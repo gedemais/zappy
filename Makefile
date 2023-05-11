@@ -18,6 +18,11 @@ ifeq ($(OS), "Linux")
 endif
 
 # Flags variables
+VALGRIND ?= 0
+ifeq ($(VALGRIND), 1)
+    FLAGS += -g
+endif
+
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
     FLAGS += -g3 -fsanitize=address

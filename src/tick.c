@@ -8,9 +8,13 @@ uint8_t	tick(t_env *env)
 
 	gettimeofday(&tick_start, NULL);
 
+	t_team	*a = dyacc(&env->world.teams, 0);
 	if ((code = update_players(env)) != ERR_NONE
+		|| printf("update_players : %d\n", a->players.nb_cells) == 0
 		|| (code = update_commands(env)) != ERR_NONE
+		|| printf("update_commands : %d\n", a->players.nb_cells) == 0
 		|| (code = receipt(env)) != ERR_NONE
+		|| printf("recepeit : %d\n", a->players.nb_cells) == 0
 		|| (code = auth(env)))
 		return (code);
 	//send_responses
@@ -38,6 +42,6 @@ uint8_t	tick(t_env *env)
 	gettimeofday(&tick_end, NULL);
 	elapsed = tick_end.tv_usec - tick_start.tv_usec;
 	usleep(env->settings.tick_length - elapsed);
-	return (ERR_NONE);
+	return (ERR_NONE); //Leaks test
 }
 

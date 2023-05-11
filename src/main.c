@@ -9,7 +9,8 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	if ((code = init_server(env, argc, argv)))
 		return (code);
 
-	add_player(env, (t_team*)env->world.teams.c, 0);
+	//tmp
+	//add_player(env, (t_team*)env->world.teams.c, 0);
 
 	// Infinite loop running the server
 	while (run)

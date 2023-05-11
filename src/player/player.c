@@ -57,21 +57,53 @@ uint8_t			update_players(t_env *env)
 	return (ERR_NONE);
 }
 
-static void		fill_player(t_env *env, t_player *new)
+static void		fill_player(t_env *env, t_player *new, int connection)
 {
+	int	d = rand() % DIR_MAX;
 	// Wipe new player variable
-	memset(&new, 0, sizeof(t_player));
+	memset(new, 0, sizeof(t_player));
 
-	new.inventory[LOOT_FOOD] = 10; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
 
 	// Player's random coordinates definition
-	new.tile_x = rand() % env->settings.map_width;
-	new.tile_y = rand() % env->settings.map_height;
+	new->tile_x = rand() % env->settings.map_width;
+	new->tile_y = rand() % env->settings.map_height;
 
-	new.level = 8; // Starting level
-	new.alive = true; // It's ALIVE !!!
-	new.direction = *((t_direction*)&d); // Direction assignment
-	new.connection = connection; // Connection fd assignment
+	new->level = 8; // Starting level
+	new->alive = true; // It's ALIVE !!!
+	new->direction = *((t_direction*)&d); // Direction assignment
+	new->connection = connection; // Connection fd assignment
+}
+
+// Removes player connected to the server by connection fd
+uint8_t	remove_player(t_env *env, int connection_fd)
+{
+	t_team		*team;
+	t_player	*player;
+
+	if (push_dynarray(&env->world.teams, &env->world.pending, false))
+		return (ERR_MALLOC_FAILED);
+	for (int t = 0; t < env->world.teams.nb_cells; t++)
+	{
+		team = dyacc(&env->world.teams, t);
+		for (int p = 0; p < team->players.nb_cells; p++)
+		{
+			player = dyacc(&team->players, p);
+			if (player->connection == connection_fd)
+			{
+				if (extract_dynarray(&team->players, p)
+					|| pop_dynarray(&env->world.teams, false))
+					return (ERR_MALLOC_FAILED);
+				return (ERR_NONE);
+			}
+		}
+	}
+
+	if (pop_dynarray(&env->world.teams, false))
+		return (ERR_MALLOC_FAILED);
+
+	assert(false);
+	return (ERR_NONE);
 }
 
 // Add a new payer to a specific team
@@ -85,7 +117,7 @@ uint8_t			add_player(t_env *env, t_team *team, int connection)
 		&& init_dynarray(&team->players, sizeof(t_player), 6)) // Init the array of players
 		return (ERR_MALLOC_FAILED);
 
-	fill_player(env, &new);
+	fill_player(env, &new, connection);
 	// Add the newly created player to team
 	if (push_dynarray(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);

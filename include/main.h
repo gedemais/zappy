@@ -105,6 +105,8 @@ void		print_map(t_env *env);
 
 // Players
 uint8_t		add_player(t_env *env, t_team *team, int connection);
+uint8_t		remove_player(t_env *env, int connection_fd);
+uint8_t		update_players(t_env *env);
 void		update_food(t_player *p);
 void		teams_log(t_env *env);
 uint8_t		response(t_env *env, t_player *p);
