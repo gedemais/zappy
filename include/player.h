@@ -35,10 +35,8 @@ enum			e_directions
 enum	e_auth_steps
 {
 	AS_NONE,
-	AS_WELCOME,
 	AS_TEAM_NAME,
-	AS_NB_CLIENT,
-	AS_X_Y,
+	AS_GRANTING,
 	AS_MAX
 };
 
@@ -58,6 +56,7 @@ typedef struct	s_player
 	int			connection; // Connection fd
 	uint16_t	inventory[LOOT_MAX]; // Inventory (quantity for each loot type)
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
+	int16_t		team; // Index of the team the player is in
 	uint8_t		satiety; // Current satiety of the player (126 when food eaten)
 	uint8_t		level; // Current level of the player
 	t_direction	direction; // Current cardinal orientation of the player

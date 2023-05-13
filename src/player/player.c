@@ -94,6 +94,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				if (extract_dynarray(&team->players, p)
 					|| pop_dynarray(&env->world.teams, false))
 					return (ERR_MALLOC_FAILED);
+				team->connected--;
 				return (ERR_NONE);
 			}
 		}
@@ -131,6 +132,8 @@ uint8_t			add_player(t_env *env, t_team *team, int connection)
 	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
 	if (push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
 		return (ERR_MALLOC_FAILED);
+
+	team->connected++;
 
 	return (ERR_NONE);
 }

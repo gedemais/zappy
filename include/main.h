@@ -96,7 +96,8 @@ uint8_t		parse_options(t_env *env, int argc, char **argv);
 uint8_t		init_tcp(t_env *env);
 uint8_t		handle_connections(t_env *env);
 uint8_t		receipt(t_env *env);
-uint8_t		auth(t_env *env);
+uint8_t		auth(t_env *env, t_player *p);
+uint8_t		auth_send_welcome(t_env *env, t_player *p);
 
 // World
 uint8_t		init_world(t_env *env);

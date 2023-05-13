@@ -155,6 +155,14 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 		if (filled[i] == false)
 			return (ERR_MISSING_OPT);
 
+	t_team	*t;
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		t = dyacc(&env->world.teams, i);
+		t->max_client = floor((float)env->world.teams.nb_cells / (float)env->settings.max_connections);
+		t->connected = 0;
+	}
+
 	// Checks
 	printf("Server options :\n");
 	printf("port : %d\n", env->tcp.server_port);
@@ -165,7 +173,6 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	printf("t : %d\n", env->settings.t);
 
 	printf("Teams :\n");
-	t_team	*t;
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);

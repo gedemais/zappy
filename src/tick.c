@@ -14,8 +14,7 @@ uint8_t	tick(t_env *env)
 		|| (code = update_commands(env)) != ERR_NONE
 		|| printf("update_commands : %d\n", a->players.nb_cells) == 0
 		|| (code = receipt(env)) != ERR_NONE
-		|| printf("recepeit : %d\n", a->players.nb_cells) == 0
-		|| (code = auth(env)))
+		|| printf("recepeit : %d\n", a->players.nb_cells) == 0)
 		return (code);
 	//send_responses
 

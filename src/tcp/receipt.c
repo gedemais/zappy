@@ -10,7 +10,7 @@ uint8_t	commands_receipt(t_env *env)
 // int fd;
 // t_player *p;
 
-static t_player	*get_client(t_env *env, int client_fd)
+static t_player	*get_team_client(t_env *env, int client_fd)
 {
 	t_player	*p;
 	t_team		*team;
@@ -27,6 +27,14 @@ static t_player	*get_client(t_env *env, int client_fd)
 		}
 	}
 
+	return (NULL);
+}
+
+static t_player	*get_pending_client(t_env *env, int client_fd)
+{
+	t_player	*p;
+	t_team		*team;
+
 	team = &env->world.pending;
 
 	for (int i = 0; i < team->players.nb_cells; i++)
@@ -39,16 +47,13 @@ static t_player	*get_client(t_env *env, int client_fd)
 	return (NULL);
 }
 
-uint8_t	place_command_in_queue(t_env *env, int client_fd)
+static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 {
-	t_player	*p;
 	t_cmd		new;
 	char		**lines;
 	char		**tokens;
 	bool		cmd_found;
 
-	(void)client_fd;
-	p = dyacc(&env->world.pending.players, 0);
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
@@ -72,9 +77,7 @@ uint8_t	place_command_in_queue(t_env *env, int client_fd)
 				new = commands[i];
 				new.tokens = tokens;
 
-				p = get_client(env, client_fd);
-
-				new.p = p;
+				new.p = player;
 				// new.player = player;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
@@ -102,7 +105,8 @@ uint8_t	place_command_in_queue(t_env *env, int client_fd)
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
 {
-	int	new_fd;
+	int			new_fd;
+	uint8_t		code;
 
 	if (FD_ISSET(env->tcp.server_fd, read_fd_set)) // If a new event occured on the server
 	{
@@ -117,8 +121,10 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 					sleep(1);
 
 					add_player(env, &env->world.pending, new_fd); // We add a new player in the pending players list
-					// add pending player and start auth procedure
-					t_team	*a = dyacc(&env->world.teams, 0);
+
+					if ((code = auth_send_welcome(env, (t_player*)dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1))))
+						return (code);
+
 					env->buffers.connections[i] = new_fd; // We save the connection for later
 					break;
 				}
@@ -127,6 +133,19 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 			return (ERR_ACCEPT_FAILED);
 
 	}
+	return (ERR_NONE);
+}
+
+static uint8_t	process_request(t_env *env, int client_fd)
+{
+	t_player	*p;
+	uint8_t		code;
+
+	if ((p = get_pending_client(env, client_fd)) != NULL)
+		return (auth(env, p));
+	else if ((p = get_team_client(env, client_fd)))
+		return (place_command_in_queue(env, p));
+
 	return (ERR_NONE);
 }
 
@@ -179,8 +198,11 @@ uint8_t	receipt(t_env *env)
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
 					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
-					if ((code = place_command_in_queue(env, connections[i])))
+
+					if ((code = process_request(env, connections[i])))
 						return (code);
+					//if ((code = place_command_in_queue(env, connections[i])))
+					//	return (code);
 				}
 				else if (ret == -1)
 					return (ERR_RECV_FAILED);

@@ -56,6 +56,8 @@ typedef struct	s_team
 {
 	char		*name; // Team title
 	t_dynarray	players; // Dynamic array of players
+	uint16_t	connected; // Number of connections available in the team
+	uint16_t	max_client; // Number of connections available in the team
 }				t_team;
 
 typedef struct	s_world
