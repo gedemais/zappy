@@ -112,7 +112,7 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 				{
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
 					fflush(stdout);
-					sleep(1);
+					//sleep(1);
 
 					add_player(env, &env->world.pending, new_fd); // We add a new player in the pending players list
 

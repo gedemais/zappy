@@ -93,7 +93,7 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 		{
 			printf("team ok\n");
 			fflush(stdout);
-			sleep(1);
+			//sleep(1);
 
 			p->team = i;
 			p->auth_step++;
