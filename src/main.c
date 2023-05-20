@@ -15,7 +15,6 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 	// Infinite loop running the server
 	while (run)
 	{
-
 		if (MAP_PRINT)
 		{
 			write(1, "\033[2J", 1);

@@ -8,13 +8,10 @@ uint8_t	tick(t_env *env)
 
 	gettimeofday(&tick_start, NULL);
 
-	t_team	*a = dyacc(&env->world.teams, 0);
+	teams_log(env);
 	if ((code = update_players(env)) != ERR_NONE
-		|| printf("update_players : %d\n", a->players.nb_cells) == 0
 		|| (code = update_commands(env)) != ERR_NONE
-		|| printf("update_commands : %d\n", a->players.nb_cells) == 0
-		|| (code = receipt(env)) != ERR_NONE
-		|| printf("recepeit : %d\n", a->players.nb_cells) == 0)
+		|| (code = receipt(env)) != ERR_NONE)
 		return (code);
 	//send_responses
 

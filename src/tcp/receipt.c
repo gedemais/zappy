@@ -5,11 +5,6 @@ uint8_t	commands_receipt(t_env *env)
 	return (ERR_NONE);
 }*/
 
-// remplacer connections par :
-// t_connection_slot:
-// int fd;
-// t_player *p;
-
 static t_player	*get_team_client(t_env *env, int client_fd)
 {
 	t_player	*p;
@@ -20,7 +15,6 @@ static t_player	*get_team_client(t_env *env, int client_fd)
 		team = dyacc(&env->world.teams, i);
 		for (int j = 0; j < team->players.nb_cells; j++)
 		{
-			printf("%d %d / %d\n", i, j, team->players.nb_cells);
 			p = dyacc(&team->players, j);
 			if (p->connection == client_fd)
 				return (p);
@@ -113,7 +107,7 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 		new_fd = accept(env->tcp.server_fd, (struct sockaddr*)new_addr, addrlen); // We try to accept a connection
 		if (new_fd >= 0) // && at least one connection still available in one team (we can also check it with a 'found' boolean set by the for loop before the break)
 		{
-			for (uint32_t i = 0; i < env->settings.max_connections; i++) // Looking for a connection slot
+			for (uint32_t i = 0; i < 1024; i++) // Looking for a connection slot
 				if (env->buffers.connections[i] < 0) // If the slot is available
 				{
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
@@ -162,20 +156,20 @@ uint8_t	receipt(t_env *env)
 	FD_ZERO(&read_fd_set);
 
 	int	sets = 0;
-	for (uint32_t i = 0; i < env->settings.max_connections; i++)
+	for (uint32_t i = 0; i < 1024; i++)
 		if (connections[i] >= 0)
 		{
 			FD_SET(connections[i], &read_fd_set);
 			sets++;
 		}
 
-	if ((ret = select(env->settings.max_connections + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
+	if ((ret = select(1024 + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
 
 		if ((code = connections_receipt(env, &read_fd_set, &new_addr, &addrlen)) != ERR_NONE)
 			return (code);
 
-		for (uint32_t i = 1; i < env->settings.max_connections; i++) // Starting from 1 because the first fd represents the server's connection
+		for (uint32_t i = 1; i < 1024; i++) // Starting from 1 because the first fd represents the server's connection
 		{
 			if (connections[i] >= 0 && FD_ISSET(connections[i], &read_fd_set)) // If a player is connected on this slot, and an event occured on it
 			{
@@ -197,7 +191,7 @@ uint8_t	receipt(t_env *env)
 						continue;
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
-					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request));
+					printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
 
 					if ((code = process_request(env, connections[i])))
 						return (code);

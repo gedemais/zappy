@@ -49,12 +49,12 @@ static uint8_t	create_players_connections(t_env *env)
 {
 	size_t	size;
 
-	size = sizeof(int) * env->settings.max_connections;
+	size = sizeof(int) * 1024;
 	if (!(env->buffers.connections = (int*)malloc(size))
-		|| !(env->buffers.request = (char*)malloc(sizeof(char) * REQUEST_BUFF_SIZE)))
+		|| !(env->buffers.request = (char*)malloc(sizeof(char) * (REQUEST_BUFF_SIZE + 1))))
 		return (ERR_MALLOC_FAILED);
 
-	for (uint32_t i = 0; i < env->settings.max_connections; i++)
+	for (uint32_t i = 0; i < 1024; i++)
 		env->buffers.connections[i] = -1;
 
 	env->buffers.connections[0] = env->tcp.server_fd;

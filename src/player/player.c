@@ -6,6 +6,7 @@ void	teams_log(t_env *env)
 	t_player	*p;
 
 	printf("============= TEAMS LOG =============\n");
+	printf("%d pending players\n", env->world.pending.players.nb_cells);
 	for (int team = 0; team < env->world.teams.nb_cells; team++)
 	{
 		t = dyacc(&env->world.teams, team);
@@ -19,11 +20,11 @@ void	teams_log(t_env *env)
 	printf("=====================================\n");
 }
 
-void			update_food(t_player *p)
+static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
-		p->alive = false;
+		return (remove_player(env, p->connection));
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
@@ -31,11 +32,13 @@ void			update_food(t_player *p)
 	}
 	// Normal satiety decrementation for each tick
 	p->satiety--;
+	return (ERR_NONE);
 }
 
 // Update players's stats at each tick
 uint8_t			update_players(t_env *env)
 {
+	uint8_t		code;
 	t_team		*t;
 	t_player	*p;
 
@@ -48,8 +51,8 @@ uint8_t			update_players(t_env *env)
 		{
 			p = dyacc(&t->players, player);
 
-			if (p->alive == true)
-				update_food(p);
+			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
+				return (code);
 		}
 	}
 
