@@ -134,6 +134,8 @@ static uint8_t	dispatcher(t_env *env, char opt, char **args, bool filled[OPT_MAX
 uint8_t	parse_options(t_env *env, int argc, char **argv)
 {
 	bool		filled[OPT_MAX] = {};
+	t_team		*t;
+	int			max_payers;
 	uint8_t		code;
 	int			opt;
 
@@ -155,10 +157,11 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 		if (filled[i] == false)
 			return (ERR_MISSING_OPT);
 
-	t_team	*t;
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
+		//t->max_client = floor((float)env->settings.max_connections / (float)env->world.teams.nb_cells);
+		//t->max_client = 6;
 		t->max_client = env->settings.max_connections;
 		t->connected = 0;
 	}
