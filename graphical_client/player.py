@@ -4,7 +4,7 @@ from pygame.locals import *
 from constantes import *
 
 class Player():
-    def __init__(self, game_board, player_id, team_id, x, y):
+    def __init__(self, game_board, player_id, team, x, y, o, level):
         super().__init__()
 
         # contain all info on players and map
@@ -12,15 +12,12 @@ class Player():
 
         # contain id of player and his team
         self.player_id = player_id
-        self.team_id = team_id
+        self.team = team
 
         # Define player's base level
-        self.level = 1
+        self.level = level
 
-        # At the beginning the client has 10 life units, he can therefore survive 1260 time units, ie 1260/t seconds.
-        # Initial survival time
-        self.survival = 1260
-
+        self.orientation = o
         # Define player's position
         self.position = (x, y)  # Start at the top-left corner of the game board
         # self.rect = self.image.get_rect()
@@ -31,6 +28,10 @@ class Player():
         self.vy = 0 # vertical movement length
         self.speed = 5 # Adjust this value to change the player speed 
 
+        # At the beginning the client has 10 life units, he can therefore survive 1260 time units, ie 1260/t seconds.
+        # Initial survival time
+        self.survival = 0
+
         # list of initial resources in backpack
         self.resources = {
             'linemate': 0,
@@ -39,7 +40,7 @@ class Player():
             'mendiane': 0,
             'phiras': 0,
             'thystame': 0,
-            'nourriture': 0
+            'nourriture': 10
         }
 
     def move(self, dx, dy):
