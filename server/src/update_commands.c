@@ -4,6 +4,7 @@ static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, int i)
 {
 	uint8_t	code;
 
+	env->buffers.cmd_params = &cmd->tokens[1];
 	if ((code = cmd->cmd_func(env, cmd->p, true)))
 	{
 		free_cmd(dyacc(cmd_queue, i));

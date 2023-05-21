@@ -8,7 +8,7 @@ uint8_t	build_message_from_params(t_env *env)
 	while (env->buffers.cmd_params[i])
 	{
 		strcat(env->buffers.response, env->buffers.cmd_params[i]);
-		strcat(env->buffers.response, env->buffers.cmd_params[i + 1] ? " " : "");
+		strcat(env->buffers.response, env->buffers.cmd_params[i + 1] ? " " : "\n");
 		i++;
 	}
 	return (ERR_NONE);
