@@ -1,0 +1,2 @@
+*.o
+graphical_client/__pycache__

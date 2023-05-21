@@ -32,3 +32,5 @@ class GameBoard:
         self.players.append(player)
 
     def applyCmd(self, cmdLine):
+        pass
+

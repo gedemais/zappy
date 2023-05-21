@@ -2,8 +2,8 @@ import random
 import pygame
 from pygame.locals import *
 
-from gameBoard import gameBoard
-from player import Player
+from gameBoard import *
+from players import *
 from ressource import Resource 
 from constantes import *
 
@@ -42,7 +42,9 @@ def draw(window, all_sprites, resources):
 def main():
     clock = pygame.time.Clock()
 
-    player = Player(50, 50)
+
+    game_board = GameBoard(WINDOW_WIDTH, WINDOW_HEIGHT)
+    player = RabbitPlayer(game_board, 0, 0, 50, 50)
     all_sprites = pygame.sprite.Group(player)
     resources = pygame.sprite.Group()
     addResources(resources)
