@@ -19,8 +19,6 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 			{
 				tx = x;
 				ty = y;
-				printf("%d %d\n", tx, ty);
-				sleep(1);
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
 				if (push_dynarray(&env->buffers.view, &env->world.map[ty][tx], false))
@@ -206,6 +204,27 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
+uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
+{
+	t_team	*team;
+	char	*nbr;
+
+	FLUSH_RESPONSE
+	if (!(team = get_client_team(env, p->connection)))
+		return (ERR_NONE);
+
+	if (!(nbr = ft_itoa(team->max_client - team->connected)))
+		return (ERR_MALLOC_FAILED);
+
+	if (send_response)
+	{
+		FLUSH_RESPONSE
+		strcat(env->buffers.response, nbr);
+		response(env, p);
+	}
+	return (ERR_NONE);
+}
+
 /*
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
@@ -216,9 +235,5 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	return (ERR_NONE);
 }
-
-uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
-{
-	return (ERR_NONE);
-}
 */
+

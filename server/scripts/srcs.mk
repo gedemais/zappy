@@ -4,6 +4,7 @@ SRCS_NAME=main.c\
 		  free.c\
 		  init.c\
 		  tick.c\
+		  tools.c\
 		  update_commands.c\
 		  player/broadcast.c\
 		  player/player.c\
