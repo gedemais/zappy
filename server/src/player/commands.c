@@ -6,6 +6,11 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 	int16_t			tx, ty;
 
 	(void)send_response;
+	if (push_dynarray(&env->buffers.view, &env->world.map[p->tile_y][p->tile_x], false))
+	{
+		clear_dynarray(&env->buffers.view);
+		return (ERR_MALLOC_FAILED);
+	}
 	for (uint8_t i = 0; i < p->level; i++)
 	{
 		compute_view_ranges(env, &ranges, p, i);
@@ -14,6 +19,8 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 			{
 				tx = x;
 				ty = y;
+				printf("%d %d\n", tx, ty);
+				sleep(1);
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
 				if (push_dynarray(&env->buffers.view, &env->world.map[ty][tx], false))
