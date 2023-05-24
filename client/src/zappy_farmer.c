@@ -5,11 +5,8 @@
 int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
 {
 	int		r = 0;
-	char	buf[256] = {0};
-	
-	fprintf(stderr, "%s\n", __func__);
-	snprintf(buf, 256, "broadcast %s", client->buf);
-	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
+
+	client->task = ZAPPY_FARMER_BROADCAST;
 	return (r);
 }
 
@@ -56,7 +53,7 @@ int 	zappy_farmer(zappy_client_t *client)
 								// 	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 								// }
 
-								// si on ramasse un loot on broadcast l'inventaire
+								// si on ramasse un loot recupere l'inventaire pour le broadcast
 								if (r == 0) {
 									r = zappy_client_transceive(client, "inventaire", strlen("inventaire"), zappy_client_broadcast_inventory_cb);
 								}
@@ -68,6 +65,17 @@ int 	zappy_farmer(zappy_client_t *client)
 						client->task = ZAPPY_FARMER_LOOK;
 					}
 			  	}
+				case (ZAPPY_FARMER_BROADCAST): {
+					char	buf[256] = {0};
+	
+					// on a recupere l'inventaire donc on le broadcast
+					snprintf(buf, 256, "broadcast %s", client->buf);
+					r = zappy_client_transceive(client, buf, strlen(buf), NULL);
+					if (r == 0) {
+						// une fois broadcast on reprend le loot ou le look
+						client->task = ZAPPY_FARMER_LOOT;
+					}
+				}
 				default:
 					break ;
 			}
