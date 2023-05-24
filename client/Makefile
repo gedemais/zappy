@@ -8,6 +8,9 @@ FLAGS= -Wall -Werror -Wextra -Wno-unused-variable
 
 # Os detection
 OS=$(shell uname -s)
+NAME = client
+CC ?= gcc
+CFLAGS ?= -Wall -Wextra -Werror -g3 -Wno-unused-variable
 
 ifeq ($(OS), "Darwin")
 	FLAGS += -DMACOS

@@ -90,7 +90,7 @@ static void		fill_player(t_env *env, t_player *new, int connection)
 	new->tile_x = rand() % env->settings.map_width;
 	new->tile_y = rand() % env->settings.map_height;
 
-	new->level = 8; // Starting level
+	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!
 	new->direction = *((t_direction*)&d); // Direction assignment
 	new->connection = connection; // Connection fd assignment
@@ -158,5 +158,3 @@ uint8_t			add_player(t_env *env, t_team *team, int connection)
 
 	return (ERR_NONE);
 }
-
-
