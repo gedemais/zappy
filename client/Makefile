@@ -3,7 +3,7 @@
 
 NAME = client
 CC ?= gcc
-CFLAGS ?= -Wall -Wextra -Werror -g3
+CFLAGS ?= -Wall -Wextra -Werror -g3 -Wno-unused-variable
 
 SRC = main.c \
 	  	zappy_client.c \
