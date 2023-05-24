@@ -59,6 +59,9 @@ static int vision_row_center[] = {
 		72
 };
 
+#define ZAPPY_OK	0
+#define ZAPPY_WAIT	1
+#define ZAPPY_ERROR -1
 
 #define CASE_ELEM_LINEMATE		0
 #define CASE_ELEM_DERAUMERE		1
@@ -90,6 +93,21 @@ static char *case_ressources[] =
 	NULL
 };
 
+typedef struct zappy_client_s zappy_client_t;
+
+typedef int (*zappy_client_cmd_cb_t)(zappy_client_t *);
+
+typedef struct zappy_client_cmd_s
+{
+	char					*cmd;
+	zappy_client_cmd_cb_t	cb;
+} zappy_client_cmd_t;
+
+#define ZAPPY_CLIENT_MAX_STACKED_CMD 1
+
+#define ZAPPY_FARMER_LOOK 1
+#define ZAPPY_FARMER_LOOKWAIT 2
+#define ZAPPY_FARMER_LOOT 3
 
 typedef struct zappy_client_s
 {
@@ -104,14 +122,20 @@ typedef struct zappy_client_s
 											  // The absolute orientation is not known of client
 											  // At each "see" the orientation is back to 0
 
+	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
+	uint8_t				cmd_idx; // idx used to rotate cmds
+	uint8_t				cmd_stack_size; // nb of elements currently in cmds
+	uint8_t				task;
 } zappy_client_t;
 
 /* main function called from main*/
 int zappy_client(zappy_client_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
-int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, char *expected_rsp);
+int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
 /* parse function for the see response TODO: inventory */
 int	zappy_client_parse_see(zappy_client_t *client);
 void zappy_debug_print_vision_map(zappy_client_t *client);
+int	zappy_client_see_cb(zappy_client_t *client);
+int zappy_client_receipt(zappy_client_t *client);
 
 #endif

@@ -98,33 +98,25 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 	return (r);
 }
 
-int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, char *expected_rsp)
+int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb)
 {
 	int r = 0;
 
-	bzero(client->buf, 4096);
-	fprintf(stderr, "%s: cmd = {%s} pos=%d orientation=%d\n", __func__, cmd, client->relative_pos, client->relative_orientation);
-	if (send(client->socket, cmd, len, 0) < 0) {
-		perror("send");
-		r = -1;
-	}
-	if (r == 0) {
-		if (recv(client->socket, client->buf, CLIENT_BUFSIZE, 0) < 0) {
-			perror("recv");
-			r = -1;
-		}
+	if (client->cmd_stack_size >= ZAPPY_CLIENT_MAX_STACKED_CMD)
+	{
+		r = ZAPPY_WAIT;
 	}
 	if (r == 0)
 	{
-		if (expected_rsp)
-		{
-			if (!!memcmp(client->buf, expected_rsp, strlen(expected_rsp)))
-			{
-				r = -1;
-			}
+		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cmd = cmd;
+		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cb = cb;
+		client->cmd_stack_size++;
+		bzero(client->buf, 4096); // TODO LMA
+		if (send(client->socket, cmd, len, 0) < 0) {
+			perror("send");
+			r = -1;
 		}
 	}
-	fprintf(stderr, "%s: client->buf = {%s}\n", __func__, client->buf);
 	return (r);
 }
 
@@ -169,6 +161,19 @@ int	zappy_client_parse_see(zappy_client_t *client)
 	return (r);
 }
 
+int	zappy_client_see_cb(zappy_client_t *client)
+{
+	int r = 0;
+
+	r = zappy_client_parse_see(client);
+	if (r == 0)
+	{
+		client->task = ZAPPY_FARMER_LOOT;
+		zappy_debug_print_vision_map(client);
+	}
+	return (r);
+}
+
 void zappy_debug_print_vision_map(zappy_client_t *client)
 {
 	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
@@ -202,6 +207,55 @@ int zappy_client(zappy_client_opt_t *opt)
 			r = zappy_farmer(&client);
 		}
 		close(client.socket);
+	}
+	return (r);
+}
+
+int zappy_client_receipt(zappy_client_t *client)
+{
+	int r = 0;
+	fd_set				read_fd_set;
+	struct timeval		timeout = {.tv_sec = 0, .tv_usec = 100};
+
+	FD_ZERO(&read_fd_set);
+	FD_SET(client->socket, &read_fd_set);
+	if ((r = select(1024 + 1, &read_fd_set,
+					NULL, NULL, &timeout)) >= 0) // If select does not fail
+	{
+		if (r > 0)
+		{
+			// Data available
+			if (recv(client->socket, client->buf,
+						CLIENT_BUFSIZE, 0) < 0) {
+				perror("recv");
+				r = -1;
+			}
+			if (r != -1)
+			{
+				if (!memcmp(client->buf, "mort", strlen("mort"))) {
+					fprintf(stderr, "death recv\n"); // TODO
+				}
+				else if (!memcmp(client->buf, "message", strlen("message"))) {
+					fprintf(stderr, "broadcasted msg recv\n"); // TODO
+				}
+				else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
+					fprintf(stderr, "kick recv\n"); // TODO
+				}
+				else
+				{
+					fprintf(stderr, "%s: response (%s) received for cmd={%s}", __func__, client->buf, client->cmds[client->cmd_idx].cmd);
+					r = client->cmds[client->cmd_idx].cb(client);
+					client->cmd_idx++;
+ 					client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
+					client->cmd_stack_size--;
+				}
+			}
+
+		}
+		else if (r < 0)
+		{
+			r = -1;
+		}
 	}
 	return (r);
 }
