@@ -20,11 +20,30 @@ void	teams_log(t_env *env)
 	printf("=====================================\n");
 }
 
+static uint8_t	kill_player(t_env *env)
+{
+	t_team		*t;
+	t_player	*p;
+
+	for (int team = 0; team < env->world.teams.nb_cells; team++)
+	{
+		t = dyacc(&env->world.teams, team);
+		for (int player = 0; player < t->players.nb_cells; player++)
+		{
+			p = dyacc(&t->players, player);
+			FLUSH_RESPONSE
+			strcat(env->buffers.response, "mort");
+			response(env, p);
+		}
+	}
+	return (remove_player(env, p->connection));
+}
+
 static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
-		return (remove_player(env, p->connection));
+		return (kill_player(env));
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
@@ -50,7 +69,6 @@ uint8_t			update_players(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-
 			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
 				return (code);
 		}
