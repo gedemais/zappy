@@ -4,35 +4,12 @@
 
 int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
 {
-	int	r = 0;
-
-	(void)client;
-	if (r == 0)
-	{
-		fprintf(stderr, "broadcasting inventory callback\n");
-	}
-	return (r);
-}
-
-int		zappy_farmer_broadcast(zappy_client_t *client, int option)
-{
+	int		r = 0;
+	char	buf[256] = {0};
+	
 	fprintf(stderr, "%s\n", __func__);
-	int	r = 0;
-
-	switch (option)
-	{
-		case (BROADCAST_INVENTORY_SEND): {
-			r = zappy_client_transceive(client, broadcast_cmd, strlen(broadcast_cmd), zappy_client_broadcast_inventory_cb);
-
-			printf("client transceive - r: %d\n", r);
-			if (r == 0) {
-				fprintf(stderr, "%s\n", client->buf);
-			}
-			break ;
-		}
-		default:
-			break ;
-	}
+	snprintf(buf, 256, "broadcast %s", client->buf);
+	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 	return (r);
 }
 
@@ -66,11 +43,11 @@ int 	zappy_farmer(zappy_client_t *client)
 							{
 								found = true;
 
-								r = zappy_client_move(client, i);
-								if (r == 0) {
-									client->vision_map[i * CASE_ELEMENTS + j]--;
-									fprintf(stderr, "%s: move done pos=%d resources={%s}\n", __func__, client->relative_pos, case_ressources[j]);
-								}
+								// r = zappy_client_move(client, i);
+								// if (r == 0) {
+								// 	client->vision_map[i * CASE_ELEMENTS + j]--;
+								// 	fprintf(stderr, "%s: move done pos=%d resources={%s}\n", __func__, client->relative_pos, case_ressources[j]);
+								// }
 
 								// if (r == 0) {
 								// 	char buf[64] = {0};
@@ -79,8 +56,10 @@ int 	zappy_farmer(zappy_client_t *client)
 								// 	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 								// }
 
-								// si on ramasse un loot on broadcast linventaire
-								client->task = ZAPPY_FARMER_BROADCAST;
+								// si on ramasse un loot on broadcast l'inventaire
+								if (r == 0) {
+									r = zappy_client_transceive(client, "inventaire", strlen("inventaire"), zappy_client_broadcast_inventory_cb);
+								}
 							}
 						}
 					}
@@ -89,10 +68,6 @@ int 	zappy_farmer(zappy_client_t *client)
 						client->task = ZAPPY_FARMER_LOOK;
 					}
 			  	}
-				case (ZAPPY_FARMER_BROADCAST): {
-					zappy_farmer_broadcast(client, BROADCAST_INVENTORY_SEND);
-					client->task = ZAPPY_FARMER_LOOT;
-				}
 				default:
 					break ;
 			}

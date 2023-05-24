@@ -110,15 +110,14 @@ enum	e_zappy_farmer {
 	ZAPPY_FARMER_LOOK = 1,
 	ZAPPY_FARMER_LOOKWAIT,
 	ZAPPY_FARMER_LOOT,
-	ZAPPY_FARMER_BROADCAST,
 	ZAPPY_FARMER_MAX
 };
 
-enum	e_zappy_farmer_broadcast {
-	BROADCAST_INVENTORY_SEND,
-	BROADCAST_INVENTORY_RECEIVE,
-	BROADCAST_INVENTORY_MAX
-};
+// enum	e_zappy_farmer_broadcast {
+// 	BROADCAST_INVENTORY_SEND,
+// 	BROADCAST_INVENTORY_RECEIVE,
+// 	BROADCAST_INVENTORY_MAX
+// };
 
 typedef struct zappy_client_s
 {
