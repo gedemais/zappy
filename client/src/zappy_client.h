@@ -12,15 +12,16 @@
 
 #define CLIENT_BUFSIZE 4096
 
-static char see_cmd[]			= "voir\n";
-static char advance_cmd[]		= "avance\n";
-static char turn_right_cmd[]	= "droite\n";
-static char turn_left_cmd[]	= "gauche\n";
-static char inventory_cmd[]	= "inventaire\n";
-static char kick_cmd[]		= "expulse\n";
-static char incantation_cmd[]	= "incantation\n";
-static char fork_cmd[]		= "fork\n";
-static char connect_nbr_cmd[]	= "connect_nbr\n";
+static char see_cmd[]			= "voir";
+static char broadcast_cmd[]		= "broadcast";
+static char advance_cmd[]		= "avance";
+static char turn_right_cmd[]	= "droite";
+static char turn_left_cmd[]		= "gauche";
+static char inventory_cmd[]		= "inventaire";
+static char kick_cmd[]			= "expulse";
+static char incantation_cmd[]	= "incantation";
+static char fork_cmd[]			= "fork";
+static char connect_nbr_cmd[]	= "connect_nbr";
 
 static char *zappy_rsp_ok = "ok";
 
@@ -103,11 +104,21 @@ typedef struct zappy_client_cmd_s
 	zappy_client_cmd_cb_t	cb;
 } zappy_client_cmd_t;
 
-#define ZAPPY_CLIENT_MAX_STACKED_CMD 1
+	#define ZAPPY_CLIENT_MAX_STACKED_CMD 1
 
-#define ZAPPY_FARMER_LOOK 1
-#define ZAPPY_FARMER_LOOKWAIT 2
-#define ZAPPY_FARMER_LOOT 3
+enum	e_zappy_farmer {
+	ZAPPY_FARMER_LOOK = 1,
+	ZAPPY_FARMER_LOOKWAIT,
+	ZAPPY_FARMER_LOOT,
+	ZAPPY_FARMER_BROADCAST,
+	ZAPPY_FARMER_MAX
+};
+
+enum	e_zappy_farmer_broadcast {
+	BROADCAST_INVENTORY_SEND,
+	BROADCAST_INVENTORY_RECEIVE,
+	BROADCAST_INVENTORY_MAX
+};
 
 typedef struct zappy_client_s
 {

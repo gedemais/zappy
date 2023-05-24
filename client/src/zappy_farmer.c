@@ -1,8 +1,41 @@
 #include "zappy_client.h"
 #include "zappy_client_move.h"
 
+
+int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
+{
+	int	r = 0;
+
+	(void)client;
+	if (r == 0)
+	{
+		fprintf(stderr, "broadcasting inventory callback\n");
+	}
+	return (r);
+}
+
+int		zappy_farmer_broadcast(zappy_client_t *client, int option)
+{
+	int	r = 0;
+
+	switch (option)
+	{
+		case (ZAPPY_FARMER_BROADCAST):
+			fprintf(stderr, "broadcasting inventory\n");
+			r = zappy_client_transceive(client, broadcast_cmd, strlen(broadcast_cmd), zappy_client_broadcast_inventory_cb);
+			printf("r: %d\n", r);
+			if (r == 0) {
+				fprintf(stderr, "%s\n", client->buf);
+			}
+			break ;
+		default:
+			break ;
+	}
+	return (r);
+}
+
 /* the crazy farmer */
-int zappy_farmer(zappy_client_t *client)
+int 	zappy_farmer(zappy_client_t *client)
 {
 	int r = 0;
 	bool run = true;
@@ -30,6 +63,7 @@ int zappy_farmer(zappy_client_t *client)
 							if (client->vision_map[i * CASE_ELEMENTS + j] != 0)
 							{
 								found = true;
+
 								r = zappy_client_move(client, i);
 								if (r == 0) {
 									client->vision_map[i * CASE_ELEMENTS + j]--;
@@ -39,8 +73,12 @@ int zappy_farmer(zappy_client_t *client)
 								// 	char buf[64] = {0};
 								// 	snprintf(buf, 64, "prend %s",
 								// 			case_ressources[j]);
-								// 	r = zappy_client_transceive(client, buf, strlen(buf), zappy_rsp_ok);
+								// 	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 								// }
+								if (r == 0) {
+									// si on ramasse un loot on broadcast linventaire
+									r = zappy_farmer_broadcast(client, ZAPPY_FARMER_BROADCAST);
+								}
 							}
 						}
 					}
@@ -49,6 +87,9 @@ int zappy_farmer(zappy_client_t *client)
 						client->task = ZAPPY_FARMER_LOOK;
 					}
 			  	}
+				case (ZAPPY_FARMER_BROADCAST): {
+
+				}
 				default:
 					break ;
 			}

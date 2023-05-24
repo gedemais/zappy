@@ -112,6 +112,7 @@ int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_cl
 		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cb = cb;
 		client->cmd_stack_size++;
 		bzero(client->buf, 4096); // TODO LMA
+		fprintf(stderr, "%s send %s\n", __func__, cmd);
 		if (send(client->socket, cmd, len, 0) < 0) {
 			perror("send");
 			r = -1;
@@ -243,7 +244,7 @@ int zappy_client_receipt(zappy_client_t *client)
 				}
 				else
 				{
-					fprintf(stderr, "%s: response (%s) received for cmd={%s}", __func__, client->buf, client->cmds[client->cmd_idx].cmd);
+					fprintf(stderr, "%s: response (%s) received for cmd={%s}\n", __func__, client->buf, client->cmds[client->cmd_idx].cmd);
 					r = client->cmds[client->cmd_idx].cb(client);
 					client->cmd_idx++;
  					client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
