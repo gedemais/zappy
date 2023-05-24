@@ -27,6 +27,7 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 
 void	compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i)
 {
+	i += 1;
 	ranges->middle_x = p->tile_x + moves[p->direction.d][0] * i;
 	ranges->middle_y = p->tile_y + moves[p->direction.d][1] * i;
 
