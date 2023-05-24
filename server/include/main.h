@@ -137,6 +137,15 @@ void		kick_players(t_env *env, int16_t tile_x, int16_t tile_y, uint16_t to_kick)
 uint8_t		cmd_broadcast(t_env *env, t_player *p, bool send_response);
 uint8_t		deliver_messages(t_env *env, t_player *p);
 
+// Connect number command
+uint8_t		cmd_connect_nbr(t_env *env, t_player *p, bool send_response);
+
+
+// Tools
+t_team		*get_client_team(t_env *env, int client_fd);
+t_player	*get_pending_client(t_env *env, int client_fd);
+t_player	*get_team_client(t_env *env, int client_fd);
+
 /* * * * * * * * * * * * * * * * * */
 
 
@@ -189,7 +198,7 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_BROADCAST] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_broadcast},
 							[CMD_INCANTATION] = {.response = NULL, .cycles = 300, .cmd_func = NULL},
 							[CMD_FORK] = {.response = NULL, .cycles = 42, .cmd_func = NULL},
-							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd_func = NULL}
+							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd_func = cmd_connect_nbr}
 };
 
 #endif

@@ -2,7 +2,6 @@
 
 uint8_t	auth_send_welcome(t_env *env, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	FLUSH_RESPONSE
 	ft_strcat(env->buffers.response, "BIENVENUE\n");
 	response(env, p);
@@ -12,7 +11,6 @@ uint8_t	auth_send_welcome(t_env *env, t_player *p)
 
 static uint8_t	build_granting_response(t_env *env, char *response, t_team *team, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	char	*nb_client, *x, *y;
 
 	if (!(nb_client = ft_itoa(team->max_client - team->connected))
@@ -37,7 +35,6 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 
 static void		remove_pending_player(t_env *env, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	t_team		*pending;
 	t_player	*tmp;
 
@@ -56,7 +53,6 @@ static void		remove_pending_player(t_env *env, t_player *p)
 
 static uint8_t	auth_granting(t_env *env, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	t_team	*team;
 	uint8_t	code;
 
@@ -81,7 +77,6 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 
 static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	t_team	*t;
 	(void)env;
 	(void)p;
@@ -91,10 +86,6 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 		t = dyacc(&env->world.teams, i);
 		if (strcmp(env->buffers.request, t->name) == 0)
 		{
-			printf("team ok\n");
-			fflush(stdout);
-			//sleep(1);
-
 			p->team = i;
 			p->auth_step++;
 			if (t->max_client - t->connected > 0)
@@ -103,7 +94,6 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			{
 				printf("NO MORE SLOTS AVAILABLE\n");
 				fflush(stdout);
-				sleep(10);
 				return (ERR_NONE);
 			}
 
