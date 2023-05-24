@@ -7,6 +7,7 @@ int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
 	int		r = 0;
 
 	client->task = ZAPPY_FARMER_BROADCAST;
+	memcpy(client->inventory, client->buf, CLIENT_BUFSIZE);
 	return (r);
 }
 
@@ -69,7 +70,7 @@ int 	zappy_farmer(zappy_client_t *client)
 					char	buf[256] = {0};
 	
 					// on a recupere l'inventaire donc on le broadcast
-					snprintf(buf, 256, "broadcast %s", client->buf);
+					snprintf(buf, 256, "broadcast %s", client->inventory);
 					r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 					if (r == 0) {
 						// une fois broadcast on reprend le loot ou le look

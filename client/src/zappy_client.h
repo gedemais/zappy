@@ -125,6 +125,7 @@ typedef struct zappy_client_s
 	int					socket;
     struct sockaddr_in	sockaddr;
 	uint8_t				buf[CLIENT_BUFSIZE];
+	uint8_t				inventory[CLIENT_BUFSIZE];
 	int					pos_x; // Absolute position, unused ?
 	int					pos_y; // Absolute position, unused ?
 	uint8_t				vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
