@@ -1,8 +1,7 @@
 #ifndef WORLD_H
 # define WORLD_H
 
-// Percentage of cases supposed to contain loot at every moment
-# define LOOT_DENSITY 10
+# define LOOT_DENSITY 3
 // Percentage of loot pieces destined to be food
 # define FOOD_DENSITY 20
 
@@ -65,6 +64,7 @@ typedef struct	s_world
 	t_dynarray	teams; // Dynamic array storing playing teams
 	t_team		pending; // Dynamic array storing authentication-processing players
 	t_tile		**map; // 2D map of tiles representing the game board
+	uint32_t	food_items;
 }				t_world;
 
 #endif

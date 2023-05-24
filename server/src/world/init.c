@@ -24,7 +24,7 @@ static uint8_t	fill_resources(t_env *env)
 	uint8_t		code;
 	const int	nb_tiles = env->settings.map_width * env->settings.map_height;
 
-	if ((code = spawn_loot_pieces(env, (LOOT_DENSITY / 100.0f) * nb_tiles)) != ERR_NONE)
+	if ((code = spawn_loot_pieces(env, LOOT_DENSITY * nb_tiles)) != ERR_NONE)
 		return (code);
 
 	return (ERR_NONE);

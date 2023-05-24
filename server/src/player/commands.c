@@ -61,6 +61,13 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 	uint8_t	loot = 255;
 	bool	found = false;
 
+	FLUSH_RESPONSE
+	if (env->buffers.cmd_params[0] == NULL)
+	{
+		strcat(env->buffers.response, "ko");
+		return (ERR_NONE);
+	}
+
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
 		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
 			loot = i;
@@ -73,7 +80,6 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 			return (ERR_MALLOC_FAILED);
 	}
 
-	FLUSH_RESPONSE
 	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
 		strcat(env->buffers.response, "ko");
 	else
@@ -90,6 +96,12 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
 	uint8_t	loot = 255;
+
+	if (env->buffers.cmd_params[0] == NULL)
+	{
+		strcat(env->buffers.response, "ko");
+		return (ERR_NONE);
+	}
 
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
 		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
@@ -172,10 +184,16 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	uint8_t	code;
 	(void)send_response;
 
+	FLUSH_RESPONSE
+	if (env->buffers.cmd_params[0] == NULL)
+	{
+		strcat(env->buffers.response, "ko");
+		response(env, p);
+	}
+
 	if ((code = deliver_messages(env, p)) != ERR_NONE)
 		return (code);
 
-	FLUSH_RESPONSE
 	strcat(env->buffers.response, "ok");
 	response(env, p);
 	return (ERR_NONE);
