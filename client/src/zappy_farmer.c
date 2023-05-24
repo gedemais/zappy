@@ -16,18 +16,20 @@ int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
 
 int		zappy_farmer_broadcast(zappy_client_t *client, int option)
 {
+	fprintf(stderr, "%s\n", __func__);
 	int	r = 0;
 
 	switch (option)
 	{
-		case (ZAPPY_FARMER_BROADCAST):
-			fprintf(stderr, "broadcasting inventory\n");
+		case (BROADCAST_INVENTORY_SEND): {
 			r = zappy_client_transceive(client, broadcast_cmd, strlen(broadcast_cmd), zappy_client_broadcast_inventory_cb);
-			printf("r: %d\n", r);
+
+			printf("client transceive - r: %d\n", r);
 			if (r == 0) {
 				fprintf(stderr, "%s\n", client->buf);
 			}
 			break ;
+		}
 		default:
 			break ;
 	}
@@ -69,16 +71,16 @@ int 	zappy_farmer(zappy_client_t *client)
 									client->vision_map[i * CASE_ELEMENTS + j]--;
 									fprintf(stderr, "%s: move done pos=%d resources={%s}\n", __func__, client->relative_pos, case_ressources[j]);
 								}
+
 								// if (r == 0) {
 								// 	char buf[64] = {0};
 								// 	snprintf(buf, 64, "prend %s",
 								// 			case_ressources[j]);
 								// 	r = zappy_client_transceive(client, buf, strlen(buf), NULL);
 								// }
-								if (r == 0) {
-									// si on ramasse un loot on broadcast linventaire
-									r = zappy_farmer_broadcast(client, ZAPPY_FARMER_BROADCAST);
-								}
+
+								// si on ramasse un loot on broadcast linventaire
+								client->task = ZAPPY_FARMER_BROADCAST;
 							}
 						}
 					}
@@ -88,7 +90,8 @@ int 	zappy_farmer(zappy_client_t *client)
 					}
 			  	}
 				case (ZAPPY_FARMER_BROADCAST): {
-
+					zappy_farmer_broadcast(client, BROADCAST_INVENTORY_SEND);
+					client->task = ZAPPY_FARMER_LOOT;
 				}
 				default:
 					break ;
