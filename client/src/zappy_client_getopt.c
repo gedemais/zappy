@@ -36,7 +36,7 @@ static int client_help(zappy_client_opt_t *opt, char *arg)
 {
 	(void)opt;
 	(void)arg;
-	printf("Usage: zappy_client --ip [ip] --port [port]\n");
+	printf("Usage: zappy_client -p [port] -n [team] [-h [ip]]\n");
 	for (int i = 0 ; flags_help[i]; i++) {
 		printf("%s\n", flags_help[i]);
 	}

@@ -12,8 +12,8 @@ $(SERVER) :
 		ln -sf server/server zappy_server
 
 $(CLIENT) :
-		make -C clientc
-		ln -sf clientc/client zappy_client
+		make -C client
+		ln -sf client/client zappy_client
 
 $(GRAPHIC) :
 		ln -sf graphical_client/client_v0.py zappy_graphical_client
@@ -21,11 +21,11 @@ $(GRAPHIC) :
 
 clean :
 	make -C server clean
-	make -C clientc clean
+	make -C client clean
 
 fclean :
 	make -C server fclean
-	make -C clientc fclean
+	make -C client fclean
 	rm -f $(SERVER) $(CLIENT) $(GRAPHIC)
 
 re: fclean all

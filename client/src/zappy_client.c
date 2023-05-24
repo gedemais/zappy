@@ -2,17 +2,11 @@
 #include "zappy_client.h"
 #include <stdlib.h>
 
-//static char see_cmd[]			= "voir\n";
-static char advance_cmd[]		= "avance\n";
-static char turn_right_cmd[]	= "droite\n";
-//static char turn_left_cmd[]	= "gauche\n";
-//static char inventory_cmd[]	= "inventaire\n";
-//static char kick_cmd[]		= "expulse\n";
-//static char incantation_cmd[]	= "incantation\n";
-//static char fork_cmd[]		= "fork\n";
-//static char connect_nbr_cmd[]	= "connect_nbr\n";
+// Zappy farmer, the happy-go-lucky farmer
+int zappy_farmer(zappy_client_t *client);
 
-int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
+/* connection function, it handle all TCP stuff and Zappy connection protocol */
+static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 {
 	int r = 0;
 	int len = 0;
@@ -104,11 +98,12 @@ int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 	return (r);
 }
 
-int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len)
+int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, char *expected_rsp)
 {
 	int r = 0;
 
 	bzero(client->buf, 4096);
+	fprintf(stderr, "%s: cmd = {%s} pos=%d orientation=%d\n", __func__, cmd, client->relative_pos, client->relative_orientation);
 	if (send(client->socket, cmd, len, 0) < 0) {
 		perror("send");
 		r = -1;
@@ -119,30 +114,74 @@ int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len)
 			r = -1;
 		}
 	}
+	if (r == 0)
+	{
+		if (expected_rsp)
+		{
+			if (!!memcmp(client->buf, expected_rsp, strlen(expected_rsp)))
+			{
+				r = -1;
+			}
+		}
+	}
 	fprintf(stderr, "%s: client->buf = {%s}\n", __func__, client->buf);
 	return (r);
 }
 
-int	zappy_client_fsm(zappy_client_t *client)
+int	zappy_client_parse_see(zappy_client_t *client)
 {
 	int r = 0;
-	bool run = true;
+	int i = 0;
+	int c = 0;
 
-	while (run)
+	bzero(client->vision_map, VISION_MAP_MAX * CASE_ELEMENTS);
+	client->relative_pos = 0;
+	client->relative_orientation = 0;
+	if (client->buf[i++] != '{') {
+		r = -1;
+	}
+	while (r == 0 && i < (int)strlen((char*)client->buf))
 	{
-		// r = zappy_client_see(client);
-		//for (int i = 0 ; i < 16 ; i++) {
-		//	fprintf(stderr, "vision[%d] = %02x\n", i, client->vision_map[i]);
-		//}
-		r = zappy_client_transceive(client, advance_cmd, strlen(advance_cmd));
-		if (r == 0) {
-			r = zappy_client_transceive(client, turn_right_cmd, strlen(turn_right_cmd));
+		if (client->buf[i] == '}') {
+			break ;
 		}
-		if (r != 0) {
-			run = false;
+		else if (client->buf[i] == ',') {
+			c++;
 		}
+		else if (client->buf[i] != ' ')
+		{
+			bool b = false;
+			for (int j = 0 ; case_ressources[j] ; j++) {
+				if (!memcmp(case_ressources[j],
+							(char*)&client->buf[i], strlen(case_ressources[j]))) {
+					b = true;
+					client->vision_map[c * CASE_ELEMENTS + j]++;
+					i += (int)strlen(case_ressources[j]);
+				}
+			}
+			if (b == false)
+			{
+				r = -1;
+			}
+		}
+		i++;
 	}
 	return (r);
+}
+
+void zappy_debug_print_vision_map(zappy_client_t *client)
+{
+	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
+		fprintf(stderr, "CASE[%3d] : L:%d D:%d S:%d M:%d P:%d T:%d F:%d P:%d\n", i,
+				client->vision_map[i * CASE_ELEMENTS],
+				client->vision_map[i * CASE_ELEMENTS + 1],
+				client->vision_map[i * CASE_ELEMENTS + 2],
+				client->vision_map[i * CASE_ELEMENTS + 3],
+				client->vision_map[i * CASE_ELEMENTS + 4],
+				client->vision_map[i * CASE_ELEMENTS + 5],
+				client->vision_map[i * CASE_ELEMENTS + 6],
+				client->vision_map[i * CASE_ELEMENTS + 7]);
+	}
 }
 
 int zappy_client(zappy_client_opt_t *opt)
@@ -158,9 +197,9 @@ int zappy_client(zappy_client_opt_t *opt)
 	{
 		r = zappy_client_connect(opt, &client);
 
-		fprintf(stderr, "client_connected r=%d pos_x=%d pos_y=%d\n", r, client.pos_x, client.pos_y);
 		if (r == 0) {
-			r = zappy_client_fsm(&client);
+			fprintf(stderr, "client_connected pos_x=%d pos_y=%d\n", client.pos_x, client.pos_y);
+			r = zappy_farmer(&client);
 		}
 		close(client.socket);
 	}

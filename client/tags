@@ -1,0 +1,91 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/mnt/nfs/homes/lmariott/zappy_2105/client/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+$(NAME)	Makefile	/^$(NAME): $(OBJ)$/;"	t
+CASE_ELEMENTS	src/zappy_client.h	/^#define CASE_ELEMENTS	/;"	d
+CASE_ELEM_DERAUMERE	src/zappy_client.h	/^#define CASE_ELEM_DERAUMERE	/;"	d
+CASE_ELEM_FOOD	src/zappy_client.h	/^#define CASE_ELEM_FOOD	/;"	d
+CASE_ELEM_LINEMATE	src/zappy_client.h	/^#define CASE_ELEM_LINEMATE	/;"	d
+CASE_ELEM_MENDIANE	src/zappy_client.h	/^#define CASE_ELEM_MENDIANE	/;"	d
+CASE_ELEM_PHIRAS	src/zappy_client.h	/^#define CASE_ELEM_PHIRAS	/;"	d
+CASE_ELEM_PLAYER	src/zappy_client.h	/^#define CASE_ELEM_PLAYER	/;"	d
+CASE_ELEM_SIBUR	src/zappy_client.h	/^#define CASE_ELEM_SIBUR	/;"	d
+CASE_ELEM_THYSTAME	src/zappy_client.h	/^#define CASE_ELEM_THYSTAME	/;"	d
+CC	Makefile	/^CC ?= gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS ?= -Wall -Wextra -Werror -g3$/;"	m
+CLIENT_BUFSIZE	src/zappy_client.h	/^#define CLIENT_BUFSIZE /;"	d
+NAME	Makefile	/^NAME = client$/;"	m
+OBJ	Makefile	/^OBJ = $(addprefix obj\/,$(SRC:.c=.o))$/;"	m
+ORIENTATION_BACK	src/zappy_client.h	/^#define ORIENTATION_BACK	/;"	d
+ORIENTATION_FRONT	src/zappy_client.h	/^#define ORIENTATION_FRONT	/;"	d
+ORIENTATION_LEFT	src/zappy_client.h	/^#define ORIENTATION_LEFT	/;"	d
+ORIENTATION_RIGHT	src/zappy_client.h	/^#define ORIENTATION_RIGHT	/;"	d
+SRC	Makefile	/^SRC = main.c \\$/;"	m
+VISION_MAP_MAX	src/zappy_client.h	/^#define VISION_MAP_MAX	/;"	d
+ZAPPY_CLIENT_H	src/zappy_client.h	/^# define ZAPPY_CLIENT_H$/;"	d
+ZAPPY_CLIENT_MOVE_H	src/zappy_client_move.h	/^# define ZAPPY_CLIENT_MOVE_H$/;"	d
+ZAPPY_FARMER_LOOK	src/zappy_farmer.c	/^#define ZAPPY_FARMER_LOOK /;"	d	file:
+ZAPPY_FARMER_LOOT	src/zappy_farmer.c	/^#define ZAPPY_FARMER_LOOT /;"	d	file:
+ZAPPY_GETOPT_H	src/zappy_client_getopt.h	/^# define ZAPPY_GETOPT_H$/;"	d
+advance_cmd	src/zappy_client.h	/^static char advance_cmd[]		= "avance\\n";$/;"	v	typeref:typename:char[]
+all	Makefile	/^all: $(NAME)$/;"	t
+buf	src/zappy_client.h	/^	uint8_t				buf[CLIENT_BUFSIZE];$/;"	m	struct:zappy_client_s	typeref:typename:uint8_t[]
+case_ressources	src/zappy_client.h	/^static char *case_ressources[] = {$/;"	v	typeref:typename:char * []
+clean	Makefile	/^clean:$/;"	t
+client_help	src/zappy_client_getopt.c	/^static int client_help(zappy_client_opt_t *opt, char *arg)$/;"	f	typeref:typename:int	file:
+client_ip	src/zappy_client_getopt.c	/^static int client_ip(zappy_client_opt_t *opt, char *arg)$/;"	f	typeref:typename:int	file:
+client_port	src/zappy_client_getopt.c	/^static int client_port(zappy_client_opt_t *opt, char *arg)$/;"	f	typeref:typename:int	file:
+client_team	src/zappy_client_getopt.c	/^static int client_team(zappy_client_opt_t *opt, char *arg)$/;"	f	typeref:typename:int	file:
+connect_nbr_cmd	src/zappy_client.h	/^static char connect_nbr_cmd[]	= "connect_nbr\\n";$/;"	v	typeref:typename:char[]
+fclean	Makefile	/^fclean: clean$/;"	t
+flags_handler	src/zappy_client_getopt.c	/^static int	(*flags_handler[])(zappy_client_opt_t *, char *) = {$/;"	v	typeref:typename:int (* [])(zappy_client_opt_t *,char *)	file:
+flags_help	src/zappy_client_getopt.c	/^static char	*flags_help[] = {$/;"	v	typeref:typename:char * []	file:
+flags_list	src/zappy_client_getopt.c	/^static char 	*flags_list[] = {$/;"	v	typeref:typename:char * []	file:
+fork_cmd	src/zappy_client.h	/^static char fork_cmd[]		= "fork\\n";$/;"	v	typeref:typename:char[]
+incantation_cmd	src/zappy_client.h	/^static char incantation_cmd[]	= "incantation\\n";$/;"	v	typeref:typename:char[]
+inventory_cmd	src/zappy_client.h	/^static char inventory_cmd[]	= "inventaire\\n";$/;"	v	typeref:typename:char[]
+kick_cmd	src/zappy_client.h	/^static char kick_cmd[]		= "expulse\\n";$/;"	v	typeref:typename:char[]
+main	src/main.c	/^int main(int ac, char **av)$/;"	f	typeref:typename:int
+obj/%.o	Makefile	/^obj\/%.o:src\/%.c $(HDR) Makefile$/;"	t
+pos_x	src/zappy_client.h	/^	int					pos_x;$/;"	m	struct:zappy_client_s	typeref:typename:int
+pos_y	src/zappy_client.h	/^	int					pos_y;$/;"	m	struct:zappy_client_s	typeref:typename:int
+re	Makefile	/^re: fclean all$/;"	t
+relative_orientation	src/zappy_client.h	/^	uint8_t				relative_orientation; \/\/ Relative orientation, always start at 0 when see$/;"	m	struct:zappy_client_s	typeref:typename:uint8_t
+relative_pos	src/zappy_client.h	/^	uint8_t				relative_pos; \/\/ Relative position for vision map$/;"	m	struct:zappy_client_s	typeref:typename:uint8_t
+see_cmd	src/zappy_client.h	/^static char see_cmd[]			= "voir\\n";$/;"	v	typeref:typename:char[]
+server_addr	src/zappy_client_getopt.h	/^	char			*server_addr;$/;"	m	struct:zappy_client_opt_s	typeref:typename:char *
+server_port	src/zappy_client_getopt.h	/^	uint16_t		server_port;$/;"	m	struct:zappy_client_opt_s	typeref:typename:uint16_t
+sockaddr	src/zappy_client.h	/^    struct sockaddr_in	sockaddr;$/;"	m	struct:zappy_client_s	typeref:struct:sockaddr_in
+socket	src/zappy_client.h	/^	int					socket;$/;"	m	struct:zappy_client_s	typeref:typename:int
+team_name	src/zappy_client_getopt.h	/^	char			*team_name;$/;"	m	struct:zappy_client_opt_s	typeref:typename:char *
+turn_left_cmd	src/zappy_client.h	/^static char turn_left_cmd[]	= "gauche\\n";$/;"	v	typeref:typename:char[]
+turn_right_cmd	src/zappy_client.h	/^static char turn_right_cmd[]	= "droite\\n";$/;"	v	typeref:typename:char[]
+vision_map	src/zappy_client.h	/^	uint8_t				vision_map[VISION_MAP_MAX * CASE_ELEMENTS];$/;"	m	struct:zappy_client_s	typeref:typename:uint8_t[]
+vision_row_center	src/zappy_client.h	/^static int vision_row_center[] = {$/;"	v	typeref:typename:int[]
+vision_row_size	src/zappy_client.h	/^static int vision_row_size[] = {$/;"	v	typeref:typename:int[]
+vision_row_start	src/zappy_client.h	/^static int vision_row_start[] = {$/;"	v	typeref:typename:int[]
+zappy_client	src/zappy_client.c	/^int zappy_client(zappy_client_opt_t *opt)$/;"	f	typeref:typename:int
+zappy_client_connect	src/zappy_client.c	/^int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_fsm	src/zappy_client.c	/^int	zappy_client_fsm(zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_getopt	src/zappy_client_getopt.c	/^int	zappy_client_getopt(int ac, char **av, zappy_client_opt_t *opt)$/;"	f	typeref:typename:int
+zappy_client_move	src/zappy_client_move.c	/^int			zappy_client_move(zappy_client_t *client, int relative_pos_target)$/;"	f	typeref:typename:int
+zappy_client_move_forward	src/zappy_client_move.c	/^int			zappy_client_move_forward(zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_move_left	src/zappy_client_move.c	/^int			zappy_client_move_left(zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_move_right	src/zappy_client_move.c	/^int			zappy_client_move_right(zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_opt_s	src/zappy_client_getopt.h	/^typedef struct zappy_client_opt_s$/;"	s
+zappy_client_opt_t	src/zappy_client_getopt.h	/^} zappy_client_opt_t;$/;"	t	typeref:struct:zappy_client_opt_s
+zappy_client_parse_see	src/zappy_client.c	/^int	zappy_client_parse_see(zappy_client_t *client)$/;"	f	typeref:typename:int
+zappy_client_s	src/zappy_client.h	/^typedef struct zappy_client_s$/;"	s
+zappy_client_set_orientation	src/zappy_client_move.c	/^int			zappy_client_set_orientation(zappy_client_t *client, uint8_t orientation)$/;"	f	typeref:typename:int
+zappy_client_t	src/zappy_client.h	/^} zappy_client_t;$/;"	t	typeref:struct:zappy_client_s
+zappy_client_transceive	src/zappy_client.c	/^int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len)$/;"	f	typeref:typename:int
+zappy_debug_print_vision_map	src/zappy_client.c	/^void zappy_debug_print_vision_map(zappy_client_t *client)$/;"	f	typeref:typename:void
+zappy_farmer	src/zappy_farmer.c	/^int zappy_farmer(zappy_client_t *client)$/;"	f	typeref:typename:int

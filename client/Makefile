@@ -7,7 +7,9 @@ CFLAGS ?= -Wall -Wextra -Werror -g3
 
 SRC = main.c \
 	  	zappy_client.c \
-	  	zappy_client_getopt.c
+	  	zappy_client_getopt.c \
+		zappy_client_move.c \
+		zappy_farmer.c
 
 OBJ = $(addprefix obj/,$(SRC:.c=.o))
 
