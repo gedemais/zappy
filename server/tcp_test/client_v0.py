@@ -6,7 +6,7 @@ port = 8080                   # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 
-moves = ['avance\n', 'droite\n', 'broadcast bonjour\n']
+moves = ['avance\n', 'droite\n', 'voir\n']
 
 print('connected')
 reply = s.recv(1024).decode('utf-8')

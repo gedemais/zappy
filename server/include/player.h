@@ -31,6 +31,21 @@ enum			e_directions
 	DIR_MAX
 };
 
+
+// Directions identifiers enumeration
+enum			e_broadcast_directions
+{
+	BDIR_NORTH,
+	BDIR_NORTH_WEST,
+	BDIR_WEST,
+	BDIR_SOUTH_WEST,
+	BDIR_SOUTH,
+	BDIR_SOUTH_EAST,
+	BDIR_EAST,
+	BDIR_NORTH_EAST,
+	BDIR_MAX
+};
+
 // Player's authentication steps identifiers
 enum	e_auth_steps
 {

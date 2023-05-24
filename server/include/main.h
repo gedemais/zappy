@@ -135,8 +135,7 @@ void		kick_players(t_env *env, int16_t tile_x, int16_t tile_y, uint16_t to_kick)
 
 // Broadcast command
 uint8_t		cmd_broadcast(t_env *env, t_player *p, bool send_response);
-uint8_t		build_message_from_params(t_env *env);
-uint8_t		deliver_message(t_env *env, t_player *p);
+uint8_t		deliver_messages(t_env *env, t_player *p);
 
 /* * * * * * * * * * * * * * * * * */
 

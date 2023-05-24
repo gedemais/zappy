@@ -172,8 +172,7 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	uint8_t	code;
 	(void)send_response;
 
-	if ((code = build_message_from_params(env)) != ERR_NONE
-		|| (code = deliver_message(env, p)) != ERR_NONE)
+	if ((code = deliver_messages(env, p)) != ERR_NONE)
 		return (code);
 
 	FLUSH_RESPONSE
