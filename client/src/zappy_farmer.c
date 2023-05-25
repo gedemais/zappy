@@ -21,7 +21,7 @@ int 	zappy_farmer(zappy_client_t *client)
 			switch (client->task)
 			{
 				case (ZAPPY_FARMER_LOOK):
-					r = zappy_client_transceive(client, see_cmd, strlen(see_cmd), zappy_client_see_cb);
+					r = zappy_client_transceive(client, see_cmd, strlen(see_cmd), zappy_voir_cb);
 					if (r == 0)
 					{
 						client->task = ZAPPY_FARMER_LOOKWAIT;
@@ -47,12 +47,12 @@ int 	zappy_farmer(zappy_client_t *client)
 								// 	bzero(buf, FARMER_BUF_SIZE);
 								// 	strcat(buf, "prend ");
 								// 	strcat(buf, case_ressources[j]);
-								// 	r = zappy_client_transceive(client, buf, FARMER_BUF_SIZE, zappy_client_take_cb);
+								// 	r = zappy_client_transceive(client, buf, FARMER_BUF_SIZE, zappy_prend_cb);
 								// }
 
 								// si on ramasse un loot recupere l'inventaire pour le broadcast
 								if (r == 0) {
-									r = zappy_client_transceive(client, "inventaire", strlen("inventaire"), zappy_client_broadcast_inventory_cb);
+									r = zappy_client_transceive(client, "inventaire", strlen("inventaire"), zappy_inventaire_cb);
 								}
 							}
 						}
@@ -68,7 +68,7 @@ int 	zappy_farmer(zappy_client_t *client)
 						bzero(buf, FARMER_BUF_SIZE);
 						strcat(buf, "broadcast ");
 						strcat(buf, client->inventory);
-						r = zappy_client_transceive(client, buf, FARMER_BUF_SIZE, zappy_client_broadcast_send_cb);
+						r = zappy_client_transceive(client, buf, FARMER_BUF_SIZE, zappy_broadcast_cb);
 					}
 					break ;
 				default:

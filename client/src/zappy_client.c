@@ -174,14 +174,23 @@ int		zappy_client_receipt(zappy_client_t *client)
 			}
 			if (r != -1)
 			{
-				// if (!memcmp(client->buf, "mort", strlen("mort"))) {
-				// 	// mort
-				// }
+				// ================================================================
+				// permet de gerer les responses de l'API sur les call des callback
+				// ================================================================
+
+				if (!memcmp(client->buf, "mort", strlen("mort"))) {
+					// mort
+					// => kill le client
+				}
+				else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
+					// deplacement <K> (K : direction dou provient le joueur)
+					// => deplacer le joueur dans la direction inverse
+				}
 				// else if (!memcmp(client->buf, "voir", strlen("voir"))) {
 				// 	// voir {case1,phiras sibur sibur,...}
 				// }
 				// else if (!memcmp(client->buf, "inventaire", strlen("inventaire"))) {
-				// 	// inventaire {phiras n,sibur n,...},<K> (K : tick serveur à vivre)
+				// 	// inventaire {phiras n,sibur n,...} tick <K> lvl <V> (K : tick serveur à vivre, V : niveau actuel)
 				// }
 				// else if (!memcmp(client->buf, "prend", strlen("prend"))) {
 				// 	// prend ok/ko
@@ -193,20 +202,21 @@ int		zappy_client_receipt(zappy_client_t *client)
 				// 	// expulse ok/ko
 				// }
 				// else if (!memcmp(client->buf, "message", strlen("message"))) {
-				// 	// message <K>,<texte> (K : case d où provient le son)
+				// 	// message <K> texte <texte> (K : case d où provient le son)
 				// }
 				// else if (!memcmp(client->buf, "incantation", strlen("incantation"))) {
-				// 	// incantation ok/ko,<K> (K : niveau actuel)
+				// 	// incantation ok/ko lvl <K> (K : niveau actuel)
 				// }
 				// else if (!memcmp(client->buf, "fork", strlen("fork"))) {
 				// 	// fork ok/ko
 				// }
 				// else if (!memcmp(client->buf, "connect_nbr", strlen("connect_nbr"))) {
-				// 	// connect_nbr <K>,<V> (K : slot restant, V : slot utilisé)
+				// 	// connect_nbr remain <K> used <V> (K : slot restant, V : slot utilisé)
+				// 	// => remain permet de savoir si il faut hatch - used permet de connaitre l'id
 				// }
 				// else
 				// {
-				// 	// deplacement
+				// 	// avance - droite - gauche
 				// }
 				zappy_handle_server_reponse(client);
 			}

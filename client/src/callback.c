@@ -14,26 +14,31 @@ int			zappy_client_move_cb(zappy_client_t *client)
 
 // ============================================================================
 
-int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
+int		zappy_avance_cb(zappy_client_t *client)
 {
+	(void)client;
+
 	int		r = 0;
 
-	client->task = ZAPPY_FARMER_BROADCAST;
-	memcpy(client->inventory, client->buf, CLIENT_BUFSIZE);
-	return (r);
-}
-
-int		zappy_client_broadcast_send_cb(zappy_client_t *client)
-{
-	int		r = 0;
-
-	client->task = ZAPPY_FARMER_LOOT;
+	// fprintf(stderr, "%s\n", __func__);
 	return (r);
 }
 
 // ============================================================================
 
-int		zappy_client_take_cb(zappy_client_t *client)
+int		zappy_droite_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_gauche_cb(zappy_client_t *client)
 {
 	(void)client;
 
@@ -104,7 +109,8 @@ static void	zappy_debug_print_vision_map(zappy_client_t *client)
 	}
 }
 
-int		zappy_client_see_cb(zappy_client_t *client)
+
+int		zappy_voir_cb(zappy_client_t *client)
 {
 	int r = 0;
 
@@ -114,6 +120,102 @@ int		zappy_client_see_cb(zappy_client_t *client)
 		client->task = ZAPPY_FARMER_LOOT;
 		zappy_debug_print_vision_map(client);
 	}
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_inventaire_cb(zappy_client_t *client)
+{
+	int	r = 0;
+
+	client->task = ZAPPY_FARMER_BROADCAST;
+	memcpy(client->inventory, client->buf, CLIENT_BUFSIZE);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_prend_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_pose_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_expulse_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_broadcast_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	client->task = ZAPPY_FARMER_LOOT;
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_incantation_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_fork_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
+int		zappy_connect_nbr_cb(zappy_client_t *client)
+{
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
 	return (r);
 }
 

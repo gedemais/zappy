@@ -136,6 +136,8 @@ typedef struct zappy_client_s
 											  // The absolute orientation is not known of client
 											  // At each "see" the orientation is back to 0
 
+	uint8_t				id, lvl;
+
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
 	uint8_t				cmd_idx; // idx used to rotate cmds
 	uint8_t				cmd_stack_size; // nb of elements currently in cmds
@@ -150,11 +152,22 @@ int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_cl
 int	zappy_client_see_cb(zappy_client_t *client);
 int zappy_client_receipt(zappy_client_t *client);
 
+
 // callback
-int		zappy_client_take_cb(zappy_client_t *client);
-int		zappy_client_broadcast_send_cb(zappy_client_t *client);
-int		zappy_client_broadcast_inventory_cb(zappy_client_t *client);
-int		zappy_client_see_cb(zappy_client_t *client);
+int		zappy_client_move_cb(zappy_client_t *client);
+
+int		zappy_avance_cb(zappy_client_t *client);
+int		zappy_droite_cb(zappy_client_t *client);
+int		zappy_gauche_cb(zappy_client_t *client);
+int		zappy_voir_cb(zappy_client_t *client);
+int		zappy_inventaire_cb(zappy_client_t *client);
+int		zappy_prend_cb(zappy_client_t *client);
+int		zappy_pose_cb(zappy_client_t *client);
+int		zappy_expulse_cb(zappy_client_t *client);
+int		zappy_broadcast_cb(zappy_client_t *client);
+int		zappy_incantation_cb(zappy_client_t *client);
+int		zappy_fork_cb(zappy_client_t *client);
+int		zappy_connect_nbr_cb(zappy_client_t *client);
 
 
 
