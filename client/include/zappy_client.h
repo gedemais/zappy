@@ -1,12 +1,14 @@
 #ifndef ZAPPY_CLIENT_H
 # define ZAPPY_CLIENT_H
 
+
 #include <stdint.h>
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "zappy_client_getopt.h"
 
@@ -123,9 +125,9 @@ enum	e_zappy_farmer {
 typedef struct zappy_client_s
 {
 	int					socket;
-    struct sockaddr_in	sockaddr;
+	struct sockaddr_in	sockaddr;
 	uint8_t				buf[CLIENT_BUFSIZE];
-	uint8_t				inventory[CLIENT_BUFSIZE];
+	char				inventory[CLIENT_BUFSIZE];
 	int					pos_x; // Absolute position, unused ?
 	int					pos_y; // Absolute position, unused ?
 	uint8_t				vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
@@ -144,10 +146,16 @@ typedef struct zappy_client_s
 int zappy_client(zappy_client_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
 int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
-/* parse function for the see response TODO: inventory */
-int	zappy_client_parse_see(zappy_client_t *client);
-void zappy_debug_print_vision_map(zappy_client_t *client);
+
 int	zappy_client_see_cb(zappy_client_t *client);
 int zappy_client_receipt(zappy_client_t *client);
+
+// callback
+int		zappy_client_take_cb(zappy_client_t *client);
+int		zappy_client_broadcast_send_cb(zappy_client_t *client);
+int		zappy_client_broadcast_inventory_cb(zappy_client_t *client);
+int		zappy_client_see_cb(zappy_client_t *client);
+
+
 
 #endif

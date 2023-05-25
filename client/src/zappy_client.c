@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // Zappy farmer, the happy-go-lucky farmer
-int zappy_farmer(zappy_client_t *client);
+int	zappy_farmer(zappy_client_t *client);
 
 /* connection function, it handle all TCP stuff and Zappy connection protocol */
 static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
@@ -98,7 +98,7 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 	return (r);
 }
 
-int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb)
+int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb)
 {
 	int r = 0;
 
@@ -112,7 +112,7 @@ int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_cl
 		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cb = cb;
 		client->cmd_stack_size++;
 		bzero(client->buf, 4096); // TODO LMA
-		fprintf(stderr, "%s send %s\n", __func__, cmd);
+		fprintf(stderr, "%s: send %s\n", __func__, cmd);
 		if (send(client->socket, cmd, len, 0) < 0) {
 			perror("send");
 			r = -1;
@@ -121,76 +121,7 @@ int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_cl
 	return (r);
 }
 
-int	zappy_client_parse_see(zappy_client_t *client)
-{
-	int r = 0;
-	int i = 0;
-	int c = 0;
-
-	bzero(client->vision_map, VISION_MAP_MAX * CASE_ELEMENTS);
-	client->relative_pos = 0;
-	client->relative_orientation = 0;
-	if (client->buf[i++] != '{') {
-		r = -1;
-	}
-	while (r == 0 && i < (int)strlen((char*)client->buf))
-	{
-		if (client->buf[i] == '}') {
-			break ;
-		}
-		else if (client->buf[i] == ',') {
-			c++;
-		}
-		else if (client->buf[i] != ' ')
-		{
-			bool b = false;
-			for (int j = 0 ; case_ressources[j] ; j++) {
-				if (!memcmp(case_ressources[j],
-							(char*)&client->buf[i], strlen(case_ressources[j]))) {
-					b = true;
-					client->vision_map[c * CASE_ELEMENTS + j]++;
-					i += (int)strlen(case_ressources[j]);
-				}
-			}
-			if (b == false)
-			{
-				r = -1;
-			}
-		}
-		i++;
-	}
-	return (r);
-}
-
-int	zappy_client_see_cb(zappy_client_t *client)
-{
-	int r = 0;
-
-	r = zappy_client_parse_see(client);
-	if (r == 0)
-	{
-		client->task = ZAPPY_FARMER_LOOT;
-		zappy_debug_print_vision_map(client);
-	}
-	return (r);
-}
-
-void zappy_debug_print_vision_map(zappy_client_t *client)
-{
-	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
-		fprintf(stderr, "CASE[%3d] : L:%d D:%d S:%d M:%d P:%d T:%d F:%d P:%d\n", i,
-				client->vision_map[i * CASE_ELEMENTS],
-				client->vision_map[i * CASE_ELEMENTS + 1],
-				client->vision_map[i * CASE_ELEMENTS + 2],
-				client->vision_map[i * CASE_ELEMENTS + 3],
-				client->vision_map[i * CASE_ELEMENTS + 4],
-				client->vision_map[i * CASE_ELEMENTS + 5],
-				client->vision_map[i * CASE_ELEMENTS + 6],
-				client->vision_map[i * CASE_ELEMENTS + 7]);
-	}
-}
-
-int zappy_client(zappy_client_opt_t *opt)
+int		zappy_client(zappy_client_opt_t *opt)
 {
 	int				r = 0;
 	zappy_client_t	client = {0};
@@ -212,7 +143,21 @@ int zappy_client(zappy_client_opt_t *opt)
 	return (r);
 }
 
-int zappy_client_receipt(zappy_client_t *client)
+int		zappy_handle_server_reponse(zappy_client_t *client)
+{
+	int	r = 0;
+
+	fprintf(stderr, "client receipt : response (%s) received for cmd={%s}\n", client->buf, client->cmds[client->cmd_idx].cmd);
+	r = client->cmds[client->cmd_idx].cb(client);
+	if (r == 0) {
+		client->cmd_idx++;
+ 		client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
+		client->cmd_stack_size--;
+	}
+	return (r);
+}
+
+int		zappy_client_receipt(zappy_client_t *client)
 {
 	int r = 0;
 	fd_set				read_fd_set;
@@ -220,41 +165,56 @@ int zappy_client_receipt(zappy_client_t *client)
 
 	FD_ZERO(&read_fd_set);
 	FD_SET(client->socket, &read_fd_set);
-	if ((r = select(1024 + 1, &read_fd_set,
-					NULL, NULL, &timeout)) >= 0) // If select does not fail
+	if ((r = select(1024 + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
 		if (r > 0)
 		{
 			// Data available
-			if (recv(client->socket, client->buf,
-						CLIENT_BUFSIZE, 0) < 0) {
+			if (recv(client->socket, client->buf, CLIENT_BUFSIZE, 0) < 0) {
 				perror("recv");
 				r = -1;
 			}
 			if (r != -1)
 			{
-				if (!memcmp(client->buf, "mort", strlen("mort"))) {
-					fprintf(stderr, "death recv\n"); // TODO
-				}
-				else if (!memcmp(client->buf, "message", strlen("message"))) {
-					fprintf(stderr, "broadcasted msg recv\n"); // TODO
-				}
-				else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
-					fprintf(stderr, "kick recv\n"); // TODO
-				}
-				else
-				{
-					fprintf(stderr, "%s: response (%s) received for cmd={%s}\n", __func__, client->buf, client->cmds[client->cmd_idx].cmd);
-					r = client->cmds[client->cmd_idx].cb(client);
-					client->cmd_idx++;
- 					client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
-					client->cmd_stack_size--;
-				}
+				// if (!memcmp(client->buf, "mort", strlen("mort"))) {
+				// 	// mort
+				// }
+				// else if (!memcmp(client->buf, "voir", strlen("voir"))) {
+				// 	// voir {case1,phiras sibur sibur,...}
+				// }
+				// else if (!memcmp(client->buf, "inventaire", strlen("inventaire"))) {
+				// 	// inventaire {phiras n,sibur n,...},<K> (K : tick serveur à vivre)
+				// }
+				// else if (!memcmp(client->buf, "prend", strlen("prend"))) {
+				// 	// prend ok/ko
+				// }
+				// else if (!memcmp(client->buf, "pose", strlen("pose"))) {
+				// 	// pose ok/ko
+				// }
+				// else if (!memcmp(client->buf, "expulse", strlen("expulse"))) {
+				// 	// expulse ok/ko
+				// }
+				// else if (!memcmp(client->buf, "message", strlen("message"))) {
+				// 	// message <K>,<texte> (K : case d où provient le son)
+				// }
+				// else if (!memcmp(client->buf, "incantation", strlen("incantation"))) {
+				// 	// incantation ok/ko,<K> (K : niveau actuel)
+				// }
+				// else if (!memcmp(client->buf, "fork", strlen("fork"))) {
+				// 	// fork ok/ko
+				// }
+				// else if (!memcmp(client->buf, "connect_nbr", strlen("connect_nbr"))) {
+				// 	// connect_nbr <K>,<V> (K : slot restant, V : slot utilisé)
+				// }
+				// else
+				// {
+				// 	// deplacement
+				// }
+				zappy_handle_server_reponse(client);
 			}
 
 		}
-		else if (r < 0)
-		{
+		else if (r < 0) {
 			r = -1;
 		}
 	}
