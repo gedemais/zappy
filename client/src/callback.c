@@ -116,8 +116,8 @@ int		zappy_voir_cb(zappy_client_t *client)
 	{
 		client->task = ZAPPY_FARMER_LOOT;
 		zappy_debug_print_vision_map(client);
-		client->relative_pos = 0;
-		client->relative_orientation = 0;
+		client->player.relative_pos = 0;
+		client->player.relative_orientation = 0;
 	}
 	return (r);
 }

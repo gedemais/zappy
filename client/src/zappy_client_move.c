@@ -8,12 +8,12 @@ int			zappy_client_set_orientation(zappy_client_t *client, uint8_t orientation)
 
 	if (client->player.relative_orientation != orientation)
 	{
-		if (client->relative_orientation == ((orientation + 1) & 0x03))
+		if (client->player.relative_orientation == ((orientation + 1) & 0x03))
 		{
 			r = zappy_client_transceive(client, turn_left_cmd,
 								strlen(turn_left_cmd), zappy_client_move_cb);
 		}
-		else if (client->relative_orientation == ((orientation - 1) & 0x03))
+		else if (client->player.relative_orientation == ((orientation - 1) & 0x03))
 		{
 			r = zappy_client_transceive(client, turn_right_cmd,
 								strlen(turn_right_cmd), zappy_client_move_cb);
@@ -65,8 +65,8 @@ int			zappy_client_move_front(zappy_client_t *client)
 	}
 	if (r == 0)
 	{
-		int current_row = get_row_from_pos(client->relative_pos);
-		client->relative_pos += vision_row_size[current_row] + 1;
+		int current_row = get_row_from_pos(client->player.relative_pos);
+		client->player.relative_pos += vision_row_size[current_row] + 1;
 	}
 	return (r);
 }
@@ -123,14 +123,14 @@ int			zappy_client_move(zappy_client_t *client, int relative_pos_target)
 	}
 	if (r == 0)
 	{
-		current_row = get_row_from_pos(client->relative_pos);
+		current_row = get_row_from_pos(client->player.relative_pos);
 		target_row = get_row_from_pos(relative_pos_target);
 		if (target_row > current_row)
 		{
 			r = zappy_client_move_front(client);
 			if (r == 0)
 			{
-				current_row = get_row_from_pos(client->relative_pos);
+				current_row = get_row_from_pos(client->player.relative_pos);
 			}
 		}
 		if (r == 0 && target_row < current_row)
@@ -143,11 +143,11 @@ int			zappy_client_move(zappy_client_t *client, int relative_pos_target)
 	{
 		// Now we're in the same row as the target,
 		// so cmp and move left or right
-		if (client->relative_pos < relative_pos_target)
+		if (client->player.relative_pos < relative_pos_target)
 		{
 			r = zappy_client_move_right(client);
 		}
-		if (r == 0 && client->relative_pos > relative_pos_target)
+		if (r == 0 && client->player.relative_pos > relative_pos_target)
 		{
 			r = zappy_client_move_left(client);
 		}
