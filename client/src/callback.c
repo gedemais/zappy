@@ -93,9 +93,6 @@ static int		zappy_client_parse_see(zappy_client_t *client)
 
 static void	zappy_debug_print_vision_map(zappy_client_t *client)
 {
-	(void)client;
-	return ;
-
 	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
 		fprintf(stderr, "CASE[%3d] : L:%d D:%d S:%d M:%d P:%d T:%d F:%d P:%d\n", i,
 				client->player.vision_map[i * CASE_ELEMENTS],
@@ -119,6 +116,8 @@ int		zappy_voir_cb(zappy_client_t *client)
 	{
 		client->task = ZAPPY_FARMER_LOOT;
 		zappy_debug_print_vision_map(client);
+		client->relative_pos = 0;
+		client->relative_orientation = 0;
 	}
 	return (r);
 }

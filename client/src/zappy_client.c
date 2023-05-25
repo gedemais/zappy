@@ -112,7 +112,7 @@ int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_c
 		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cb = cb;
 		client->cmd_stack_size++;
 		bzero(client->buf, 4096); // TODO LMA
-		fprintf(stderr, "%s: send %s\n", __func__, cmd);
+		fprintf(stderr, "%s: send %s pos=%d orientation=%d\n", __func__, cmd, client->player.relative_pos, client->player.relative_orientation);
 		if (send(client->socket, cmd, len, 0) < 0) {
 			perror("send");
 			r = -1;
