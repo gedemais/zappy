@@ -9,7 +9,7 @@ int 	zappy_farmer(zappy_client_t *client)
 {
 	int		r = 0;
 	bool	run = true;
-	bool	found = false;
+	bool	found;
 	char	buf[FARMER_BUF_SIZE] = {0};
 
 	client->task = ZAPPY_FARMER_LOOK;
@@ -28,6 +28,7 @@ int 	zappy_farmer(zappy_client_t *client)
 					}
 					break ;
 				case (ZAPPY_FARMER_LOOT):
+					found = false;
 					for (int i = 0 ; !found && i < VISION_MAP_MAX ; i++) {
 						for (int j = 0 ; !found && j < CASE_ELEMENTS ; j++) {
 							if (client->vision_map[i * CASE_ELEMENTS + j] != 0)
