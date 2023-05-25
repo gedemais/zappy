@@ -1,2 +1,8 @@
 *.o
+*.a
+zappy_client
+client
+zappy_server
+server
+zappy_graphical_client
 graphical_client/__pycache__
