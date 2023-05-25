@@ -1,16 +1,6 @@
 
 #include "zappy_client.h"
 
-int			zappy_client_move_cb(zappy_client_t *client)
-{
-	int r = 0;
-
-	if (memcmp(client->buf, "ok", strlen("ok")))
-	{
-		r = -1;
-	}
-	return (r);
-}
 
 int			zappy_client_set_orientation(zappy_client_t *client, uint8_t orientation)
 {

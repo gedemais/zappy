@@ -1,7 +1,7 @@
 #include "zappy_client.h"
 #include "zappy_client_move.h"
 
-# define FARMER_BUF_SIZE	4096
+# define FARMER_BUF_SIZE	256
 
 
 /* the crazy farmer */
@@ -44,7 +44,9 @@ int 	zappy_farmer(zappy_client_t *client)
 								// }
 
 								// if (r == 0) {
-								// 	snprintf(buf, FARMER_BUF_SIZE, "prend %s", case_ressources[j]);
+								// 	bzero(buf, FARMER_BUF_SIZE);
+								// 	strcat(buf, "prend ");
+								// 	strcat(buf, case_ressources[j]);
 								// 	r = zappy_client_transceive(client, buf, FARMER_BUF_SIZE, zappy_client_take_cb);
 								// }
 

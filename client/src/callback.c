@@ -1,6 +1,19 @@
 #include "zappy_client.h"
 
 
+int			zappy_client_move_cb(zappy_client_t *client)
+{
+	int r = 0;
+
+	if (memcmp(client->buf, "ok", strlen("ok")))
+	{
+		r = -1;
+	}
+	return (r);
+}
+
+// ============================================================================
+
 int		zappy_client_broadcast_inventory_cb(zappy_client_t *client)
 {
 	int		r = 0;
@@ -17,6 +30,8 @@ int		zappy_client_broadcast_send_cb(zappy_client_t *client)
 	client->task = ZAPPY_FARMER_LOOT;
 	return (r);
 }
+
+// ============================================================================
 
 int		zappy_client_take_cb(zappy_client_t *client)
 {
