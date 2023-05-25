@@ -56,9 +56,9 @@ static int		zappy_client_parse_see(zappy_client_t *client)
 	int i = 0;
 	int c = 0;
 
-	bzero(client->vision_map, VISION_MAP_MAX * CASE_ELEMENTS);
-	client->relative_pos = 0;
-	client->relative_orientation = 0;
+	bzero(client->player.vision_map, VISION_MAP_MAX * CASE_ELEMENTS);
+	client->player.relative_pos = 0;
+	client->player.relative_orientation = 0;
 	if (client->buf[i++] != '{') {
 		r = -1;
 	}
@@ -77,7 +77,7 @@ static int		zappy_client_parse_see(zappy_client_t *client)
 				if (!memcmp(case_ressources[j],
 							(char*)&client->buf[i], strlen(case_ressources[j]))) {
 					b = true;
-					client->vision_map[c * CASE_ELEMENTS + j]++;
+					client->player.vision_map[c * CASE_ELEMENTS + j]++;
 					i += (int)strlen(case_ressources[j]);
 				}
 			}
@@ -98,14 +98,14 @@ static void	zappy_debug_print_vision_map(zappy_client_t *client)
 
 	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
 		fprintf(stderr, "CASE[%3d] : L:%d D:%d S:%d M:%d P:%d T:%d F:%d P:%d\n", i,
-				client->vision_map[i * CASE_ELEMENTS],
-				client->vision_map[i * CASE_ELEMENTS + 1],
-				client->vision_map[i * CASE_ELEMENTS + 2],
-				client->vision_map[i * CASE_ELEMENTS + 3],
-				client->vision_map[i * CASE_ELEMENTS + 4],
-				client->vision_map[i * CASE_ELEMENTS + 5],
-				client->vision_map[i * CASE_ELEMENTS + 6],
-				client->vision_map[i * CASE_ELEMENTS + 7]);
+				client->player.vision_map[i * CASE_ELEMENTS],
+				client->player.vision_map[i * CASE_ELEMENTS + 1],
+				client->player.vision_map[i * CASE_ELEMENTS + 2],
+				client->player.vision_map[i * CASE_ELEMENTS + 3],
+				client->player.vision_map[i * CASE_ELEMENTS + 4],
+				client->player.vision_map[i * CASE_ELEMENTS + 5],
+				client->player.vision_map[i * CASE_ELEMENTS + 6],
+				client->player.vision_map[i * CASE_ELEMENTS + 7]);
 	}
 }
 
@@ -130,7 +130,7 @@ int		zappy_inventaire_cb(zappy_client_t *client)
 	int	r = 0;
 
 	client->task = ZAPPY_FARMER_BROADCAST;
-	memcpy(client->inventory, client->buf, CLIENT_BUFSIZE);
+	memcpy(client->player.inventaire, client->buf, CLIENT_BUFSIZE);
 	return (r);
 }
 

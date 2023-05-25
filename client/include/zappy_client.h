@@ -103,6 +103,7 @@ typedef int (*zappy_client_cmd_cb_t)(zappy_client_t *);
 typedef struct zappy_client_cmd_s
 {
 	char					*cmd;
+	uint8_t					id, lvl, option;
 	zappy_client_cmd_cb_t	cb;
 } zappy_client_cmd_t;
 
@@ -122,12 +123,9 @@ enum	e_zappy_farmer {
 // 	BROADCAST_INVENTORY_MAX
 // };
 
-typedef struct zappy_client_s
+typedef struct zappy_player_s
 {
-	int					socket;
-	struct sockaddr_in	sockaddr;
-	uint8_t				buf[CLIENT_BUFSIZE];
-	char				inventory[CLIENT_BUFSIZE];
+	uint8_t		id, lvl;
 	int					pos_x; // Absolute position, unused ?
 	int					pos_y; // Absolute position, unused ?
 	uint8_t				vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
@@ -135,14 +133,22 @@ typedef struct zappy_client_s
 	uint8_t				relative_orientation; // Relative orientation, always start at 0 when see
 											  // The absolute orientation is not known of client
 											  // At each "see" the orientation is back to 0
+	char		inventaire[CLIENT_BUFSIZE];
+}				t_player;
 
-	uint8_t				id, lvl;
+typedef struct zappy_client_s
+{
+	int					socket;
+	struct sockaddr_in	sockaddr;
+	uint8_t				buf[CLIENT_BUFSIZE];
+
+	t_player			player;
 
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
 	uint8_t				cmd_idx; // idx used to rotate cmds
 	uint8_t				cmd_stack_size; // nb of elements currently in cmds
 	uint8_t				task;
-} zappy_client_t;
+}				zappy_client_t;
 
 /* main function called from main*/
 int zappy_client(zappy_client_opt_t *opt);

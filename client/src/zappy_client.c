@@ -2,8 +2,8 @@
 #include "zappy_client.h"
 #include <stdlib.h>
 
-// Zappy farmer, the happy-go-lucky farmer
-int	zappy_farmer(zappy_client_t *client);
+// Zappy player, the happy-go-lucky farmer
+int	zappy_player(zappy_client_t *client);
 
 /* connection function, it handle all TCP stuff and Zappy connection protocol */
 static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
@@ -86,10 +86,10 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 		{
 			for (int i = 0 ; client->buf[i] ; i++) {
 				if (client->buf[i] == '\n') {
-					client->pos_x = atoi((char*)&client->buf[i+1]);
+					client->player.pos_x = atoi((char*)&client->buf[i+1]);
 				}
 				if (client->buf[i] == ' ') {
-					client->pos_y = atoi((char*)&client->buf[i+1]);
+					client->player.pos_y = atoi((char*)&client->buf[i+1]);
 					break ;
 				}
 			}
@@ -135,8 +135,8 @@ int		zappy_client(zappy_client_opt_t *opt)
 		r = zappy_client_connect(opt, &client);
 
 		if (r == 0) {
-			fprintf(stderr, "client_connected pos_x=%d pos_y=%d\n", client.pos_x, client.pos_y);
-			r = zappy_farmer(&client);
+			fprintf(stderr, "client_connected pos_x=%d pos_y=%d\n", client.player.pos_x, client.player.pos_y);
+			r = zappy_player(&client);
 		}
 		close(client.socket);
 	}
