@@ -40,8 +40,10 @@ enum			e_loot
 	LOOT_MENDIANE,
 	LOOT_PHIRAS,
 	LOOT_THYSTAME,
-	LOOT_MAX
+	LOOT_MAX,
+	HATCHING_EGG
 };
+
 
 // Structure used as an abstraction of a tile of the game board
 typedef struct	s_tile
