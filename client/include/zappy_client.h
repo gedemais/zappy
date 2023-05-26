@@ -141,9 +141,9 @@ typedef struct zappy_client_cmd_s
 } zappy_client_cmd_t;
 
 enum	e_player_task {
+	PLAYER_TASK_WAIT,
 	PLAYER_TASK_ID,
 	PLAYER_TASK_LOOK,
-	PLAYER_TASK_LOOKWAIT,
 	PLAYER_TASK_LOOT,
 	PLAYER_TASK_BROADCAST,
 	PLAYER_TASK_MAX
