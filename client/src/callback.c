@@ -200,13 +200,15 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 	client->player.inventaire[client->player.id] = deserialize_inventaire(client->buf);
 
 	// debug functions for serialize / deserialize --------------------------------------------------
-	print_inventaire(client->player.inventaire[client->player.id]);
-	serialize_inventaire(client->player.broadcast_msg, client->player.inventaire[client->player.id]);
-	fprintf(stderr, "\nbroadcast msg : %s\n", client->player.broadcast_msg);
+	// print_inventaire(client->player.inventaire[client->player.id]);
+	// serialize_inventaire(client->player.broadcast_msg, client->player.inventaire[client->player.id]);
+	// fprintf(stderr, "\nbroadcast msg : %s\n", client->player.broadcast_msg);
 	// ----------------------------------------------------------------------------------------------
 
 	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
-	memcpy(client->player.broadcast_msg, client->buf, CLIENT_BUFSIZE);
+	bzero(client->player.broadcast_msg, CLIENT_BUFSIZE);
+	strcat(client->player.broadcast_msg, "inventaire ");
+	strcat(client->player.broadcast_msg, (char *)client->buf);
 	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }
