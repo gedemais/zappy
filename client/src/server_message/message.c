@@ -1,8 +1,8 @@
 #include "zappy_client.h"
 
 
-// message <A> texte <texte> (A : case d où provient le son)
-int		zappy_broadcast(zappy_client_t *client)
+// message <K>,<texte> (With K indicating the square where the sound comes from)
+int		zappy_message(zappy_client_t *client)
 {
 	int	r = 0;
 

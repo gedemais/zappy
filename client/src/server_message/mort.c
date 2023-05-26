@@ -1,8 +1,8 @@
 #include "zappy_client.h"
 
 
-// incantation ok/ko lvl <A> (A : niveau actuel)
-int		zappy_incantation(zappy_client_t *client)
+// mort
+int		zappy_mort(zappy_client_t *client)
 {
 	(void)client;
 

@@ -174,47 +174,19 @@ int		zappy_client_receipt(zappy_client_t *client)
 			}
 			if (r != -1)
 			{
-				// ======================================
-				// permet de gerer les responses de l'API
-				// ======================================
+				// =====================================
+				// permet de gerer les messages de l'API
+				// =====================================
 
-				if (!memcmp(client->buf, "mort", strlen("mort"))) {
+				if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
+					zappy_deplacement(client);
+				}
+				else if (!memcmp(client->buf, "message", strlen("message"))) {
+					zappy_message(client);
+				}
+				else if (!memcmp(client->buf, "mort", strlen("mort"))) {
 					zappy_mort(client);
 				}
-				// else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
-				// 	zappy_deplacement(client);
-				// }
-				// else if (!memcmp(client->buf, commands[CMD_VOIR].name, commands[CMD_VOIR].len)) {
-				// 	zappy_voir(client);
-				// }
-				else if (!memcmp(client->buf, commands[CMD_INVENTAIRE].name, commands[CMD_INVENTAIRE].len)) {
-					zappy_inventaire(client);
-				}
-				// else if (!memcmp(client->buf, commands[CMD_PREND].name, commands[CMD_PREND].len)) {
-				// 	zappy_prend(client);
-				// }
-				// else if (!memcmp(client->buf, commands[CMD_POSE].name, commands[CMD_POSE].len)) {
-				// 	zappy_pose(client);
-				// }
-				// else if (!memcmp(client->buf, commands[CMD_EXPULSE].name, commands[CMD_EXPULSE].len)) {
-				// 	zappy_expulse(client);
-				// }
-				else if (!memcmp(client->buf, "message", strlen("message"))) {
-					zappy_broadcast(client);
-				}
-				else if (!memcmp(client->buf, commands[CMD_INCANTATION].name, commands[CMD_INCANTATION].len)) {
-					zappy_incantation(client);
-				}
-				else if (!memcmp(client->buf, commands[CMD_FORK].name, commands[CMD_FORK].len)) {
-					zappy_fork(client);
-				}
-				else if (!memcmp(client->buf, commands[CMD_CONNECT_NBR].name, commands[CMD_CONNECT_NBR].len)) {
-					zappy_connect_nbr(client);
-				}
-				// else
-				// {
-				// 	// avance - droite - gauche
-				// }
 				zappy_handle_server_reponse(client);
 			}
 

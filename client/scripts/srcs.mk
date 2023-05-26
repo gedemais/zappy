@@ -4,10 +4,7 @@ SRCS_NAME=main.c\
 		  callback.c\
 		  zappy_client_getopt.c\
 		  zappy_client_move.c\
-		  commands/broadcast.c\
-		  commands/connect_nbr.c\
-		  commands/fork.c\
-		  commands/incantation.c\
-		  commands/inventaire.c\
-		  commands/mort.c\
+		  server_message/deplacement.c\
+		  server_message/message.c\
+		  server_message/mort.c\
 		  

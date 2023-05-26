@@ -13,6 +13,7 @@
 # include "zappy_client_getopt.h"
 
 # define CLIENT_BUFSIZE 4096
+# define PLAYER_MAX		6
 
 # define ZAPPY_CLIENT_MAX_STACKED_CMD 1
 
@@ -161,7 +162,7 @@ typedef struct zappy_player_s
 	uint8_t		relative_orientation; // Relative orientation, always start at 0 when see
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
-	char		inventaire[CLIENT_BUFSIZE];
+	char		inventaire[PLAYER_MAX + 1][CLIENT_BUFSIZE];
 	char		inventaire_team[CLIENT_BUFSIZE];
 	char		broadcast_msg[CLIENT_BUFSIZE];
 }				t_player;
@@ -173,6 +174,7 @@ typedef struct zappy_client_s
 	uint8_t				buf[CLIENT_BUFSIZE];
 
 	t_player			player;
+	uint8_t				team_nb;
 
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
 	uint8_t				cmd_idx; // idx used to rotate cmds
@@ -185,15 +187,11 @@ int		zappy_client(zappy_client_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
 int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
 
-int		zappy_client_see_cb(zappy_client_t *client);
 int		zappy_client_receipt(zappy_client_t *client);
 
 // commands
-int		zappy_broadcast(zappy_client_t *client);
-int		zappy_connect_nbr(zappy_client_t *client);
-int		zappy_fork(zappy_client_t *client);
-int		zappy_incantation(zappy_client_t *client);
-int		zappy_inventaire(zappy_client_t *client);
+int		zappy_message(zappy_client_t *client);
+int		zappy_deplacement(zappy_client_t *client);
 int		zappy_mort(zappy_client_t *client);
 
 // callback
