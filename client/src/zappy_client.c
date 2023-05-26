@@ -177,7 +177,6 @@ int		zappy_client_receipt(zappy_client_t *client)
 				// =====================================
 				// permet de gerer les messages de l'API
 				// =====================================
-
 				if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
 					zappy_deplacement(client);
 				}
@@ -187,6 +186,9 @@ int		zappy_client_receipt(zappy_client_t *client)
 				else if (!memcmp(client->buf, "mort", strlen("mort"))) {
 					zappy_mort(client);
 				}
+				// ======================================
+				// permet de gerer les responses de l'API
+				// ======================================
 				zappy_handle_server_reponse(client);
 			}
 

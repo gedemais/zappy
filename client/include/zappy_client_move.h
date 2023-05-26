@@ -1,7 +1,9 @@
 #ifndef ZAPPY_CLIENT_MOVE_H
 # define ZAPPY_CLIENT_MOVE_H
 
-#include <stdint.h>
+
+# include <stdint.h>
+
 
 /* this functions send the command to server and update internal struct
  * with new position/orientation */

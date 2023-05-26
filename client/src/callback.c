@@ -128,24 +128,34 @@ int		zappy_voir_cb(zappy_client_t *client)
 // ============================================================================
 
 // {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
-int		deserialize_inventaire(zappy_client_t *client)
+t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 {
-	(void)client;
+	(void)inventaire_str;
 
-	int	r = 0;
+	t_inventaire	inventaire;
 
-	return (r);
+	memset(&inventaire, 0, sizeof(t_inventaire));
+	return (inventaire);
 }
 
-int		zappy_inventaire_cb(zappy_client_t *client)
+char			*serialize_inventaire(t_inventaire inventaire)
+{
+	(void)inventaire;
+
+	char	*inventaire_str = NULL;
+
+	return (inventaire_str);
+}
+
+int				zappy_inventaire_cb(zappy_client_t *client)
 {
 	int	r = 0;
 
-	client->task = PLAYER_TASK_BROADCAST;
 	// on stock linventaire du joueur
-	memcpy(client->player.inventaire[client->player.id], client->buf, CLIENT_BUFSIZE);
+	client->player.inventaire[client->player.id] = deserialize_inventaire(client->buf);
 	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
-	memcpy(client->player.broadcast_msg, client->player.inventaire, CLIENT_BUFSIZE);
+	memcpy(client->player.broadcast_msg, client->buf, CLIENT_BUFSIZE);
+	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }
 

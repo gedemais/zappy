@@ -152,20 +152,38 @@ enum	e_player_task {
 	PLAYER_TASK_MAX
 };
 
-typedef struct zappy_player_s
+// {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
+typedef struct	s_zappy_inventaire
 {
-	uint8_t		id, lvl;
-	int			pos_x; // Absolute position, unused ?
-	int			pos_y; // Absolute position, unused ?
-	uint8_t		vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
-	uint8_t		relative_pos; // Relative position for vision map
-	uint8_t		relative_orientation; // Relative orientation, always start at 0 when see
+	uint8_t		nourriture;
+	uint8_t		linemate;
+	uint8_t		deraumere;
+	uint8_t		sibur;
+	uint8_t		mendiane;
+	uint8_t		phiras;
+	uint8_t		thystame;
+}				t_inventaire;
+
+typedef struct s_zappy_player
+{
+	uint8_t			id, lvl;
+	int				pos_x; // Absolute position, unused ?
+	int				pos_y; // Absolute position, unused ?
+	uint8_t			vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
+	uint8_t			relative_pos; // Relative position for vision map
+	uint8_t			relative_orientation; // Relative orientation, always start at 0 when see
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
-	char		inventaire[PLAYER_MAX + 1][CLIENT_BUFSIZE];
-	char		inventaire_team[CLIENT_BUFSIZE];
-	char		broadcast_msg[CLIENT_BUFSIZE];
+	t_inventaire	inventaire[PLAYER_MAX + 1];
+	char			broadcast_msg[CLIENT_BUFSIZE];
 }				t_player;
+
+typedef struct	s_zappy_team
+{
+	uint8_t			size;
+	uint8_t			nb_player;
+	t_inventaire	inventaire;
+}				t_team;
 
 typedef struct zappy_client_s
 {
@@ -174,7 +192,7 @@ typedef struct zappy_client_s
 	uint8_t				buf[CLIENT_BUFSIZE];
 
 	t_player			player;
-	uint8_t				team_nb;
+	t_team				team;
 
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
 	uint8_t				cmd_idx; // idx used to rotate cmds
@@ -189,7 +207,7 @@ int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_c
 
 int		zappy_client_receipt(zappy_client_t *client);
 
-// commands
+// server's messages handlers
 int		zappy_message(zappy_client_t *client);
 int		zappy_deplacement(zappy_client_t *client);
 int		zappy_mort(zappy_client_t *client);

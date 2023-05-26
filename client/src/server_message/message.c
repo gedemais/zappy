@@ -1,6 +1,7 @@
 #include "zappy_client.h"
 
 
+// handle server's message : message
 // message <K>,<texte> (With K indicating the square where the sound comes from)
 int		zappy_message(zappy_client_t *client)
 {

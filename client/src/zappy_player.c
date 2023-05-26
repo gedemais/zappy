@@ -55,7 +55,6 @@ int 	zappy_player(zappy_client_t *client)
 								if (r == 0) {
 									r = zappy_client_transceive(client, commands[CMD_INVENTAIRE].name, commands[CMD_INVENTAIRE].len, zappy_inventaire_cb);
 								}
-								WAIT_CALLBACK(client->task, r)
 							}
 						}
 					}
