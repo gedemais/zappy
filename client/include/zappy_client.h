@@ -15,22 +15,43 @@
 #define CLIENT_BUFSIZE 4096
 
 
+enum			e_commands
+{
+	CMD_AVANCE,
+	CMD_DROITE,
+	CMD_GAUCHE,
+	CMD_VOIR,
+	CMD_INVENTAIRE,
+	CMD_PREND,
+	CMD_POSE,
+	CMD_EXPULSE,
+	CMD_BROADCAST,
+	CMD_INCANTATION,
+	CMD_FORK,
+	CMD_CONNECT_NBR,
+	CMD_MAX
+};
+
 typedef struct	s_zappy_cmds
 {
 	char	name[256];
 	uint8_t	len;
 }				t_cmds;
 
-static t_cmds	see_cmd			= {.name = "voir", .len = strlen("voir")};
-static t_cmds	broadcast_cmd	= {.name = "broadcast", .len = strlen("broadcast")};
-static t_cmds	advance_cmd		= {.name = "avance", .len = strlen("avance")};
-static t_cmds	turn_right_cmd	= {.name = "droite", .len = strlen("droite")};
-static t_cmds	turn_left_cmd	= {.name = "gauche", .len = strlen("gauche")};
-static t_cmds	inventory_cmd	= {.name = "inventaire", .len = strlen("inventaire")};
-static t_cmds	kick_cmd		= {.name = "expulse", .len = strlen("expulse")};
-static t_cmds	incantation_cmd	= {.name = "incantation", .len = strlen("incantation")};
-static t_cmds	fork_cmd		= {.name = "fork", .len = strlen("fork")};
-static t_cmds	connect_nbr_cmd	= {.name = "connect_nbr", .len = strlen("connect_nbr")};
+static t_cmds	commands[CMD_MAX] = {
+	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
+	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
+	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
+	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
+	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
+	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
+	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
+	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
+	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
+	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
+	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
+	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
+};
 
 static char *zappy_rsp_ok = "ok";
 
