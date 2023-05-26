@@ -147,7 +147,7 @@ int		zappy_handle_server_reponse(zappy_client_t *client)
 {
 	int	r = 0;
 
-	fprintf(stderr, "zappy_client_receipt: response: (%s) received from {%s}\n", client->buf, client->cmds[client->cmd_idx].cmd);
+	fprintf(stderr, "zappy_client_receipt: response for {%s}: (%s)\n", client->cmds[client->cmd_idx].cmd, client->buf);
 	r = client->cmds[client->cmd_idx].cb(client);
 	client->cmd_idx++;
  	client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
