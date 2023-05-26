@@ -112,7 +112,7 @@ int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_c
 		client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].cb = cb;
 		client->cmd_stack_size++;
 		bzero(client->buf, 4096); // TODO LMA
-		fprintf(stderr, "%s: send %s pos=%d orientation=%d\n", __func__, cmd, client->player.relative_pos, client->player.relative_orientation);
+		fprintf(stderr, "%s: send {%s}\n", __func__, cmd);
 		if (send(client->socket, cmd, len, 0) < 0) {
 			perror("send");
 			r = -1;
@@ -147,7 +147,7 @@ int		zappy_handle_server_reponse(zappy_client_t *client)
 {
 	int	r = 0;
 
-	fprintf(stderr, "client receipt : response (%s) received for cmd={%s}\n", client->buf, client->cmds[client->cmd_idx].cmd);
+	fprintf(stderr, "zappy_client_receipt: response: (%s) received from {%s}\n", client->buf, client->cmds[client->cmd_idx].cmd);
 	r = client->cmds[client->cmd_idx].cb(client);
 	client->cmd_idx++;
  	client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
@@ -157,9 +157,9 @@ int		zappy_handle_server_reponse(zappy_client_t *client)
 
 int		zappy_client_receipt(zappy_client_t *client)
 {
-	int r = 0;
-	fd_set				read_fd_set;
-	struct timeval		timeout = {.tv_sec = 0, .tv_usec = 100};
+	int 			r = 0;
+	fd_set			read_fd_set;
+	struct timeval	timeout = {.tv_sec = 0, .tv_usec = 100};
 
 	FD_ZERO(&read_fd_set);
 	FD_SET(client->socket, &read_fd_set);
@@ -174,46 +174,43 @@ int		zappy_client_receipt(zappy_client_t *client)
 			}
 			if (r != -1)
 			{
-				// ================================================================
-				// permet de gerer les responses de l'API sur les call des callback
-				// ================================================================
+				// ======================================
+				// permet de gerer les responses de l'API
+				// ======================================
 
 				if (!memcmp(client->buf, "mort", strlen("mort"))) {
-					// mort
-					// => kill le client
+					zappy_mort(client);
 				}
-				else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
-					// deplacement <K> (K : direction dou provient le joueur)
-					// => deplacer le joueur dans la direction inverse
+				// else if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
+				// 	zappy_deplacement(client);
+				// }
+				// else if (!memcmp(client->buf, commands[CMD_VOIR].name, commands[CMD_VOIR].len)) {
+				// 	zappy_voir(client);
+				// }
+				else if (!memcmp(client->buf, commands[CMD_INVENTAIRE].name, commands[CMD_INVENTAIRE].len)) {
+					zappy_inventaire(client);
 				}
-				// else if (!memcmp(client->buf, "voir", strlen("voir"))) {
-				// 	// voir {case1,phiras sibur sibur,...}
+				// else if (!memcmp(client->buf, commands[CMD_PREND].name, commands[CMD_PREND].len)) {
+				// 	zappy_prend(client);
 				// }
-				// else if (!memcmp(client->buf, "inventaire", strlen("inventaire"))) {
-				// 	// inventaire {phiras n,sibur n,...} tick <K> lvl <V> (K : tick serveur à vivre, V : niveau actuel)
+				// else if (!memcmp(client->buf, commands[CMD_POSE].name, commands[CMD_POSE].len)) {
+				// 	zappy_pose(client);
 				// }
-				// else if (!memcmp(client->buf, "prend", strlen("prend"))) {
-				// 	// prend ok/ko
+				// else if (!memcmp(client->buf, commands[CMD_EXPULSE].name, commands[CMD_EXPULSE].len)) {
+				// 	zappy_expulse(client);
 				// }
-				// else if (!memcmp(client->buf, "pose", strlen("pose"))) {
-				// 	// pose ok/ko
-				// }
-				// else if (!memcmp(client->buf, "expulse", strlen("expulse"))) {
-				// 	// expulse ok/ko
-				// }
-				// else if (!memcmp(client->buf, "message", strlen("message"))) {
-				// 	// message <K> texte <texte> (K : case d où provient le son)
-				// }
-				// else if (!memcmp(client->buf, "incantation", strlen("incantation"))) {
-				// 	// incantation ok/ko lvl <K> (K : niveau actuel)
-				// }
-				// else if (!memcmp(client->buf, "fork", strlen("fork"))) {
-				// 	// fork ok/ko
-				// }
-				// else if (!memcmp(client->buf, "connect_nbr", strlen("connect_nbr"))) {
-				// 	// connect_nbr remain <K> used <V> (K : slot restant, V : slot utilisé)
-				// 	// => remain permet de savoir si il faut hatch - used permet de connaitre l'id
-				// }
+				else if (!memcmp(client->buf, "message", strlen("message"))) {
+					zappy_broadcast(client);
+				}
+				else if (!memcmp(client->buf, commands[CMD_INCANTATION].name, commands[CMD_INCANTATION].len)) {
+					zappy_incantation(client);
+				}
+				else if (!memcmp(client->buf, commands[CMD_FORK].name, commands[CMD_FORK].len)) {
+					zappy_fork(client);
+				}
+				else if (!memcmp(client->buf, commands[CMD_CONNECT_NBR].name, commands[CMD_CONNECT_NBR].len)) {
+					zappy_connect_nbr(client);
+				}
 				// else
 				// {
 				// 	// avance - droite - gauche

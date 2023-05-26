@@ -162,6 +162,8 @@ typedef struct zappy_player_s
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
 	char		inventaire[CLIENT_BUFSIZE];
+	char		inventaire_team[CLIENT_BUFSIZE];
+	char		broadcast_msg[CLIENT_BUFSIZE];
 }				t_player;
 
 typedef struct zappy_client_s
@@ -185,6 +187,14 @@ int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_c
 
 int		zappy_client_see_cb(zappy_client_t *client);
 int		zappy_client_receipt(zappy_client_t *client);
+
+// commands
+int		zappy_broadcast(zappy_client_t *client);
+int		zappy_connect_nbr(zappy_client_t *client);
+int		zappy_fork(zappy_client_t *client);
+int		zappy_incantation(zappy_client_t *client);
+int		zappy_inventaire(zappy_client_t *client);
+int		zappy_mort(zappy_client_t *client);
 
 // callback
 int		zappy_client_move_cb(zappy_client_t *client);

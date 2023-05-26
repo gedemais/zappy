@@ -93,6 +93,9 @@ static int		zappy_client_parse_see(zappy_client_t *client)
 
 static void	zappy_debug_print_vision_map(zappy_client_t *client)
 {
+	(void)client;
+	return ;
+
 	for (int i = 0 ; i < VISION_MAP_MAX ; i++) {
 		fprintf(stderr, "CASE[%3d] : L:%d D:%d S:%d M:%d P:%d T:%d F:%d P:%d\n", i,
 				client->player.vision_map[i * CASE_ELEMENTS],
@@ -129,7 +132,10 @@ int		zappy_inventaire_cb(zappy_client_t *client)
 	int	r = 0;
 
 	client->task = PLAYER_TASK_BROADCAST;
+	// on stock linventaire du joueur
 	memcpy(client->player.inventaire, client->buf, CLIENT_BUFSIZE);
+	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
+	memcpy(client->player.broadcast_msg, client->player.inventaire, CLIENT_BUFSIZE);
 	return (r);
 }
 
@@ -173,11 +179,11 @@ int		zappy_expulse_cb(zappy_client_t *client)
 
 int		zappy_broadcast_cb(zappy_client_t *client)
 {
-	(void)client;
-
 	int		r = 0;
 
-	// fprintf(stderr, "%s\n", __func__);
+	// le broadcast a ete effectue donc on reset le buffer du message
+	bzero(client->player.broadcast_msg, CLIENT_BUFSIZE);
+	// et on remet le joueur au travail
 	client->task = PLAYER_TASK_LOOT;
 	return (r);
 }
@@ -212,9 +218,13 @@ int		zappy_connect_nbr_cb(zappy_client_t *client)
 {
 	int		r = 0;
 
+	// TODO :: si le nb de joueur dans la team n'est pas au max il faudra hatch
+	// on donne au joueur un id
+	if (client->player.id == 0) {
+		client->player.id = 1; // default is 1 : waiting for api update
+	}
+	// on ce prepare a le mettre au travail
 	client->task = PLAYER_TASK_LOOK;
-	// fprintf(stderr, "%s\n", client->buf);
-	client->player.id = 1; // default is 1 : waiting for api update
 	return (r);
 }
 
