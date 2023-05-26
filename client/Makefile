@@ -4,13 +4,14 @@ include scripts/incs.mk
 NAME=client
 
 CC=gcc
-FLAGS= -Wall -Werror -Wextra -Wno-unused-variable
+FLAGS=-Wall -Werror -Wextra
+FLAGS+=-Wno-unused-variable -Wno-format-truncation
 
 # Os detection
 OS=$(shell uname -s)
 NAME = client
 CC ?= gcc
-CFLAGS ?= -Wall -Wextra -Werror -g3 -Wno-unused-variable
+CFLAGS ?= -Wall -Wextra -Werror -g3 -Wno-unused-variable -Wno-format-truncation
 
 ifeq ($(OS), "Darwin")
 	FLAGS += -DMACOS

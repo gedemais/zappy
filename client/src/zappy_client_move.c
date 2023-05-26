@@ -10,23 +10,23 @@ int			zappy_client_set_orientation(zappy_client_t *client, uint8_t orientation)
 	{
 		if (client->player.relative_orientation == ((orientation + 1) & 0x03))
 		{
-			r = zappy_client_transceive(client, turn_left_cmd,
-								strlen(turn_left_cmd), zappy_client_move_cb);
+			r = zappy_client_transceive(client, turn_left_cmd.name,
+								turn_left_cmd.len, zappy_client_move_cb);
 		}
 		else if (client->player.relative_orientation == ((orientation - 1) & 0x03))
 		{
-			r = zappy_client_transceive(client, turn_right_cmd,
-								strlen(turn_right_cmd), zappy_client_move_cb);
+			r = zappy_client_transceive(client, turn_right_cmd.name,
+								turn_right_cmd.len, zappy_client_move_cb);
 		}
 		else
 		{
-			r = zappy_client_transceive(client, turn_right_cmd,
-								strlen(turn_right_cmd), zappy_client_move_cb);
+			r = zappy_client_transceive(client, turn_right_cmd.name,
+								turn_right_cmd.len, zappy_client_move_cb);
 			if (r == 0)
 			{
 				client->player.relative_orientation = ((client->player.relative_orientation + 1) & 0x3);
-				r = zappy_client_transceive(client, turn_right_cmd,
-									strlen(turn_right_cmd), zappy_client_move_cb);
+				r = zappy_client_transceive(client, turn_right_cmd.name,
+									turn_right_cmd.len, zappy_client_move_cb);
 			}
 		}
 		if (r == 0)
@@ -61,7 +61,7 @@ int			zappy_client_move_front(zappy_client_t *client)
 	}
 	if (r == 0)
 	{
-		r = zappy_client_transceive(client, advance_cmd, strlen(advance_cmd), zappy_client_move_cb);
+		r = zappy_client_transceive(client, advance_cmd.name, advance_cmd.len, zappy_client_move_cb);
 	}
 	if (r == 0)
 	{
@@ -81,7 +81,7 @@ int			zappy_client_move_left(zappy_client_t *client)
 	}
 	if (r == 0)
 	{
-		r = zappy_client_transceive(client, advance_cmd, strlen(advance_cmd), zappy_client_move_cb);
+		r = zappy_client_transceive(client, advance_cmd.name, advance_cmd.len, zappy_client_move_cb);
 	}
 	if (r == 0)
 	{
@@ -100,7 +100,7 @@ int			zappy_client_move_right(zappy_client_t *client)
 	}
 	if (r == 0)
 	{
-		r = zappy_client_transceive(client, advance_cmd, strlen(advance_cmd), zappy_client_move_cb);
+		r = zappy_client_transceive(client, advance_cmd.name, advance_cmd.len, zappy_client_move_cb);
 	}
 	if (r == 0)
 	{

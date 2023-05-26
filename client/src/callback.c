@@ -114,7 +114,7 @@ int		zappy_voir_cb(zappy_client_t *client)
 	r = zappy_client_parse_see(client);
 	if (r == 0)
 	{
-		client->task = ZAPPY_FARMER_LOOT;
+		client->task = PLAYER_TASK_LOOT;
 		zappy_debug_print_vision_map(client);
 		client->player.relative_pos = 0;
 		client->player.relative_orientation = 0;
@@ -128,7 +128,7 @@ int		zappy_inventaire_cb(zappy_client_t *client)
 {
 	int	r = 0;
 
-	client->task = ZAPPY_FARMER_BROADCAST;
+	client->task = PLAYER_TASK_BROADCAST;
 	memcpy(client->player.inventaire, client->buf, CLIENT_BUFSIZE);
 	return (r);
 }
@@ -178,7 +178,7 @@ int		zappy_broadcast_cb(zappy_client_t *client)
 	int		r = 0;
 
 	// fprintf(stderr, "%s\n", __func__);
-	client->task = ZAPPY_FARMER_LOOT;
+	client->task = PLAYER_TASK_LOOT;
 	return (r);
 }
 

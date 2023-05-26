@@ -14,16 +14,23 @@
 
 #define CLIENT_BUFSIZE 4096
 
-static char see_cmd[]			= "voir";
-static char broadcast_cmd[]		= "broadcast";
-static char advance_cmd[]		= "avance";
-static char turn_right_cmd[]	= "droite";
-static char turn_left_cmd[]		= "gauche";
-static char inventory_cmd[]		= "inventaire";
-static char kick_cmd[]			= "expulse";
-static char incantation_cmd[]	= "incantation";
-static char fork_cmd[]			= "fork";
-static char connect_nbr_cmd[]	= "connect_nbr";
+
+typedef struct	s_zappy_cmds
+{
+	char	name[256];
+	uint8_t	len;
+}				t_cmds;
+
+static t_cmds	see_cmd			= {.name = "voir", .len = strlen("voir")};
+static t_cmds	broadcast_cmd	= {.name = "broadcast", .len = strlen("broadcast")};
+static t_cmds	advance_cmd		= {.name = "avance", .len = strlen("avance")};
+static t_cmds	turn_right_cmd	= {.name = "droite", .len = strlen("droite")};
+static t_cmds	turn_left_cmd	= {.name = "gauche", .len = strlen("gauche")};
+static t_cmds	inventory_cmd	= {.name = "inventaire", .len = strlen("inventaire")};
+static t_cmds	kick_cmd		= {.name = "expulse", .len = strlen("expulse")};
+static t_cmds	incantation_cmd	= {.name = "incantation", .len = strlen("incantation")};
+static t_cmds	fork_cmd		= {.name = "fork", .len = strlen("fork")};
+static t_cmds	connect_nbr_cmd	= {.name = "connect_nbr", .len = strlen("connect_nbr")};
 
 static char *zappy_rsp_ok = "ok";
 
@@ -83,17 +90,29 @@ static int vision_row_center[] = {
 #define ORIENTATION_BACK		2
 #define ORIENTATION_LEFT		3
 
-static char *case_ressources[] =
+enum	e_ressources
 {
-	"linemate",
-	"deraumere",
-	"sibur",
-	"mendiane",
-	"phiras",
-	"thystame",
-	"nourriture",
-	"player",
-	NULL
+	R_LINEMATE,
+	R_DERAUMERE,
+	R_SIBUR,
+	R_MENDIANE,
+	R_PHIRAS,
+	R_THYSTAME,
+	R_NOURRITURE,
+	R_PLAYER,
+	R_MAX
+};
+
+static char *case_ressources[R_MAX] =
+{
+	[R_LINEMATE]	= "linemate",
+	[R_DERAUMERE]	= "deraumere",
+	[R_SIBUR]		= "sibur",
+	[R_MENDIANE]	= "mendiane",
+	[R_PHIRAS]		= "phiras",
+	[R_THYSTAME]	= "thystame",
+	[R_NOURRITURE]	= "nourriture",
+	[R_PLAYER]		= "player"
 };
 
 typedef struct zappy_client_s zappy_client_t;
@@ -109,30 +128,25 @@ typedef struct zappy_client_cmd_s
 
 	#define ZAPPY_CLIENT_MAX_STACKED_CMD 1
 
-enum	e_zappy_farmer {
-	ZAPPY_FARMER_LOOK = 1,
-	ZAPPY_FARMER_LOOKWAIT,
-	ZAPPY_FARMER_LOOT,
-	ZAPPY_FARMER_BROADCAST,
-	ZAPPY_FARMER_MAX
+enum	e_player_task {
+	PLAYER_TASK_ID,
+	PLAYER_TASK_LOOK,
+	PLAYER_TASK_LOOKWAIT,
+	PLAYER_TASK_LOOT,
+	PLAYER_TASK_BROADCAST,
+	PLAYER_TASK_MAX
 };
-
-// enum	e_zappy_farmer_broadcast {
-// 	BROADCAST_INVENTORY_SEND,
-// 	BROADCAST_INVENTORY_RECEIVE,
-// 	BROADCAST_INVENTORY_MAX
-// };
 
 typedef struct zappy_player_s
 {
 	uint8_t		id, lvl;
-	int					pos_x; // Absolute position, unused ?
-	int					pos_y; // Absolute position, unused ?
-	uint8_t				vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
-	uint8_t				relative_pos; // Relative position for vision map
-	uint8_t				relative_orientation; // Relative orientation, always start at 0 when see
-											  // The absolute orientation is not known of client
-											  // At each "see" the orientation is back to 0
+	int			pos_x; // Absolute position, unused ?
+	int			pos_y; // Absolute position, unused ?
+	uint8_t		vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
+	uint8_t		relative_pos; // Relative position for vision map
+	uint8_t		relative_orientation; // Relative orientation, always start at 0 when see
+									  // The absolute orientation is not known of client
+									  // At each "see" the orientation is back to 0
 	char		inventaire[CLIENT_BUFSIZE];
 }				t_player;
 
