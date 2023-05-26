@@ -2,17 +2,31 @@
 # define ZAPPY_CLIENT_H
 
 
-#include <stdint.h>
-#include <arpa/inet.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <stdbool.h>
+# include <stdint.h>
+# include <arpa/inet.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/socket.h>
+# include <unistd.h>
+# include <stdbool.h>
 
-#include "zappy_client_getopt.h"
+# include "zappy_client_getopt.h"
 
-#define CLIENT_BUFSIZE 4096
+# define CLIENT_BUFSIZE 4096
+
+# define ZAPPY_CLIENT_MAX_STACKED_CMD 1
+
+# define ZAPPY_OK	0
+# define ZAPPY_WAIT	1
+# define ZAPPY_ERROR -1
+
+# define VISION_MAP_MAX		81
+# define CASE_ELEMENTS		8
+
+# define ORIENTATION_FRONT		0
+# define ORIENTATION_RIGHT		1
+# define ORIENTATION_BACK		2
+# define ORIENTATION_LEFT		3
 
 
 enum			e_commands
@@ -90,27 +104,6 @@ static int vision_row_center[] = {
 		72
 };
 
-#define ZAPPY_OK	0
-#define ZAPPY_WAIT	1
-#define ZAPPY_ERROR -1
-
-#define CASE_ELEM_LINEMATE		0
-#define CASE_ELEM_DERAUMERE		1
-#define CASE_ELEM_SIBUR			2
-#define CASE_ELEM_MENDIANE		3
-#define CASE_ELEM_PHIRAS		4
-#define CASE_ELEM_THYSTAME		5
-#define CASE_ELEM_FOOD			6
-#define CASE_ELEM_PLAYER		7 // TODO LMA : to remove ?
-
-#define VISION_MAP_MAX		81
-#define CASE_ELEMENTS		8
-
-#define ORIENTATION_FRONT		0
-#define ORIENTATION_RIGHT		1
-#define ORIENTATION_BACK		2
-#define ORIENTATION_LEFT		3
-
 enum	e_ressources
 {
 	R_LINEMATE,
@@ -146,8 +139,6 @@ typedef struct zappy_client_cmd_s
 	uint8_t					id, lvl, option;
 	zappy_client_cmd_cb_t	cb;
 } zappy_client_cmd_t;
-
-	#define ZAPPY_CLIENT_MAX_STACKED_CMD 1
 
 enum	e_player_task {
 	PLAYER_TASK_ID,
@@ -186,13 +177,12 @@ typedef struct zappy_client_s
 }				zappy_client_t;
 
 /* main function called from main*/
-int zappy_client(zappy_client_opt_t *opt);
+int		zappy_client(zappy_client_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
-int	zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
+int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
 
-int	zappy_client_see_cb(zappy_client_t *client);
-int zappy_client_receipt(zappy_client_t *client);
-
+int		zappy_client_see_cb(zappy_client_t *client);
+int		zappy_client_receipt(zappy_client_t *client);
 
 // callback
 int		zappy_client_move_cb(zappy_client_t *client);
@@ -209,7 +199,6 @@ int		zappy_broadcast_cb(zappy_client_t *client);
 int		zappy_incantation_cb(zappy_client_t *client);
 int		zappy_fork_cb(zappy_client_t *client);
 int		zappy_connect_nbr_cb(zappy_client_t *client);
-
 
 
 #endif
