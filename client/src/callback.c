@@ -171,7 +171,7 @@ t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 
 // {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
 // TODO : reformater apres correction API
-void			serialize_inventaire(char	inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
+void			serialize_inventaire(char inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
 {
 	bzero(inventaire_str, CLIENT_BUFSIZE);
 	snprintf(inventaire_str, CLIENT_BUFSIZE, "{"
