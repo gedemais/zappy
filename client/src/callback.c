@@ -210,11 +210,11 @@ int		zappy_fork_cb(zappy_client_t *client)
 
 int		zappy_connect_nbr_cb(zappy_client_t *client)
 {
-	(void)client;
-
 	int		r = 0;
 
-	// fprintf(stderr, "%s\n", __func__);
+	client->task = PLAYER_TASK_LOOK;
+	// fprintf(stderr, "%s\n", client->buf);
+	client->player.id = 1; // default is 1 : waiting for api update
 	return (r);
 }
 

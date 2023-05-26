@@ -16,17 +16,19 @@
 
 # define ZAPPY_CLIENT_MAX_STACKED_CMD 1
 
-# define ZAPPY_OK	0
-# define ZAPPY_WAIT	1
-# define ZAPPY_ERROR -1
+# define ZAPPY_OK		0
+# define ZAPPY_WAIT		1
+# define ZAPPY_ERROR	-1
 
 # define VISION_MAP_MAX		81
 # define CASE_ELEMENTS		8
 
-# define ORIENTATION_FRONT		0
-# define ORIENTATION_RIGHT		1
-# define ORIENTATION_BACK		2
-# define ORIENTATION_LEFT		3
+# define ORIENTATION_FRONT	0
+# define ORIENTATION_RIGHT	1
+# define ORIENTATION_BACK	2
+# define ORIENTATION_LEFT	3
+
+# define WAIT_CALLBACK(task, r)		if (r == 0) { task = PLAYER_TASK_WAIT; }
 
 
 enum			e_commands
