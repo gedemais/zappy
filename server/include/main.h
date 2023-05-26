@@ -150,7 +150,7 @@ t_player	*get_team_client(t_env *env, int client_fd);
 
 
 // Directions matched with indices corresponding to e_cardinal_directions members
-static const uint8_t	directions[CDIR_MAX] = {3, 1, 7, 5, 2, 8, 6, 4};
+static const uint8_t	directions[CDIR_MAX] = {1, 8, 7, 6, 5, 4, 3, 2};
 
 // 2D vectors array representing a position offset in four different directions
 static const int8_t		moves[DIR_MAX][2] ={{0, -1},

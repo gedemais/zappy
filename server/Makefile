@@ -47,7 +47,7 @@ OBJS=$(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(MLX) $(OBJS)
+$(NAME): $(LIB) $(OBJS)
 	$(CC) $(FLAGS) -I $(INCS_PATH) -I $(LIB_PATH) -o $(NAME) $(OBJS) $(LIB) -lm
 
 $(SRCS_PATH)%.o: $(SRCS_PATH)%.c $(INCS)
