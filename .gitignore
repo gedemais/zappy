@@ -1,5 +1,9 @@
 *.o
 *.a
+tags
+.vscode
+client/client
+server/server
 zappy_client
 zappy_server
 zappy_graphical_client
