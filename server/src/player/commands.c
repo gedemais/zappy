@@ -51,7 +51,11 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, str);
 		free(str);
 
-		strcat(env->buffers.response, ",");
+		strcat(env->buffers.response, " ");
+		strcat(env->buffers.response, loot_titles[i]);
+
+		if (i < LOOT_MAX - 1)
+			strcat(env->buffers.response, ",");
 	}
 
 	if (!(str = ft_itoa(p->inventory[LOOT_FOOD] * 126 + p->satiety)))
@@ -287,7 +291,6 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 //	if (push_dynarray(&env->world.map[p->tile_y][p->tile_x].content, &loot, false)
 //		|| hatch_egg())
 //		return (ERR_MALLOC_FAILED);
-
 
 	return (ERR_NONE);
 }
