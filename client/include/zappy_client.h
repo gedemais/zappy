@@ -12,6 +12,8 @@
 # include <arpa/inet.h>
 # include <sys/socket.h>
 
+# include "libft.h"
+
 # include "zappy_client_getopt.h"
 
 
@@ -34,44 +36,6 @@
 
 # define WAIT_CALLBACK(task, r)		if (r == 0) { task = PLAYER_TASK_WAIT; }
 
-
-enum			e_commands
-{
-	CMD_AVANCE,
-	CMD_DROITE,
-	CMD_GAUCHE,
-	CMD_VOIR,
-	CMD_INVENTAIRE,
-	CMD_PREND,
-	CMD_POSE,
-	CMD_EXPULSE,
-	CMD_BROADCAST,
-	CMD_INCANTATION,
-	CMD_FORK,
-	CMD_CONNECT_NBR,
-	CMD_MAX
-};
-
-typedef struct	s_zappy_cmds
-{
-	char	name[256];
-	uint8_t	len;
-}				t_cmds;
-
-static t_cmds	commands[CMD_MAX] = {
-	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
-	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
-	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
-	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
-	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
-	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
-	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
-	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
-	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
-	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
-	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
-	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
-};
 
 static char	*zappy_rsp_ok = "ok";
 
@@ -111,29 +75,72 @@ static int	vision_row_center[] = {
 		72
 };
 
-enum		e_ressources
+enum			e_commands
 {
+	CMD_AVANCE,
+	CMD_DROITE,
+	CMD_GAUCHE,
+	CMD_VOIR,
+	CMD_INVENTAIRE,
+	CMD_PREND,
+	CMD_POSE,
+	CMD_EXPULSE,
+	CMD_BROADCAST,
+	CMD_INCANTATION,
+	CMD_FORK,
+	CMD_CONNECT_NBR,
+	CMD_MAX
+};
+
+typedef struct	s_zappy_cmds
+{
+	char	name[256];
+	uint8_t	len;
+}				t_cmds;
+
+static t_cmds	commands[CMD_MAX] = {
+	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
+	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
+	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
+	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
+	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
+	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
+	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
+	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
+	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
+	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
+	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
+	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
+};
+
+typedef struct	s_zappy_ressources
+{
+	char	name[256];
+	uint8_t	len;
+}				t_loot;
+
+enum			e_ressources
+{
+	R_NOURRITURE,
 	R_LINEMATE,
 	R_DERAUMERE,
 	R_SIBUR,
 	R_MENDIANE,
 	R_PHIRAS,
 	R_THYSTAME,
-	R_NOURRITURE,
 	R_PLAYER,
 	R_MAX
 };
 
-static char	*case_ressources[R_MAX] =
-{
-	[R_LINEMATE]	= "linemate",
-	[R_DERAUMERE]	= "deraumere",
-	[R_SIBUR]		= "sibur",
-	[R_MENDIANE]	= "mendiane",
-	[R_PHIRAS]		= "phiras",
-	[R_THYSTAME]	= "thystame",
-	[R_NOURRITURE]	= "nourriture",
-	[R_PLAYER]		= "player"
+static t_loot	ressources[R_MAX] = {
+	[R_LINEMATE]	= {.name = "linemate", .len = strlen("linemate")},
+	[R_DERAUMERE]	= {.name = "deraumere", .len = strlen("deraumere")},
+	[R_SIBUR]		= {.name = "sibur", .len = strlen("sibur")},
+	[R_MENDIANE]	= {.name = "mendiane", .len = strlen("mendiane")},
+	[R_PHIRAS]		= {.name = "phiras", .len = strlen("phiras")},
+	[R_THYSTAME]	= {.name = "thystame", .len = strlen("thystame")},
+	[R_NOURRITURE]	= {.name = "nourriture", .len = strlen("nourriture")},
+	[R_PLAYER]		= {.name = "player", .len = strlen("player")}
 };
 
 typedef struct	zappy_client_s zappy_client_t;
@@ -159,13 +166,14 @@ enum	e_player_task {
 // {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
 typedef struct	s_zappy_inventaire
 {
-	uint8_t		nourriture;
-	uint8_t		linemate;
-	uint8_t		deraumere;
-	uint8_t		sibur;
-	uint8_t		mendiane;
-	uint8_t		phiras;
-	uint8_t		thystame;
+	int		nourriture;
+	int		linemate;
+	int		deraumere;
+	int		sibur;
+	int		mendiane;
+	int		phiras;
+	int		thystame;
+	int		ttl;
 }				t_inventaire;
 
 typedef struct	s_zappy_player
@@ -179,13 +187,14 @@ typedef struct	s_zappy_player
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
 	t_inventaire	inventaire[PLAYER_MAX];
-	char			broadcast_msg[CLIENT_BUFSIZE];
+	uint8_t			broadcast_msg[CLIENT_BUFSIZE];
 }				t_player;
 
 typedef struct	s_zappy_team
 {
-	uint8_t			size;
-	uint8_t			nb_player;
+	uint8_t			size; // team max size
+	uint8_t			nb_player; // current nb of players
+	char			*name;
 	t_inventaire	inventaire;
 }				t_team;
 
@@ -232,6 +241,8 @@ int		zappy_expulse_cb(zappy_client_t *client);
 int		zappy_broadcast_cb(zappy_client_t *client);
 int		zappy_incantation_cb(zappy_client_t *client);
 int		zappy_fork_cb(zappy_client_t *client);
+
+// callback connect_nbr
 int		zappy_connect_nbr_cb(zappy_client_t *client);
 
 // callback inventaire

@@ -63,7 +63,7 @@ int 	zappy_player(zappy_client_t *client)
 					}
 					break ;
 				case (PLAYER_TASK_BROADCAST):
-					len = strlen(client->player.broadcast_msg);
+					len = strlen((char *)client->player.broadcast_msg);
 					// si on a un message a broadcast
 					if (len > 0) {
 						snprintf(buf, CLIENT_BUFSIZE, "%s %s\n", commands[CMD_BROADCAST].name, client->player.broadcast_msg);

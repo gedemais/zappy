@@ -10,7 +10,7 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 	for (int i = 0; i < view->nb_cells; i++)
 	{
 		tile = dyacc(view, i);
-		strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? "," : "");
+		strcat(env->buffers.response, (i > 0 && i < view->nb_cells) ? ", " : "");
 		for (int j = 0; j < tile->content.nb_cells; j++)
 		{
 			loot = dyacc(&tile->content, j);

@@ -59,7 +59,7 @@ $(SRCS_PATH)%.o: $(SRCS_PATH)%.c $(INCS)
 	@printf " Compiling $<"
 	@printf "                                       \\r"
 	@tput cnorm
-	$(CC) $(FLAGS) -I $(INCS_PATH) -I$(LIB_PATH) -o $@ -c $<
+	$(CC) $(FLAGS) -I $(INCS_PATH) -I $(LIB_PATH) -o $@ -c $<
 
 $(LIB): $(LIB_PATH)
 	@echo "Making Libft..."

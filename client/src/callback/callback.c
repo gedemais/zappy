@@ -122,19 +122,3 @@ int		zappy_fork_cb(zappy_client_t *client)
 }
 
 // ============================================================================
-
-int		zappy_connect_nbr_cb(zappy_client_t *client)
-{
-	int		r = 0;
-
-	// TODO :: si le nb de joueur dans la team n'est pas au max il faudra hatch
-	// on donne au joueur un id
-	if (client->player.id == 0) {
-		client->player.id = 1; // default is 1 : waiting for api update
-	}
-	// on ce prepare a le mettre au travail
-	client->task = PLAYER_TASK_LOOK;
-	return (r);
-}
-
-// ============================================================================

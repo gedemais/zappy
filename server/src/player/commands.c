@@ -51,21 +51,18 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, str);
 		free(str);
 
-		strcat(env->buffers.response, " ");
-		strcat(env->buffers.response, loot_titles[i]);
-
 		if (i < LOOT_MAX - 1)
-			strcat(env->buffers.response, ",");
+			strcat(env->buffers.response, ", ");
 	}
+
+	strcat(env->buffers.response, ", ttl ");
 
 	if (!(str = ft_itoa(p->inventory[LOOT_FOOD] * 126 + p->satiety)))
 		return (ERR_MALLOC_FAILED);
 
-	strcat(env->buffers.response, " ");
 	strcat(env->buffers.response, str);
 	free(str);
 
-	strcat(env->buffers.response, " cycles of food");
 	strcat(env->buffers.response, "}");
 	response(env, p);
 	return (ERR_NONE);
@@ -240,13 +237,12 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 		if (!(remaining = ft_itoa(team->max_client - team->connected)))
 			return (ERR_MALLOC_FAILED);
 		strcat(env->buffers.response, remaining);
-		strcat(env->buffers.response, " ");
+		strcat(env->buffers.response, ", ");
 		free(remaining);
 
 		if (!(used = ft_itoa(team->connected)))
 			return (ERR_MALLOC_FAILED);
 		strcat(env->buffers.response, used);
-		strcat(env->buffers.response, " ");
 		free(used);
 
 		response(env, p);
