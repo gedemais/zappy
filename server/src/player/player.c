@@ -20,22 +20,11 @@ void	teams_log(t_env *env)
 	printf("=====================================\n");
 }
 
-static uint8_t	kill_player(t_env *env)
+static uint8_t	kill_player(t_env *env, t_player *p)
 {
-	t_team		*t;
-	t_player	*p;
-
-	for (int team = 0; team < env->world.teams.nb_cells; team++)
-	{
-		t = dyacc(&env->world.teams, team);
-		for (int player = 0; player < t->players.nb_cells; player++)
-		{
-			p = dyacc(&t->players, player);
-			FLUSH_RESPONSE
-			strcat(env->buffers.response, "mort");
-			response(env, p);
-		}
-	}
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "mort");
+	response(env, p);
 	return (remove_player(env, p->connection));
 }
 
@@ -43,7 +32,7 @@ static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
-		return (kill_player(env));
+		return (kill_player(env, p));
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
@@ -101,9 +90,11 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 {
 	t_team		*team;
 	t_player	*player;
+	uint8_t		*loot;
 
 	if (push_dynarray(&env->world.teams, &env->world.pending, false))
 		return (ERR_MALLOC_FAILED);
+
 	for (int t = 0; t < env->world.teams.nb_cells; t++)
 	{
 		team = dyacc(&env->world.teams, t);
@@ -112,6 +103,18 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 			player = dyacc(&team->players, p);
 			if (player->connection == connection_fd)
 			{
+				for (int i = 0; i < env->world.map[player->tile_y][player->tile_x].content.nb_cells; i++)
+				{
+					loot = dyacc(&env->world.map[player->tile_y][player->tile_x].content, i);
+					if (*loot == 255)
+					{
+						if (extract_dynarray(&env->world.map[player->tile_y][player->tile_x].content, i))
+							return (ERR_MALLOC_FAILED);
+
+						break;
+					}
+				}
+
 				if (extract_dynarray(&team->players, p)
 					|| pop_dynarray(&env->world.teams, false))
 					return (ERR_MALLOC_FAILED);

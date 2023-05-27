@@ -13,9 +13,10 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 {
 	char	*nb_client, *x, *y;
 
+	(void)p;
 	if (!(nb_client = ft_itoa(team->max_client - team->connected))
-		|| !(x = ft_itoa((int)p->tile_x))
-		|| !(y = ft_itoa((int)p->tile_y)))
+		|| !(x = ft_itoa((int)env->settings.map_width))
+		|| !(y = ft_itoa((int)env->settings.map_height)))
 		return (ERR_MALLOC_FAILED);
 
 	FLUSH_RESPONSE
@@ -94,9 +95,9 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			{
 				printf("NO MORE SLOTS AVAILABLE\n");
 				fflush(stdout);
+				remove_pending_player(env, p);
 				return (ERR_NONE);
 			}
-
 		}
 	}
 	return (ERR_NONE);
