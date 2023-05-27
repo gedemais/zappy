@@ -229,7 +229,7 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 {
 	t_team	*team;
-	char	*remaining, *used, *tick, *lvl;
+	char	*remaining, *used;
 
 	if (!(team = get_client_team(env, p->connection)))
 		return (ERR_NONE);
@@ -248,18 +248,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, used);
 		strcat(env->buffers.response, " ");
 		free(used);
-
-		if (!(tick = ft_itoa(env->settings.t)))
-			return (ERR_MALLOC_FAILED);
-		strcat(env->buffers.response, tick);
-		strcat(env->buffers.response, " ");
-		free(tick);
-
-		if (!(lvl = ft_itoa(p->level)))
-			return (ERR_MALLOC_FAILED);
-		strcat(env->buffers.response, lvl);
-		strcat(env->buffers.response, " ");
-		free(lvl);
 
 		response(env, p);
 	}
