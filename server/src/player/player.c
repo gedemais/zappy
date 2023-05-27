@@ -90,9 +90,11 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 {
 	t_team		*team;
 	t_player	*player;
+	uint8_t		*loot;
 
 	if (push_dynarray(&env->world.teams, &env->world.pending, false))
 		return (ERR_MALLOC_FAILED);
+
 	for (int t = 0; t < env->world.teams.nb_cells; t++)
 	{
 		team = dyacc(&env->world.teams, t);
@@ -101,6 +103,18 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 			player = dyacc(&team->players, p);
 			if (player->connection == connection_fd)
 			{
+				for (int i = 0; i < env->world.map[player->tile_y][player->tile_x].content.nb_cells; i++)
+				{
+					loot = dyacc(&env->world.map[player->tile_y][player->tile_x].content, i);
+					if (*loot == 255)
+					{
+						if (extract_dynarray(&env->world.map[player->tile_y][player->tile_x].content, i))
+							return (ERR_MALLOC_FAILED);
+
+						break;
+					}
+				}
+
 				if (extract_dynarray(&team->players, p)
 					|| pop_dynarray(&env->world.teams, false))
 					return (ERR_MALLOC_FAILED);

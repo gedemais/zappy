@@ -35,25 +35,33 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 {
-	char	*amnt;
+	char	*str;
 
 	(void)send_response;
 	FLUSH_RESPONSE
 	strcat(env->buffers.response, "{");
 	for (uint16_t i = 0; i < LOOT_MAX; i++)
 	{
-		if (!(amnt = ft_itoa((int)p->inventory[i])))
+		strcat(env->buffers.response, loot_titles[i]);
+		strcat(env->buffers.response, " ");
+
+		if (!(str = ft_itoa((int)p->inventory[i])))
 			return (ERR_MALLOC_FAILED);
 
-		strcat(env->buffers.response, amnt);
-		free(amnt);
+		strcat(env->buffers.response, str);
+		free(str);
 
-		strcat(env->buffers.response, " ");
-		strcat(env->buffers.response, loot_titles[i]);
-
-		if (i < LOOT_MAX - 1)
-			strcat(env->buffers.response, ", ");
+		strcat(env->buffers.response, ",");
 	}
+
+	if (!(str = ft_itoa(p->inventory[LOOT_FOOD] * 126 + p->satiety)))
+		return (ERR_MALLOC_FAILED);
+
+	strcat(env->buffers.response, " ");
+	strcat(env->buffers.response, str);
+	free(str);
+
+	strcat(env->buffers.response, " cycles of food");
 	strcat(env->buffers.response, "}");
 	response(env, p);
 	return (ERR_NONE);
@@ -135,20 +143,12 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 	t_direction	dir;
 	char		*s;
 	bool		kicked = false;
+	int			direction;
 
 	for (int t = 0; t < env->world.teams.nb_cells; t++)
 	{
 		t_team		*te;
 		t_player	*pl;
-
-		if (!(s = ft_itoa(directions[(int)p->direction.d])))
-			return (ERR_MALLOC_FAILED);
-
-		FLUSH_RESPONSE
-		strcat(env->buffers.response, "deplacement ");
-		strcat(env->buffers.response, s);
-
-		free(s);
 
 		for (int team = 0; team < env->world.teams.nb_cells; team++)
 		{
@@ -165,6 +165,25 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 					cmd_advance(env, pl, false);
 					pl->direction = dir;
 
+					direction = p->direction.d; // Get kicking player absolute direction (broadcast direction format)
+
+					/*direction -= 2; // Get the opposite of it
+					direction += (direction < 0) ? DIR_MAX : 0;
+					direction += (direction >= DIR_MAX) ? -DIR_MAX : 0;
+
+					direction -= pl->direction.d; // Add kicked player referential
+					direction += (direction < 0) ? DIR_MAX : 0;
+					direction += (direction >= DIR_MAX) ? -DIR_MAX : 0;*/
+
+					FLUSH_RESPONSE
+					strcat(env->buffers.response, "deplacement ");
+
+					if (!(s = ft_itoa(direction))) // Invalid for now
+						return (ERR_MALLOC_FAILED);
+
+					strcat(env->buffers.response, s);
+					free(s);
+
 					clamp(&pl->tile_x, 0, env->settings.map_width);
 					clamp(&pl->tile_y, 0, env->settings.map_height);
 					response(env, pl);
@@ -172,7 +191,6 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 			}
 		}
 	}
-
 	if (send_response)
 	{
 		FLUSH_RESPONSE
@@ -207,22 +225,40 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 {
 	t_team	*team;
-	char	*nbr;
+	char	*remaining, *used, *tick, *lvl;
 
-	FLUSH_RESPONSE
 	if (!(team = get_client_team(env, p->connection)))
 		return (ERR_NONE);
-
-	if (!(nbr = ft_itoa(team->max_client - team->connected)))
-		return (ERR_MALLOC_FAILED);
 
 	if (send_response)
 	{
 		FLUSH_RESPONSE
-		strcat(env->buffers.response, nbr);
+		if (!(remaining = ft_itoa(team->max_client - team->connected)))
+			return (ERR_MALLOC_FAILED);
+		strcat(env->buffers.response, remaining);
+		strcat(env->buffers.response, " ");
+		free(remaining);
+
+		if (!(used = ft_itoa(team->connected)))
+			return (ERR_MALLOC_FAILED);
+		strcat(env->buffers.response, used);
+		strcat(env->buffers.response, " ");
+		free(used);
+
+		if (!(tick = ft_itoa(env->settings.t)))
+			return (ERR_MALLOC_FAILED);
+		strcat(env->buffers.response, tick);
+		strcat(env->buffers.response, " ");
+		free(tick);
+
+		if (!(lvl = ft_itoa(p->level)))
+			return (ERR_MALLOC_FAILED);
+		strcat(env->buffers.response, lvl);
+		strcat(env->buffers.response, " ");
+		free(lvl);
+
 		response(env, p);
 	}
-	free(nbr);
 	return (ERR_NONE);
 }
 
@@ -236,11 +272,22 @@ uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	t_dynarray	*tile_content;
+	uint8_t		loot;
 
-	tile_content = env->world.map[p->tile_y][p->tile_x].content;
+	tile_content = &env->world.map[p->tile_y][p->tile_x].content;
 
 	if (tile_content->byte_size == 0
 		&& init_dynarray(&env->world.map[p->tile_y][p->tile_x].content, sizeof(uint8_t), 4))
+		return (ERR_MALLOC_FAILED);
+
+	loot = HATCHING_EGG;
+	(void)loot;
+	(void)p;
+	(void)send_response;
+//	if (push_dynarray(&env->world.map[p->tile_y][p->tile_x].content, &loot, false)
+//		|| hatch_egg())
+//		return (ERR_MALLOC_FAILED);
+
 
 	return (ERR_NONE);
 }

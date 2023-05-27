@@ -1,0 +1,12 @@
+Fix la deconnexion on fly (?)
+quand le joueur quitte le jeu le X est tjrs sur la minimap
+quand tu reco un joueur sans reboot le serveur le nb de joueur en ligne sactualise pas
+
+Update la direction du kick
+
+Fix la commande prend qui ne ramasse pas le dernier objet d'une stack sur une case
+
+check ca:
+j'ai des commands stacke qui sont discard on dirait, le serveur gere bien jusqua 10 cmd par client ?
+
+select qui fail sur macos
