@@ -14,6 +14,7 @@ int			zappy_client_move_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_avance_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -26,6 +27,7 @@ int		zappy_avance_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_droite_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -38,6 +40,7 @@ int		zappy_droite_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_gauche_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -50,6 +53,7 @@ int		zappy_gauche_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_prend_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -62,6 +66,7 @@ int		zappy_prend_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_pose_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -74,6 +79,7 @@ int		zappy_pose_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_expulse_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -86,6 +92,7 @@ int		zappy_expulse_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_broadcast_cb(zappy_client_t *client)
 {
 	int		r = 0;
@@ -99,6 +106,8 @@ int		zappy_broadcast_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: elevation en cours
+// niveau actuel : K
 int		zappy_incantation_cb(zappy_client_t *client)
 {
 	(void)client;
@@ -111,6 +120,7 @@ int		zappy_incantation_cb(zappy_client_t *client)
 
 // ============================================================================
 
+// response: ok/ko
 int		zappy_fork_cb(zappy_client_t *client)
 {
 	(void)client;

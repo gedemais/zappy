@@ -29,7 +29,7 @@ void			update_team_inventaire(zappy_client_t *client)
 	// on reset l'inventaire de team
 	memset(&client->team.inventaire, 0, sizeof(t_inventaire));
 	// on loop sur l'inventaire de tout les joueurs
-	for (unsigned int i = 0; i < PLAYER_MAX + 1; i++) {
+	for (int i = 0; i < client->team.nb_player + 1; i++) {
 
 		inventaire_player = client->player.inventaire[i];
 		client->team.inventaire.nourriture += inventaire_player.nourriture;
@@ -42,20 +42,19 @@ void			update_team_inventaire(zappy_client_t *client)
 	}
 }
 
-t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
+void		deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire)
 {
 	char			**str_split;
 	char			*str;
 	int				tmp;
 	uint8_t			i = 0;
-	t_inventaire	inventaire;
-	int				*ptr = (int *)&inventaire;
+	int				*ptr = (int *)inventaire;
 
-	memset(&inventaire, 0, sizeof(t_inventaire));
 	// on split la string pour avoir une string par type de ressources
 	str_split = ft_strsplit((char *)inventaire_str, ",");
 	if (str_split == NULL)
-		return (inventaire);
+		return ;
+	memset(inventaire, 0, sizeof(t_inventaire));
 	// on loop sur toutes les ressources pour les assignation a la structure inventaire
 	while (i < R_MAX - 1) {
 		// on avance str_split[i] de 1 pour skip l'espace qui precede le nom de la ressource
@@ -64,8 +63,6 @@ t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 		str = strstr((char *)str_split[i] + 1, ressources[i].name) + ressources[i].len + 1;
 		// on atoi car l'int a recuperer peut etre plus grand que 10
 		ptr[i] = atoi(str);
-		// on n'oublie pas de free les string du split
-		free(str_split[i]);
 		++i;
 	}
 	// il reste a gerer le ttl qui n'est pas dans l'enum des ressources
@@ -73,12 +70,8 @@ t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 	// on reduit la string de 1 pour supprimer le } fermant
 	str[strlen(str) - 1] = '\0';
 	ptr[i] = atoi(str);
-	// on free la string du tll
-	free(str_split[i]);
 	// on free le tableau split
-	free(str_split);
-	// return de l'inventaire bien remplit
-	return (inventaire);
+	ft_arrfree(str_split);
 }
 
 // response: {nourriture n, linemate n, deraumere n, sibur n, mendiane n, phiras n, thystame n, ttl n}
@@ -110,19 +103,20 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 	int	r = 0;
 
 	// on stock linventaire du joueur
-	client->player.inventaire[client->player.id] = deserialize_inventaire(client->buf);
+	deserialize_inventaire(client->buf, &client->player.inventaire[client->player.id]);
 	// on update son inventaire de team
-	// update_team_inventaire(client);
+	update_team_inventaire(client);
 
 	// debug functions for serialize / deserialize --------------------------------------------------
-	print_inventaire(client->player.inventaire[client->player.id]);
-	serialize_inventaire(client->player.broadcast_msg, client->player.inventaire[client->player.id]);
-	fprintf(stderr, "\nserialize inventaire: %s\n----------\n", client->player.broadcast_msg);
+	// print_inventaire(client->player.inventaire[client->player.id]);
+	// serialize_inventaire(client->player.broadcast_msg, client->player.inventaire[client->player.id]);
+	// fprintf(stderr, "\nserialize inventaire: %s\n----------\n", client->player.broadcast_msg);
 	// ----------------------------------------------------------------------------------------------
 
-	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
+	// on prepare le broadcast pour que les autres joueurs actualisent leurs inventaires de team
 	snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
-		"%s %s player_id %d", commands[CMD_INVENTAIRE].name, client->buf, client->player.id);
+		"%s %s,player_id %d,team_name %s",
+		commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
 	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }

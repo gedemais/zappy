@@ -10,6 +10,7 @@
 # include <strings.h>
 # include <unistd.h>
 # include <arpa/inet.h>
+# include <sys/select.h>
 # include <sys/socket.h>
 
 # include "libft.h"
@@ -248,8 +249,9 @@ int		zappy_connect_nbr_cb(zappy_client_t *client);
 // callback inventaire
 int				zappy_inventaire_cb(zappy_client_t *client);
 void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
-t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE]);
+void			deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire);
 void			update_team_inventaire(zappy_client_t *client);
+void			print_inventaire(t_inventaire inventaire);
 
 
 #endif

@@ -1,6 +1,22 @@
 #include "zappy_client.h"
 
 
+static int	zappy_handle_server_message(zappy_client_t *client)
+{
+	int	r = 0;
+
+	if (!strcmp((char *)client->buf, "deplacement")) {
+		r = zappy_deplacement(client);
+	}
+	else if (!strcmp((char *)client->buf, "message")) {
+		r = zappy_message(client);
+	}
+	else if (!strcmp((char *)client->buf, "mort")) {
+		r = zappy_mort(client);
+	}
+	return (r);
+}
+
 static int	zappy_handle_server_response(zappy_client_t *client)
 {
 	int	r = 0;
@@ -35,19 +51,13 @@ int			zappy_client_receive(zappy_client_t *client)
 				// =====================================
 				// permet de gerer les messages de l'API
 				// =====================================
-				if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
-					zappy_deplacement(client);
-				}
-				else if (!memcmp(client->buf, "message", strlen("message"))) {
-					zappy_message(client);
-				}
-				else if (!memcmp(client->buf, "mort", strlen("mort"))) {
-					zappy_mort(client);
-				}
+				r = zappy_handle_server_message(client);
 				// ======================================
 				// permet de gerer les responses de l'API
 				// ======================================
-				zappy_handle_server_response(client);
+				if (r == 0) {
+					r = zappy_handle_server_response(client);
+				}
 			}
 		}
 		else if (r < 0) {

@@ -5,8 +5,7 @@ int			zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_
 {
 	int r = 0;
 
-	if (client->cmd_stack_size >= ZAPPY_CLIENT_MAX_STACKED_CMD)
-	{
+	if (client->cmd_stack_size >= ZAPPY_CLIENT_MAX_STACKED_CMD) {
 		r = ZAPPY_WAIT;
 	}
 	if (r == 0)

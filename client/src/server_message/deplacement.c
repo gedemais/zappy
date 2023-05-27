@@ -2,7 +2,7 @@
 
 
 // handle server's message : deplacement
-// deplacement <K> (With K indicating the direction of the square where the player comes from)
+// message: deplacement <K> (With K indicating the direction of the square where the player comes from)
 int		zappy_deplacement(zappy_client_t *client)
 {
 	(void)client;

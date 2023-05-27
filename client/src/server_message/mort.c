@@ -2,7 +2,7 @@
 
 
 // handle server's message : mort
-// mort
+// message: mort
 int		zappy_mort(zappy_client_t *client)
 {
 	(void)client;

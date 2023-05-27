@@ -19,8 +19,8 @@ int		zappy_connect_nbr_cb(zappy_client_t *client)
 		client->player.id = tmp - 48;
 		client->team.nb_player = client->player.id;
 		client->team.size += client->player.id;
-		fprintf(stderr, "%s: team size: %d, nb_player: %d, id: %d\n----------\n",
-			__func__, client->team.size, client->team.nb_player, client->player.id);
+		fprintf(stderr, "%s: team size: %d, nb_player: %d, id: %d, team: %s\n----------\n",
+			__func__, client->team.size, client->team.nb_player, client->player.id, client->team.name);
 	} else {
 		// currentslot
 		memcpy(&tmp, strstr((char *)client->buf, ", ") + 2, sizeof(char));

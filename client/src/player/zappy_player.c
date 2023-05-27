@@ -13,6 +13,8 @@ int 	zappy_player(zappy_client_t *client)
 	client->task = PLAYER_TASK_ID;
 	while (run)
 	{
+		// reset du buffer :: pe inutile ?
+		bzero(client->buf, CLIENT_BUFSIZE);
 		r = zappy_client_receive(client);
 		if (r == 0)
 		{
@@ -66,7 +68,7 @@ int 	zappy_player(zappy_client_t *client)
 					len = strlen((char *)client->player.broadcast_msg);
 					// si on a un message a broadcast
 					if (len > 0) {
-						snprintf(buf, CLIENT_BUFSIZE, "%s %s\n", commands[CMD_BROADCAST].name, client->player.broadcast_msg);
+						snprintf(buf, CLIENT_BUFSIZE, "%s %s", commands[CMD_BROADCAST].name, client->player.broadcast_msg);
 						r = zappy_client_transceive(client, buf, CLIENT_BUFSIZE, zappy_broadcast_cb);
 						WAIT_CALLBACK(client->task, r)
 					} else { // sinon on reprend le loot
