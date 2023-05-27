@@ -19,7 +19,7 @@ int 	zappy_player(zappy_client_t *client)
 			switch (client->task)
 			{
 				case (PLAYER_TASK_ID):
-					// il faut que le joueur recupere son id en priorite
+					// on recupere l'id du joueur et le nb de slot libre/max
 					r = zappy_client_transceive(client, commands[CMD_CONNECT_NBR].name, commands[CMD_CONNECT_NBR].len, zappy_connect_nbr_cb);
 					WAIT_CALLBACK(client->task, r)
 					break ;
@@ -66,8 +66,8 @@ int 	zappy_player(zappy_client_t *client)
 					len = strlen(client->player.broadcast_msg);
 					// si on a un message a broadcast
 					if (len > 0) {
-						snprintf(buf, len, "%s %s\n", commands[CMD_BROADCAST].name, client->player.broadcast_msg);
-						r = zappy_client_transceive(client, buf, len, zappy_broadcast_cb);
+						snprintf(buf, CLIENT_BUFSIZE, "%s %s\n", commands[CMD_BROADCAST].name, client->player.broadcast_msg);
+						r = zappy_client_transceive(client, buf, CLIENT_BUFSIZE, zappy_broadcast_cb);
 						WAIT_CALLBACK(client->task, r)
 					} else { // sinon on reprend le loot
 						client->task = PLAYER_TASK_LOOT;

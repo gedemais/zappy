@@ -20,6 +20,26 @@ void			print_inventaire(t_inventaire inventaire)
 		inventaire.thystame);
 }
 
+void			update_team_inventaire(zappy_client_t *client)
+{
+	t_inventaire	inventaire_player;
+
+	// on reset l'inventaire de team
+	memset(&client->team.inventaire, 0, sizeof(t_inventaire));
+	// on loop sur l'inventaire de tout les joueurs
+	for (unsigned int i = 0; i < PLAYER_MAX + 1; i++) {
+
+		inventaire_player = client->player.inventaire[i];
+		client->team.inventaire.nourriture += inventaire_player.nourriture;
+		client->team.inventaire.linemate += inventaire_player.linemate;
+		client->team.inventaire.deraumere += inventaire_player.deraumere;
+		client->team.inventaire.sibur += inventaire_player.sibur;
+		client->team.inventaire.mendiane += inventaire_player.mendiane;
+		client->team.inventaire.phiras += inventaire_player.phiras;
+		client->team.inventaire.thystame += inventaire_player.thystame;
+	}
+}
+
 // TODO : reformater apres correction API
 t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 {
@@ -45,10 +65,10 @@ t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
 
 // {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
 // TODO : reformater apres correction API
-void			serialize_inventaire(char inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
+void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
 {
 	bzero(inventaire_str, CLIENT_BUFSIZE);
-	snprintf(inventaire_str, CLIENT_BUFSIZE, "{"
+	snprintf((char *)inventaire_str, CLIENT_BUFSIZE, "{"
 		"%d nourriture, "
 		"%d linemate, "
 		"%d deraumere, "
@@ -72,6 +92,8 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 
 	// on stock linventaire du joueur
 	client->player.inventaire[client->player.id] = deserialize_inventaire(client->buf);
+	// on update son inventaire de team
+	update_team_inventaire(client);
 
 	// debug functions for serialize / deserialize --------------------------------------------------
 	// print_inventaire(client->player.inventaire[client->player.id]);
@@ -80,9 +102,8 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 	// ----------------------------------------------------------------------------------------------
 
 	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
-	bzero(client->player.broadcast_msg, CLIENT_BUFSIZE);
-	strcat(client->player.broadcast_msg, "inventaire ");
-	strcat(client->player.broadcast_msg, (char *)client->buf);
+	snprintf(client->player.broadcast_msg, CLIENT_BUFSIZE,
+		"%s %s player_id %d", commands[CMD_INVENTAIRE].name, client->buf, client->player.id);
 	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }
