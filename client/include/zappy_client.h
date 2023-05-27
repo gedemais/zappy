@@ -7,6 +7,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <strings.h>
 # include <unistd.h>
 # include <arpa/inet.h>
 # include <sys/socket.h>
@@ -97,6 +98,7 @@ static int	vision_row_start[] = {
 		49,
 		64
 };
+
 static int	vision_row_center[] = {
 		0,
 		2,
@@ -176,7 +178,7 @@ typedef struct	s_zappy_player
 	uint8_t			relative_orientation; // Relative orientation, always start at 0 when see
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
-	t_inventaire	inventaire[PLAYER_MAX + 1];
+	t_inventaire	inventaire[PLAYER_MAX];
 	char			broadcast_msg[CLIENT_BUFSIZE];
 }				t_player;
 
@@ -224,7 +226,6 @@ int		zappy_avance_cb(zappy_client_t *client);
 int		zappy_droite_cb(zappy_client_t *client);
 int		zappy_gauche_cb(zappy_client_t *client);
 int		zappy_voir_cb(zappy_client_t *client);
-int		zappy_inventaire_cb(zappy_client_t *client);
 int		zappy_prend_cb(zappy_client_t *client);
 int		zappy_pose_cb(zappy_client_t *client);
 int		zappy_expulse_cb(zappy_client_t *client);
@@ -232,6 +233,12 @@ int		zappy_broadcast_cb(zappy_client_t *client);
 int		zappy_incantation_cb(zappy_client_t *client);
 int		zappy_fork_cb(zappy_client_t *client);
 int		zappy_connect_nbr_cb(zappy_client_t *client);
+
+// callback inventaire
+int				zappy_inventaire_cb(zappy_client_t *client);
+void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
+t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE]);
+void			update_team_inventaire(zappy_client_t *client);
 
 
 #endif
