@@ -2,15 +2,17 @@
 # define ZAPPY_CLIENT_H
 
 
-# include <stdint.h>
-# include <arpa/inet.h>
-# include <stdio.h>
-# include <string.h>
-# include <sys/socket.h>
-# include <unistd.h>
 # include <stdbool.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <arpa/inet.h>
+# include <sys/socket.h>
 
 # include "zappy_client_getopt.h"
+
 
 # define CLIENT_BUFSIZE 4096
 # define PLAYER_MAX		6
@@ -70,10 +72,10 @@ static t_cmds	commands[CMD_MAX] = {
 	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
 };
 
-static char *zappy_rsp_ok = "ok";
+static char	*zappy_rsp_ok = "ok";
 
 /* Some helpfull static const for relative vision_map array */
-static int vision_row_size[] = {
+static int	vision_row_size[] = {
 		1,
 		3,
 		5,
@@ -84,7 +86,7 @@ static int vision_row_size[] = {
 		15,
 		17
 };
-static int vision_row_start[] = {
+static int	vision_row_start[] = {
 		0,
 		1,
 		4,
@@ -95,7 +97,7 @@ static int vision_row_start[] = {
 		49,
 		64
 };
-static int vision_row_center[] = {
+static int	vision_row_center[] = {
 		0,
 		2,
 		6,
@@ -107,7 +109,7 @@ static int vision_row_center[] = {
 		72
 };
 
-enum	e_ressources
+enum		e_ressources
 {
 	R_LINEMATE,
 	R_DERAUMERE,
@@ -120,7 +122,7 @@ enum	e_ressources
 	R_MAX
 };
 
-static char *case_ressources[R_MAX] =
+static char	*case_ressources[R_MAX] =
 {
 	[R_LINEMATE]	= "linemate",
 	[R_DERAUMERE]	= "deraumere",
@@ -132,16 +134,16 @@ static char *case_ressources[R_MAX] =
 	[R_PLAYER]		= "player"
 };
 
-typedef struct zappy_client_s zappy_client_t;
+typedef struct	zappy_client_s zappy_client_t;
 
-typedef int (*zappy_client_cmd_cb_t)(zappy_client_t *);
+typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *);
 
-typedef struct zappy_client_cmd_s
+typedef struct	zappy_client_cmd_s
 {
 	char					*cmd;
 	uint8_t					id, lvl, option;
 	zappy_client_cmd_cb_t	cb;
-} zappy_client_cmd_t;
+}				zappy_client_cmd_t;
 
 enum	e_player_task {
 	PLAYER_TASK_WAIT,
@@ -164,7 +166,7 @@ typedef struct	s_zappy_inventaire
 	uint8_t		thystame;
 }				t_inventaire;
 
-typedef struct s_zappy_player
+typedef struct	s_zappy_player
 {
 	uint8_t			id, lvl;
 	int				pos_x; // Absolute position, unused ?
@@ -185,7 +187,7 @@ typedef struct	s_zappy_team
 	t_inventaire	inventaire;
 }				t_team;
 
-typedef struct zappy_client_s
+typedef struct	zappy_client_s
 {
 	int					socket;
 	struct sockaddr_in	sockaddr;
@@ -200,12 +202,16 @@ typedef struct zappy_client_s
 	uint8_t				task;
 }				zappy_client_t;
 
+/* argvs parsing */
+int		zappy_client_getopt(int ac, char **av, zappy_client_opt_t *opt);
 /* main function called from main*/
 int		zappy_client(zappy_client_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
 int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
+int		zappy_client_receive(zappy_client_t *client);
 
-int		zappy_client_receipt(zappy_client_t *client);
+// Zappy player, the happy-go-lucky farmer
+int		zappy_player(zappy_client_t *client);
 
 // server's messages handlers
 int		zappy_message(zappy_client_t *client);
@@ -214,7 +220,6 @@ int		zappy_mort(zappy_client_t *client);
 
 // callback
 int		zappy_client_move_cb(zappy_client_t *client);
-
 int		zappy_avance_cb(zappy_client_t *client);
 int		zappy_droite_cb(zappy_client_t *client);
 int		zappy_gauche_cb(zappy_client_t *client);

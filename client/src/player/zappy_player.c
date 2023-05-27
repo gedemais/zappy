@@ -13,7 +13,7 @@ int 	zappy_player(zappy_client_t *client)
 	client->task = PLAYER_TASK_ID;
 	while (run)
 	{
-		r = zappy_client_receipt(client);
+		r = zappy_client_receive(client);
 		if (r == 0)
 		{
 			switch (client->task)

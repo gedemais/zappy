@@ -1,10 +1,13 @@
 SRCS_NAME=main.c\
-		  zappy_client.c\
-		  zappy_player.c\
-		  callback.c\
 		  zappy_client_getopt.c\
-		  zappy_client_move.c\
+		  callback/callback.c\
+		  callback/inventaire.c\
+		  callback/voir.c\
+		  player/zappy_client_move.c\
+		  player/zappy_player.c\
 		  server_message/deplacement.c\
 		  server_message/message.c\
 		  server_message/mort.c\
-		  
+		  tcp/zappy_client_receive.c\
+		  tcp/zappy_client_transceive.c\
+		  tcp/zappy_client.c\
