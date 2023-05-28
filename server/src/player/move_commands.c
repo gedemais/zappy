@@ -2,7 +2,6 @@
 
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
 	t_tile	*tile;
 	uint8_t	loot = 255;
 
@@ -25,18 +24,10 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 
 
 			if (tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
-			{
-				printf("init\n");
-				fflush(stdout);
 				return (ERR_MALLOC_FAILED);
-			}
 
 			if (push_dynarray(&tile->content, &loot, false))
-			{
-				printf("push\n");
-				fflush(stdout);
 				return (ERR_MALLOC_FAILED);
-			}
 
 			if (send_response)
 			{
@@ -46,13 +37,11 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 			}
 		}
 	
-	printf("np\n");
 	return (ERR_NONE);
 }
 
 uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
 	p->direction.d--;
 	if (send_response)
 	{
@@ -65,7 +54,6 @@ uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 {
-	printf("%s\n", __FUNCTION__);
 	p->direction.d++;
 	if (send_response)
 	{

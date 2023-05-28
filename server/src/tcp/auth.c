@@ -72,8 +72,6 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 
 	remove_pending_player(env, p);
 
-	team->connected++;
-
 	return (ERR_NONE);
 }
 
@@ -93,7 +91,6 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			else
 			{
 				printf("NO MORE SLOTS AVAILABLE\n");
-				fflush(stdout);
 				remove_pending_player(env, p);
 				return (ERR_NONE);
 			}

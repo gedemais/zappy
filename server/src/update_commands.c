@@ -23,7 +23,6 @@ uint8_t	update_commands(t_env *env)
 	int			i = 0;
 
 	cmd_queue = &env->buffers.cmd_queue;
-	printf("THERE %d\n", cmd_queue->nb_cells);
 	// Iterate on cmd queue
 	while (i < cmd_queue->nb_cells)
 	{

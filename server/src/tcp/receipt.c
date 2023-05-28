@@ -81,7 +81,7 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 				{
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
 					fflush(stdout);
-					sleep(1);
+					//sleep(1);
 
 					env->buffers.connections[i] = new_fd; // We save the connection for later
 														  //
@@ -160,8 +160,8 @@ uint8_t	receipt(t_env *env)
 						continue;
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
-					printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
-					fflush(stdout);
+					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
+					//fflush(stdout);
 
 					if ((code = process_request(env, connections[i])))
 						return (code);

@@ -1,20 +1,6 @@
-Fix la deconnexion on fly (?)
-quand le joueur quitte le jeu le X est tjrs sur la minimap
-quand tu reco un joueur sans reboot le serveur le nb de joueur en ligne sactualise pas
-connection reset
-
 Update la direction du kick
-
-Update la direction du kick
-
-check ca:
-j'ai des commands stacke qui sont discard on dirait, le serveur gere bien jusqua 10 cmd par client ?
 
 select qui fail sur macos
-
-Client disconnected of slot 1 (fd : 4)!
-server: src/player/player.c:130: remove_player: Assertion `false' failed.
-[1]    27094 IOT instruction (core dumped)  ./server -p 8080 -x 30 -y 30 -n team_a -c 6 -t 30
 
 fork
 
