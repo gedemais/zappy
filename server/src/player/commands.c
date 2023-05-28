@@ -51,11 +51,7 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, str);
 		free(str);
 
-		strcat(env->buffers.response, " ");
-		strcat(env->buffers.response, loot_titles[i]);
-
-		if (i < LOOT_MAX - 1)
-			strcat(env->buffers.response, ",");
+		strcat(env->buffers.response, ",");
 	}
 
 	if (!(str = ft_itoa(p->inventory[LOOT_FOOD] * 126 + p->satiety)))
@@ -66,7 +62,7 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 	free(str);
 
 	strcat(env->buffers.response, " cycles of food");
-	strcat(env->buffers.response, "}");
+	strcat(env->buffers.response, "}\n");
 	response(env, p);
 	return (ERR_NONE);
 }
@@ -81,7 +77,7 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 	FLUSH_RESPONSE
 	if (env->buffers.cmd_params[0] == NULL)
 	{
-		strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko\n");
 		return (ERR_NONE);
 	}
 
@@ -92,17 +88,21 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 	for (int i = 0; i < tile->content.nb_cells; i++)
 	{
 		loot_ptr = dyacc(&tile->content, i);
-		if ((uint8_t)*loot_ptr == loot && (found = true)
-			&& extract_dynarray(&tile->content, i))
-			return (ERR_MALLOC_FAILED);
+		if ((uint8_t)*loot_ptr == loot)
+		{
+			found = true;
+			if (extract_dynarray(&tile->content, i))
+				return (ERR_MALLOC_FAILED);
+			break ;
+		}
 	}
 
 	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
-		strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko\n");
 	else
 	{
 		p->inventory[(int)loot]++;
-		strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok\n");
 	}
 	if (send_response)
 		response(env, p);
@@ -116,7 +116,7 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	if (env->buffers.cmd_params[0] == NULL)
 	{
-		strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko\n");
 		return (ERR_NONE);
 	}
 
@@ -126,10 +126,10 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	FLUSH_RESPONSE
 	if (loot == 255 || p->inventory[loot] == 0)
-		strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko\n");
 	else
 	{
-		strcat(env->buffers.response, "ok");
+		strcat(env->buffers.response, "ok\n");
 		p->inventory[loot]--;
 		if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
 			|| push_dynarray(&tile->content, &loot, false))
@@ -187,6 +187,7 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 
 					strcat(env->buffers.response, s);
 					free(s);
+					strcat(env->buffers.response, "\n");
 
 					clamp(&pl->tile_x, 0, env->settings.map_width);
 					clamp(&pl->tile_y, 0, env->settings.map_height);
@@ -198,7 +199,7 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 	if (send_response)
 	{
 		FLUSH_RESPONSE
-		strcat(env->buffers.response, kicked ? "ok" : "ko");
+		strcat(env->buffers.response, kicked ? "ok\n" : "ko\n");
 		response(env, p);
 	}
 
@@ -214,14 +215,15 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	FLUSH_RESPONSE
 	if (env->buffers.cmd_params[0] == NULL)
 	{
-		strcat(env->buffers.response, "ko");
+		strcat(env->buffers.response, "ko\n");
 		response(env, p);
+		return (ERR_NONE);
 	}
 
 	if ((code = deliver_messages(env, p)) != ERR_NONE)
 		return (code);
 
-	strcat(env->buffers.response, "ok");
+	strcat(env->buffers.response, "ok\n");
 	response(env, p);
 	return (ERR_NONE);
 }
@@ -231,7 +233,7 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	t_team	*team;
 	char	*remaining, *used;
 
-	if (!(team = get_client_team(env, p->connection)))
+	if (!(team = get_client_team(env, *p->connection)))
 		return (ERR_NONE);
 
 	if (send_response)
@@ -246,8 +248,9 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 		if (!(used = ft_itoa(team->connected)))
 			return (ERR_MALLOC_FAILED);
 		strcat(env->buffers.response, used);
-		strcat(env->buffers.response, " ");
 		free(used);
+
+		strcat(env->buffers.response, "\n");
 
 		response(env, p);
 	}

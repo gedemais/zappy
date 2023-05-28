@@ -3,7 +3,7 @@
 static char		is_diagonal(t_player *sender, t_player *receiver)
 {
 	int		sender_slope, receiver_slope;
-	char	dir;
+	char	dir = BDIR_MAX;
 
 	sender_slope = abs(sender->tile_x - sender->tile_y);
 	receiver_slope = abs(receiver->tile_x - receiver->tile_y);
@@ -26,10 +26,14 @@ static char		is_diagonal(t_player *sender, t_player *receiver)
 static char		get_direction(t_player *sender, t_player *receiver)
 {
 	char	dir = BDIR_MAX;
-	int		rx, ry;
+	float	rx = sender->tile_x - receiver->tile_x;
+	float	ry = sender->tile_y - receiver->tile_y;
 	float	m;
 
-	m = (sender->tile_y - receiver->tile_y) / (sender->tile_x - receiver->tile_x);
+	if ((dir = is_diagonal(sender, receiver)) < BDIR_MAX) // Diagonales
+		return (dir);
+
+	m = ry / rx;
 	if (m < -1.0f || m > 1.0f)
 	{
 		if (receiver->tile_y < sender->tile_y) // NORTH
@@ -44,8 +48,6 @@ static char		get_direction(t_player *sender, t_player *receiver)
 		else if (sender->tile_x < receiver->tile_x) // WEST
 			dir = BDIR_WEST;
 	}
-	if (dir == BDIR_MAX)
-		dir = is_diagonal(sender, receiver); // Diagonales
 
 	return (dir);
 }
@@ -64,8 +66,19 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 						};
 	char		dir;
 
-	if ((dir = get_direction(sender, receiver)) == BDIR_MAX)
-		exit(1);
+	if (receiver->tile_x == sender->tile_x
+		&& receiver->tile_y == sender->tile_y)
+	{
+		strcat(env->buffers.response, "0");
+		strcat(env->buffers.response, ",");
+		return ;
+	}
+
+	else if ((dir = get_direction(sender, receiver)) == BDIR_MAX)
+	{
+		printf("CANT FIND_DIRECTION\n");
+		assert(false);
+	}
 
 	dir -= (unsigned char)receiver->direction.d;
 
@@ -103,7 +116,7 @@ uint8_t	deliver_messages(t_env *env, t_player *p)
 		for (int player = 0; player < te->players.nb_cells; player++)
 		{
 			pl = dyacc(&te->players, player);
-			if (pl == p)
+			if (pl == p || pl == NULL)
 				continue;
 			// Compute shortest path + direction and add it to response
 			build_message(env, p, pl);

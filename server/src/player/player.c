@@ -14,18 +14,40 @@ void	teams_log(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->queued_commands);
 		}
 	}
 	printf("=====================================\n");
 }
 
-static uint8_t	kill_player(t_env *env, t_player *p)
+uint8_t	kill_player(t_env *env, t_player *p)
 {
+	t_dynarray	*cmd_queue;
+	t_cmd		*cmd;
+	int			i = 0;
+
+	cmd_queue = &env->buffers.cmd_queue;
+	// Remove commands queued by the dead player
+	while (i < cmd_queue->nb_cells)
+	{
+		cmd = dyacc(cmd_queue, i);
+		if (*cmd->p->connection == *p->connection)
+		{
+			if (extract_dynarray(cmd_queue, i))
+				return (ERR_MALLOC_FAILED);
+			continue ;
+		}
+		i++;
+	}
+
 	FLUSH_RESPONSE
-	strcat(env->buffers.response, "mort");
+	strcat(env->buffers.response, "mort\n");
 	response(env, p);
-	return (remove_player(env, p->connection));
+
+	close(*p->connection);
+	*p->connection = -1;
+
+	return (remove_player(env, *p->connection));
 }
 
 static uint8_t	update_food(t_env *env, t_player *p)
@@ -67,7 +89,7 @@ uint8_t			update_players(t_env *env)
 	return (ERR_NONE);
 }
 
-static void		fill_player(t_env *env, t_player *new, int connection)
+static void		fill_player(t_env *env, t_player *new, int *connection)
 {
 	int	d = rand() % DIR_MAX;
 	// Wipe new player variable
@@ -81,7 +103,7 @@ static void		fill_player(t_env *env, t_player *new, int connection)
 
 	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!
-	new->direction = *((t_direction*)&d); // Direction assignment
+	new->direction.d = (uint8_t)d; // Direction assignment
 	new->connection = connection; // Connection fd assignment
 }
 
@@ -90,7 +112,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 {
 	t_team		*team;
 	t_player	*player;
-	uint8_t		*loot;
+	uint8_t		code;
 
 	if (push_dynarray(&env->world.teams, &env->world.pending, false))
 		return (ERR_MALLOC_FAILED);
@@ -101,19 +123,10 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 		for (int p = 0; p < team->players.nb_cells; p++)
 		{
 			player = dyacc(&team->players, p);
-			if (player->connection == connection_fd)
+			if (*player->connection == connection_fd)
 			{
-				for (int i = 0; i < env->world.map[player->tile_y][player->tile_x].content.nb_cells; i++)
-				{
-					loot = dyacc(&env->world.map[player->tile_y][player->tile_x].content, i);
-					if (*loot == 255)
-					{
-						if (extract_dynarray(&env->world.map[player->tile_y][player->tile_x].content, i))
-							return (ERR_MALLOC_FAILED);
-
-						break;
-					}
-				}
+				if ((code = remove_player_from_tile(env, player->tile_x, player->tile_y)) != ERR_NONE)
+					return (code);
 
 				if (extract_dynarray(&team->players, p)
 					|| pop_dynarray(&env->world.teams, false))
@@ -132,7 +145,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 }
 
 // Add a new payer to a specific team
-uint8_t			add_player(t_env *env, t_team *team, int connection)
+uint8_t			add_player(t_env *env, t_team *team, int *connection)
 {
 	t_player	new;
 	uint8_t		d = rand() % DIR_MAX; // Player's random spawn direction definition

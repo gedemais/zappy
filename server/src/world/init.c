@@ -34,21 +34,33 @@ void	print_map(t_env *env)
 {
 	uint8_t		*t;
 	t_player	*p;
+	bool		player;
+	char		buffer[4096];
+	uint16_t	index = 0;
 
+	memset(buffer, 0, 4096);
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
 		for (uint32_t x = 0; x < env->settings.map_width; x++)
 		{
-			t = dyacc(&env->world.map[y][x].content, 0);
-			if (t == NULL || env->world.map[y][x].content.nb_cells == 0)
-				printf(". ");
-			else if (*t == 255)
-				printf("x ");
-			else
-				printf("%d ", *t);
+			player = false;
+			for (int i = 0; i < env->world.map[y][x].content.nb_cells; i++)
+			{
+				t = dyacc(&env->world.map[y][x].content, 0);
+				if (*t == 255)
+				{
+					player = true;
+					break ;
+				}
+			}
+			strcat(&buffer[index], player ? "X " : "o ");
+			index += 2;
 		}
-		printf("\n");
+		strcat(&buffer[index], "\n");
+		index++;
 	}
+	write(1, buffer, index);
+	fflush(stdout);
 }
 
 // Initialization of world map

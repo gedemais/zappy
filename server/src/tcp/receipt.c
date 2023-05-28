@@ -31,12 +31,16 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 		{
 			if (strcmp(tokens[0], cmd_names[i]) == 0)
 			{
+				cmd_found = true;
+
+				if (player->queued_commands >= MAX_QUEUED_CMD)
+					break ;
+
 				bzero(&new, sizeof(t_cmd));
 				new = commands[i];
 				new.tokens = tokens;
 
 				new.p = player;
-				// new.player = player;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
 				{
@@ -44,13 +48,14 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 					ft_free_ctab(tokens);
 					return (ERR_MALLOC_FAILED);
 				}
-				cmd_found = true;
+				player->queued_commands++;
 				break;
 			}
 		}
 
 		if (!cmd_found)
 		{
+			printf("|||%s|||\n", tokens[0]);
 			ft_free_ctab(tokens);
 			ft_free_ctab(lines);
 			return (ERR_CMD_NOT_FOUND);
@@ -58,7 +63,7 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 	}
 
 	ft_free_ctab(lines);
-	return (ERR_NONE); // Send response to client ?
+	return (ERR_NONE);
 }
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
@@ -76,14 +81,15 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 				{
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
 					fflush(stdout);
-					//sleep(1);
+					sleep(1);
 
-					add_player(env, &env->world.pending, new_fd); // We add a new player in the pending players list
+					env->buffers.connections[i] = new_fd; // We save the connection for later
+														  //
+					add_player(env, &env->world.pending, &env->buffers.connections[i]); // We add a new player in the pending players list
 
 					if ((code = auth_send_welcome(env, (t_player*)dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1))))
 						return (code);
 
-					env->buffers.connections[i] = new_fd; // We save the connection for later
 					break;
 				}
 		}
@@ -146,9 +152,8 @@ uint8_t	receipt(t_env *env)
 						sleep(1);
 
 						// Remove player from his team
-						if ((code = remove_player(env, connections[i])))
+						if ((code = kill_player(env, get_team_client(env, connections[i]))))
 							return (code);
-
 						close(connections[i]);
 						connections[i] = -1;
 
@@ -156,6 +161,7 @@ uint8_t	receipt(t_env *env)
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
 					printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
+					fflush(stdout);
 
 					if ((code = process_request(env, connections[i])))
 						return (code);
