@@ -10,7 +10,6 @@ static int	zappy_handle_server_message(zappy_client_t *client)
 	}
 	else if (!strcmp((char *)client->buf, "message")) {
 		r = zappy_message(client);
-		client->busy = true;
 	}
 	else if (!strcmp((char *)client->buf, "mort")) {
 		r = zappy_mort(client);
