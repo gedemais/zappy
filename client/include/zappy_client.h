@@ -220,6 +220,7 @@ typedef struct	zappy_client_s
 	uint8_t				cmd_idx; // idx used to rotate cmds
 	uint8_t				cmd_stack_size; // nb of elements currently in cmds
 	uint8_t				task;
+	bool				busy;
 }				zappy_client_t;
 
 /* argvs parsing */
