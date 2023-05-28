@@ -24,11 +24,6 @@ int	zappy_player_loot_all(zappy_client_t *client)
 				{
 					client->player.vision_map[i * CASE_ELEMENTS + j]--;
 				}
-				// TODO FIX : usually a state should not send more than 1 cmd
-				// if (r == 0) {
-				// 	// si on ramasse un loot recupere l'inventaire pour le broadcast
-				// 	r = zappy_client_transceive(client, "inventaire", strlen("inventaire"), zappy_broadcast_cb);
-				// }
 			}
 		}
 	}
@@ -37,41 +32,43 @@ int	zappy_player_loot_all(zappy_client_t *client)
 		r = zappy_client_move_front(client);
 		if (r == 0)
 		{
+			// A chaque "voir" get and broadcast inventory 
 			client->task = PLAYER_TASK_GET_INVENTAIRE;
-			// client->task = PLAYER_TASK_LOOK;
 		}
 	}
 	return (r);
 }
 
-int	zappy_player_broadcast_inventaire(zappy_client_t *client)
-{
-	int r = 0;
-	char buf[1024];
-
-	snprintf(buf, 1024,
-		"broadcast {"
-		"nourriture %d, "
-		"linemate %d, "
-		"deraumere %d, "
-		"sibur %d, "
-		"mendiane %d, "
-		"phiras %d, "
-		"thystame %d, "
-		"ttl %d"
-		"}",
-		client->player.inventaire[client->player.id].nourriture,
-		client->player.inventaire[client->player.id].linemate,
-		client->player.inventaire[client->player.id].deraumere,
-		client->player.inventaire[client->player.id].sibur,
-		client->player.inventaire[client->player.id].mendiane,
-		client->player.inventaire[client->player.id].phiras,
-		client->player.inventaire[client->player.id].thystame,
-		client->player.inventaire[client->player.id].ttl);
-	r = zappy_client_transceive(client, buf, strlen(buf), zappy_broadcast_cb);
-	return (r);
-}
-
+//int	zappy_player_broadcast_inventaire(zappy_client_t *client)
+//{
+//	int r = 0;
+//	char buf[1024];
+//
+//	snprintf(buf, 1024,
+//		"broadcast inventaire {"
+//		"nourriture %d, "
+//		"linemate %d, "
+//		"deraumere %d, "
+//		"sibur %d, "
+//		"mendiane %d, "
+//		"phiras %d, "
+//		"thystame %d, "
+//		"ttl %d"
+//		"}, %d, %s",
+//		client->player.inventaire[client->player.id].nourriture,
+//		client->player.inventaire[client->player.id].linemate,
+//		client->player.inventaire[client->player.id].deraumere,
+//		client->player.inventaire[client->player.id].sibur,
+//		client->player.inventaire[client->player.id].mendiane,
+//		client->player.inventaire[client->player.id].phiras,
+//		client->player.inventaire[client->player.id].thystame,
+//		client->player.inventaire[client->player.id].ttl,
+//		client->player.id,
+//		client->team.name);
+//	r = zappy_client_transceive(client, buf, strlen(buf), zappy_broadcast_cb);
+//	return (r);
+//}
+//
 /* the crazy player */
 int 	zappy_player(zappy_client_t *client)
 {
@@ -99,10 +96,10 @@ int 	zappy_player(zappy_client_t *client)
 					r = zappy_client_transceive(client, commands[CMD_INVENTAIRE].name, commands[CMD_INVENTAIRE].len, zappy_inventaire_cb);
 					WAIT_CALLBACK(client->task, r)
 					break ;
-				case (PLAYER_TASK_BROADCAST_INVENTAIRE):
-					// on recupere l'inventaire et le ttl
-					r = zappy_player_broadcast_inventaire(client);
-					break ;
+				//case (PLAYER_TASK_BROADCAST_INVENTAIRE):
+				//	// on recupere l'inventaire et le ttl
+				//	r = zappy_player_broadcast_inventaire(client);
+				//	break ;
 				case (PLAYER_TASK_LOOK):
 					// on recupere le champ de vision du joueur
 					r = zappy_client_transceive(client, commands[CMD_VOIR].name, commands[CMD_VOIR].len, zappy_voir_cb);

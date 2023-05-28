@@ -120,10 +120,10 @@ int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 	// broadcast msg btween this cb and transceive
 	// So buffer should be constructed in the PLAYER_TASK_BROADCAST instead.
 	// (void)cmd;
-	// snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
-	// 	"%s %s,player_id %d,team_name %s",
-	// 	commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
-	// client->task = PLAYER_TASK_BROADCAST;
-	client->task = PLAYER_TASK_BROADCAST_INVENTAIRE;
+	 snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
+	 	"%s %s,player_id %d,team_name %s",
+	 	commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
+	client->task = PLAYER_TASK_BROADCAST;
+	// client->task = PLAYER_TASK_BROADCAST_INVENTAIRE;
 	return (r);
 }

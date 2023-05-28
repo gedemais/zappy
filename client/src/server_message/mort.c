@@ -7,7 +7,7 @@ int		zappy_mort(zappy_client_t *client)
 {
 	(void)client;
 
-	int	r = 1;
+	int	r = 0;
 
 	client->player.alive = false;
 	fprintf(stderr, "%s\n", __func__);

@@ -36,7 +36,7 @@ static void	message_inventaire(zappy_client_t *client)
 // message: message <K>,<texte> (With K indicating the square where the sound comes from)
 int			zappy_message(zappy_client_t *client)
 {
-	int		r = 1;
+	int		r = 0;
 
 	fprintf(stderr, "%s\n", __func__);
 
