@@ -63,7 +63,6 @@ static int	vision_row_start[] = {
 		49,
 		64
 };
-
 static int	vision_row_center[] = {
 		0,
 		2,
@@ -145,14 +144,14 @@ static t_loot	ressources[R_MAX] = {
 };
 
 typedef struct	zappy_client_s zappy_client_t;
+typedef struct	zappy_client_cmd_s zappy_client_cmd_t;
 
-typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *);
+typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *, zappy_client_cmd_t *);
 
 typedef struct	zappy_client_cmd_s
 {
-	char					*cmd;
 	uint8_t					id, lvl, option;
-	zappy_client_cmd_cb_t	cb;
+	zappy_client_cmd_cb_t			cb;
 }				zappy_client_cmd_t;
 
 enum	e_player_task {
@@ -161,6 +160,8 @@ enum	e_player_task {
 	PLAYER_TASK_LOOK,
 	PLAYER_TASK_LOOT,
 	PLAYER_TASK_BROADCAST,
+	PLAYER_TASK_BROADCAST_INVENTAIRE,
+	PLAYER_TASK_GET_INVENTAIRE,
 	PLAYER_TASK_MAX
 };
 
@@ -179,16 +180,17 @@ typedef struct	s_zappy_inventaire
 
 typedef struct	s_zappy_player
 {
+	t_inventaire		inventaire[PLAYER_MAX];
+	int			pos_x; // Absolute position, unused ?
+	int			pos_y; // Absolute position, unused ?
 	uint8_t			id, lvl;
-	int				pos_x; // Absolute position, unused ?
-	int				pos_y; // Absolute position, unused ?
 	uint8_t			vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
 	uint8_t			relative_pos; // Relative position for vision map
 	uint8_t			relative_orientation; // Relative orientation, always start at 0 when see
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
-	t_inventaire	inventaire[PLAYER_MAX];
 	uint8_t			broadcast_msg[CLIENT_BUFSIZE];
+	bool			alive;
 }				t_player;
 
 typedef struct	s_zappy_team
@@ -201,17 +203,17 @@ typedef struct	s_zappy_team
 
 typedef struct	zappy_client_s
 {
-	int					socket;
+	int			socket;
 	struct sockaddr_in	sockaddr;
-	uint8_t				buf[CLIENT_BUFSIZE];
+	uint8_t			buf[CLIENT_BUFSIZE];
 
-	t_player			player;
-	t_team				team;
+	t_player		player;
+	t_team			team;
 
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
-	uint8_t				cmd_idx; // idx used to rotate cmds
-	uint8_t				cmd_stack_size; // nb of elements currently in cmds
-	uint8_t				task;
+	uint8_t			cmd_idx; // idx used to rotate cmds
+	uint8_t			cmd_stack_size; // nb of elements currently in cmds
+	uint8_t			task;
 }				zappy_client_t;
 
 /* argvs parsing */
@@ -231,23 +233,23 @@ int		zappy_deplacement(zappy_client_t *client);
 int		zappy_mort(zappy_client_t *client);
 
 // callback
-int		zappy_client_move_cb(zappy_client_t *client);
-int		zappy_avance_cb(zappy_client_t *client);
-int		zappy_droite_cb(zappy_client_t *client);
-int		zappy_gauche_cb(zappy_client_t *client);
-int		zappy_voir_cb(zappy_client_t *client);
-int		zappy_prend_cb(zappy_client_t *client);
-int		zappy_pose_cb(zappy_client_t *client);
-int		zappy_expulse_cb(zappy_client_t *client);
-int		zappy_broadcast_cb(zappy_client_t *client);
-int		zappy_incantation_cb(zappy_client_t *client);
-int		zappy_fork_cb(zappy_client_t *client);
+int		zappy_client_move_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_avance_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_droite_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_gauche_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_voir_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_prend_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_pose_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_expulse_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_broadcast_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		zappy_fork_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 
 // callback connect_nbr
-int		zappy_connect_nbr_cb(zappy_client_t *client);
+int		zappy_connect_nbr_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 
 // callback inventaire
-int				zappy_inventaire_cb(zappy_client_t *client);
+int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
 void			deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire);
 void			update_team_inventaire(zappy_client_t *client);

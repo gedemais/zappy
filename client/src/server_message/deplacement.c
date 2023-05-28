@@ -7,7 +7,7 @@ int		zappy_deplacement(zappy_client_t *client)
 {
 	(void)client;
 
-	int	r = 0;
+	int	r = 1;
 
 	fprintf(stderr, "%s\n", __func__);
 	return (r);

@@ -41,7 +41,8 @@ int			get_row_from_pos(int pos)
 {
 	int row = 0;
 
-	for (int i = 0 ; i < 9 ; i++) {
+	for (int i = 0 ; i < 9 ; i++)
+	{
 		if (vision_row_start[i] <= pos && vision_row_start[i] + vision_row_size[i] > pos)
 		{
 			row = i;

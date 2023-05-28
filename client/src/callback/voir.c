@@ -60,17 +60,18 @@ static void	zappy_debug_print_vision_map(zappy_client_t *client)
 	}
 }
 
-int			zappy_voir_cb(zappy_client_t *client)
+int			zappy_voir_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	int r = 0;
+	(void)cmd;
 
 	r = zappy_client_parse_voir(client);
 	if (r == 0)
 	{
-		client->task = PLAYER_TASK_LOOT;
 		zappy_debug_print_vision_map(client);
 		client->player.relative_pos = 0;
 		client->player.relative_orientation = 0;
+		client->task = PLAYER_TASK_LOOT;
 	}
 	return (r);
 }

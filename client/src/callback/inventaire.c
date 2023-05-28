@@ -98,8 +98,9 @@ void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire
 		inventaire.ttl);
 }
 
-int				zappy_inventaire_cb(zappy_client_t *client)
+int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
+	(void)cmd;
 	int	r = 0;
 
 	// on stock linventaire du joueur
@@ -114,9 +115,15 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 	// ----------------------------------------------------------------------------------------------
 
 	// on prepare le broadcast pour que les autres joueurs actualisent leurs inventaires de team
-	snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
-		"%s %s,player_id %d,team_name %s",
-		commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
-	client->task = PLAYER_TASK_BROADCAST;
+	// TODO FIXME : le client->buf could be erased if we receive smthing like a
+	// TODO LMA : SERIALIZE INVENTAIRE
+	// broadcast msg btween this cb and transceive
+	// So buffer should be constructed in the PLAYER_TASK_BROADCAST instead.
+	// (void)cmd;
+	// snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
+	// 	"%s %s,player_id %d,team_name %s",
+	// 	commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
+	// client->task = PLAYER_TASK_BROADCAST;
+	client->task = PLAYER_TASK_BROADCAST_INVENTAIRE;
 	return (r);
 }

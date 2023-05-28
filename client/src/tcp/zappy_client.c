@@ -109,6 +109,7 @@ int			zappy_client(zappy_client_opt_t *opt)
 			fprintf(stderr, "\n===== client_connected =====\n\n");
 			// copying team name in client structure (ptr to argv so no malloc)
 			client.team.name = opt->team_name;
+			client.player.alive = true;
 			r = zappy_player(&client);
 		}
 		close(client.socket);
