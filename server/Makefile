@@ -30,7 +30,7 @@ endif
 
 OPTI ?= 0
 ifeq ($(OPTI), 1)
-    FLAGS += -Ofast -march=native
+    FLAGS += -Ofast -march=native -Wno-unused-result
 endif
 
 SRCS_PATH=src/

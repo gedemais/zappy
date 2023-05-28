@@ -2,6 +2,7 @@
 # define PLAYER_H
 
 # define LVL_MAX 8
+# define MAX_QUEUED_CMD 10
 
 // Commands identifiers enumeration
 enum			e_commands
@@ -68,7 +69,7 @@ typedef struct s_direction // Useful for over / under flowing directions values
 
 typedef struct	s_player
 {
-	int			connection; // Connection fd
+	int			*connection; // Connection fd
 	uint16_t	inventory[LOOT_MAX]; // Inventory (quantity for each loot type)
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
 	int16_t		team; // Index of the team the player is in
@@ -77,6 +78,7 @@ typedef struct	s_player
 	t_direction	direction; // Current cardinal orientation of the player
 	bool		alive; // Is the player currently alive ?
 	uint8_t		auth_step; // Which step of authentication has the player reached yet.
+	uint8_t		queued_commands; // Number of queued commands
 }				t_player;
 
 #endif

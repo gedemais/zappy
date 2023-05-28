@@ -3,7 +3,7 @@
 uint8_t	auth_send_welcome(t_env *env, t_player *p)
 {
 	FLUSH_RESPONSE
-	ft_strcat(env->buffers.response, "BIENVENUE\n");
+	strcat(env->buffers.response, "BIENVENUE\n");
 	response(env, p);
 	p->auth_step++;
 	return (ERR_NONE);
@@ -20,12 +20,12 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 		return (ERR_MALLOC_FAILED);
 
 	FLUSH_RESPONSE
-	ft_strcat(response, nb_client);
-	ft_strcat(response, "\n");
-	ft_strcat(response, x);
-	ft_strcat(response, " ");
-	ft_strcat(response, y);
-	ft_strcat(response, "\n");
+	strcat(response, nb_client);
+	strcat(response, "\n");
+	strcat(response, x);
+	strcat(response, " ");
+	strcat(response, y);
+	strcat(response, "\n");
 
 	free(nb_client);
 	free(x);
@@ -34,22 +34,24 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 	return (ERR_NONE);
 }
 
-static void		remove_pending_player(t_env *env, t_player *p)
+static uint8_t	remove_pending_player(t_env *env, t_player *p)
 {
-	t_team		*pending;
-	t_player	*tmp;
+	t_player	*player;
+	uint8_t		*loot;
 
-	pending = &env->world.pending;
-	for (int i = 0; i < pending->players.nb_cells; i++)
+	for (int i = 0; i < env->world.pending.players.nb_cells; i++)
 	{
-		tmp = dyacc(&pending->players, i);
-		if (tmp->connection == p->connection)
+		player = dyacc(&env->world.pending.players, i);
+		if (player->connection == p->connection)
 		{
-			extract_dynarray(&pending->players, i);
-			return ;
+			if (remove_player_from_tile(env, p->tile_x, p->tile_y)
+				|| extract_dynarray(&env->world.pending.players, i))
+				return (ERR_MALLOC_FAILED);
+			return (ERR_NONE);
 		}
 	}
 	assert(false);
+	return (ERR_NONE);
 }
 
 static uint8_t	auth_granting(t_env *env, t_player *p)
@@ -65,13 +67,10 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 	response(env, p);
 	p->auth_step++;
 
-	if ((team->players.byte_size == 0 && init_dynarray(&team->players, sizeof(t_player), team->max_client))
-		|| push_dynarray(&team->players, p, false))
-		return (ERR_MALLOC_FAILED);
+	if ((code = add_player(env, team, p->connection)))
+		return (ERR_NONE);
 
 	remove_pending_player(env, p);
-
-	team->connected++;
 
 	return (ERR_NONE);
 }
@@ -79,8 +78,6 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 {
 	t_team	*t;
-	(void)env;
-	(void)p;
 
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
@@ -94,7 +91,6 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			else
 			{
 				printf("NO MORE SLOTS AVAILABLE\n");
-				fflush(stdout);
 				remove_pending_player(env, p);
 				return (ERR_NONE);
 			}
@@ -105,7 +101,6 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 
 uint8_t	auth(t_env *env, t_player *p)
 {
-	printf("%s\n", __FUNCTION__);
 	uint8_t	(*auth_funcs[AS_MAX])(t_env *env, t_player *p) = {
 										[AS_TEAM_NAME] = auth_get_team_name,
 										[AS_GRANTING] = auth_granting};

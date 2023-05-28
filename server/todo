@@ -1,21 +1,20 @@
-Fix la deconnexion on fly (?)
-quand le joueur quitte le jeu le X est tjrs sur la minimap
-quand tu reco un joueur sans reboot le serveur le nb de joueur en ligne sactualise pas
-
-<<<<<<< HEAD
 Update la direction du kick
-
-=======
-Ajouter les data a connect_nbr x
-
-Update la direction du kick
-
-Ajouter le temps restant a vivre dans inventaire
-
->>>>>>> 605a7b180ec7cb5c9a6c7f7f9cbdc216e719e949
-Fix la commande prend qui ne ramasse pas le dernier objet d'une stack sur une case
-
-check ca:
-j'ai des commands stacke qui sont discard on dirait, le serveur gere bien jusqua 10 cmd par client ?
 
 select qui fail sur macos
+
+fork
+
+incantation
+
+ =============
+0 pending players
+***** Team team_a *****
+Player 0 | orientation : 1 | x : 24 | y : 15 | food : 4 | satiety : 16 | commands : 10
+Player 1 | orientation : 3 | x : 9 | y : 23 | food : 5 | satiety : 112 | commands : 10
+=====================================
+THERE 20
+20
+REQUEST : |message de test u know
+| (23 bytes)|||message|||
+========== ERROR ==========
+Command not found

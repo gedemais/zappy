@@ -9,9 +9,9 @@ uint8_t	tick(t_env *env)
 	gettimeofday(&tick_start, NULL);
 
 	teams_log(env);
-	if ((code = update_players(env)) != ERR_NONE
-		|| (code = update_commands(env)) != ERR_NONE
-		|| (code = receipt(env)) != ERR_NONE)
+	if ((code = receipt(env)) != ERR_NONE
+		|| 	(code = update_players(env)) != ERR_NONE
+		|| (code = update_commands(env)) != ERR_NONE)
 		return (code);
 	//send_responses
 

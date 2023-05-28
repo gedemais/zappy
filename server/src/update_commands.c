@@ -5,19 +5,13 @@ static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, int i)
 	uint8_t	code;
 
 	env->buffers.cmd_params = &cmd->tokens[1];
-	if ((code = cmd->cmd_func(env, cmd->p, true)))
-	{
-		free_cmd(dyacc(cmd_queue, i));
-		if (extract_dynarray(cmd_queue, i))
-			return (ERR_MALLOC_FAILED);
-		return (code);
-	}
+	code = cmd->cmd_func(env, cmd->p, true);
 
 	free_cmd(dyacc(cmd_queue, i));
 	if (extract_dynarray(cmd_queue, i))
 		return (ERR_MALLOC_FAILED);
 
-	return (ERR_NONE);
+	return (code);
 }
 
 // This function will process command queue by executing commands
@@ -40,11 +34,13 @@ uint8_t	update_commands(t_env *env)
 		else
 		{
 			// When time has come, we execute the command by the player who sent it
-			if ((code = run_command(env, cmd_queue, cmd, i)))
+			cmd->p->queued_commands--;
+			if ((code = run_command(env, cmd_queue, cmd, i)) != ERR_NONE)
 				return (code);
 			continue;
 		}
 		i++;
 	}
+	printf("%d\n", cmd_queue->nb_cells);
 	return (ERR_NONE);
 }

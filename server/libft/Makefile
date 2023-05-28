@@ -6,7 +6,7 @@
 #    By: gedemais <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 17:34:45 by gedemais          #+#    #+#              #
-#    Updated: 2023/03/07 03:14:30 by gedemais         ###   ########.fr        #
+#    Updated: 2023/05/28 18:04:16 by geoffrey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ endif
 
 OPTI ?= 0
 ifeq ($(OPTI), 1)
-    FLAGS += -Ofast -march=native
+    FLAGS += -Ofast -march=native -Wno-unused-result
 endif
 
 SRCS  =	ft_atoi.c \
