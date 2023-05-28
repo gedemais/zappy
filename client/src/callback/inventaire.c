@@ -113,10 +113,7 @@ int				zappy_inventaire_cb(zappy_client_t *client)
 	// fprintf(stderr, "\nserialize inventaire: %s\n----------\n", client->player.broadcast_msg);
 	// ----------------------------------------------------------------------------------------------
 
-	// on prepare le broadcast pour que les autres joueurs actualisent leurs inventaires de team
-	snprintf((char *)client->player.broadcast_msg, CLIENT_BUFSIZE,
-		"%s %s,player_id %d,team_name %s",
-		commands[CMD_INVENTAIRE].name, client->buf, client->player.id, client->team.name);
+	client->player.broadcast = BROADCAST_INVENTAIRE;
 	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }

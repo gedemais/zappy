@@ -16,6 +16,7 @@
 # include "libft.h"
 
 # include "zappy_client_getopt.h"
+# include "zappy_client_move.h"
 
 
 # define CLIENT_BUFSIZE 4096
@@ -164,7 +165,13 @@ enum	e_player_task {
 	PLAYER_TASK_MAX
 };
 
-// {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
+enum			e_broadcast
+{
+	BROADCAST_NONE,
+	BROADCAST_INVENTAIRE,
+	BROADCAST_MAX
+};
+
 typedef struct	s_zappy_inventaire
 {
 	int		nourriture;
@@ -188,7 +195,8 @@ typedef struct	s_zappy_player
 									  // The absolute orientation is not known of client
 									  // At each "see" the orientation is back to 0
 	t_inventaire	inventaire[PLAYER_MAX];
-	uint8_t			broadcast_msg[CLIENT_BUFSIZE];
+	uint8_t			broadcast;	// permet d'identifier le type de broadcast a effectuer
+	uint8_t			broadcast_msg[CLIENT_BUFSIZE]; // stock le broadcast_msg
 }				t_player;
 
 typedef struct	s_zappy_team
@@ -222,8 +230,11 @@ int		zappy_client(zappy_client_opt_t *opt);
 int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
 int		zappy_client_receive(zappy_client_t *client);
 
+/* PLAYER'S TASK FUNCTIONS */
 // Zappy player, the happy-go-lucky farmer
 int		zappy_player(zappy_client_t *client);
+int		zappy_client_broadcast(zappy_client_t *client);
+int		zappy_client_loot(zappy_client_t *client);
 
 // server's messages handlers
 int		zappy_message(zappy_client_t *client);
@@ -247,11 +258,11 @@ int		zappy_fork_cb(zappy_client_t *client);
 int		zappy_connect_nbr_cb(zappy_client_t *client);
 
 // callback inventaire
-int				zappy_inventaire_cb(zappy_client_t *client);
-void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
-void			deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire);
-void			update_team_inventaire(zappy_client_t *client);
-void			print_inventaire(t_inventaire inventaire);
+int		zappy_inventaire_cb(zappy_client_t *client);
+void	serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
+void	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire);
+void	update_team_inventaire(zappy_client_t *client);
+void	print_inventaire(t_inventaire inventaire);
 
 
 #endif

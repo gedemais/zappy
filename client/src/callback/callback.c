@@ -97,8 +97,6 @@ int		zappy_broadcast_cb(zappy_client_t *client)
 {
 	int		r = 0;
 
-	// le broadcast a ete effectue donc on reset le buffer du message
-	bzero(client->player.broadcast_msg, CLIENT_BUFSIZE);
 	// et on remet le joueur au travail
 	client->task = PLAYER_TASK_LOOT;
 	return (r);

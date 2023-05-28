@@ -48,13 +48,7 @@ int			zappy_client_receive(zappy_client_t *client)
 			}
 			if (r != -1)
 			{
-				// =====================================
-				// permet de gerer les messages de l'API
-				// =====================================
 				r = zappy_handle_server_message(client);
-				// ======================================
-				// permet de gerer les responses de l'API
-				// ======================================
 				if (r == 0) {
 					r = zappy_handle_server_response(client);
 				}

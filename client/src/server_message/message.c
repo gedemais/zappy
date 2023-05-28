@@ -47,3 +47,4 @@ int			zappy_message(zappy_client_t *client)
 	fprintf(stderr, "----------\n");
 	return (r);
 }
+
