@@ -98,8 +98,9 @@ void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire
 		inventaire.ttl);
 }
 
-int				zappy_inventaire_cb(zappy_client_t *client)
+int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
+	(void)cmd;
 	int	r = 0;
 
 	// on stock linventaire du joueur

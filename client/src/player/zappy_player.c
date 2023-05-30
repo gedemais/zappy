@@ -1,7 +1,7 @@
 #include "zappy_client.h"
 
 
-/* the crazy farmer */
+/* the crazy player */
 int 	zappy_player(zappy_client_t *client)
 {
 	int		r = 0;
@@ -9,7 +9,7 @@ int 	zappy_player(zappy_client_t *client)
 	char	buf[CLIENT_BUFSIZE] = {0};
 
 	client->task = PLAYER_TASK_ID;
-	while (run)
+	while (client->player.alive)
 	{
 		// reset du buffer :: pe inutile ?
 		bzero(client->buf, CLIENT_BUFSIZE);
@@ -21,6 +21,11 @@ int 	zappy_player(zappy_client_t *client)
 				case (PLAYER_TASK_ID):
 					// on recupere l'id du joueur et le nb de slot libre/max
 					r = zappy_client_transceive(client, commands[CMD_CONNECT_NBR].name, commands[CMD_CONNECT_NBR].len, zappy_connect_nbr_cb);
+					WAIT_CALLBACK(client->task, r)
+					break ;
+				case (PLAYER_TASK_GET_INVENTAIRE):
+					// on recupere l'inventaire et le ttl
+					r = zappy_client_transceive(client, commands[CMD_INVENTAIRE].name, commands[CMD_INVENTAIRE].len, zappy_inventaire_cb);
 					WAIT_CALLBACK(client->task, r)
 					break ;
 				case (PLAYER_TASK_LOOK):
@@ -39,7 +44,7 @@ int 	zappy_player(zappy_client_t *client)
 			}
 		}
 		if (r == -1) {
-			run = false;
+			client->player.alive = false;
 		}
 	}
 	return (r);
