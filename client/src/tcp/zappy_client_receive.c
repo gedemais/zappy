@@ -59,11 +59,12 @@ int			zappy_client_receive(zappy_client_t *client)
 			if (r != -1)
 			{
 				r = zappy_handle_server_message(client);
+				// si le serveur envoit un message alors r vaudra 1
+				// on n'envoit donc plus aucune query pour ce tour de loop
 				if (r == 0) {
 					r = zappy_handle_server_response(client);
 				}
-				else if (r == 1)
-				{
+				else if (r == 1) { // on remet r à 0 car il n'y a pas d'erreur
 					r = 0;
 				}
 			}
