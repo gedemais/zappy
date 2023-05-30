@@ -5,16 +5,14 @@ NAME=client
 
 CC=gcc
 FLAGS=-Wall -Werror -Wextra
-FLAGS+=-Wno-unused-variable -Wno-format-truncation
+FLAGS+=-Wno-unused-variable
 
 # Os detection
 OS=$(shell uname -s)
 NAME = client
-CC ?= gcc
-CFLAGS ?= -Wall -Wextra -Werror -g3 -Wno-unused-variable -Wno-format-truncation
 
 ifeq ($(OS), "Darwin")
-	FLAGS += -DMACOS
+	FLAGS += -DMACOS -Wno-format-truncation
 endif
 
 ifeq ($(OS), "Linux")
@@ -59,7 +57,7 @@ $(SRCS_PATH)%.o: $(SRCS_PATH)%.c $(INCS)
 	@printf " Compiling $<"
 	@printf "                                       \\r"
 	@tput cnorm
-	$(CC) $(FLAGS) -I $(INCS_PATH) -I$(LIB_PATH) -o $@ -c $<
+	$(CC) $(FLAGS) -I $(INCS_PATH) -I $(LIB_PATH) -o $@ -c $<
 
 $(LIB): $(LIB_PATH)
 	@echo "Making Libft..."

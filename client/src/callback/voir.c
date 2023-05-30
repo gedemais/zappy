@@ -25,12 +25,10 @@ static int	zappy_client_parse_voir(zappy_client_t *client)
 		{
 			bool b = false;
 			for (int j = 0; j < R_MAX; j++) {
-				if (case_ressources[j] == NULL)
-					break ;
-				if (!memcmp(case_ressources[j], (char*)&client->buf[i], strlen(case_ressources[j]))) {
+				if (!memcmp(ressources[j].name, (char*)&client->buf[i], ressources[j].len)) {
 					b = true;
 					client->player.vision_map[c * CASE_ELEMENTS + j]++;
-					i += (int)strlen(case_ressources[j]);
+					i += ressources[j].len;
 				}
 			}
 			if (b == false) {
@@ -60,17 +58,18 @@ static void	zappy_debug_print_vision_map(zappy_client_t *client)
 	}
 }
 
-int			zappy_voir_cb(zappy_client_t *client)
+int			zappy_voir_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	int r = 0;
+	(void)cmd;
 
 	r = zappy_client_parse_voir(client);
 	if (r == 0)
 	{
-		client->task = PLAYER_TASK_LOOT;
 		zappy_debug_print_vision_map(client);
 		client->player.relative_pos = 0;
 		client->player.relative_orientation = 0;
+		client->task = PLAYER_TASK_LOOT;
 	}
 	return (r);
 }

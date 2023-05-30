@@ -24,7 +24,7 @@
 
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
-# define REQUEST_BUFF_SIZE 128
+# define REQUEST_BUFF_SIZE 4096
 
 # define MAP_PRINT true
 # define DATA_PRINT false

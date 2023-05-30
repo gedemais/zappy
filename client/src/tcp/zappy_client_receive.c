@@ -1,12 +1,38 @@
 #include "zappy_client.h"
 
 
+/* If a msg has been recv return 1 */
+static int	zappy_handle_server_message(zappy_client_t *client)
+{
+	int	r = 0;
+
+	if (!memcmp((char *)client->buf, "deplacement", strlen("deplacement"))) {
+		r = zappy_deplacement(client);
+		if (r == 0) {
+			r = 1;
+		}
+	}
+	else if (!memcmp((char *)client->buf, "message", strlen("message"))) {
+		r = zappy_message(client);
+		if (r == 0) {
+			r = 1;
+		}
+	}
+	else if (!memcmp((char *)client->buf, "mort", strlen("mort"))) {
+		r = zappy_mort(client);
+		if (r == 0) {
+			r = 1;
+		}
+	}
+	return (r);
+}
+
 static int	zappy_handle_server_response(zappy_client_t *client)
 {
 	int	r = 0;
 
-	fprintf(stderr, "zappy_client_receive: response for {%s}: (%s)\n", client->cmds[client->cmd_idx].cmd, client->buf);
-	r = client->cmds[client->cmd_idx].cb(client);
+	fprintf(stderr, "zappy_client_receive: response for id %d: (%s)\n----------\n", client->cmd_idx, client->buf);
+	r = client->cmds[client->cmd_idx].cb(client, &client->cmds[client->cmd_idx]);
 	client->cmd_idx++;
  	client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
 	client->cmd_stack_size--;
@@ -32,22 +58,15 @@ int			zappy_client_receive(zappy_client_t *client)
 			}
 			if (r != -1)
 			{
-				// =====================================
-				// permet de gerer les messages de l'API
-				// =====================================
-				if (!memcmp(client->buf, "deplacement", strlen("deplacement"))) {
-					zappy_deplacement(client);
+				r = zappy_handle_server_message(client);
+				// si le serveur envoit un message alors r vaudra 1
+				// on n'envoit donc plus aucune query pour ce tour de loop
+				if (r == 0) {
+					r = zappy_handle_server_response(client);
 				}
-				else if (!memcmp(client->buf, "message", strlen("message"))) {
-					zappy_message(client);
+				else if (r == 1) { // on remet r à 0 car il n'y a pas d'erreur
+					r = 0;
 				}
-				else if (!memcmp(client->buf, "mort", strlen("mort"))) {
-					zappy_mort(client);
-				}
-				// ======================================
-				// permet de gerer les responses de l'API
-				// ======================================
-				zappy_handle_server_response(client);
 			}
 		}
 		else if (r < 0) {

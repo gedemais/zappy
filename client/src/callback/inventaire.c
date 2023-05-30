@@ -10,14 +10,16 @@ void			print_inventaire(t_inventaire inventaire)
 		"sibur		: %d\n"
 		"mendiane	: %d\n"
 		"phiras		: %d\n"
-		"thystame	: %d\n\n",
+		"thystame	: %d\n"
+		"ttl		: %d\n",
 		inventaire.nourriture,
 		inventaire.linemate,
 		inventaire.deraumere,
 		inventaire.sibur,
 		inventaire.mendiane,
 		inventaire.phiras,
-		inventaire.thystame);
+		inventaire.thystame,
+		inventaire.ttl);
 }
 
 void			update_team_inventaire(zappy_client_t *client)
@@ -27,7 +29,7 @@ void			update_team_inventaire(zappy_client_t *client)
 	// on reset l'inventaire de team
 	memset(&client->team.inventaire, 0, sizeof(t_inventaire));
 	// on loop sur l'inventaire de tout les joueurs
-	for (unsigned int i = 0; i < PLAYER_MAX + 1; i++) {
+	for (int i = 0; i < client->team.nb_player + 1; i++) {
 
 		inventaire_player = client->player.inventaire[i];
 		client->team.inventaire.nourriture += inventaire_player.nourriture;
@@ -40,42 +42,51 @@ void			update_team_inventaire(zappy_client_t *client)
 	}
 }
 
-// TODO : reformater apres correction API
-t_inventaire	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE])
+void		deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire)
 {
-	t_inventaire	inventaire;
+	char			**str_split;
+	char			*str;
+	int				tmp;
+	uint8_t			i = 0;
+	int				*ptr = (int *)inventaire;
 
-	memset(&inventaire, 0, sizeof(t_inventaire));
-	memcpy(&inventaire.nourriture, strstr((char *)inventaire_str, "nourriture") - 2, sizeof(char));
-	memcpy(&inventaire.linemate, strstr((char *)inventaire_str, "linemate") - 2, sizeof(char));
-	memcpy(&inventaire.deraumere, strstr((char *)inventaire_str, "deraumere") - 2, sizeof(char));
-	memcpy(&inventaire.sibur, strstr((char *)inventaire_str, "sibur") - 2, sizeof(char));
-	memcpy(&inventaire.mendiane, strstr((char *)inventaire_str, "mendiane") - 2, sizeof(char));
-	memcpy(&inventaire.phiras, strstr((char *)inventaire_str, "phiras") - 2, sizeof(char));
-	memcpy(&inventaire.thystame, strstr((char *)inventaire_str, "thystame") - 2, sizeof(char));
-	inventaire.nourriture -= 48;
-	inventaire.linemate -= 48;
-	inventaire.deraumere -= 48;
-	inventaire.sibur -= 48;
-	inventaire.mendiane -= 48;
-	inventaire.phiras -= 48;
-	inventaire.thystame -= 48;
-	return (inventaire);
+	// on split la string pour avoir une string par type de ressources
+	str_split = ft_strsplit((char *)inventaire_str, ",");
+	if (str_split == NULL)
+		return ;
+	memset(inventaire, 0, sizeof(t_inventaire));
+	// on loop sur toutes les ressources pour les assignation a la structure inventaire
+	while (i < R_MAX - 1) {
+		// on avance str_split[i] de 1 pour skip l'espace qui precede le nom de la ressource
+		// pour i == 0 ce n'est pas un espace mais le { ouvrant
+		// on avance le ptr du nom de la ressource + 1 pour l'espace qui suit le nom de la ressource
+		str = strstr((char *)str_split[i] + 1, ressources[i].name) + ressources[i].len + 1;
+		// on atoi car l'int a recuperer peut etre plus grand que 10
+		ptr[i] = atoi(str);
+		++i;
+	}
+	// il reste a gerer le ttl qui n'est pas dans l'enum des ressources
+	str = strstr((char *)str_split[i] + 1, "ttl") + strlen("ttl") + 1;
+	// on reduit la string de 1 pour supprimer le } fermant
+	str[strlen(str) - 1] = '\0';
+	ptr[i] = atoi(str);
+	// on free le tableau split
+	ft_arrfree(str_split);
 }
 
-// {9 nourriture, 0 linemate, 0 deraumere, 0 sibur, 0 mendiane, 0 phiras, 0 thystame}
-// TODO : reformater apres correction API
+// response: {nourriture n, linemate n, deraumere n, sibur n, mendiane n, phiras n, thystame n, ttl n}
 void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
 {
 	bzero(inventaire_str, CLIENT_BUFSIZE);
 	snprintf((char *)inventaire_str, CLIENT_BUFSIZE, "{"
-		"%d nourriture, "
-		"%d linemate, "
-		"%d deraumere, "
-		"%d sibur, "
-		"%d mendiane, "
-		"%d phiras, "
-		"%d thystame"
+		"nourriture %d, "
+		"linemate %d, "
+		"deraumere %d, "
+		"sibur %d, "
+		"mendiane %d, "
+		"phiras %d, "
+		"thystame %d, "
+		"ttl %d"
 		"}",
 		inventaire.nourriture,
 		inventaire.linemate,
@@ -83,27 +94,27 @@ void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire
 		inventaire.sibur,
 		inventaire.mendiane,
 		inventaire.phiras,
-		inventaire.thystame);
+		inventaire.thystame,
+		inventaire.ttl);
 }
 
-int				zappy_inventaire_cb(zappy_client_t *client)
+int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
+	(void)cmd;
 	int	r = 0;
 
 	// on stock linventaire du joueur
-	client->player.inventaire[client->player.id] = deserialize_inventaire(client->buf);
+	deserialize_inventaire(client->buf, &client->player.inventaire[client->player.id]);
 	// on update son inventaire de team
 	update_team_inventaire(client);
 
 	// debug functions for serialize / deserialize --------------------------------------------------
 	// print_inventaire(client->player.inventaire[client->player.id]);
 	// serialize_inventaire(client->player.broadcast_msg, client->player.inventaire[client->player.id]);
-	// fprintf(stderr, "\nbroadcast msg : %s\n", client->player.broadcast_msg);
+	// fprintf(stderr, "\nserialize inventaire: %s\n----------\n", client->player.broadcast_msg);
 	// ----------------------------------------------------------------------------------------------
 
-	// on ce prepare a le broadcast aux autres joueurs pour qu'ils actualisent leurs inventaires de team
-	snprintf(client->player.broadcast_msg, CLIENT_BUFSIZE,
-		"%s %s player_id %d", commands[CMD_INVENTAIRE].name, client->buf, client->player.id);
+	client->player.broadcast = BROADCAST_INVENTAIRE;
 	client->task = PLAYER_TASK_BROADCAST;
 	return (r);
 }

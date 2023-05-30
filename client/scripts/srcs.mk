@@ -1,8 +1,11 @@
 SRCS_NAME=main.c\
 		  zappy_client_getopt.c\
 		  callback/callback.c\
+		  callback/connect_nbr.c\
 		  callback/inventaire.c\
 		  callback/voir.c\
+		  player/zappy_client_broadcast.c\
+		  player/zappy_client_loot.c\
 		  player/zappy_client_move.c\
 		  player/zappy_player.c\
 		  server_message/deplacement.c\
