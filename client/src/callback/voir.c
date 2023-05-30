@@ -25,8 +25,6 @@ static int	zappy_client_parse_voir(zappy_client_t *client)
 		{
 			bool b = false;
 			for (int j = 0; j < R_MAX; j++) {
-				if (ressources[j].name == NULL)
-					break ;
 				if (!memcmp(ressources[j].name, (char*)&client->buf[i], ressources[j].len)) {
 					b = true;
 					client->player.vision_map[c * CASE_ELEMENTS + j]++;
