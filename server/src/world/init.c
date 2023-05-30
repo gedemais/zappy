@@ -53,7 +53,7 @@ void	print_map(t_env *env)
 					break ;
 				}
 			}
-			strcat(&buffer[index], player ? "X " : "o ");
+			strcat(&buffer[index], player ? "  " : "o ");
 			index += 2;
 		}
 		strcat(&buffer[index], "\n");

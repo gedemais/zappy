@@ -28,17 +28,25 @@ uint8_t	kill_player(t_env *env, t_player *p)
 
 	cmd_queue = &env->buffers.cmd_queue;
 	// Remove commands queued by the dead player
+	printf("%d\n", cmd_queue->nb_cells);
 	while (i < cmd_queue->nb_cells)
 	{
 		cmd = dyacc(cmd_queue, i);
-		if (*cmd->p->connection == *p->connection)
+		if (cmd->p == p)
 		{
+			if (i == 0 && pop_dynarray(cmd_queue, true))
+				return (ERR_MALLOC_FAILED);
+			printf("%d\n", i);
 			if (extract_dynarray(cmd_queue, i))
 				return (ERR_MALLOC_FAILED);
+			i = 0;
 			continue ;
 		}
 		i++;
 	}
+	printf("%d\n", cmd_queue->nb_cells);
+	fflush(stdout);
+	sleep(3);
 
 	FLUSH_RESPONSE
 	strcat(env->buffers.response, "mort\n");

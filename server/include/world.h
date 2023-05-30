@@ -64,9 +64,10 @@ typedef struct	s_team
 typedef struct	s_world
 {
 	t_dynarray	teams; // Dynamic array storing playing teams
+	t_dynarray	eggs; // Dynamic array storing hatching eggs
 	t_team		pending; // Dynamic array storing authentication-processing players
 	t_tile		**map; // 2D map of tiles representing the game board
-	uint32_t	food_items;
+	uint32_t	food_items; // Used to threshold food generation trigger
 }				t_world;
 
 #endif

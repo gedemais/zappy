@@ -36,25 +36,6 @@ t_player	*get_pending_client(t_env *env, int client_fd)
 	return (NULL);
 }
 
-t_team	*get_client_team(t_env *env, int client_fd)
-{
-	t_team		*team;
-	t_player	*p;
-
-	for (int t = 0; t < env->world.teams.nb_cells; t++)
-	{
-		team = dyacc(&env->world.teams, t);
-		for (int i = 0; i < team->players.nb_cells; i++)
-		{
-			p = dyacc(&team->players, i);
-			if (*p->connection == client_fd)
-				return (team);
-		}
-	}
-	return (NULL);
-}
-
-
 uint8_t	remove_player_from_tile(t_env *env, int x, int y)
 {
 	uint8_t		*loot;

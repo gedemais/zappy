@@ -233,8 +233,7 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	t_team	*team;
 	char	*remaining, *used;
 
-	if (!(team = get_client_team(env, *p->connection)))
-		return (ERR_NONE);
+	team = dyacc(&env->world.teams, p->team);
 
 	if (send_response)
 	{
@@ -266,22 +265,29 @@ uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
-	t_dynarray	*tile_content;
-	uint8_t		loot;
+	t_team		*team;
+	uint8_t		code;
 
-	tile_content = &env->world.map[p->tile_y][p->tile_x].content;
+	FLUSH_RESPONSE
+	team = dyacc(&env->world.teams, p->team);
+	if (team->connected == team->max_client)
+	{
+		if (send_response)
+		{
+			strcat(env->buffers.response, "ko\n");
+			response(env, p);
+		}
+		return (ERR_NONE);
+	}
 
-	if (tile_content->byte_size == 0
-		&& init_dynarray(&env->world.map[p->tile_y][p->tile_x].content, sizeof(uint8_t), 4))
-		return (ERR_MALLOC_FAILED);
+	if ((code = hatch_egg(env, p)))
+		return (code);
 
-	loot = HATCHING_EGG;
-	(void)loot;
-	(void)p;
-	(void)send_response;
-//	if (push_dynarray(&env->world.map[p->tile_y][p->tile_x].content, &loot, false)
-//		|| hatch_egg())
-//		return (ERR_MALLOC_FAILED);
+	if (send_response)
+	{
+		strcat(env->buffers.response, "ok\n");
+		response(env, p);
+	}
 
 	return (ERR_NONE);
 }

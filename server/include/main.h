@@ -142,9 +142,12 @@ uint8_t		deliver_messages(t_env *env, t_player *p);
 // Connect number command
 uint8_t		cmd_connect_nbr(t_env *env, t_player *p, bool send_response);
 
+// Fork command
+uint8_t		update_eggs(t_env *env);
+uint8_t		hatch_egg(t_env *env, t_player *p);
+
 
 // Tools
-t_team		*get_client_team(t_env *env, int client_fd);
 t_player	*get_pending_client(t_env *env, int client_fd);
 t_player	*get_team_client(t_env *env, int client_fd);
 

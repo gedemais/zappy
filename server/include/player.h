@@ -67,6 +67,12 @@ typedef struct s_direction // Useful for over / under flowing directions values
 	unsigned char	d : 2;
 }				t_direction;
 
+typedef	struct	s_egg
+{
+	int			*parent_connection;
+	uint16_t	hatch_time;
+}				t_egg;
+
 typedef struct	s_player
 {
 	int			*connection; // Connection fd

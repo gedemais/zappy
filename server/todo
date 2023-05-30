@@ -1,6 +1,26 @@
+La partie debute lorsque chacune des equipes dispose d'un nombre de joueurs suffisant.
+Ce nombre de joueurs est defini par l'equation suivante :
+nb_players_per_team = floor(max_client / nb_teams)
+
+nb_players_per_team devient le nombre de connections maximum autorisees pour
+chacune des equipes. La seule maniere de connecter un joueur supplementaire
+dans une equipe (dans la limite de 6 membres par equipe) est de pondre un oeuf
+et de fork cote client pour qu'un nouveau processus se connecte sur le serveur.
+
+La commande fork, qui pond l'oeuf, debloque un nouveau slot de connection en 
+incrementant la variable max_client de l'equipe qui a pondu l'oeuf. La mort
+d'un joueur entraine une decrementation du nombre de connection autorisees dans
+l'equipe du joueur mort.
+
+Tester le broadcast
+
 Update la direction du kick
 
+Tester le kick
+
 select qui fail sur macos
+
+relier response a la chaine d'erreur
 
 fork
 

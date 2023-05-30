@@ -7,9 +7,10 @@ SRCS_NAME=main.c\
 		  tools.c\
 		  update_commands.c\
 		  player/broadcast.c\
-		  player/player.c\
-		  player/move_commands.c\
 		  player/commands.c\
+		  player/fork.c\
+		  player/move_commands.c\
+		  player/player.c\
 		  player/see.c\
 		  tcp/auth.c\
 		  tcp/init.c\
