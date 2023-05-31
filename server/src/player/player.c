@@ -14,7 +14,7 @@ void	teams_log(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->queued_commands);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->queued_commands, *p->connection);
 		}
 	}
 	printf("=====================================\n");
@@ -28,23 +28,41 @@ uint8_t	kill_player(t_env *env, t_player *p)
 
 	cmd_queue = &env->buffers.cmd_queue;
 	// Remove commands queued by the dead player
+	printf("----------------------\n");
 	printf("%d\n", cmd_queue->nb_cells);
+	printf("fd removed : %d\n", *p->connection);
+
+	for (int i = 0; i < cmd_queue->nb_cells; i++)
+	{
+		cmd = dyacc(cmd_queue, i);
+		printf("command %d | fd : %d\n", i, *cmd->p->connection);
+	}
+	printf("----------------------\n");
+
 	while (i < cmd_queue->nb_cells)
 	{
 		cmd = dyacc(cmd_queue, i);
 		if (cmd->p == p)
 		{
-			if (i == 0 && pop_dynarray(cmd_queue, true))
-				return (ERR_MALLOC_FAILED);
 			printf("%d\n", i);
-			if (extract_dynarray(cmd_queue, i))
+			if (dynarray_extract(cmd_queue, i))
 				return (ERR_MALLOC_FAILED);
 			i = 0;
 			continue ;
 		}
 		i++;
 	}
+	printf("----------------------\n");
 	printf("%d\n", cmd_queue->nb_cells);
+	printf("----------------------\n");
+
+	for (int i = 0; i < cmd_queue->nb_cells; i++)
+	{
+		cmd = dyacc(cmd_queue, i);
+		printf("command %d | fd : %d\n", i, *cmd->p->connection);
+	}
+	printf("----------------------\n");
+
 	fflush(stdout);
 	sleep(3);
 
@@ -122,7 +140,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 	t_player	*player;
 	uint8_t		code;
 
-	if (push_dynarray(&env->world.teams, &env->world.pending, false))
+	if (dynarray_push(&env->world.teams, &env->world.pending, false))
 		return (ERR_MALLOC_FAILED);
 
 	for (int t = 0; t < env->world.teams.nb_cells; t++)
@@ -136,17 +154,18 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				if ((code = remove_player_from_tile(env, player->tile_x, player->tile_y)) != ERR_NONE)
 					return (code);
 
-				if (extract_dynarray(&team->players, p)
-					|| pop_dynarray(&env->world.teams, false))
+				if (dynarray_extract(&team->players, p))
 					return (ERR_MALLOC_FAILED);
+
+				dynarray_pop(&env->world.teams, false);
+
 				team->connected--;
 				return (ERR_NONE);
 			}
 		}
 	}
 
-	if (pop_dynarray(&env->world.teams, false))
-		return (ERR_MALLOC_FAILED);
+	dynarray_pop(&env->world.teams, false);
 
 	assert(false);
 	return (ERR_NONE);
@@ -160,22 +179,22 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 
 	// If this team does not count any player
 	if (team->players.byte_size == 0
-		&& init_dynarray(&team->players, sizeof(t_player), 6)) // Init the array of players
+		&& dynarray_init(&team->players, sizeof(t_player), 6)) // Init the array of players
 		return (ERR_MALLOC_FAILED);
 
 	fill_player(env, &new, connection);
 	// Add the newly created player to team
-	if (push_dynarray(&team->players, &new, false))
+	if (dynarray_push(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);
 
 	// Init the dynamic array containing loot on the tile where the player is located
 	if (env->world.map[new.tile_y][new.tile_x].content.byte_size == 0
-		&& init_dynarray(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
+		&& dynarray_init(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
 		return (ERR_MALLOC_FAILED);
 
 	uint8_t	loot = 255;
 	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
-	if (push_dynarray(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
+	if (dynarray_push(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
 		return (ERR_MALLOC_FAILED);
 
 	team->connected++;

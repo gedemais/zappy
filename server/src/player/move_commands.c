@@ -23,10 +23,10 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 			tile = &env->world.map[p->tile_y][p->tile_x];
 
 
-			if (tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
+			if (tile->content.byte_size == 0 && dynarray_init(&tile->content, sizeof(uint8_t), 4))
 				return (ERR_MALLOC_FAILED);
 
-			if (push_dynarray(&tile->content, &loot, false))
+			if (dynarray_push(&tile->content, &loot, false))
 				return (ERR_MALLOC_FAILED);
 
 			if (send_response)

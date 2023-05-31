@@ -16,8 +16,8 @@ static uint8_t		init_buffers(t_env *env, t_buffers *buffers)
 
 	memset(buffers->response, 0, sizeof(char) * RESPONSE_SIZE);
 
-	if (init_dynarray(&buffers->view, sizeof(t_tile), 64)
-		|| init_dynarray(&buffers->cmd_queue, sizeof(t_cmd), env->settings.max_connections * 10))
+	if (dynarray_init(&buffers->view, sizeof(t_tile), 64)
+		|| dynarray_init(&buffers->cmd_queue, sizeof(t_cmd), env->settings.max_connections * 10))
 		return (ERR_MALLOC_FAILED);
 
 	return (ERR_NONE);

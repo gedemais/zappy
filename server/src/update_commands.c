@@ -8,7 +8,7 @@ static uint8_t	run_command(t_env *env, t_dynarray *cmd_queue, t_cmd *cmd, int i)
 	code = cmd->cmd_func(env, cmd->p, true);
 
 	free_cmd(dyacc(cmd_queue, i));
-	if (extract_dynarray(cmd_queue, i))
+	if (dynarray_extract(cmd_queue, i))
 		return (ERR_MALLOC_FAILED);
 
 	return (code);
@@ -35,6 +35,7 @@ uint8_t	update_commands(t_env *env)
 			cmd->cycles--;
 		else
 		{
+			printf("%d\n", i);
 			// When time has come, we execute the command by the player who sent it
 			cmd->p->queued_commands--;
 			if ((code = run_command(env, cmd_queue, cmd, i)) != ERR_NONE)

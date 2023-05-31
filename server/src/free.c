@@ -10,12 +10,12 @@ static void	free_teams(t_env *env)
 		t = dyacc(&env->world.teams, i);
 		if (t->name)
 			free(t->name);
-		free_dynarray(&t->players);
+		dynarray_free(&t->players);
 	}
-	free_dynarray(&env->world.teams);
+	dynarray_free(&env->world.teams);
 
 	// Pending team
-	free_dynarray(&env->world.pending.players);
+	dynarray_free(&env->world.pending.players);
 }
 
 static void	free_world(t_env *env)
@@ -27,7 +27,7 @@ static void	free_world(t_env *env)
 	{
 		for (uint32_t j = 0; j < env->settings.map_width; j++)
 			if (env->world.map[i][j].content.byte_size > 0)
-				free_dynarray(&env->world.map[i][j].content);
+				dynarray_free(&env->world.map[i][j].content);
 		free(env->world.map[i]);
 	}
 	free(env->world.map);
@@ -38,13 +38,13 @@ static void	free_buffers(t_env *env)
 	free(env->buffers.response);
 	free(env->buffers.request);
 	free(env->buffers.connections);
-	free_dynarray(&env->buffers.view);
+	dynarray_free(&env->buffers.view);
 }
 
 void		free_cmd(t_cmd *cmd)
 {
 	if (cmd->tokens)
-		ft_free_ctab(cmd->tokens);
+		ft_arrfree(cmd->tokens);
 	if (cmd->response)
 		free(cmd->response);
 }
@@ -60,7 +60,7 @@ static void	free_commands_queue(t_env *env)
 		cmd = dyacc(cmd_queue, i);
 		free_cmd(cmd);
 	}
-	free_dynarray(cmd_queue);
+	dynarray_free(cmd_queue);
 }
 
 void		free_env(t_env *env)

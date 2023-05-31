@@ -66,7 +66,7 @@ static uint8_t	create_pending_team(t_env *env)
 	t_team	*new;
 
 	new = &env->world.pending;
-	if (init_dynarray(&new->players, sizeof(t_player), env->settings.max_connections) != 0)
+	if (dynarray_init(&new->players, sizeof(t_player), env->settings.max_connections) != 0)
 		return (ERR_MALLOC_FAILED);
 	return (ERR_NONE);
 }

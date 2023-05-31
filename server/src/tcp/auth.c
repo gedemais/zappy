@@ -45,7 +45,7 @@ static uint8_t	remove_pending_player(t_env *env, t_player *p)
 		if (player->connection == p->connection)
 		{
 			if (remove_player_from_tile(env, p->tile_x, p->tile_y)
-				|| extract_dynarray(&env->world.pending.players, i))
+				|| dynarray_extract(&env->world.pending.players, i))
 				return (ERR_MALLOC_FAILED);
 			return (ERR_NONE);
 		}

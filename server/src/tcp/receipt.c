@@ -23,7 +23,7 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 
 		if (!(tokens = ft_strsplit(lines[line], " ")))
 		{
-			ft_free_ctab(lines);
+			ft_arrfree(lines);
 			return (ERR_MALLOC_FAILED);
 		}
 
@@ -42,10 +42,10 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 
 				new.p = player;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				if (push_dynarray(&env->buffers.cmd_queue, &new, false))
+				if (dynarray_push(&env->buffers.cmd_queue, &new, false))
 				{
-					ft_free_ctab(lines);
-					ft_free_ctab(tokens);
+					ft_arrfree(lines);
+					ft_arrfree(tokens);
 					return (ERR_MALLOC_FAILED);
 				}
 				player->queued_commands++;
@@ -56,13 +56,13 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 		if (!cmd_found)
 		{
 			printf("|||%s|||\n", tokens[0]);
-			ft_free_ctab(tokens);
-			ft_free_ctab(lines);
+			ft_arrfree(tokens);
+			ft_arrfree(lines);
 			return (ERR_CMD_NOT_FOUND);
 		}
 	}
 
-	ft_free_ctab(lines);
+	ft_arrfree(lines);
 	return (ERR_NONE);
 }
 
@@ -133,7 +133,7 @@ uint8_t	receipt(t_env *env)
 			sets++;
 		}
 
-	if ((ret = select(1024 + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
+	if ((ret = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
 
 		if ((code = connections_receipt(env, &read_fd_set, &new_addr, &addrlen)) != ERR_NONE)

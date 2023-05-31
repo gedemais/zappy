@@ -6,9 +6,9 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 	int16_t			tx, ty;
 
 	(void)send_response;
-	if (push_dynarray(&env->buffers.view, &env->world.map[p->tile_y][p->tile_x], false))
+	if (dynarray_push(&env->buffers.view, &env->world.map[p->tile_y][p->tile_x], false))
 	{
-		clear_dynarray(&env->buffers.view);
+		dynarray_clear(&env->buffers.view);
 		return (ERR_MALLOC_FAILED);
 	}
 	for (uint8_t i = 0; i < p->level; i++)
@@ -21,15 +21,15 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 				ty = y;
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
-				if (push_dynarray(&env->buffers.view, &env->world.map[ty][tx], false))
+				if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
 				{
-					clear_dynarray(&env->buffers.view);
+					dynarray_clear(&env->buffers.view);
 					return (ERR_MALLOC_FAILED);
 				}
 			}
 	}
 	send_see_response(env, &env->buffers.view, p);
-	clear_dynarray(&env->buffers.view);
+	dynarray_clear(&env->buffers.view);
 	return (ERR_NONE);
 }
 
@@ -91,7 +91,7 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 		if ((uint8_t)*loot_ptr == loot)
 		{
 			found = true;
-			if (extract_dynarray(&tile->content, i))
+			if (dynarray_extract(&tile->content, i))
 				return (ERR_MALLOC_FAILED);
 			break ;
 		}
@@ -131,8 +131,8 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 	{
 		strcat(env->buffers.response, "ok\n");
 		p->inventory[loot]--;
-		if ((tile->content.byte_size == 0 && init_dynarray(&tile->content, sizeof(uint8_t), 4))
-			|| push_dynarray(&tile->content, &loot, false))
+		if ((tile->content.byte_size == 0 && dynarray_init(&tile->content, sizeof(uint8_t), 4))
+			|| dynarray_push(&tile->content, &loot, false))
 			return (ERR_MALLOC_FAILED);
 	}
 

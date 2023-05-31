@@ -56,7 +56,7 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 	teams = &env->world.teams;
 
 	// Initialization of teams array
-	if (teams->byte_size == 0 && init_dynarray(teams, sizeof(t_team), 8))
+	if (teams->byte_size == 0 && dynarray_init(teams, sizeof(t_team), 8))
 		return (ERR_MALLOC_FAILED);
 
 	for (uint32_t i = 0; args[i] && args[i][0] != '-'; i++)
@@ -65,7 +65,7 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 		if (!(team.name = ft_strdup(args[i]))) // Saving team name
 			return (ERR_MALLOC_FAILED);
 
-		if (push_dynarray(teams, &team, false)) // Add new team in teams array
+		if (dynarray_push(teams, &team, false)) // Add new team in teams array
 		{
 			free(team.name);
 			return (ERR_MALLOC_FAILED);

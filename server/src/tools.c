@@ -45,7 +45,7 @@ uint8_t	remove_player_from_tile(t_env *env, int x, int y)
 		loot = dyacc(&env->world.map[y][x].content, i);
 		if (*loot == 255)
 		{
-			if (extract_dynarray(&env->world.map[y][x].content, i))
+			if (dynarray_extract(&env->world.map[y][x].content, i))
 				return (ERR_MALLOC_FAILED);
 			break;
 		}
