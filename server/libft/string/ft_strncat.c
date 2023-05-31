@@ -12,7 +12,7 @@
 
 #include "../libft.h"
 
-char			*strncat(char *dst, const char *src, size_t n)
+char			*ft_strncat(char *dst, const char *src, size_t n)
 {
 	int	len;
 

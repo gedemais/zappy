@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 18:04:09 by gedemais          #+#    #+#             */
-/*   Updated: 2023/05/01 19:58:45 by gedemais         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:47:35 by geoffrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ int				check_space(t_dynarray *arr)
 		if (realloc_content(arr))
 			return (-1);
 	return (0);
+}
+
+void			dynarray_clear(t_dynarray *arr)
+{
+	arr->nb_cells = 0;
+	// memset ?
 }

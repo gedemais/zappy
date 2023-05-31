@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 19:13:14 by maboye            #+#    #+#             */
-/*   Updated: 2022/08/26 00:24:14 by gedemais         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:48:13 by geoffrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct	s_dynarray
 void			*dyacc(t_dynarray *arr, int index);
 void			dynarray_free(t_dynarray *arr);
 int				dynarray_init(t_dynarray *arr, int cell_size, int nb_cells);
+void			dynarray_clear(t_dynarray *arr);
 
 int				dynarray_insert(t_dynarray *arr, void *src, int index);
 int				dynarray_extract(t_dynarray *arr, int index);

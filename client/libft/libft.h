@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 11:28:45 by maboye            #+#    #+#             */
-/*   Updated: 2023/05/03 08:48:00 by gedemais         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:50:19 by geoffrey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ bool			ft_isprime(int nb);
 float			ft_power(int nb, int po);
 float			ft_rsqrt(float number);
 float			ft_sqrt(float nb);
+void			clamp(int16_t *v, int16_t min, int16_t max);
 
 void			*ft_memalloc(size_t size);
 void			*ft_memchr(const void *ptr, int c, size_t n);

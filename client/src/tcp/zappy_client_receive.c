@@ -6,23 +6,15 @@ static int	zappy_handle_server_message(zappy_client_t *client)
 {
 	int	r = 0;
 
+	// les fonction handle des messages serveurs renvoient 1 si tout c'est bien passé
 	if (!memcmp((char *)client->buf, "deplacement", strlen("deplacement"))) {
 		r = zappy_deplacement(client);
-		if (r == 0) {
-			r = 1;
-		}
 	}
 	else if (!memcmp((char *)client->buf, "message", strlen("message"))) {
 		r = zappy_message(client);
-		if (r == 0) {
-			r = 1;
-		}
 	}
 	else if (!memcmp((char *)client->buf, "mort", strlen("mort"))) {
 		r = zappy_mort(client);
-		if (r == 0) {
-			r = 1;
-		}
 	}
 	return (r);
 }
@@ -47,7 +39,7 @@ int			zappy_client_receive(zappy_client_t *client)
 
 	FD_ZERO(&read_fd_set);
 	FD_SET(client->socket, &read_fd_set);
-	if ((r = select(1024 + 1, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
+	if ((r = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0)
 	{
 		if (r > 0)
 		{
@@ -72,6 +64,8 @@ int			zappy_client_receive(zappy_client_t *client)
 		else if (r < 0) {
 			r = -1;
 		}
+	} else {
+		perror("select failed");
 	}
 	return (r);
 }

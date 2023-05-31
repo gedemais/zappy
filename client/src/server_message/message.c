@@ -2,16 +2,17 @@
 
 
 // format : broadcast inventaire:{nourriture n, ...}-player_id:n-team_name:foo
-static void	message_inventaire(zappy_client_t *client)
+static int	message_inventaire(zappy_client_t *client)
 {
 	uint8_t	id;
 	char	*team;
 	char	**str_split;
 	int		split_len;
+	int		r = 0;
 
 	str_split = ft_strsplit((char *)client->buf, "-");
 	if (str_split == NULL)
-		return ;
+		return ((r = -1));
 
 	fprintf(stderr, "SPLIT ----------\n");
 	ft_arr_cprint(str_split);
@@ -31,13 +32,14 @@ static void	message_inventaire(zappy_client_t *client)
 		update_team_inventaire(client);
 	}
 	ft_arrfree(str_split);
+	return (r);
 }
 
 // handle server's message : message
 // message: message <K>,<texte> (With K indicating the square where the sound comes from)
 int			zappy_message(zappy_client_t *client)
 {
-	int		r = 0;
+	int		r = ZAPPY_WAIT;
 
 	fprintf(stderr, "%s----------\n", __func__);
 

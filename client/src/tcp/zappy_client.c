@@ -28,9 +28,7 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 		}
 		if (r == 0)
 		{
-    		if (connect(client->socket,
-						(struct sockaddr*)&client->sockaddr,
-    		    		sizeof(struct sockaddr_in)) < 0) {
+    		if (connect(client->socket, (struct sockaddr*)&client->sockaddr, sizeof(struct sockaddr_in)) < 0) {
 				perror("connect");
 				close(client->socket);
 				r = -1;
@@ -50,6 +48,8 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 				fprintf(stderr, "%s: error BIENVENUE not recv\n", __func__);
 				close(client->socket);
 				r = -1;
+			} else {
+				fprintf(stderr, "%s----------\n", client->buf);
 			}
 		}
 		if (r == 0)

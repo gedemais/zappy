@@ -6,7 +6,7 @@
 #    By: maboye <marcaboye@gmail.com>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 11:17:40 by maboye            #+#    #+#              #
-#    Updated: 2023/05/03 08:50:19 by gedemais         ###   ########.fr        #
+#    Updated: 2023/05/30 13:55:17 by geoffrey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,8 @@ S_DARR	=	dynarray.c\
 S_MATHS	=	ft_isprime.c\
 			ft_power.c\
 			ft_rsqrt.c\
-			ft_sqrt.c
+			ft_sqrt.c\
+			clamp.c
 
 S_MEM	=	ft_memalloc.c\
 			ft_memcpy.c\
