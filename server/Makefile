@@ -39,7 +39,7 @@ SRCS=$(addprefix $(SRCS_PATH), $(SRCS_NAME))
 INCS_PATH=include/
 INCS=$(addprefix $(INCS_PATH), $(INCS_NAME))
 
-LIB_PATH=libft/
+LIB_PATH=../libft/
 LIB=$(LIB_PATH)libft.a
 
 OBJS=$(SRCS:.c=.o)
