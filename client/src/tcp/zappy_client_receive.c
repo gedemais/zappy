@@ -23,7 +23,7 @@ static int	zappy_handle_server_response(zappy_client_t *client)
 {
 	int	r = 0;
 
-	fprintf(stderr, "zappy_client_receive: response for id %d: (%s)\n----------\n", client->cmd_idx, client->buf);
+	fprintf(stderr, "zappy_client_receive: response for cmd_id: %d: (%s)\n----------\n", client->cmd_idx, client->buf);
 	r = client->cmds[client->cmd_idx].cb(client, &client->cmds[client->cmd_idx]);
 	client->cmd_idx++;
  	client->cmd_idx %= ZAPPY_CLIENT_MAX_STACKED_CMD;
@@ -33,7 +33,7 @@ static int	zappy_handle_server_response(zappy_client_t *client)
 
 int			zappy_client_receive(zappy_client_t *client)
 {
-	int 			r = 0;
+	int 			r = 0, buf_len;
 	fd_set			read_fd_set;
 	struct timeval	timeout = {.tv_sec = 0, .tv_usec = 100};
 
@@ -43,6 +43,8 @@ int			zappy_client_receive(zappy_client_t *client)
 	{
 		if (r > 0)
 		{
+			// reset du buffer
+			bzero(client->buf, CLIENT_BUFSIZE);
 			// Data available
 			if (recv(client->socket, client->buf, CLIENT_BUFSIZE, 0) < 0) {
 				perror("recv");
@@ -53,7 +55,10 @@ int			zappy_client_receive(zappy_client_t *client)
 				r = zappy_handle_server_message(client);
 				// si le serveur envoit un message alors r vaudra 1
 				// on n'envoit donc plus aucune query pour ce tour de loop
-				if (r == 0) {
+				buf_len = strlen((char *)client->buf);
+				if (r == 0 && buf_len > 0) {
+					// on supprime le \n de la reponse du serveur
+					client->buf[buf_len - 1] = '\0';
 					r = zappy_handle_server_response(client);
 				}
 				else if (r == 1) { // on remet r à 0 car il n'y a pas d'erreur
