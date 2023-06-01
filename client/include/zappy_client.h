@@ -115,12 +115,6 @@ static t_cmds	commands[CMD_MAX] = {
 	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
 };
 
-typedef struct	s_zappy_ressources
-{
-	char	name[256];
-	uint8_t	len;
-}				t_loot;
-
 enum			e_ressources
 {
 	R_NOURRITURE,
@@ -134,15 +128,22 @@ enum			e_ressources
 	R_MAX
 };
 
+typedef struct	s_zappy_ressources
+{
+	char	name[256];
+	uint8_t	len;
+	int		type;
+}				t_loot;
+
 static t_loot	ressources[R_MAX] = {
-	[R_LINEMATE]	= {.name = "linemate", .len = strlen("linemate")},
-	[R_DERAUMERE]	= {.name = "deraumere", .len = strlen("deraumere")},
-	[R_SIBUR]		= {.name = "sibur", .len = strlen("sibur")},
-	[R_MENDIANE]	= {.name = "mendiane", .len = strlen("mendiane")},
-	[R_PHIRAS]		= {.name = "phiras", .len = strlen("phiras")},
-	[R_THYSTAME]	= {.name = "thystame", .len = strlen("thystame")},
-	[R_NOURRITURE]	= {.name = "nourriture", .len = strlen("nourriture")},
-	[R_PLAYER]		= {.name = "player", .len = strlen("player")}
+	[R_LINEMATE]	= {.name = "linemate", .len = strlen("linemate"), .type = R_LINEMATE},
+	[R_DERAUMERE]	= {.name = "deraumere", .len = strlen("deraumere"), .type = R_DERAUMERE},
+	[R_SIBUR]		= {.name = "sibur", .len = strlen("sibur"), .type = R_SIBUR},
+	[R_MENDIANE]	= {.name = "mendiane", .len = strlen("mendiane"), .type = R_MENDIANE},
+	[R_PHIRAS]		= {.name = "phiras", .len = strlen("phiras"), .type = R_PHIRAS},
+	[R_THYSTAME]	= {.name = "thystame", .len = strlen("thystame"), .type = R_THYSTAME},
+	[R_NOURRITURE]	= {.name = "nourriture", .len = strlen("nourriture"), .type = R_NOURRITURE},
+	[R_PLAYER]		= {.name = "player", .len = strlen("player"), .type = R_PLAYER}
 };
 
 typedef struct	zappy_client_s zappy_client_t;
@@ -153,10 +154,11 @@ typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *, zappy_client_cmd_t *);
 typedef struct	zappy_client_cmd_s
 {
 	uint8_t					id, lvl, option;
-	zappy_client_cmd_cb_t			cb;
+	uint8_t					str[CLIENT_BUFSIZE];
+	zappy_client_cmd_cb_t	cb;
 }				zappy_client_cmd_t;
 
-enum	e_player_task {
+enum			e_player_task {
 	PLAYER_TASK_WAIT,
 	PLAYER_TASK_ID,
 	PLAYER_TASK_LOOK,
@@ -265,6 +267,7 @@ int		zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 void	serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire);
 void	deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire *inventaire);
 void	update_team_inventaire(zappy_client_t *client);
+void	update_inventaire(t_inventaire *inventaire, char *ressource, bool add);
 void	print_inventaire(t_inventaire inventaire);
 
 

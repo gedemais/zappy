@@ -1,13 +1,14 @@
-# Installing docker for LINUX
+# INSTALLING DOCKER
+## for LINUX
 sudo apt-get install docker
-# Installing docker for MACOS
+## for MACOS
 sudo brew install docker
-# MACOS :: il faut installer Docker Desktop car cet OS est garbage
+### MACOS :: il faut installer Docker Desktop car cet OS est garbage
 https://docs.docker.com/desktop/install/mac-install/
 
 # Create zappy image
-# pour vérifier qu'elle existe : cmd : docker images
-# ! IMPORTANT : run this command where the Dockerfile is !
+### pour vérifier qu'elle existe : cmd : docker images
+### ! IMPORTANT : run this command where the Dockerfile is !
 docker build -t zappy .
 
 # Run the container
