@@ -1,7 +1,7 @@
-# Installing
-## docker for LINUX
+# INSTALLING DOCKER
+## for LINUX
 sudo apt-get install docker
-## Installing docker for MACOS
+## for MACOS
 sudo brew install docker
 ### MACOS :: il faut installer Docker Desktop car cet OS est garbage
 https://docs.docker.com/desktop/install/mac-install/
