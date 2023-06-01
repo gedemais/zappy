@@ -41,6 +41,7 @@ static uint8_t	place_command_in_queue(t_env *env, t_player *player)
 				new.tokens = tokens;
 
 				new.p = player;
+				new.pid = player->pid;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				if (dynarray_push(&env->buffers.cmd_queue, &new, false))
 				{
