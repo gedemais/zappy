@@ -2,7 +2,9 @@
 
 uint8_t	update_eggs(t_env *env)
 {
-	t_egg	*egg;
+	t_egg		*egg;
+	t_team		*team;
+
 	for (int i = 0; i < env->world.eggs.nb_cells; i++)
 	{
 		egg = dyacc(&env->world.eggs, i);
@@ -11,8 +13,13 @@ uint8_t	update_eggs(t_env *env)
 		{
 			printf("EGG ROTTED !\n");
 			sleep(3);
+
+			team = dyacc(&env->world.teams, egg->team);
+
 			if (dynarray_extract(&env->world.eggs, i))
 				return (ERR_MALLOC_FAILED);
+
+			team->max_client--;
 		}
 		else
 			egg->hatch_time--;
@@ -38,7 +45,7 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	if (dynarray_push(tile_content, &loot, false))
 		return (ERR_MALLOC_FAILED);
 
-	new.parent_connection = p->connection;
+	new.team = p->team;
 	new.hatch_time = 600;
 	if (env->world.eggs.byte_size == 0 && dynarray_init(&env->world.eggs, sizeof(t_egg), env->world.teams.nb_cells))
 		return (ERR_MALLOC_FAILED);

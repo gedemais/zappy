@@ -161,7 +161,7 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	{
 		t = dyacc(&env->world.teams, i);
 		t->max_client = floor((float)env->settings.max_connections / (float)env->world.teams.nb_cells);
-		t->max_client = env->settings.max_connections;
+		t->max_client = min(6, t->max_client);
 		t->connected = 0;
 	}
 

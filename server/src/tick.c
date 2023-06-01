@@ -1,5 +1,21 @@
 #include "main.h"
 
+static void	check_game_start(t_env *env)
+{
+	t_team	*team;
+
+	if (env->start)
+		return;
+
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		team = dyacc(&env->world.teams, i);
+		if (team->max_client - team->connected > 0)
+			return ;
+	}
+	env->start = true;
+}
+
 uint8_t	tick(t_env *env)
 {
 	uint8_t			code;
@@ -9,8 +25,9 @@ uint8_t	tick(t_env *env)
 	gettimeofday(&tick_start, NULL);
 
 	teams_log(env);
+	check_game_start(env);
 	if ((code = receipt(env)) != ERR_NONE
-		|| 	(code = update_players(env)) != ERR_NONE
+		|| 	(env->start && (code = update_players(env))) != ERR_NONE
 		|| 	(code = update_eggs(env)) != ERR_NONE
 		|| (code = update_commands(env)) != ERR_NONE)
 		return (code);

@@ -24,9 +24,11 @@ uint8_t	kill_player(t_env *env, t_player *p)
 {
 	t_dynarray	*cmd_queue;
 	t_cmd		*cmd;
+	t_team		*team;
 	int			i = 0;
 
 	cmd_queue = &env->buffers.cmd_queue;
+	team = dyacc(&env->world.teams, p->team);
 
 	// Remove commands queued by the dead player
 	while (i < cmd_queue->nb_cells)
@@ -47,6 +49,7 @@ uint8_t	kill_player(t_env *env, t_player *p)
 
 	close(*p->connection);
 	*p->connection = -1;
+	team->max_client--;
 
 	return (remove_player(env, *p->connection));
 }

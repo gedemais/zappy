@@ -45,8 +45,6 @@ void		free_cmd(t_cmd *cmd)
 {
 	if (cmd->tokens)
 		ft_arrfree(cmd->tokens);
-	if (cmd->response)
-		free(cmd->response);
 }
 
 static void	free_commands_queue(t_env *env)

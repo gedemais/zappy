@@ -22,6 +22,8 @@
 # define min(a,b) (((a)<(b))?(a):(b))
 # define max(a,b) (((a)>(b))?(a):(b))
 
+# define DEV true
+
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define REQUEST_BUFF_SIZE 4096
@@ -35,7 +37,6 @@ typedef struct	s_cmd
 {
 	t_player	*p; // Player who sent the command
 	char		**tokens; // Word-tokens composing the command
-	char		*response; // Response written by the server
 	uint16_t	cycles; // Number of cycles remaining before to actually execute the instruction
 	uint8_t		(*cmd_func)(t_env *, t_player*, bool); // Function pointer storing the address of the instruction related function
 	int32_t		pid;
@@ -76,6 +77,7 @@ struct	s_env
 	t_world		world; // See world.h
 	t_tcp		tcp; // TCP logistic variables
 	t_settings	settings;
+	bool		start;
 };
 
 // Core
@@ -100,6 +102,8 @@ uint8_t		handle_connections(t_env *env);
 uint8_t		receipt(t_env *env);
 uint8_t		auth(t_env *env, t_player *p);
 uint8_t		auth_send_welcome(t_env *env, t_player *p);
+uint8_t		place_command_in_queue(t_env *env, t_player *player);
+uint8_t		waiting_response(t_env *env, t_player *player);
 
 // World
 uint8_t		init_world(t_env *env);
@@ -193,18 +197,18 @@ static const char	*cmd_names[CMD_MAX] = {
 
 // Structures array storing the different features of each executable command
 static const t_cmd	commands[CMD_MAX] = {
-							[CMD_ADVANCE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_advance},
-							[CMD_RIGHT] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_left},
-							[CMD_LEFT] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_right},
-							[CMD_SEE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_see},
-							[CMD_INVENTORY] = {.response = NULL, .cycles = 1, .cmd_func = &cmd_inventory},
-							[CMD_TAKE] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_take},
-							[CMD_PUTDOWN] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_put},
-							[CMD_KICK] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_kick},
-							[CMD_BROADCAST] = {.response = NULL, .cycles = 7, .cmd_func = &cmd_broadcast},
-							[CMD_INCANTATION] = {.response = NULL, .cycles = 300, .cmd_func = NULL},
-							[CMD_FORK] = {.response = NULL, .cycles = 42, .cmd_func = NULL},
-							[CMD_CONNECT_NBR] = {.response = NULL, .cycles = 0, .cmd_func = cmd_connect_nbr}
+							[CMD_ADVANCE] = {.cycles = 7, .cmd_func = &cmd_advance},
+							[CMD_RIGHT] = {.cycles = 7, .cmd_func = &cmd_left},
+							[CMD_LEFT] = {.cycles = 7, .cmd_func = &cmd_right},
+							[CMD_SEE] = {.cycles = 7, .cmd_func = &cmd_see},
+							[CMD_INVENTORY] = {.cycles = 1, .cmd_func = &cmd_inventory},
+							[CMD_TAKE] = {.cycles = 7, .cmd_func = &cmd_take},
+							[CMD_PUTDOWN] = {.cycles = 7, .cmd_func = &cmd_put},
+							[CMD_KICK] = {.cycles = 7, .cmd_func = &cmd_kick},
+							[CMD_BROADCAST] = {.cycles = 7, .cmd_func = &cmd_broadcast},
+							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = NULL},
+							[CMD_FORK] = {.cycles = 42, .cmd_func = NULL},
+							[CMD_CONNECT_NBR] = {.cycles = 0, .cmd_func = cmd_connect_nbr}
 };
 
 #endif

@@ -1,71 +1,4 @@
 #include "main.h"
-/*
-uint8_t	commands_receipt(t_env *env)
-{
-	return (ERR_NONE);
-}*/
-
-static uint8_t	place_command_in_queue(t_env *env, t_player *player)
-{
-	t_cmd		new;
-	char		**lines;
-	char		**tokens;
-	bool		cmd_found;
-
-	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
-		return (ERR_MALLOC_FAILED);
-
-	for (uint32_t line = 0; lines[line]; line++)
-	{
-		cmd_found = false;
-		if (strlen(lines[line]) <= 1)
-			continue ;
-
-		if (!(tokens = ft_strsplit(lines[line], " ")))
-		{
-			ft_arrfree(lines);
-			return (ERR_MALLOC_FAILED);
-		}
-
-		for (int i = 0; i < CMD_MAX; i++)
-		{
-			if (strcmp(tokens[0], cmd_names[i]) == 0)
-			{
-				cmd_found = true;
-
-				if (player->queued_commands >= MAX_QUEUED_CMD)
-					break ;
-
-				bzero(&new, sizeof(t_cmd));
-				new = commands[i];
-				new.tokens = tokens;
-
-				new.p = player;
-				new.pid = player->pid;
-				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				if (dynarray_push(&env->buffers.cmd_queue, &new, false))
-				{
-					ft_arrfree(lines);
-					ft_arrfree(tokens);
-					return (ERR_MALLOC_FAILED);
-				}
-				player->queued_commands++;
-				break;
-			}
-		}
-
-		if (!cmd_found)
-		{
-			printf("|||%s|||\n", tokens[0]);
-			ft_arrfree(tokens);
-			ft_arrfree(lines);
-			return (ERR_CMD_NOT_FOUND);
-		}
-	}
-
-	ft_arrfree(lines);
-	return (ERR_NONE);
-}
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
 {
@@ -109,7 +42,7 @@ static uint8_t	process_request(t_env *env, int client_fd)
 	if ((p = get_pending_client(env, client_fd)) != NULL)
 		return (auth(env, p));
 	else if ((p = get_team_client(env, client_fd)))
-		return (place_command_in_queue(env, p));
+		return (env->start ? place_command_in_queue(env, p) : waiting_response(env, p));
 
 	return (ERR_NONE);
 }
