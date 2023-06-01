@@ -18,6 +18,7 @@
 
 # include "zappy_client_getopt.h"
 # include "zappy_client_move.h"
+# include "zappy_client_player.h"
 
 
 # define CLIENT_BUFSIZE 4096
@@ -28,9 +29,6 @@
 # define ZAPPY_OK		0
 # define ZAPPY_WAIT		1
 # define ZAPPY_ERROR	-1
-
-# define VISION_MAP_MAX		81
-# define CASE_ELEMENTS		8
 
 # define ORIENTATION_FRONT	0
 # define ORIENTATION_RIGHT	1
@@ -77,44 +75,6 @@ static int	vision_row_center[] = {
 		72
 };
 
-enum			e_commands
-{
-	CMD_AVANCE,
-	CMD_DROITE,
-	CMD_GAUCHE,
-	CMD_VOIR,
-	CMD_INVENTAIRE,
-	CMD_PREND,
-	CMD_POSE,
-	CMD_EXPULSE,
-	CMD_BROADCAST,
-	CMD_INCANTATION,
-	CMD_FORK,
-	CMD_CONNECT_NBR,
-	CMD_MAX
-};
-
-typedef struct	s_zappy_cmds
-{
-	char	name[256];
-	uint8_t	len;
-}				t_cmds;
-
-static t_cmds	commands[CMD_MAX] = {
-	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
-	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
-	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
-	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
-	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
-	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
-	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
-	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
-	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
-	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
-	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
-	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
-};
-
 enum			e_ressources
 {
 	R_NOURRITURE,
@@ -153,78 +113,24 @@ typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *, zappy_client_cmd_t *);
 
 typedef struct	zappy_client_cmd_s
 {
-	uint8_t					id, lvl, option;
+	uint8_t					id, option;
 	uint8_t					str[CLIENT_BUFSIZE];
 	zappy_client_cmd_cb_t	cb;
 }				zappy_client_cmd_t;
 
-enum			e_player_task {
-	PLAYER_TASK_WAIT,
-	PLAYER_TASK_ID,
-	PLAYER_TASK_LOOK,
-	PLAYER_TASK_LOOT,
-	PLAYER_TASK_BROADCAST,
-	PLAYER_TASK_BROADCAST_INVENTAIRE,
-	PLAYER_TASK_GET_INVENTAIRE,
-	PLAYER_TASK_MAX
-};
-
-enum			e_broadcast
-{
-	BROADCAST_NONE,
-	BROADCAST_INVENTAIRE,
-	BROADCAST_MAX
-};
-
-typedef struct	s_zappy_inventaire
-{
-	int		nourriture;
-	int		linemate;
-	int		deraumere;
-	int		sibur;
-	int		mendiane;
-	int		phiras;
-	int		thystame;
-	int		ttl;
-}				t_inventaire;
-
-typedef struct	s_zappy_player
-{
-	int				pos_x; // Absolute position, unused ?
-	int				pos_y; // Absolute position, unused ?
-	uint8_t			id, lvl;
-	uint8_t			vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
-	uint8_t			relative_pos; // Relative position for vision map
-	uint8_t			relative_orientation; // Relative orientation, always start at 0 when see
-									  // The absolute orientation is not known of client
-									  // At each "see" the orientation is back to 0
-	t_inventaire	inventaire[PLAYER_MAX];
-	uint8_t			broadcast;	// permet d'identifier le type de broadcast a effectuer
-	uint8_t			broadcast_msg[CLIENT_BUFSIZE]; // stock le broadcast_msg
-	bool			alive;
-}				t_player;
-
-typedef struct	s_zappy_team
-{
-	uint8_t			size; // team max size
-	uint8_t			nb_player; // current nb of players
-	char			*name;
-	t_inventaire	inventaire;
-}				t_team;
-
 typedef struct	zappy_client_s
 {
-	int			socket;
+	int					socket;
 	struct sockaddr_in	sockaddr;
-	uint8_t			buf[CLIENT_BUFSIZE];
+	uint8_t				buf[CLIENT_BUFSIZE];
 
-	t_player		player;
-	t_team			team;
+	t_player			player;
+	t_team				team;
 
 	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
-	uint8_t			cmd_idx; // idx used to rotate cmds
-	uint8_t			cmd_stack_size; // nb of elements currently in cmds
-	uint8_t			task;
+	uint8_t				cmd_idx; // idx used to rotate cmds
+	uint8_t				cmd_stack_size; // nb of elements currently in cmds
+	uint8_t				task;
 }				zappy_client_t;
 
 /* argvs parsing */

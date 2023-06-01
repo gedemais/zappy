@@ -60,8 +60,9 @@ static void	zappy_debug_print_vision_map(zappy_client_t *client)
 
 int			zappy_voir_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
-	int r = 0;
 	(void)cmd;
+
+	int r = 0;
 
 	r = zappy_client_parse_voir(client);
 	if (r == 0)
