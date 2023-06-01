@@ -6,6 +6,7 @@ SRCS_NAME=main.c\
 		  tick.c\
 		  tools.c\
 		  update_commands.c\
+		  graphical/update.c\
 		  player/broadcast.c\
 		  player/commands.c\
 		  player/fork.c\
