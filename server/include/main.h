@@ -38,6 +38,7 @@ typedef struct	s_cmd
 	char		*response; // Response written by the server
 	uint16_t	cycles; // Number of cycles remaining before to actually execute the instruction
 	uint8_t		(*cmd_func)(t_env *, t_player*, bool); // Function pointer storing the address of the instruction related function
+	int32_t		pid;
 }				t_cmd;
 
 // Server settings
@@ -80,6 +81,7 @@ struct	s_env
 // Core
 uint8_t		tick(t_env *env);
 uint8_t		update_commands(t_env *env);
+void		update_commands_queue(t_env *env);
 
 // Memory free
 void		free_env(t_env *env);
@@ -145,7 +147,6 @@ uint8_t		cmd_connect_nbr(t_env *env, t_player *p, bool send_response);
 // Fork command
 uint8_t		update_eggs(t_env *env);
 uint8_t		hatch_egg(t_env *env, t_player *p);
-
 
 // Tools
 t_player	*get_pending_client(t_env *env, int client_fd);

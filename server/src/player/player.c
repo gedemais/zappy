@@ -27,44 +27,19 @@ uint8_t	kill_player(t_env *env, t_player *p)
 	int			i = 0;
 
 	cmd_queue = &env->buffers.cmd_queue;
+
 	// Remove commands queued by the dead player
-	printf("----------------------\n");
-	printf("%d\n", cmd_queue->nb_cells);
-	printf("fd removed : %d\n", *p->connection);
-
-	for (int i = 0; i < cmd_queue->nb_cells; i++)
-	{
-		cmd = dyacc(cmd_queue, i);
-		printf("command %d | fd : %d\n", i, *cmd->p->connection);
-	}
-	printf("----------------------\n");
-
 	while (i < cmd_queue->nb_cells)
 	{
 		cmd = dyacc(cmd_queue, i);
-		if (cmd->p == p)
+		if (cmd->pid == p->pid)
 		{
-			printf("%d\n", i);
 			if (dynarray_extract(cmd_queue, i))
 				return (ERR_MALLOC_FAILED);
-			i = 0;
 			continue ;
 		}
 		i++;
 	}
-	printf("----------------------\n");
-	printf("%d\n", cmd_queue->nb_cells);
-	printf("----------------------\n");
-
-	for (int i = 0; i < cmd_queue->nb_cells; i++)
-	{
-		cmd = dyacc(cmd_queue, i);
-		printf("command %d | fd : %d\n", i, *cmd->p->connection);
-	}
-	printf("----------------------\n");
-
-	fflush(stdout);
-	sleep(3);
 
 	FLUSH_RESPONSE
 	strcat(env->buffers.response, "mort\n");
@@ -123,6 +98,8 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 
 	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
 
+	// PID generation
+	new->pid = rand() * rand() * rand();
 	// Player's random coordinates definition
 	new->tile_x = rand() % env->settings.map_width;
 	new->tile_y = rand() % env->settings.map_height;
@@ -160,6 +137,8 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				dynarray_pop(&env->world.teams, false);
 
 				team->connected--;
+
+				update_commands_queue(env);
 				return (ERR_NONE);
 			}
 		}

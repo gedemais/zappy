@@ -85,6 +85,7 @@ typedef struct	s_player
 	bool		alive; // Is the player currently alive ?
 	uint8_t		auth_step; // Which step of authentication has the player reached yet.
 	uint8_t		queued_commands; // Number of queued commands
+	int32_t		pid;
 }				t_player;
 
 #endif
