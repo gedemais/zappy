@@ -4,10 +4,10 @@
 int			zappy_client_move_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
+
 	int r = 0;
 
-	if (memcmp(client->buf, "ok", strlen("ok")))
-	{
+	if (memcmp(client->buf, "ok", strlen("ok"))) {
 		r = -1;
 	}
 	return (r);
@@ -60,12 +60,16 @@ int		zappy_gauche_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 // response: ok/ko
 int		zappy_prend_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
-	(void)client;
 	(void)cmd;
 
 	int		r = 0;
+	char	*str = (char *)client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].str;
 
-	// fprintf(stderr, "%s\n", __func__);
+	// on recupere une ressource donc on update l'inventaire du joueur
+	// format : "prend ressource" => on avance le ptr de strlen("prend ")
+	update_inventaire(&client->player.inventaire[client->player.id],
+		str + commands[CMD_PREND].len + 1, true);
+	print_inventaire(client->player.inventaire[client->player.id]);
 	return (r);
 }
 
@@ -75,11 +79,15 @@ int		zappy_prend_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 int		zappy_pose_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
-	(void)client;
 
 	int		r = 0;
+	char	*str = (char *)client->cmds[(client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD].str;
 
-	// fprintf(stderr, "%s\n", __func__);
+	// on pose une ressource donc on update l'inventaire du joueur
+	// format : "pose ressource" => on avance le ptr de strlen("pose ")
+	update_inventaire(&client->player.inventaire[client->player.id],
+			str + commands[CMD_POSE].len + 1, false);
+	print_inventaire(client->player.inventaire[client->player.id]);
 	return (r);
 }
 
@@ -103,6 +111,7 @@ int		zappy_expulse_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 int		zappy_broadcast_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
+
 	int		r = 0;
 
 	client->task = PLAYER_TASK_LOOK;

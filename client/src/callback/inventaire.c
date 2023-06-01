@@ -1,7 +1,7 @@
 #include "zappy_client.h"
 
 
-void			print_inventaire(t_inventaire inventaire)
+void		print_inventaire(t_inventaire inventaire)
 {
 	fprintf(stderr, "\n"
 		"nourriture	: %d\n"
@@ -22,7 +22,7 @@ void			print_inventaire(t_inventaire inventaire)
 		inventaire.ttl);
 }
 
-void			update_team_inventaire(zappy_client_t *client)
+void		update_team_inventaire(zappy_client_t *client)
 {
 	t_inventaire	inventaire_player;
 
@@ -39,6 +39,31 @@ void			update_team_inventaire(zappy_client_t *client)
 		client->team.inventaire.mendiane += inventaire_player.mendiane;
 		client->team.inventaire.phiras += inventaire_player.phiras;
 		client->team.inventaire.thystame += inventaire_player.thystame;
+	}
+}
+
+static int	get_ressource_id(char *ressource)
+{
+	int	ressource_id = -1;
+
+	for (int i = 0; i < R_MAX - 1; i++) {
+		if (!memcmp(ressource, ressources[i].name, ressources[i].len)) {
+			ressource_id = i;
+		}
+	}
+	return (ressource_id);
+}
+
+// si add a true on ajoute sinon on retire la ressource de l'inventaire
+void		update_inventaire(t_inventaire *inventaire, char *ressource, bool add)
+{
+	int	*ptr = (int *)inventaire;
+	int	ressource_id = get_ressource_id(ressource);
+	
+	fprintf(stderr, "%s: ressource: %s, id: %d\n", __func__, ressource, ressource_id);
+
+	if (ressource_id > 0) {
+		ptr[ressource_id] += (add == true) ? 1 : -1;
 	}
 }
 
@@ -75,7 +100,7 @@ void		deserialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventair
 }
 
 // response: {nourriture n, linemate n, deraumere n, sibur n, mendiane n, phiras n, thystame n, ttl n}
-void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
+void		serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire inventaire)
 {
 	bzero(inventaire_str, CLIENT_BUFSIZE);
 	snprintf((char *)inventaire_str, CLIENT_BUFSIZE, "{"
@@ -98,9 +123,10 @@ void			serialize_inventaire(uint8_t inventaire_str[CLIENT_BUFSIZE], t_inventaire
 		inventaire.ttl);
 }
 
-int				zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
+int			zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
+
 	int	r = 0;
 
 	// on stock linventaire du joueur

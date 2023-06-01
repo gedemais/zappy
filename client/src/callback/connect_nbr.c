@@ -4,9 +4,10 @@
 // response: <A>, <B> (A: free slot, B: current slot: ID)
 int		zappy_connect_nbr_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
+	(void)cmd;
+
 	int		r = 0;
 	char	tmp = 0;
-	(void)cmd;
 
 	// on determine la taille de la team et le nb de joueurs connectes
 	// on donne un id au joueur
