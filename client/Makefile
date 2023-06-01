@@ -1,22 +1,21 @@
 include scripts/srcs.mk
 include scripts/incs.mk
 
-NAME=client
+NAME = client
 
-CC=gcc
-FLAGS=-Wall -Werror -Wextra
-FLAGS+=-Wno-unused-variable
+CC = gcc
+FLAGS = -Wall -Werror -Wextra -Wno-unused-variable
 
 # Os detection
-OS=$(shell uname -s)
+OS = $(shell uname -s)
 NAME = client
 
 ifeq ($(OS), "Darwin")
-	FLAGS += -DMACOS -Wno-format-truncation
+	FLAGS += -DMACOS
 endif
 
 ifeq ($(OS), "Linux")
-	FLAGS += -DLINUX
+	FLAGS += -DLINUX -Wno-format-truncation
 endif
 
 # Flags variables
@@ -35,17 +34,16 @@ ifeq ($(OPTI), 1)
     FLAGS += -Ofast -march=native
 endif
 
-SRCS_PATH=src/
-SRCS=$(addprefix $(SRCS_PATH), $(SRCS_NAME))
+SRCS_PATH = src/
+SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
-INCS_PATH=include/
-INCS=$(addprefix $(INCS_PATH), $(INCS_NAME))
+INCS_PATH = include/
+INCS = $(addprefix $(INCS_PATH), $(INCS_NAME))
 
-LIB_PATH=../libft/
-LIB=$(LIB_PATH)libft.a
+LIB_PATH = ../libft/
+LIB = $(LIB_PATH)libft.a
 
-OBJS=$(SRCS:.c=.o)
-
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
@@ -60,17 +58,15 @@ $(SRCS_PATH)%.o: $(SRCS_PATH)%.c $(INCS)
 	$(CC) $(FLAGS) -I $(INCS_PATH) -I $(LIB_PATH) -o $@ -c $<
 
 $(LIB): $(LIB_PATH)
-	@echo "Making Libft..."
-	@make -C $(LIB_PATH) -j4
+	make -C $(LIB_PATH) -j4
 
 clean:
-	@rm -rf $(OBJS)
-	@make -C $(LIB_PATH) clean
-	@echo "Libft clean"
+	rm -rf $(OBJS)
+	make -C $(LIB_PATH) clean
 
 fclean: clean
-	@make -C $(LIB_PATH) fclean
-	@rm -rf $(NAME)
-	@rm -rf $(NAME).dSYM
+	make -C $(LIB_PATH) fclean
+	rm -rf $(NAME)
+	rm -rf $(NAME).dSYM
 
 re: fclean all
