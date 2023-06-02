@@ -1,6 +1,7 @@
 #include "zappy_client.h"
 
 
+// TODO
 // format : broadcast inventaire:{nourriture n, ...}-player_id:n-team_name:foo
 static int	message_inventaire(zappy_client_t *client)
 {
@@ -35,6 +36,18 @@ static int	message_inventaire(zappy_client_t *client)
 	return (r);
 }
 
+// TODO
+// format : broadcast incantation-player_id:n-team_name:foo
+static int	message_incantation(zappy_client_t *client)
+{
+	(void)client;
+
+	int	r = 0;
+
+
+	return (r);
+}
+
 // handle server's message : message
 // message: message <K>,<texte> (With K indicating the square where the sound comes from)
 int			zappy_message(zappy_client_t *client)
@@ -45,6 +58,9 @@ int			zappy_message(zappy_client_t *client)
 
 	if (strstr((char *)client->buf, "inventaire")) {
 		message_inventaire(client);
+	}
+	if (strstr((char *)client->buf, "incantation")) {
+		message_incantation(client);
 	}
 
 	fprintf(stderr, "----------\n");

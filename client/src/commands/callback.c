@@ -90,6 +90,7 @@ int		zappy_pose_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 	// on pose une ressource donc on update l'inventaire du joueur
 	// format : "pose ressource" => on avance le ptr de strlen("pose ")
 	update_inventaire(&inventaire, cmd_buf + commands[CMD_POSE].len + 1, false);
+	print_inventaire(inventaire);
 	return (r);
 }
 
@@ -113,16 +114,17 @@ int		zappy_expulse_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 int		zappy_broadcast_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
+	(void)client;
 
 	int		r = 0;
 
-	client->task = PLAYER_TASK_LOOK;
+	// fprintf(stderr, "%s\n", __func__);
 	return (r);
 }
 
 // ============================================================================
 
-// response: elevation en cours
+// response: elevation en cours/ko
 int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
