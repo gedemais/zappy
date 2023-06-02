@@ -48,6 +48,14 @@ static int	players_requirement()
 	return (r);
 }
 
+// TODO
+static int	zappy_incantation()
+{
+	int	r = 0;
+
+	return (r);
+}
+
 int			zappy_client_incantation(zappy_client_t *client)
 {
 	int				r = 0;
@@ -77,7 +85,7 @@ int			zappy_client_incantation(zappy_client_t *client)
 		if (players_requirement() == true) {
 			// TODO
 			// step 5 : lancer l'incantation de lvl up
-			zappy_incantation();
+			r = zappy_incantation();
 		} else {
 			// il faut appeler des joueurs
 			client->player.broadcast = BROADCAST_PLAYER;
