@@ -2,7 +2,6 @@ SRCS_NAME=main.c\
 		  zappy_client_getopt.c\
 		  commands/callback.c\
 		  commands/connect_nbr.c\
-		  commands/incantation.c\
 		  commands/inventaire.c\
 		  commands/voir.c\
 		  player/zappy_client_broadcast.c\

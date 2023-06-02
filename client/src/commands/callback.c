@@ -129,6 +129,20 @@ int		zappy_broadcast_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 
 // ============================================================================
 
+// response: elevation en cours
+int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
+{
+	(void)cmd;
+	(void)client;
+
+	int		r = 0;
+
+	// fprintf(stderr, "%s\n", __func__);
+	return (r);
+}
+
+// ============================================================================
+
 // response: ok/ko
 int		zappy_fork_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
