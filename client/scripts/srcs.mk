@@ -1,16 +1,19 @@
 SRCS_NAME=main.c\
 		  zappy_client_getopt.c\
-		  callback/callback.c\
-		  callback/connect_nbr.c\
-		  callback/inventaire.c\
-		  callback/voir.c\
+		  commands/callback.c\
+		  commands/connect_nbr.c\
+		  commands/incantation.c\
+		  commands/inventaire.c\
+		  commands/voir.c\
 		  player/zappy_client_broadcast.c\
+		  player/zappy_client_incantation.c\
 		  player/zappy_client_loot.c\
 		  player/zappy_client_move.c\
 		  player/zappy_player.c\
-		  server_message/deplacement.c\
-		  server_message/message.c\
-		  server_message/mort.c\
+		  server_messages/deplacement.c\
+		  server_messages/message.c\
+		  server_messages/mort.c\
+		  server_messages/niveau.c\
 		  tcp/zappy_client_receive.c\
 		  tcp/zappy_client_transceive.c\
 		  tcp/zappy_client.c\

@@ -11,10 +11,8 @@ int			zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_
 	if (r == 0)
 	{
 		cmd_id = (client->cmd_idx + client->cmd_stack_size) % ZAPPY_CLIENT_MAX_STACKED_CMD;
-		// on stock l'id de la commande dans la stack : useless pour le moment
-		client->cmds[cmd_id].id = cmd_id;
 		// on copie la cmd dans un buffer c'est utile pour prendre et déposer afin d'identifier la ressource concernée
-		memcpy(client->cmds[cmd_id].str, cmd, CLIENT_BUFSIZE);
+		memcpy(client->cmds[cmd_id].buf, cmd, CLIENT_BUFSIZE);
 		// on associe le cb correspond a la cmd dans la stack
 		client->cmds[cmd_id].cb = cb;
 		// on augmente la cmd_stack

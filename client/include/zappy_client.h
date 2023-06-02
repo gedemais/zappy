@@ -75,6 +75,44 @@ static int	vision_row_center[] = {
 		72
 };
 
+enum			e_commands
+{
+	CMD_AVANCE,
+	CMD_DROITE,
+	CMD_GAUCHE,
+	CMD_VOIR,
+	CMD_INVENTAIRE,
+	CMD_PREND,
+	CMD_POSE,
+	CMD_EXPULSE,
+	CMD_BROADCAST,
+	CMD_INCANTATION,
+	CMD_FORK,
+	CMD_CONNECT_NBR,
+	CMD_MAX
+};
+
+typedef struct	s_zappy_cmds
+{
+	char	name[256];
+	uint8_t	len;
+}				t_cmds;
+
+static t_cmds	commands[CMD_MAX] = {
+	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
+	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
+	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
+	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
+	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
+	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
+	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
+	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
+	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
+	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
+	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
+	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
+};
+
 enum			e_ressources
 {
 	R_NOURRITURE,
@@ -113,8 +151,7 @@ typedef int		(*zappy_client_cmd_cb_t)(zappy_client_t *, zappy_client_cmd_t *);
 
 typedef struct	zappy_client_cmd_s
 {
-	uint8_t					id, option;
-	uint8_t					str[CLIENT_BUFSIZE];
+	uint8_t					buf[CLIENT_BUFSIZE];
 	zappy_client_cmd_cb_t	cb;
 }				zappy_client_cmd_t;
 
@@ -145,12 +182,14 @@ int		zappy_client_receive(zappy_client_t *client);
 // Zappy player, the happy-go-lucky farmer
 int		zappy_player(zappy_client_t *client);
 int		zappy_client_broadcast(zappy_client_t *client);
+int		zappy_client_incantation(zappy_client_t *client);
 int		zappy_client_loot(zappy_client_t *client);
 
 // server's messages handlers
-int		zappy_message(zappy_client_t *client);
 int		zappy_deplacement(zappy_client_t *client);
+int		zappy_message(zappy_client_t *client);
 int		zappy_mort(zappy_client_t *client);
+int		zappy_niveau(zappy_client_t *client);
 
 // callback
 int		zappy_client_move_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
@@ -162,11 +201,14 @@ int		zappy_prend_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 int		zappy_pose_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 int		zappy_expulse_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 int		zappy_broadcast_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
-int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 int		zappy_fork_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 
 // callback connect_nbr
 int		zappy_connect_nbr_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+
+// callback incantation
+int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
+int		incantation_requirements(t_inventaire inventaire, uint8_t lvl, uint8_t choice);
 
 // callback inventaire
 int		zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);

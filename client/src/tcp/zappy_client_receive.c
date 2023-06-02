@@ -16,6 +16,9 @@ static int	zappy_handle_server_message(zappy_client_t *client)
 	else if (!memcmp((char *)client->buf, "mort", strlen("mort"))) {
 		r = zappy_mort(client);
 	}
+	else if (!memcmp((char *)client->buf, "niveau actuel :", strlen("niveau actuel :"))) {
+		r = zappy_niveau(client);
+	}
 	return (r);
 }
 

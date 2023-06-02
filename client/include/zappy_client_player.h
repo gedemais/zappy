@@ -15,52 +15,14 @@
 # define CASE_ELEMENTS		8
 
 
-enum			e_commands
-{
-	CMD_AVANCE,
-	CMD_DROITE,
-	CMD_GAUCHE,
-	CMD_VOIR,
-	CMD_INVENTAIRE,
-	CMD_PREND,
-	CMD_POSE,
-	CMD_EXPULSE,
-	CMD_BROADCAST,
-	CMD_INCANTATION,
-	CMD_FORK,
-	CMD_CONNECT_NBR,
-	CMD_MAX
-};
-
-typedef struct	s_zappy_cmds
-{
-	char	name[256];
-	uint8_t	len;
-}				t_cmds;
-
-static t_cmds	commands[CMD_MAX] = {
-	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance")},
-	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite")},
-	[CMD_GAUCHE]		= {.name = "gauche", .len = strlen("gauche")},
-	[CMD_VOIR]			= {.name = "voir", .len = strlen("voir")},
-	[CMD_INVENTAIRE]	= {.name = "inventaire", .len = strlen("inventaire")},
-	[CMD_PREND]			= {.name = "prend", .len = strlen("prend")},
-	[CMD_POSE]			= {.name = "pose", .len = strlen("pose")},
-	[CMD_EXPULSE]		= {.name = "expulse", .len = strlen("expulse")},
-	[CMD_BROADCAST]		= {.name = "broadcast", .len = strlen("broadcast")},
-	[CMD_INCANTATION]	= {.name = "incantation", .len = strlen("incantation")},
-	[CMD_FORK]			= {.name = "fork", .len = strlen("fork")},
-	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr")}
-};
-
 enum			e_player_task {
 	PLAYER_TASK_WAIT,
 	PLAYER_TASK_ID,
 	PLAYER_TASK_LOOK,
 	PLAYER_TASK_LOOT,
 	PLAYER_TASK_BROADCAST,
-	PLAYER_TASK_BROADCAST_INVENTAIRE,
 	PLAYER_TASK_GET_INVENTAIRE,
+	PLAYER_TASK_INCANTATION,
 	PLAYER_TASK_MAX
 };
 
@@ -83,6 +45,17 @@ typedef struct	s_zappy_inventaire
 	int		ttl;
 	int		player;
 }				t_inventaire;
+
+static t_inventaire	requirements[LVL_MAX] = {
+	[0] = {0},
+	/* lvl 1-2 */[1] = {.player=1,.linemate=1,.deraumere=0,.sibur=0,.mendiane=0,.phiras=0,.thystame=0},
+	/* lvl 2-3 */[2] = {.player=2,.linemate=1,.deraumere=1,.sibur=1,.mendiane=0,.phiras=0,.thystame=0},
+	/* lvl 3-4 */[3] = {.player=4,.linemate=2,.deraumere=0,.sibur=1,.mendiane=0,.phiras=2,.thystame=0},
+	/* lvl 4-5 */[4] = {.player=4,.linemate=1,.deraumere=1,.sibur=2,.mendiane=0,.phiras=1,.thystame=0},
+	/* lvl 5-6 */[5] = {.player=4,.linemate=1,.deraumere=2,.sibur=1,.mendiane=3,.phiras=0,.thystame=0},
+	/* lvl 6-7 */[6] = {.player=6,.linemate=1,.deraumere=2,.sibur=3,.mendiane=0,.phiras=1,.thystame=0},
+	/* lvl 7-8 */[7] = {.player=6,.linemate=2,.deraumere=2,.sibur=2,.mendiane=2,.phiras=2,.thystame=1}
+};
 
 typedef struct	s_zappy_player
 {

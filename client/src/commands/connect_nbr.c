@@ -9,6 +9,9 @@ int		zappy_connect_nbr_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 	int		r = 0;
 	char	tmp = 0;
 
+	// default lvl
+	if (client->player.lvl == 0)
+		client->player.lvl = 1;
 	// on determine la taille de la team et le nb de joueurs connectes
 	// on donne un id au joueur
 	if (client->team.size == 0 || client->player.id == 0) {
