@@ -208,7 +208,6 @@ int		zappy_connect_nbr_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
 
 // callback incantation
 int		zappy_incantation_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
-int		incantation_requirements(t_inventaire inventaire, uint8_t lvl, uint8_t choice);
 
 // callback inventaire
 int		zappy_inventaire_cb(zappy_client_t *client, zappy_client_cmd_t *cmd);
