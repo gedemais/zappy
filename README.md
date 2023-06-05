@@ -6,15 +6,17 @@ sudo brew install docker
 ### MACOS :: il faut installer Docker Desktop car cet OS est garbage
 https://docs.docker.com/desktop/install/mac-install/
 
-# Create zappy image
+# Create SERVER zappy image
 ### pour vérifier qu'elle existe : cmd : docker images
-### ! IMPORTANT : run this command where the Dockerfile is !
-docker build -t zappy .
+### ! IMPORTANT : run this command where the SERVER Dockerfile is !
+docker build -f ./Dockerfile_server -t zappy_server .
 
-# Run the container
-docker run -it -p 8080:8080 zappy
+# Run the SERVER container
+docker run -it -p 8080:8080 -e ZPORT="8080" -e ZX="10" -e ZY="10" -e ZTEAM="foo" -e ZCLIENT="10" -e ZT="25" zappy_server
 
-# Run the server
-./server -p 8080 -x 10 -y 10 -n foo -c 10 -t 25
-# Run the client
-./client -h 127.0.0.1 -p 8080 -n foo
+# Create CLIENT zappy image
+### ! IMPORTANT : run this command where the CLIENT Dockerfile is !
+docker build -f ./Dockerfile_client -t zappy_client .
+
+# Run the CLIENT container
+docker run -it -p 8080:8080 -e ZHOST="127.0.0.1" -e ZPORT="8080" -e ZTEAM="foo" zappy_client

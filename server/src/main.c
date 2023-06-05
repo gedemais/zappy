@@ -37,6 +37,8 @@ int		main(int argc, char **argv)
 	srand(time(NULL)); // Random seed initialisation
 	memset(&env, 0, sizeof(t_env)); // Wipe environment structure
 
+	ft_arr_cprint(argv);
+
 	// Main server function
 	if ((err_code = zappy_server(&env, argc, argv)) != ERR_NONE)
 		return (error(&env, err_code));

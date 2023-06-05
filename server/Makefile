@@ -9,11 +9,11 @@ FLAGS = -Wall -Werror -Wextra -Wno-unused-variable
 # Os detection
 OS = $(shell uname -s)
 
-ifeq ($(OS), "Darwin")
+ifeq ($(OS), Darwin)
 	FLAGS += -DMACOS
 endif
 
-ifeq ($(OS), "Linux")
+ifeq ($(OS), Linux)
 	FLAGS += -DLINUX -Wno-format-truncation
 endif
 
