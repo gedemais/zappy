@@ -35,23 +35,20 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			{
 				cmd_found = true;
 
-				if (player->queued_commands >= MAX_QUEUED_CMD)
+				if (player->cmd_queue.nb_cells >= MAX_QUEUED_CMD)
 					break ;
 
 				bzero(&new, sizeof(t_cmd));
 				new = commands[i];
 				new.tokens = tokens;
 
-				new.p = player;
-				new.pid = player->pid;
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				if (dynarray_push(&env->buffers.cmd_queue, &new, false))
+				if (dynarray_push(&player->cmd_queue, &new, false))
 				{
 					ft_arrfree(lines);
 					ft_arrfree(tokens);
 					return (ERR_MALLOC_FAILED);
 				}
-				player->queued_commands++;
 				break;
 			}
 		}

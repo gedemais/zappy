@@ -86,7 +86,7 @@ uint8_t	receipt(t_env *env)
 						sleep(1);
 
 						// Remove player from his team
-						if ((code = kill_player(env, get_team_client(env, connections[i]))))
+						if ((code = kill_player(env, get_team_client(env, connections[i]), true)))
 							return (code);
 
 						continue;

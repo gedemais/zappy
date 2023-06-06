@@ -14,42 +14,26 @@ void	teams_log(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->queued_commands, *p->connection);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
 		}
 	}
 	printf("=====================================\n");
 }
 
-uint8_t	kill_player(t_env *env, t_player *p)
+uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 {
-	t_dynarray	*cmd_queue;
-	t_cmd		*cmd;
-	t_team		*team;
-	int			i = 0;
-
-	cmd_queue = &env->buffers.cmd_queue;
-	team = dyacc(&env->world.teams, p->team);
-
-	// Remove commands queued by the dead player
-	while (i < cmd_queue->nb_cells)
+	printf("THERE3\n");
+	fflush(stdout);
+	if (disconnected == false)
 	{
-		cmd = dyacc(cmd_queue, i);
-		if (cmd->pid == p->pid)
-		{
-			if (dynarray_extract(cmd_queue, i))
-				return (ERR_MALLOC_FAILED);
-			continue ;
-		}
-		i++;
+		FLUSH_RESPONSE
+		strcat(env->buffers.response, "mort\n");
+		response(env, p);
 	}
+	else
+		close(*p->connection);
 
-	FLUSH_RESPONSE
-	strcat(env->buffers.response, "mort\n");
-	response(env, p);
-
-	close(*p->connection);
 	*p->connection = -1;
-	team->max_client--;
 
 	return (remove_player(env, *p->connection));
 }
@@ -58,7 +42,7 @@ static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
-		return (kill_player(env, p));
+		return (kill_player(env, p, false));
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
@@ -140,8 +124,8 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				dynarray_pop(&env->world.teams, false);
 
 				team->connected--;
+				team->max_client--;
 
-				update_commands_queue(env);
 				return (ERR_NONE);
 			}
 		}
@@ -177,6 +161,9 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 	uint8_t	loot = 255;
 	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
 	if (dynarray_push(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
+		return (ERR_MALLOC_FAILED);
+
+	if (dynarray_init(&new.cmd_queue, sizeof(t_cmd), 10))
 		return (ERR_MALLOC_FAILED);
 
 	team->connected++;

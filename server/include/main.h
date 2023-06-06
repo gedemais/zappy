@@ -59,7 +59,6 @@ typedef struct	s_buffers
 	char		*request; // Buffer containing client-sent requests.
 	char		*response; // Buffer containing response text. Associated with FLUSH_BUFFER macro.
 	char		**cmd_params; // Params of the command received by the server (split by spaces)
-	t_dynarray	cmd_queue;
 	t_dynarray	view; // Dynamic array of dynamic arrays, representing the content of a view.
 }				t_buffers;
 
@@ -83,7 +82,6 @@ struct	s_env
 // Core
 uint8_t		tick(t_env *env);
 uint8_t		update_commands(t_env *env);
-void		update_commands_queue(t_env *env);
 
 // Memory free
 void		free_env(t_env *env);
@@ -112,7 +110,7 @@ void		print_map(t_env *env);
 
 // Players
 uint8_t		add_player(t_env *env, t_team *team, int *connection);
-uint8_t		kill_player(t_env *env, t_player *p);
+uint8_t		kill_player(t_env *env, t_player *p, bool disconnected);
 uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		remove_player_from_tile(t_env *env, int x, int y);
 uint8_t		update_players(t_env *env);

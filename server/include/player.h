@@ -75,16 +75,16 @@ typedef	struct	s_egg
 
 typedef struct	s_player
 {
+	t_dynarray	cmd_queue;
 	int			*connection; // Connection fd
 	uint16_t	inventory[LOOT_MAX]; // Inventory (quantity for each loot type)
 	int16_t		tile_x, tile_y; // Position of the player in field (tile) unit
-	uint16_t		team; // Index of the team the player is in
+	uint16_t	team; // Index of the team the player is in
 	uint8_t		satiety; // Current satiety of the player (126 when food eaten)
 	uint8_t		level; // Current level of the player
 	t_direction	direction; // Current cardinal orientation of the player
 	bool		alive; // Is the player currently alive ?
 	uint8_t		auth_step; // Which step of authentication has the player reached yet.
-	uint8_t		queued_commands; // Number of queued commands
 	int32_t		pid;
 }				t_player;
 

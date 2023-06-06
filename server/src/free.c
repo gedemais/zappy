@@ -10,6 +10,7 @@ static void	free_teams(t_env *env)
 		t = dyacc(&env->world.teams, i);
 		if (t->name)
 			free(t->name);
+		//free_players()
 		dynarray_free(&t->players);
 	}
 	dynarray_free(&env->world.teams);
@@ -47,24 +48,9 @@ void		free_cmd(t_cmd *cmd)
 		ft_arrfree(cmd->tokens);
 }
 
-static void	free_commands_queue(t_env *env)
-{
-	t_dynarray	*cmd_queue;
-	t_cmd		*cmd;
-
-	cmd_queue = &env->buffers.cmd_queue;
-	for (int i = 0; i < cmd_queue->nb_cells; i++)
-	{
-		cmd = dyacc(cmd_queue, i);
-		free_cmd(cmd);
-	}
-	dynarray_free(cmd_queue);
-}
-
 void		free_env(t_env *env)
 {
 	free_buffers(env);
 	free_teams(env);
 	free_world(env);
-	free_commands_queue(env);
 }
