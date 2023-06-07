@@ -20,6 +20,7 @@ Tester fork
 
 relier response a la chaine d'erreur
 
+fix le leak de split dans place_command in queue
 
 incantation
 

@@ -115,6 +115,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 			player = dyacc(&team->players, p);
 			if (*player->connection == connection_fd)
 			{
+				dynarray_free(&player->cmd_queue);
 				if ((code = remove_player_from_tile(env, player->tile_x, player->tile_y)) != ERR_NONE)
 					return (code);
 
@@ -161,9 +162,6 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 	uint8_t	loot = 255;
 	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
 	if (dynarray_push(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
-		return (ERR_MALLOC_FAILED);
-
-	if (dynarray_init(&new.cmd_queue, sizeof(t_cmd), 10))
 		return (ERR_MALLOC_FAILED);
 
 	team->connected++;

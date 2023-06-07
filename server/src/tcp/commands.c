@@ -14,6 +14,8 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 	char		**tokens;
 	bool		cmd_found;
 
+	printf("%d\n", (int)strlen(env->buffers.request));
+	printf("%s\n", env->buffers.request);
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
@@ -43,7 +45,9 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 				new.tokens = tokens;
 
 				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				if (dynarray_push(&player->cmd_queue, &new, false))
+				if ((player->cmd_queue.byte_size == 0
+					&& dynarray_init(&player->cmd_queue, sizeof(t_cmd), 10))
+					|| dynarray_push(&player->cmd_queue, &new, false))
 				{
 					ft_arrfree(lines);
 					ft_arrfree(tokens);

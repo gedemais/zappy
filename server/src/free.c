@@ -2,7 +2,8 @@
 
 static void	free_teams(t_env *env)
 {
-	t_team	*t;
+	t_team		*t;
+	t_player	*player;
 
 	// For each team
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
@@ -10,7 +11,11 @@ static void	free_teams(t_env *env)
 		t = dyacc(&env->world.teams, i);
 		if (t->name)
 			free(t->name);
-		//free_players()
+		for (int p = 0; p < t->players.nb_cells; p++)
+		{
+			player = dyacc(&t->players, p);
+			dynarray_free(&player->cmd_queue);
+		}
 		dynarray_free(&t->players);
 	}
 	dynarray_free(&env->world.teams);
