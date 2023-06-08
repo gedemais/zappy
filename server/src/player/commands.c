@@ -216,6 +216,7 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	if ((code = deliver_messages(env, p)) != ERR_NONE)
 		return (code);
 
+	FLUSH_RESPONSE
 	strcat(env->buffers.response, "ok\n");
 	response(env, p);
 	return (ERR_NONE);

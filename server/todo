@@ -12,6 +12,8 @@ incrementant la variable max_client de l'equipe qui a pondu l'oeuf. La mort
 d'un joueur entraine une decrementation du nombre de connection autorisees dans
 l'equipe du joueur mort.
 
+Reparer print_map()
+
 Tester le broadcast
 
 Tester le kick
@@ -23,6 +25,8 @@ relier response a la chaine d'erreur
 fix le leak de split dans place_command in queue
 
 incantation
+
+les commandes ne sont plus prises en compte lors de l'envoi d'une ligne vide par le client
 
  =============
 0 pending players

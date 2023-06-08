@@ -66,6 +66,7 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 						};
 	char		dir;
 
+	printf("receiver : %d %d\nsender : %d %d\n", receiver->tile_x, receiver->tile_y, sender->tile_x, sender->tile_y);
 	if (receiver->tile_x == sender->tile_x
 		&& receiver->tile_y == sender->tile_y)
 	{
@@ -118,6 +119,7 @@ uint8_t	deliver_messages(t_env *env, t_player *p)
 			pl = dyacc(&te->players, player);
 			if (pl == p || pl == NULL)
 				continue;
+
 			// Compute shortest path + direction and add it to response
 			build_message(env, p, pl);
 			response(env, pl);
