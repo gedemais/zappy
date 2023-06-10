@@ -12,10 +12,7 @@ t_player	*get_team_client(t_env *env, int client_fd)
 		{
 			p = dyacc(&team->players, j);
 			if (*p->connection == client_fd)
-			{
-				printf("FOUND\n");
 				return (p);
-			}
 		}
 	}
 

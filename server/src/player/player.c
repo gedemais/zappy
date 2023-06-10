@@ -4,13 +4,14 @@ void	teams_log(t_env *env)
 {
 	t_team		*t;
 	t_player	*p;
+	t_egg		*egg;
 
 	printf("============= TEAMS LOG =============\n");
 	printf("%d pending players\n", env->world.pending.players.nb_cells);
 	for (int team = 0; team < env->world.teams.nb_cells; team++)
 	{
 		t = dyacc(&env->world.teams, team);
-		printf("***** Team %s *****\n", t->name);
+		printf("***** Team %s (%d / %d) *****\n", t->name, t->connected, t->max_client);
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
@@ -88,8 +89,11 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// PID generation
 	new->pid = rand() * rand() * rand();
 	// Player's random coordinates definition
-	new->tile_x = rand() % env->settings.map_width;
-	new->tile_y = rand() % env->settings.map_height;
+	//new->tile_x = rand() % env->settings.map_width;
+//	new->tile_y = rand() % env->settings.map_height;
+	new->tile_x = 10;
+	new->tile_y = 10;
+	(void)env;
 
 	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!
@@ -125,7 +129,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				dynarray_pop(&env->world.teams, false);
 
 				team->connected--;
-				team->max_client--;
+				team->max_client -= (team->max_client > 1 ? 1 : 0);
 
 				return (ERR_NONE);
 			}
@@ -143,6 +147,7 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 {
 	t_player	new;
 	uint8_t		d = rand() % DIR_MAX; // Player's random spawn direction definition
+	uint8_t		code;
 
 	// If this team does not count any player
 	if (team->players.byte_size == 0
@@ -165,6 +170,9 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 		return (ERR_MALLOC_FAILED);
 
 	team->connected++;
+
+	if ((code = check_connected_egg(env, new.team)))
+		return (code);
 
 	return (ERR_NONE);
 }

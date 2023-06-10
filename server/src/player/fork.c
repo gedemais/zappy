@@ -27,6 +27,31 @@ uint8_t	update_eggs(t_env *env)
 	return (ERR_NONE);
 }
 
+uint8_t	check_connected_egg(t_env *env, uint16_t team)
+{
+	t_dynarray	*eggs;
+	t_egg		*egg;
+	t_egg		*oldest_egg;
+	int			index = -1;
+
+	eggs = &env->world.eggs;
+	oldest_egg = dyacc(eggs, 0);
+	for (int i = 0; i < eggs->nb_cells; i++)
+	{
+		egg = dyacc(eggs, i);
+		if (egg->team == team && egg->hatch_time < oldest_egg->hatch_time)
+		{
+			oldest_egg = egg;
+			index = i;
+		}
+	}
+
+	if (index >= 0 && dynarray_extract(eggs, index))
+		return (ERR_MALLOC_FAILED);
+
+	return (ERR_NONE);
+}
+
 uint8_t	hatch_egg(t_env *env, t_player *p)
 {
 	uint8_t		loot;

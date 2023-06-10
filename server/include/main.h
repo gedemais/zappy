@@ -147,8 +147,10 @@ uint8_t		deliver_messages(t_env *env, t_player *p);
 uint8_t		cmd_connect_nbr(t_env *env, t_player *p, bool send_response);
 
 // Fork command
+uint8_t		cmd_fork(t_env *env, t_player *p, bool send_response);
 uint8_t		update_eggs(t_env *env);
 uint8_t		hatch_egg(t_env *env, t_player *p);
+uint8_t		check_connected_egg(t_env *env, uint16_t team);
 
 // Tools
 t_player	*get_pending_client(t_env *env, int client_fd);
@@ -205,7 +207,7 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_KICK] = {.cycles = 7, .cmd_func = &cmd_kick},
 							[CMD_BROADCAST] = {.cycles = 7, .cmd_func = &cmd_broadcast},
 							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = NULL},
-							[CMD_FORK] = {.cycles = 42, .cmd_func = NULL},
+							[CMD_FORK] = {.cycles = 42, .cmd_func = cmd_fork},
 							[CMD_CONNECT_NBR] = {.cycles = 0, .cmd_func = cmd_connect_nbr}
 };
 
