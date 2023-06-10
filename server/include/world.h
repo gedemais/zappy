@@ -41,6 +41,7 @@ enum			e_loot
 	LOOT_PHIRAS,
 	LOOT_THYSTAME,
 	LOOT_MAX,
+	LOOT_PLAYER,
 	HATCHING_EGG
 };
 
@@ -48,7 +49,7 @@ enum			e_loot
 // Structure used as an abstraction of a tile of the game board
 typedef struct	s_tile
 {
-	t_dynarray	content; // Loot container dynamic array
+	uint32_t	content[LOOT_MAX];
 	uint32_t	x; // Coordinates of the tile on the game board
 	uint32_t	y;
 }				t_tile;

@@ -12,15 +12,9 @@ incrementant la variable max_client de l'equipe qui a pondu l'oeuf. La mort
 d'un joueur entraine une decrementation du nombre de connection autorisees dans
 l'equipe du joueur mort.
 
-Tester le broadcast
-
-Update la direction du kick
-
-Tester le kick
+Assigner la position de l'oeuf qui eclos a celle du player qui se connecte
 
 relier response a la chaine d'erreur
-
-fork
 
 incantation
 

@@ -7,6 +7,8 @@ SRCS_NAME=main.c\
 		  tools.c\
 		  update_commands.c\
 		  graphical/update.c\
+		  graphical/details.c\
+		  graphical/tools.c\
 		  player/broadcast.c\
 		  player/commands.c\
 		  player/fork.c\

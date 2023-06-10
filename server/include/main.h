@@ -18,6 +18,7 @@
 # include "error.h"
 # include "world.h"
 # include "player.h"
+# include "graphical.h"
 
 # define min(a,b) (((a)<(b))?(a):(b))
 # define max(a,b) (((a)>(b))?(a):(b))
@@ -76,6 +77,9 @@ struct	s_env
 	t_world		world; // See world.h
 	t_tcp		tcp; // TCP logistic variables
 	t_player	graphical;
+	int			gx, gy;
+	int			gindex;
+	t_player	*gplayer;
 	t_settings	settings;
 };
 
@@ -104,6 +108,20 @@ uint8_t		auth_send_welcome(t_env *env, t_player *p);
 
 // Graphical TCP connection
 uint8_t		handle_graphical_connection(t_env *env, t_player *p);
+uint8_t		update_graphical(t_env *env);
+
+uint8_t		send_graphical_data(t_env *env, t_player *p);
+
+// Graphical details functions
+uint8_t		gcmd_map_size(t_env *env);
+uint8_t		gcmd_server_time_unit(t_env *env);
+uint8_t		gcmd_block_content(t_env *env);
+uint8_t		gcmd_teams_names(t_env *env);
+uint8_t		gcmd_player_new(t_env *env);
+
+// Graphical tools
+uint8_t		cat_spaced_number(t_env *env, int n, bool newline);
+
 
 // World
 uint8_t		init_world(t_env *env);
