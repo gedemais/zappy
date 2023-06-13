@@ -83,13 +83,13 @@ uint8_t	gcmd_player_new(t_env *env)
 
 	return (ERR_NONE);
 }
-
+/*
 uint8_t	gcmd_egg_new(t_env *env)
 {
 	t_egg	*egg;
 
 	return (ERR_NONE);
-}
+}*/
 
 /*
 uint8_t	gcmd_(t_env *env)

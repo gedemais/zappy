@@ -26,17 +26,8 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	t_egg		new;
 	t_dynarray	*tile_content;
 
-	// Initialization of tile's content array (if not already allocated)
-	tile_content = &env->world.map[p->tile_y][p->tile_x].content;
-	if (tile_content->byte_size == 0
-		&& dynarray_init(tile_content, sizeof(uint8_t), 4))
-		return (ERR_MALLOC_FAILED);
-
 	// Addition of the loot object on the map
-	loot = HATCHING_EGG;
-	tile_content = &env->world.map[p->tile_y][p->tile_x].content;
-	if (dynarray_push(tile_content, &loot, false))
-		return (ERR_MALLOC_FAILED);
+	env->world.map[p->tile_y][p->tile_x].content[LOOT_HATCHING_EGG]++;
 
 	new.parent_connection = p->connection;
 	new.hatch_time = 600;

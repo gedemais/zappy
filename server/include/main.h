@@ -132,7 +132,6 @@ void		print_map(t_env *env);
 uint8_t		add_player(t_env *env, t_team *team, int *connection);
 uint8_t		kill_player(t_env *env, t_player *p);
 uint8_t		remove_player(t_env *env, int connection_fd);
-uint8_t		remove_player_from_tile(t_env *env, int x, int y);
 uint8_t		update_players(t_env *env);
 void		teams_log(t_env *env);
 uint8_t		response(t_env *env, t_player *p);
@@ -142,18 +141,18 @@ uint8_t		response(t_env *env, t_player *p);
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_left(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_right(t_env *env, t_player *p, bool send_response);
-//
+
 // See command
 uint8_t		cmd_see(t_env *env, t_player *p, bool send_response);
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
 void		compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i);
 void		send_see_response(t_env *env, t_dynarray *view, t_player *p);
 void		free_view(t_dynarray *view);
-//
+
 uint8_t		cmd_inventory(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_take(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_put(t_env *env, t_player *p, bool send_response);
-//
+
 // Kick command
 uint8_t		cmd_kick(t_env *env, t_player *p, bool send_response);
 uint16_t	count_players_on_tile(t_env *env, int16_t tile_x, int16_t tile_y);
@@ -173,6 +172,9 @@ uint8_t		hatch_egg(t_env *env, t_player *p);
 // Tools
 t_player	*get_pending_client(t_env *env, int client_fd);
 t_player	*get_team_client(t_env *env, int client_fd);
+uint8_t		remove_player_from_tile(t_env *env, int x, int y);
+uint8_t		send_ko(t_env *env, t_player *p);
+uint8_t		send_ok(t_env *env, t_player *p);
 
 /* * * * * * * * * * * * * * * * * */
 
@@ -187,14 +189,15 @@ static const int8_t		moves[DIR_MAX][2] ={{0, -1},
 									{-1, 0}};
 
 // Strings array storing names of loot elements
-static const char	*loot_titles[LOOT_MAX] = {
+static const char	*loot_titles[LOOT_HATCHING_EGG] = {
 	[LOOT_LINEMATE] = "linemate",
 	[LOOT_DERAUMERE] = "deraumere",
 	[LOOT_SIBUR] = "sibur",
 	[LOOT_MENDIANE] = "mendiane",
 	[LOOT_PHIRAS] = "phiras",
 	[LOOT_THYSTAME] = "thystame",
-	[LOOT_FOOD] = "nourriture"
+	[LOOT_FOOD] = "nourriture",
+	[LOOT_PLAYER] = "player"
 };
 
 // Strings array storing names of commands

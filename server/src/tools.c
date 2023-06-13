@@ -43,4 +43,17 @@ uint8_t	remove_player_from_tile(t_env *env, int x, int y)
 	return (ERR_NONE);
 }
 
+uint8_t	send_ko(t_env *env, t_player *p)
+{
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "ko\n");
+	response(env, p);
+	return (response(env, p));
+}
 
+uint8_t	send_ok(t_env *env, t_player *p)
+{
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "ok\n");
+	return (response(env, p));
+}

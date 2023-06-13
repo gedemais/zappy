@@ -9,4 +9,5 @@ uint8_t	cat_spaced_number(t_env *env, int n, bool newline)
 
 	strcat(env->buffers.response, s);
 	strcat(env->buffers.response, newline ? "\n" : " ");
+	return (ERR_NONE);
 }

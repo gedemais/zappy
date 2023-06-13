@@ -34,26 +34,18 @@ void	print_map(t_env *env)
 {
 	uint8_t		*t;
 	t_player	*p;
+	char		buffer[8192];
 	bool		player;
-	char		buffer[4096];
 	uint16_t	index = 0;
 
-	memset(buffer, 0, 4096);
+	fflush(stdout);
+	memset(buffer, 0, 8192);
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
 		for (uint32_t x = 0; x < env->settings.map_width; x++)
 		{
-			player = false;
-			for (int i = 0; i < env->world.map[y][x].content.nb_cells; i++)
-			{
-				t = dyacc(&env->world.map[y][x].content, 0);
-				if (*t == 255)
-				{
-					player = true;
-					break ;
-				}
-			}
-			strcat(&buffer[index], player ? "  " : "o ");
+			player = env->world.map[y][x].content[LOOT_PLAYER] > 0;
+			strcat(&buffer[index], player ? "\033[1;42mX\033[0m " : "o ");
 			index += 2;
 		}
 		strcat(&buffer[index], "\n");

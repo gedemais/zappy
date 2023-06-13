@@ -42,14 +42,14 @@ enum			e_loot
 	LOOT_THYSTAME,
 	LOOT_MAX,
 	LOOT_PLAYER,
-	HATCHING_EGG
+	LOOT_HATCHING_EGG
 };
 
 
 // Structure used as an abstraction of a tile of the game board
 typedef struct	s_tile
 {
-	uint32_t	content[LOOT_MAX];
+	uint32_t	content[LOOT_HATCHING_EGG + 1];
 	uint32_t	x; // Coordinates of the tile on the game board
 	uint32_t	y;
 }				t_tile;

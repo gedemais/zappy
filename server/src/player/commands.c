@@ -70,43 +70,25 @@ uint8_t	cmd_inventory(t_env *env, t_player *p, bool send_response)
 uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
-	uint8_t	*loot_ptr;
 	uint8_t	loot = 255;
-	bool	found = false;
 
-	FLUSH_RESPONSE
 	if (env->buffers.cmd_params[0] == NULL)
-	{
-		strcat(env->buffers.response, "ko\n");
-		return (ERR_NONE);
-	}
+		return (send_response ? send_ko(env, p) : ERR_NONE);
 
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
 		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
 			loot = i;
 
-	for (int i = 0; i < tile->content.nb_cells; i++)
+	if (loot == 255)
+		return (send_response ? send_ko(env, p) : ERR_NONE);
+
+	if (tile->content[loot] > 0)
 	{
-		loot_ptr = dyacc(&tile->content, i);
-		if ((uint8_t)*loot_ptr == loot)
-		{
-			found = true;
-			if (dynarray_extract(&tile->content, i))
-				return (ERR_MALLOC_FAILED);
-			break ;
-		}
+		tile->content[loot]--;
+		p->inventory[(int)loot]++;
 	}
 
-	if (loot == 255 || tile->content.nb_cells == 0 || found == false)
-		strcat(env->buffers.response, "ko\n");
-	else
-	{
-		p->inventory[(int)loot]++;
-		strcat(env->buffers.response, "ok\n");
-	}
-	if (send_response)
-		response(env, p);
-	return (ERR_NONE);
+	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
@@ -115,31 +97,18 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 	uint8_t	loot = 255;
 
 	if (env->buffers.cmd_params[0] == NULL)
-	{
-		strcat(env->buffers.response, "ko\n");
-		return (ERR_NONE);
-	}
+		return (send_response ? send_ko(env, p) : ERR_NONE);
 
 	for (uint8_t i = 0; i < LOOT_MAX; i++)
 		if (strcmp(env->buffers.cmd_params[0], loot_titles[i]) == 0)
 			loot = i;
 
-	FLUSH_RESPONSE
 	if (loot == 255 || p->inventory[loot] == 0)
-		strcat(env->buffers.response, "ko\n");
-	else
-	{
-		strcat(env->buffers.response, "ok\n");
-		p->inventory[loot]--;
-		if ((tile->content.byte_size == 0 && dynarray_init(&tile->content, sizeof(uint8_t), 4))
-			|| dynarray_push(&tile->content, &loot, false))
-			return (ERR_MALLOC_FAILED);
-	}
+		return (send_response ? send_ko(env, p) : ERR_NONE);
 
-	if (send_response)
-		response(env, p);
-
-	return (ERR_NONE);
+	p->inventory[loot]--;
+	tile->content[loot]++;
+	return (send_response ? send_ko(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)

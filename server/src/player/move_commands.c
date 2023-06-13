@@ -3,7 +3,6 @@
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile;
-	uint8_t	loot = 255;
 
 	for (int dir = 0; dir < DIR_MAX; dir++)
 		if (p->direction.d == dir)
@@ -22,19 +21,9 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 
 			tile = &env->world.map[p->tile_y][p->tile_x];
 
+			tile->content[LOOT_PLAYER]++;
 
-			if (tile->content.byte_size == 0 && dynarray_init(&tile->content, sizeof(uint8_t), 4))
-				return (ERR_MALLOC_FAILED);
-
-			if (dynarray_push(&tile->content, &loot, false))
-				return (ERR_MALLOC_FAILED);
-
-			if (send_response)
-			{
-				FLUSH_RESPONSE
-				strcat(env->buffers.response, "ok\n");
-				response(env, p);
-			}
+			return (send_response ? send_ok(env, p) : ERR_NONE);
 		}
 	
 	return (ERR_NONE);
@@ -43,24 +32,12 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 {
 	p->direction.d--;
-	if (send_response)
-	{
-		FLUSH_RESPONSE
-		strcat(env->buffers.response, "ok\n");
-		response(env, p);
-	}
-	return (ERR_NONE);
+	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 {
 	p->direction.d++;
-	if (send_response)
-	{
-		FLUSH_RESPONSE
-		strcat(env->buffers.response, "ok\n");
-		response(env, p);
-	}
-	return (ERR_NONE);
+	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
