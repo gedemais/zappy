@@ -68,32 +68,76 @@ uint8_t	gcmd_teams_names(t_env *env)
 uint8_t	gcmd_player_new(t_env *env)
 {
 	t_team	*team;
-
-	strcat(env->buffers.response, "pnw #");
-	cat_spaced_number(env, env->gplayer->pid, false);
-	cat_spaced_number(env, env->gplayer->tile_x, false);
-	cat_spaced_number(env, env->gplayer->tile_y, false);
-	cat_spaced_number(env, (int)env->gplayer->direction.d, false);
-	cat_spaced_number(env, env->gplayer->level, false);
+	char	s[128];
 
 	team = dyacc(&env->world.teams, env->gplayer->team);
+	sprintf(s, "pnw #%d %d %d %d %d %s\n",	env->gplayer->pid,
+			env->gplayer->tile_x,
+			env->gplayer->tile_y,
+			(int)env->gplayer->direction.d,
+			env->gplayer->level,
+			team->name);
 
-	strcat(env->buffers.response, team->name);
-	strcat(env->buffers.response, "\n");
-
+	strcat(env->buffers.response, s);
 	return (ERR_NONE);
 }
-/*
-uint8_t	gcmd_egg_new(t_env *env)
+
+uint8_t	gcmd_map_content(t_env *env)
 {
-	t_egg	*egg;
-
+	for (unsigned int y = 0; y < env->settings.map_height; y++)
+		for (unsigned int x = 0; x < env->settings.map_height; x++)
+		{
+			env->gx = x;
+			env->gy = y;
+			gcmd_block_content(env);
+		}
 	return (ERR_NONE);
-}*/
+}
 
-/*
-uint8_t	gcmd_(t_env *env)
+uint8_t	gcmd_player_position(t_env *env)
 {
+	char	s[128];
 
+	sprintf(s, "ppo #%d %d %d %d\n",	env->gplayer->pid,
+			env->gplayer->tile_x,
+			env->gplayer->tile_y,
+			(int)env->gplayer->direction.d);
+
+	strcat(env->buffers.response, s);
 	return (ERR_NONE);
-}*/
+}
+
+
+uint8_t	gcmd_player_level(t_env *env)
+{
+	char	s[128];
+
+	sprintf(s, "plv #%d %d\n", env->gplayer->pid, env->gplayer->level);
+	strcat(env->buffers.response, s);
+	return (ERR_NONE);
+}
+
+
+uint8_t	gcmd_player_inventory(t_env *env)
+{
+	char	s[128];
+
+	sprintf(s, "pin #%d %d %d ", env->gplayer->pid,
+			env->gplayer->tile_x,
+			env->gplayer->tile_y);
+
+	strcat(env->buffers.response, s);
+
+	for (int i = 0; i < LOOT_MAX; i++)
+		cat_spaced_number(env->buffers.response, env->gplayer->inventory[i], i == LOOT_MAX - 1);
+
+	strcat(env->buffers.response, "\n");
+	return (ERR_NONE);
+}
+
+
+uint8_t	gcmd_set_new_t(t_env *env)
+{
+	if (env)
+	return (ERR_NONE);
+}

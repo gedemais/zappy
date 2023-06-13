@@ -77,8 +77,7 @@ struct	s_env
 	t_world		world; // See world.h
 	t_tcp		tcp; // TCP logistic variables
 	t_player	graphical;
-	int			gx, gy;
-	int			gindex;
+	int			gx, gy, gindex, gnew_t;
 	t_player	*gplayer;
 	t_settings	settings;
 	bool		start;
