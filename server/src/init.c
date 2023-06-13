@@ -9,15 +9,14 @@ static void			intro(void)
 }
 
 // Allocation of buffers for the server
-static uint8_t		init_buffers(t_env *env, t_buffers *buffers)
+static uint8_t		init_buffers(t_buffers *buffers)
 {
 	if (!(buffers->response = (char*)malloc(sizeof(char) * RESPONSE_SIZE)))
 		return (ERR_MALLOC_FAILED);
 
 	memset(buffers->response, 0, sizeof(char) * RESPONSE_SIZE);
 
-	if (dynarray_init(&buffers->view, sizeof(t_tile), 64)
-		|| dynarray_init(&buffers->cmd_queue, sizeof(t_cmd), env->settings.max_connections * 10))
+	if (dynarray_init(&buffers->view, sizeof(t_tile), 64))
 		return (ERR_MALLOC_FAILED);
 
 	return (ERR_NONE);
@@ -30,7 +29,7 @@ uint8_t	init_server(t_env *env, int argc, char **argv)
 	intro();
 
 	if ((code = parse_options(env, argc, argv)) != ERR_NONE
-		|| (code = init_buffers(env, &env->buffers))
+		|| (code = init_buffers(&env->buffers))
 		|| (code = init_world(env)) != ERR_NONE
 		|| (code = init_tcp(env)))
 		return (code);

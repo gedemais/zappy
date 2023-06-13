@@ -169,15 +169,8 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 					cmd_advance(env, pl, false);
 					pl->direction = dir;
 
-					direction = p->direction.d; // Get kicking player absolute direction (broadcast direction format)
-
-					/*direction -= 2; // Get the opposite of it
-					direction += (direction < 0) ? DIR_MAX : 0;
-					direction += (direction >= DIR_MAX) ? -DIR_MAX : 0;
-
-					direction -= pl->direction.d; // Add kicked player referential
-					direction += (direction < 0) ? DIR_MAX : 0;
-					direction += (direction >= DIR_MAX) ? -DIR_MAX : 0;*/
+					dir.d -= p->direction.d; // Get kick direction in the kicked player referential
+					direction = dir.d; // Int conversion
 
 					FLUSH_RESPONSE
 					strcat(env->buffers.response, "deplacement ");
@@ -223,6 +216,7 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	if ((code = deliver_messages(env, p)) != ERR_NONE)
 		return (code);
 
+	FLUSH_RESPONSE
 	strcat(env->buffers.response, "ok\n");
 	response(env, p);
 	return (ERR_NONE);
@@ -270,7 +264,7 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 
 	FLUSH_RESPONSE
 	team = dyacc(&env->world.teams, p->team);
-	if (team->connected == team->max_client)
+	if (team->max_client >= 6)
 	{
 		if (send_response)
 		{
@@ -282,6 +276,8 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 
 	if ((code = hatch_egg(env, p)))
 		return (code);
+
+	team->max_client++;
 
 	if (send_response)
 	{

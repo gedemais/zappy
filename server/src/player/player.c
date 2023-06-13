@@ -4,48 +4,36 @@ void	teams_log(t_env *env)
 {
 	t_team		*t;
 	t_player	*p;
+	t_egg		*egg;
 
 	printf("============= TEAMS LOG =============\n");
 	printf("%d pending players\n", env->world.pending.players.nb_cells);
 	for (int team = 0; team < env->world.teams.nb_cells; team++)
 	{
 		t = dyacc(&env->world.teams, team);
-		printf("***** Team %s *****\n", t->name);
+		printf("***** Team %s (%d / %d) *****\n", t->name, t->connected, t->max_client);
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->queued_commands, *p->connection);
+			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
 		}
 	}
 	printf("=====================================\n");
 }
 
-uint8_t	kill_player(t_env *env, t_player *p)
+uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 {
-	t_dynarray	*cmd_queue;
-	t_cmd		*cmd;
-	int			i = 0;
-
-	cmd_queue = &env->buffers.cmd_queue;
-
-	// Remove commands queued by the dead player
-	while (i < cmd_queue->nb_cells)
+	printf("THERE3\n");
+	fflush(stdout);
+	if (disconnected == false)
 	{
-		cmd = dyacc(cmd_queue, i);
-		if (cmd->pid == p->pid)
-		{
-			if (dynarray_extract(cmd_queue, i))
-				return (ERR_MALLOC_FAILED);
-			continue ;
-		}
-		i++;
+		FLUSH_RESPONSE
+		strcat(env->buffers.response, "mort\n");
+		response(env, p);
 	}
+	else
+		close(*p->connection);
 
-	FLUSH_RESPONSE
-	strcat(env->buffers.response, "mort\n");
-	response(env, p);
-
-	close(*p->connection);
 	*p->connection = -1;
 
 	return (remove_player(env, *p->connection));
@@ -55,7 +43,7 @@ static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
-		return (kill_player(env, p));
+		return (kill_player(env, p, false));
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;
@@ -101,8 +89,11 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// PID generation
 	new->pid = rand() * rand() * rand();
 	// Player's random coordinates definition
-	new->tile_x = rand() % env->settings.map_width;
-	new->tile_y = rand() % env->settings.map_height;
+	//new->tile_x = rand() % env->settings.map_width;
+//	new->tile_y = rand() % env->settings.map_height;
+	new->tile_x = 10;
+	new->tile_y = 10;
+	(void)env;
 
 	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!
@@ -128,6 +119,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 			player = dyacc(&team->players, p);
 			if (*player->connection == connection_fd)
 			{
+				dynarray_free(&player->cmd_queue);
 				if ((code = remove_player_from_tile(env, player->tile_x, player->tile_y)) != ERR_NONE)
 					return (code);
 
@@ -137,8 +129,8 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				dynarray_pop(&env->world.teams, false);
 
 				team->connected--;
+				team->max_client -= (team->max_client > 1 ? 1 : 0);
 
-				update_commands_queue(env);
 				return (ERR_NONE);
 			}
 		}
@@ -155,6 +147,7 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 {
 	t_player	new;
 	uint8_t		d = rand() % DIR_MAX; // Player's random spawn direction definition
+	uint8_t		code;
 
 	// If this team does not count any player
 	if (team->players.byte_size == 0
@@ -177,6 +170,9 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 		return (ERR_MALLOC_FAILED);
 
 	team->connected++;
+
+	if ((code = check_connected_egg(env, new.team)))
+		return (code);
 
 	return (ERR_NONE);
 }

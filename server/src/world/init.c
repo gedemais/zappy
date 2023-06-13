@@ -35,10 +35,10 @@ void	print_map(t_env *env)
 	uint8_t		*t;
 	t_player	*p;
 	bool		player;
-	char		buffer[4096];
+	char		buffer[8192];
 	uint16_t	index = 0;
 
-	memset(buffer, 0, 4096);
+	memset(buffer, 0, 8192);
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
 		for (uint32_t x = 0; x < env->settings.map_width; x++)
@@ -53,7 +53,7 @@ void	print_map(t_env *env)
 					break ;
 				}
 			}
-			strcat(&buffer[index], player ? "  " : "o ");
+			strcat(&buffer[index], player ? "x " : "o ");
 			index += 2;
 		}
 		strcat(&buffer[index], "\n");

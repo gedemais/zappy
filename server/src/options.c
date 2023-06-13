@@ -18,8 +18,6 @@ static bool	is_valid_number(char *nbr, size_t max_len)
 
 static uint8_t	opt_load_port(t_env *env, char **args)
 {
-	//printf("%s\n", __FUNCTION__);
-
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_PORT_NUMBER);
 
@@ -29,21 +27,31 @@ static uint8_t	opt_load_port(t_env *env, char **args)
 
 static uint8_t	opt_load_width(t_env *env, char **args)
 {
+	uint16_t	tmp;
+
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_MAP_DIMS);
 
-	env->settings.map_width = (uint16_t)atoi((*args));
-	//printf("%s succeeded\n", __FUNCTION__);
+	tmp = (uint16_t)atoi((*args));
+	if (tmp < 1 || tmp > MAX_MAP_DIM_SIZE)
+		return (ERR_INVALID_MAP_DIMS);
+
+	env->settings.map_width = tmp;
 	return (ERR_NONE);
 }
 
 static uint8_t	opt_load_height(t_env *env, char **args)
 {
+	uint16_t	tmp;
+
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_MAP_DIMS);
 
-	env->settings.map_height = (uint16_t)atoi((*args));
-	//printf("%s succeeded\n", __FUNCTION__);
+	tmp = (uint16_t)atoi((*args));
+	if (tmp < 1 || tmp > MAX_MAP_DIM_SIZE)
+		return (ERR_INVALID_MAP_DIMS);
+
+	env->settings.map_height = tmp;
 	return (ERR_NONE);
 }
 
@@ -52,7 +60,6 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 	t_dynarray	*teams;
 	t_team		team;
 
-	//printf("%s succeeded\n", __FUNCTION__);
 	teams = &env->world.teams;
 
 	// Initialization of teams array
@@ -76,7 +83,6 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 
 static uint8_t	opt_load_c(t_env *env, char **args)
 {
-	//printf("%s succeeded\n", __FUNCTION__);
 	if (is_valid_number(*args, 5) == false)
 		return (ERR_INVALID_CONNECTION_ARG);
 
@@ -91,7 +97,6 @@ static uint8_t	opt_load_t(t_env *env, char **args)
 		return (ERR_INVALID_TIME_SETTING);
 
 	env->settings.t = atoi(*args);
-	//printf("%s succeeded\n", __FUNCTION__);
 	return (ERR_NONE);
 }
 
@@ -161,7 +166,7 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	{
 		t = dyacc(&env->world.teams, i);
 		t->max_client = floor((float)env->settings.max_connections / (float)env->world.teams.nb_cells);
-		t->max_client = env->settings.max_connections;
+		t->max_client = min(6, t->max_client);
 		t->connected = 0;
 	}
 
