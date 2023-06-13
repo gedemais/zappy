@@ -78,6 +78,14 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 {
 	t_team	*t;
+	uint8_t	code;
+
+	if (strcmp(env->buffers.request, "GRAPHICAL\n") == 0)
+	{
+		if ((code = handle_graphical_connection(env, p)) != ERR_NONE
+			|| (code = remove_pending_player(env, p)))
+			return (code);
+	}
 
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{

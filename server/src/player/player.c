@@ -154,21 +154,15 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection)
 		&& dynarray_init(&team->players, sizeof(t_player), 6)) // Init the array of players
 		return (ERR_MALLOC_FAILED);
 
+	// Generate player metadata
 	fill_player(env, &new, connection);
+
 	// Add the newly created player to team
 	if (dynarray_push(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);
 
-	// Init the dynamic array containing loot on the tile where the player is located
-	if (env->world.map[new.tile_y][new.tile_x].content.byte_size == 0
-		&& dynarray_init(&env->world.map[new.tile_y][new.tile_x].content, sizeof(uint8_t), 4))
-		return (ERR_MALLOC_FAILED);
-
-	uint8_t	loot = 255;
-	// Add a 'player' loot item to the tile content array (for now 255 in uint8_t)
-	if (dynarray_push(&env->world.map[new.tile_y][new.tile_x].content, &loot, false))
-		return (ERR_MALLOC_FAILED);
-
+	// Add the newly created player as a loot object in its spawn tile
+	env->world.map[new.tile_y][new.tile_x].content[LOOT_PLAYER]++;
 	team->connected++;
 
 	if ((code = check_connected_egg(env, new.team)))
