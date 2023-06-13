@@ -137,7 +137,7 @@ class PlayerLoader(pygame.sprite.Sprite):
             if self.frame_counter >= self.frame_delay:
                 self.position.x += self.vx
                 self.position.y += self.vy
-                print(self.current_animation + ' ' + str(self.frame_index))
+                # print(self.current_animation + ' ' + str(self.frame_index))
                 self.image = self.animation_frames[self.current_animation][self.frame_index]
                 self.frame_index += 1
                 if self.frame_index >= len(self.animation_frames[self.current_animation]):
