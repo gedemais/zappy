@@ -14,8 +14,6 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 	char		**tokens;
 	bool		cmd_found;
 
-	printf("%d\n", (int)strlen(env->buffers.request));
-	printf("%s\n", env->buffers.request);
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
