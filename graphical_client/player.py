@@ -33,9 +33,10 @@ class Player():
         self.orientation = o
         # Define player's position
         self.position = (x, y)  # Start at the top-left corner of the game board
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        
+        # self.rect = self.image.get_rect()
+        # self.rect.x = x
+        # self.rect.y = y
 
         self.vx = 0 # horizontal movement length
         self.vy = 0 # vertical movement length
@@ -47,56 +48,64 @@ class Player():
 
         # list of initial resources in backpack
         self.resources = {
+            'nourriture': 10,
             'linemate': 0,
             'deraumere': 0,
             'sibur': 0,
             'mendiane': 0,
             'phiras': 0,
-            'thystame': 0,
-            'nourriture': 10
+            'thystame': 0
         }
-        
-    def updateVector(self):
-        if self.orientation == 1:
-            self.vx = 0; self.vy = -self.speed
-        elif self.orientation == 2:
-            self.vx = self.speed; self.vy = 0
-        elif self.orientation == 3:
-            self.vx = 0; self.vy = self.speed 
-        elif self.orientation == 4:
-            self.vx = -self.speed; self.vy = 0
-            
+
+    def updatePos(response):
+        pass
+    
+    def updateLvl(response):
+        pass
+    
+    def updateInventory(response):
+        pass
+
+    # def updateVector(self):
+    #     if self.orientation == 1:
+    #         self.vx = 0; self.vy = -self.speed
+    #     elif self.orientation == 2:
+    #         self.vx = self.speed; self.vy = 0
+    #     elif self.orientation == 3:
+    #         self.vx = 0; self.vy = self.speed 
+    #     elif self.orientation == 4:
+    #         self.vx = -self.speed; self.vy = 0
+
     def watch(self):
         pass
 
-    def turnLeft(self):
-        self.orientation = self.orientation - 1 if self.orientation > 1 else 4
-        self.updateVector()
+    # def turnLeft(self):
+    #     self.orientation = self.orientation - 1 if self.orientation > 1 else 4
+    #     self.updateVector()
 
-    def turnRight(self):
-        self.orientation = self.orientation + 1 if self.orientation < 4 else 0
-        self.updateVector()
+    # def turnRight(self):
+    #     self.orientation = self.orientation + 1 if self.orientation < 4 else 0
+    #     self.updateVector()
         
-    def walk(self):
-        # Calculate new position
-        new_x = (self.position[0] + self.vx) % self.gameBoard.width
-        new_y = (self.position[1] + self.vy) % self.gameBoard.height
-        self.position = (new_x, new_y)
-        pass
+    # def walk(self):
+    #     # Calculate new position
+    #     new_x = (self.position[0] + self.vx) % self.gameBoard.width
+    #     new_y = (self.position[1] + self.vy) % self.gameBoard.height
+    #     self.position = (new_x, new_y)
 
-    def collectResource(self, resourceId):
-        # Get the current cell
-        cell = self.gameBoard.cells[self.position[1]][self.position[0]]
-        # Add cell's resource to player's resource and clear the cell's resource
-        cell.resources[resourceId] -= 1
-        self.resources[resourceId] += 1
+    # def collectResource(self, resourceId):
+    #     # Get the current cell
+    #     cell = self.gameBoard.cells[self.position[1]][self.position[0]]
+    #     # Add cell's resource to player's resource and clear the cell's resource
+    #     cell.resources[resourceId] -= 1
+    #     self.resources[resourceId] += 1
 
-    def throwResource(self, resourceId):
-        # Get the current cell
-        cell = self.gameBoard.cells[self.position[1]][self.position[0]] 
-        # Add player's resource to cell's resource and clear the player's resource
-        cell.resources[resourceId] += 1
-        self.resources[resourceId] -= 1
+    # def throwResource(self, resourceId):
+    #     # Get the current cell
+    #     cell = self.gameBoard.cells[self.position[1]][self.position[0]] 
+    #     # Add player's resource to cell's resource and clear the player's resource
+    #     cell.resources[resourceId] += 1
+    #     self.resources[resourceId] -= 1
 
     # One nourriture unit allows him to survive 126 time units, therefore 126/t seconds.
     def consumeNourriture(self):
@@ -107,17 +116,17 @@ class Player():
             # The player is out of 'nourriture' and is removed from the game
             self.die()
 
-    def die(self):
-        # For now, just print a message when a player dies
-        print(f'Player {self.playerId} from team {self.team_id} has died.')
+    # def die(self):
+    #     # For now, just print a message when a player dies
+    #     print(f'Player {self.playerId} from team {self.team_id} has died.')
 
-    def reproduce(self):
-        # For now, just print a message when a player reproduce
-        print(f'Player {self.playerId} from team {self.team_id} laid an egg')
+    # def reproduce(self):
+    #     # For now, just print a message when a player reproduce
+    #     print(f'Player {self.playerId} from team {self.team_id} laid an egg')
 
-    def seeInventory(self):
-        #For now, just print the inventory int the console
-        print(f'Player {self.playerId} from team {self.team_id} see his inventory : {str(self.resources)}')
+    # def seeInventory(self):
+    #     #For now, just print the inventory in the console
+    #     print(f'Player {self.playerId} from team {self.team_id} see his inventory : {str(self.resources)}')
         
     def update(self):
         self.animate()

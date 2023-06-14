@@ -19,6 +19,9 @@ class Cell:
             'phiras': 0,
             'thystame': 0
         }
+        
+    def update(self, response):
+        pass
 
 class GameBoard:
     def __init__(self, width, height):
@@ -29,7 +32,6 @@ class GameBoard:
         self.teams = []
         self.players = []
         self.eggs = []
-        self.spawn_resources()
 
     def initializeGame(self, response):
         pass
@@ -88,6 +90,18 @@ class GameBoard:
     def send(self, cmd):
         # send a command to the server
         pass
+    
+    def updateMapSize(self, response):
+        pass
+    
+    def loadMap(self, response):
+        pass
+    
+    def updateTeams(self, response):
+        pass
+    
+    def updateTimeUnit(self, response):
+        pass
 
 ##################################################################################
 # command for the server
@@ -97,48 +111,59 @@ class GameBoard:
         # Taille de la carte.
         response = self.send(f'msz\n')
         # update info
+        self.updateMapSize(response)
 
     def getCell(self, x, y):
         # Contenu d’une case de la carte
         response = self.send(f'bct {x} {y}\n')
         # update info if needed
+        self.cells[y][x].update(response)
+        # show info in visu
+        pass
 
     def getMap(self):
         # Contenu de la carte (toutes les cases).
         response = self.send(f'mct\n')
         # update info if needed
+        self.loadMap(response)
 
     def getTeams(self):
         # Nom des équipes.
         response = self.send(f'tna\n')
         # update teams
+        self.updateTeams(response)
     
     def getPlayerPosition(self, player):
         # Position d’un joueur.
         response = self.send(f'ppo {player.playerId}\n')
         # update player or not
+        player.updatePos(response)
 
     def playerLevel(self, player):
         # Niveau d’un joueur.
         response = self.send(f'piv {player.playerId}\n')
         #update visu if needed
+        player.updateLvl(response)
 
     def playerInventory(self, player):
         # Inventaire d’un joueur.
         response = self.send(f'pin {player.playerId}\n')
         # update visu if needed
+        player.updateInventory(response)
 
     def getTimeUnit(self):
         # Demande de l’unité de temps courante sur le serveur.
         # response = "sgt T\n"
         response = self.send(f'sgt\n')
         # update visu and animation time
+        self.updateTimeUnit(response)
 
-    def updateTimeUnit(self, timeUnit):
+    def modifyTimeUnit(self, timeUnit):
         # Modification de l’unité de temps sur le serveur.
         # response = "sgt T\n"
         response = self.send(f'sst {timeUnit}\n')
         # update visu and animation time
+        self.updateTimeUnit(response)
 
 ##################################################################################
 # message from server
@@ -154,7 +179,6 @@ class GameBoard:
     def expulse(self, playerId):
         # Un joueur expulse.
         # message = "pex #n\n"
-        # call move method on all player on the same case in function of the orientation of the playerId player
         kicker = self.getPlayer(playerId)
         # call kick animation on kicker    
         pass
