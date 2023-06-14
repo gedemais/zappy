@@ -27,6 +27,7 @@
 
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
+# define GFLUSH_RESPONSE memset(env->buffers.gresponse, 0, strlen(env->buffers.response));
 # define REQUEST_BUFF_SIZE 4096
 
 # define MAP_PRINT true
@@ -58,7 +59,8 @@ typedef struct	s_buffers
 {
 	int			*connections; // Clients sockets file descriptors
 	char		*request; // Buffer containing client-sent requests.
-	char		*response; // Buffer containing response text. Associated with FLUSH_BUFFER macro.
+	char		*response; // Buffer containing response text. Associated with FLUSH_RESPONSE macro.
+	char		*gresponse; // Buffer containing graphical client response text. Associated with GFLUSH_RESPONSE macro.
 	char		**cmd_params; // Params of the command received by the server (split by spaces)
 	t_dynarray	view; // Dynamic array of dynamic arrays, representing the content of a view.
 }				t_buffers;
@@ -113,11 +115,13 @@ uint8_t		update_graphical(t_env *env);
 
 uint8_t		send_graphical_data(t_env *env, t_player *p);
 
-// Graphical details functions
+// Graphical client commands
 uint8_t		gcmd_map_size(t_env *env);
 uint8_t		gcmd_server_time_unit(t_env *env);
 uint8_t		gcmd_block_content(t_env *env);
 uint8_t		gcmd_teams_names(t_env *env);
+
+// Graphical events notifications
 uint8_t		gcmd_player_new(t_env *env);
 
 // Graphical tools
@@ -136,7 +140,7 @@ uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);
 void		teams_log(t_env *env);
 uint8_t		response(t_env *env, t_player *p);
-
+uint8_t		gresponse(t_env *env, t_player *p);
 
 /* * * * * Commands procedures * * * * */
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
