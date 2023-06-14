@@ -7,14 +7,16 @@
 # include <stdbool.h>
 
 
-typedef struct	zappy_client_opt_s
+typedef struct	zap_opt_s
 {
 	char		*server_addr;
 	char		*team_name;
 	uint16_t	server_port;
-}				zappy_client_opt_t;
+	uint32_t 	max_x;
+	uint32_t 	max_y;
+}				zap_opt_t;
 
-int			zappy_client_getopt(int ac, char **av, zappy_client_opt_t *opt);
+int			zap_getopt(int ac, char **av, zap_opt_t *opt);
 
 
 #endif

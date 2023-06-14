@@ -2,7 +2,7 @@
 
 
 /* connection function, it handle all TCP stuff and Zappy connection protocol */
-static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
+static int	zappy_client_connect(zap_opt_t *opt, zappy_client_t *client)
 {
 	int r = 0;
 	int len = 0;
@@ -94,7 +94,7 @@ static int	zappy_client_connect(zappy_client_opt_t *opt, zappy_client_t *client)
 
 // ============================================================================
 
-int			zappy_client(zappy_client_opt_t *opt)
+int			zappy_client(zap_opt_t *opt)
 {
 	int				r = 0;
 	zappy_client_t	client = {0};

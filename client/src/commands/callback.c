@@ -1,7 +1,7 @@
 #include "zappy_client.h"
 
 
-int			zappy_client_move_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
+int		zappy_client_move_cb(zappy_client_t *client, zappy_client_cmd_t *cmd)
 {
 	(void)cmd;
 

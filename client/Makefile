@@ -14,7 +14,7 @@ ifeq ($(OS), Darwin)
 endif
 
 ifeq ($(OS), Linux)
-	FLAGS += -DLINUX -Wno-format-truncation
+	FLAGS += -DLINUX -Wno-format-truncation -DVERBOSE 
 endif
 
 # Flags variables

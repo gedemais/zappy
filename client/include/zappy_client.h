@@ -16,7 +16,7 @@
 
 # include "libft.h"
 
-# include "zappy_client_getopt.h"
+# include "zap_getopt.h"
 # include "zappy_client_move.h"
 # include "zappy_client_player.h"
 
@@ -164,16 +164,16 @@ typedef struct	zappy_client_s
 	t_player			player;
 	t_team				team;
 
-	zappy_client_cmd_t	cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
+	zappy_client_cmd_t		cmds[ZAPPY_CLIENT_MAX_STACKED_CMD];
 	uint8_t				cmd_idx; // idx used to rotate cmds
 	uint8_t				cmd_stack_size; // nb of elements currently in cmds
 	uint8_t				task;
 }				zappy_client_t;
 
 /* argvs parsing */
-int		zappy_client_getopt(int ac, char **av, zappy_client_opt_t *opt);
+int		zappy_client_getopt(int ac, char **av, zap_opt_t *opt);
 /* main function called from main*/
-int		zappy_client(zappy_client_opt_t *opt);
+int		zappy_client(zap_opt_t *opt);
 /* transceive blocking function TODO : client should use select(2) for handle "mort" and broadcast msg */
 int		zappy_client_transceive(zappy_client_t *client, char *cmd, int len, zappy_client_cmd_cb_t cb);
 int		zappy_client_receive(zappy_client_t *client);

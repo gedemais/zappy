@@ -1,5 +1,5 @@
 SRCS_NAME=main.c\
-		  zappy_client_getopt.c\
+		  zap/zap_getopt.c\
 		  commands/callback.c\
 		  commands/connect_nbr.c\
 		  commands/inventaire.c\
@@ -16,3 +16,7 @@ SRCS_NAME=main.c\
 		  tcp/zappy_client_receive.c\
 		  tcp/zappy_client_transceive.c\
 		  tcp/zappy_client.c\
+		  zap/zap.c \
+		  zap/zap_move.c \
+		  profile/tst.c \
+		  zap/zap_callback.c \
