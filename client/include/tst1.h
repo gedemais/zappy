@@ -1,18 +1,17 @@
-#ifndef TST_H
-# define TST_H
+#ifndef TST1_H
+# define TST1_H
 
 #include "zap.h"
 #include "zap_callback.h"
 
-enum tst_state_e
+enum tst1_state_e
 {
-	TST_MOVE_REL_COORD,
-	TST_MOVE_REL_POS,
-	TST_CHECK,
-	TST_WAIT
+	TST1_MOVE_REL_COORD,
+	TST1_CHECK,
+	TST1_WAIT
 };
 
-typedef struct tst_s
+typedef struct tst1_s
 {
 	uint32_t 	init_direction;
 	uint32_t 	init_pos_x;
@@ -20,11 +19,12 @@ typedef struct tst_s
 	int		target_rel_coord_x; // set to 3 to move +3 on x axis
 	int		target_rel_coord_y;
 	uint32_t target_rel_pos; // for rel pos tests..
-} tst_t;
+} tst1_t;
 
-uint8_t	tst_prio(profile_t *profile);
-int	tst_init(zap_t *zap);
-int 	tst_fsm(profile_t *profile);
+uint8_t	tst1_prio(profile_t *profile);
+int	tst1_init(zap_t *zap);
+int 	tst1_fsm(profile_t *profile);
+int	tst1_init_cb(profile_t *profile);
 
 #endif
 

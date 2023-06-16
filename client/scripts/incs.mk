@@ -1,12 +1,8 @@
-INCS_NAME=zappy_client.h\
+INCS_NAME=\
 		zap_getopt.h\
-		zappy_client_move.h\
-		zappy_client_player.h \
-		tst.h \
+		tst1.h \
 		zap.h \
 		zap_map.h \
-		zap_player.h \
-		zap_profile.h \
-		zap_team.h \
+		zap_req.h \
 		list.h \
 		zap_callback.h

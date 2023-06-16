@@ -1,5 +1,14 @@
 #include "zap.h"
 #include "zap_map.h"
+#include "zap_callback.h"
+
+						// execute zap_cb for this given cmd id
+						// func are in zap_callback.c
+						// def of command array are in zap_def.h
+						// this cb is used to update all zap context :
+						// team, map, stuff
+						// note that cb mort, deplacement, message do it too
+						// so, zap ctx is updated before profile-specific cb
 
 int	zap_message_cb(zap_t *zap)
 {
@@ -8,6 +17,7 @@ int	zap_message_cb(zap_t *zap)
 }
 int	zap_mort_cb(zap_t *zap)
 {
+	fprintf(stderr, "You lose! pos_x=%d pos_y=%d dir=%d\n", zap->coord.abs_pos.pos_x, zap->coord.abs_pos.pos_x, zap->coord.abs_direction);
 	(void)zap;
 	return (0);
 }

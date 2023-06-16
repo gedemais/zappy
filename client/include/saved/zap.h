@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "zap_req.h"
+#include "zap_com.h"
 // #include "zap_player.h"
 // #include "zap_team.h"
 // #include "zap_vision.h"
@@ -13,7 +13,6 @@
 #include "list.h"
 
 #include "zap_map.h"
-#include "zap_req.h"
 
 typedef struct profile_s profile_t;
 typedef int		(*zap_profile_init_t)(profile_t *profile);
@@ -21,17 +20,13 @@ typedef uint8_t		(*zap_profile_prio_t)(profile_t *profile);
 typedef int		(*zap_profile_fsm_t)(profile_t *profile);
 
 typedef struct zap_s zap_t;
-typedef int	(*zap_req_cb_t)(req_t *);
 
-typedef struct profile_s
-{
-	char			name[256];
-	zap_req_cb_t		req_cb[CMD_MAX];
+typedef struct profile_s {
 	zap_profile_fsm_t	fsm_cb;
 	zap_profile_prio_t	prio_cb;
 	zap_profile_init_t	init_cb;
 	zap_t			*zap;
-#define proctx (((typeof(*ctx)*)ctx) // TODO test
+#define proctx (((typeof(ctx))ctx) // TODO test
 	void			*ctx;
 	list_t			lst;
 	uint8_t			status;

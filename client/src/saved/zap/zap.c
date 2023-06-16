@@ -1,8 +1,12 @@
 #include "zap.h"
 #include "zap_com.h"
-#include "zap_profile.h"
-#include "tst.h"
+#include "tst1.h"
 #include "zap_getopt.h"
+
+#include <errno.h>
+
+// TODO launch 3 instance of zap and call 3 receive, 3 loop etc
+// fix server input with a setsockopt TCP_NODELAY
 
 enum zap_r {
 	ZAP_OK,
@@ -10,67 +14,8 @@ enum zap_r {
 	PARSE_ERROR
 };
 
-int		zap_register_profile(zap_t *ctx, profile_t *profile)
-{
-	profile->zap = ctx;
-	list_add(&profile->lst, &ctx->profile);
-	int r = profile->init_cb(profile);
-	fprintf(stderr, "adding profile to profile list r=%d\n", r);
-	return (r);
-}
+// TODO : team shared map
 
-void		zap_abs_droite(zap_t *zap)
-{
-	zap->coord.abs_direction = ((zap->coord.abs_direction + 4) % 16);
-}
-void		zap_abs_gauche(zap_t *zap)
-{
-	zap->coord.abs_direction = (zap->coord.abs_direction == 0 ? 12 : (zap->coord.abs_direction - 4) % 16);
-}
-void		zap_abs_avance(zap_t *zap)
-{
-	switch (zap->coord.abs_direction)
-	{
-		case (CARDINAL_W): {
-			if (zap->coord.abs_pos.pos_x == 0) { zap->coord.abs_pos.pos_x = zap->max_x - 1; }
-			else { zap->coord.abs_pos.pos_x--; }
-			break ;
-			} 
-		case (CARDINAL_E): {
-			if (zap->coord.abs_pos.pos_x == zap->max_x - 1) { zap->coord.abs_pos.pos_x = 0; }
-			else { zap->coord.abs_pos.pos_x++; }
-			break ;
-			} 
-		case (CARDINAL_S): {
-			if (zap->coord.abs_pos.pos_y == zap->max_y - 1) { zap->coord.abs_pos.pos_y = 0; }
-			else { zap->coord.abs_pos.pos_y++; }
-			break ;
-			} 
-		case (CARDINAL_N): {
-			if (zap->coord.abs_pos.pos_y == 0) { zap->coord.abs_pos.pos_y = zap->max_y - 1; }
-			else { zap->coord.abs_pos.pos_y--; }
-			break ;
-			}
-	}
-}
-
-static req_t	*zap_com_queue_req(zap_t *zap)
-{
-	req_t *req = NULL;
-	if (!list_empty(&zap->com.req_free))
-	{
-		req = list_first_entry(&zap->com.req_free, req_t, lst); // take it
-		list_del(&req->lst);
-		list_add_tail(&req->lst, &zap->com.req_queue);
-		fprintf(stderr, "%s: move req=%p lst=%p into req_queue=%p\n", __func__, req, &req->lst, &zap->com.req_queue);
-	}
-	else
-	{
-		fprintf(stderr, "%s error out of memory", __func__);
-		req = NULL;
-	}
-	return (req);
-}
 
 int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id)
 {
@@ -78,8 +23,15 @@ int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id)
 	int r = 0;
 
 	if (cmd_id < CMD_MAX) {
-		req = zap_com_queue_req(zap);
+		if (!list_empty(&zap->com.req_free))
+		{
+			req = list_first_entry(&zap->com.req_free, req_t, lst); // take it
+			list_del(&req->lst); // delete it from req_free
+			list_add_tail(&req->lst, &zap->com.req_queue); // move it to req_queue
+		}
 		if (req) {
+			fprintf(stderr, "%s: move req=%p lst=%p into req_queue=%p\n", __func__,
+				req, &req->lst, &zap->com.req_queue);
 			req->zap = zap;
 			req->profile = NULL;
 			req->cb = commands[cmd_id].cb;
@@ -88,7 +40,7 @@ int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id)
 			req->cmd_id = cmd_id;
 		}
 		else {
-			r = -1;
+			r = -ENOMEM;
 		}
 	}
 	else {
@@ -101,14 +53,15 @@ static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 {
 	int r = 0;
 	com_t *com = &zap->com;
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+
     	if ((com->socket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		perror("socket");
 		r = -1;
     	}
 	if (r == 0)
 	{
-		fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
+		int flag = 1;
+		r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
     		com->sockaddr.sin_family = AF_INET;
     		com->sockaddr.sin_port = htons(opt->server_port);
     		if (inet_pton(AF_INET, opt->server_addr, &com->sockaddr.sin_addr) <= 0) {
@@ -116,18 +69,15 @@ static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 			close(com->socket);
 			r = -1;
     		}
+		fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
 	}
 	if (r == 0)
 	{
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
     		if (connect(com->socket, (struct sockaddr*)&com->sockaddr, sizeof(struct sockaddr_in)) < 0) {
 			perror("connect");
 			close(com->socket);
 			r = -1;
     		}
-		int flag = 1;
-		// r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 	}
 	return (r);
 }
@@ -138,58 +88,35 @@ static int	zap_com_zappy_connect(zap_opt_t *opt, zap_t *zap)
 	int len = 0;
 	com_t *com = &zap->com;
 
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-	if ((r = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0)) < 0) {
-		perror("recv");
+	if ((len = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0))
+		&& !strcmp((char*)com->buf_rx, "BIENVENUE\n")
+		&& send(com->socket, opt->team_name, strlen(opt->team_name), 0) > 0
+		&& (len = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0)) > 0)
+	{
+		fprintf(stderr, "%s:%d r=%d buf=%s\n", __func__, __LINE__, r, com->buf_rx);
+		/* parse "\n%d %d"*/
+		if (atoi((char*)com->buf_rx) < 1) {
+			fprintf(stderr, "%s: max client connection reached\n", __func__);
+			r = -1;
+		}
+		for (int i = 0 ; i < len ; i++) {
+			if (com->buf_rx[i] == '\n') {
+				zap->max_x = atoi((char*)&com->buf_rx[i+1]);
+			}
+			if (com->buf_rx[i] == ' ') {
+				zap->max_y = atoi((char*)&com->buf_rx[i+1]);
+				break ;
+			}
+		}
+	}
+	else
+	{
+		fprintf(stderr, "%s: error\n", __func__);
 		close(com->socket);
 		r = -1;
 	}
 	if (r == 0)
 	{
-		fprintf(stderr, "%s:%d r=%d buf=%s\n", __func__, __LINE__, r, com->buf_rx);
-		if (strcmp((char*)com->buf_rx, "BIENVENUE\n")) {
-			fprintf(stderr, "%s: error BIENVENUE not recv\n", __func__);
-			close(com->socket);
-			r = -1;
-		} else {
-			fprintf(stderr, "%s----------\n", com->buf_rx);
-		}
-	}
-	if (r == 0)
-	{
-		if (send(com->socket, opt->team_name, strlen(opt->team_name), 0) < 0) {
-			perror("send");
-			close(com->socket);
-			r = -1;
-		}
-	}
-	if (r == 0)
-	{
-		bzero(com->buf_rx, ZAP_RX_BUFSIZE);
-		if ((len = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0)) < 0) {
-			perror("recv");
-			close(com->socket);
-			r = -1;
-		}
-	}
-	if (r == 0)
-	{
-		if (atoi((char*)com->buf_rx) < 1) {
-			fprintf(stderr, "%s: max client connection reached\n", __func__);
-			r = -1;
-		}
-	}
-	if (r == 0)
-	{
-		for (int i = 0 ; com->buf_rx[i] ; i++) {
-			if (com->buf_rx[i] == '\n') {
-				opt->max_x = atoi((char*)&com->buf_rx[i+1]);
-			}
-			if (com->buf_rx[i] == ' ') {
-				opt->max_y = atoi((char*)&com->buf_rx[i+1]);
-				break ;
-			}
-		}
 	}
 	return (r);
 }
@@ -204,19 +131,15 @@ int	zap_com_connect(zap_opt_t *opt, zap_t *zap)
 	else
 	{
 		com_t *com = &zap->com;
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		r = zap_com_tcp_connect(opt, zap);
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+		fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
 		if (r == 0) {
 			r = zap_com_zappy_connect(opt, zap);
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+			fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
 		}
 	}
 	return (r);
 }
-
-
-
 
 
 static int zap_init(zap_opt_t *opt, zap_t **zap)
@@ -230,26 +153,25 @@ static int zap_init(zap_opt_t *opt, zap_t **zap)
 		INIT_LIST_HEAD(&(*zap)->com.req_free);
 		INIT_LIST_HEAD(&(*zap)->com.req_queue);
 		INIT_LIST_HEAD(&(*zap)->com.req_send);
-		for (int i = 0 ; i < MAX_REQ ; i++) {
+		for (int i = 0 ; i < MAX_REQ + 25; i++) {
 			list_add_tail(&(*zap)->com.req[i].lst, &(*zap)->com.req_free);
-			fprintf(stderr, "req[%d}=%p lst=%p req_free=%p\n", i, &(*zap)->com.req[i], &(*zap)->com.req[i].lst, &(*zap)->com.req_free);
+			fprintf(stderr, "req[%d}=%p lst=%p req_free=%p\n",
+i, &(*zap)->com.req[i], &(*zap)->com.req[i].lst, &(*zap)->com.req_free);
 		}
+		memset(&(*zap)->coord, 0, sizeof(coord_t));
 		r = zap_com_connect(opt, *zap);
-	}
-	if (r == ZAP_OK) {
+		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		INIT_LIST_HEAD(&(*zap)->profile);
-	}
-	if (r == ZAP_OK) {
-		tst_init(*zap);
 	}
 	return (r);
 }
 
 static void zap_deinit(zap_t **zap)
 {
-	// zap_com_deinit(*zap);
-	// zap_team_deinit(*zap);
-	// zap_player_deinit(*zap);
+	profile_t *p = NULL;
+	list_for_each_entry(p, &(*zap)->profile, lst) {
+		free(p);
+	}
 	free(*zap);
 }
 
@@ -346,9 +268,7 @@ int	zap_handler(zap_t *zap)
 	if (r > 0)
 	{
 		// DATA available
-#ifdef VERBOSE
 		fprintf(stderr, "recv len=%d buf={%s} \n", r, com->buf_rx);
-#endif
 		// com->buf_rx_len = 0;
 		// TODO if subsequent parsing fail the req shall not be removed
 		bool found = false;
@@ -365,6 +285,7 @@ int	zap_handler(zap_t *zap)
 				__func__, __LINE__, com->buf_rx_len);
 			r = -1;
 		}
+		r = 0;
 	}
 #ifdef VERBOSE
 	else {
@@ -389,8 +310,8 @@ int	zap_handler(zap_t *zap)
 					p = head;
 				}
 #ifdef VERBOSE
-			//fprintf(stderr, "%s:%d profile(%d] prio=%hhu current_prio=%hhu\n",
-			//	__func__, __LINE__, i++, profile_prio, prio);
+//			fprintf(stderr, "%s:%d profile(%d] prio=%hhu current_prio=%hhu\n",
+//				__func__, __LINE__, i++, profile_prio, prio);
 #endif
 			};
 		}
@@ -409,7 +330,7 @@ int	zap_handler(zap_t *zap)
 			req_t *req = list_first_entry(&com->req_queue, req_t, lst);
 			list_del(&req->lst); // delete it from req_queue
 			list_add_tail(&req->lst, &com->req_send); // put it in req_send
-			fprintf(stderr, "%s: move req=%p lst=%p into req_send=%p\n", __func__, req, &req->lst, &zap->com.req_send);
+			fprintf(stderr, "%s: SEND move req=%p lst=%p into req_send=%p\n", __func__, req, &req->lst, &zap->com.req_send);
 			// req->buf[req->io_len++] = '\n';
 			memcpy(buf, req->buf, req->io_len);
 			buf[req->io_len] = '\n';
@@ -417,43 +338,46 @@ int	zap_handler(zap_t *zap)
 			if (send(com->socket, req->buf, req->io_len + 1, 0) < 0) { // and send it.
 				perror("send");
 			}
-			usleep(1);
-			// usleep(1000000);
 			com->count_send++;
+
+			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		}
 	}
 	return (r);
 }
 
-static void zap_loop(zap_t *zap)
-{
-	int r = 0;
-	while (1)
-	{
-		r = zap_handler(zap);
-		if (r != ZAP_OK) {
-			fprintf(stderr, "%s: top level error:%d", __func__, r);
-		}
-	}
-}
+int	zap_profile_manager_init(zap_t *zap);
 
 int		zap(zap_opt_t *opt)
 {
 	int r = 0;
-	zap_t *zap;
+	zap_t *zap1, *zap2, *zap3;
 
-	if (!opt)
+	if (0 == (r = zap_init(opt, &zap1))
+		&& 0 == (r = zap_init(opt, &zap2))
+		&& 0 == (r = zap_init(opt, &zap3)))
 	{
+			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+		if (0 == (r = zap_profile_manager_init(zap1))
+			&& 0 == (r = zap_profile_manager_init(zap2))
+			&& 0 == (r = zap_profile_manager_init(zap3)))
+		{
+			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+			while (r == 0) {
+				r = zap_handler(zap1);
+				r = zap_handler(zap2);
+				r = zap_handler(zap3);
+			}
+		}
+		if (r == -1)
+		{
+			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+			zap_deinit(&zap1);
+			zap_deinit(&zap2);
+			zap_deinit(&zap3);
+		}
 		r = -1;
 	}
-	else
-	{
-		r = zap_init(opt, &zap);
-		if (r == 0) {
-			zap_loop(zap);
-		}
 	fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-		zap_deinit(&zap);
-	}
 	return (r);
 }

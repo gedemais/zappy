@@ -1,7 +1,7 @@
 #ifndef ZAP_COM_H
 # define ZAP_COM_H
 
-#include <netinet/tcp.h>
+# include <netinet/tcp.h>
 # include <arpa/inet.h>
 # include <sys/select.h>
 # include <sys/socket.h>
@@ -13,58 +13,23 @@
 # include <unistd.h>
 # include <stdio.h>
 
-#include "zap_callback.h"
+// # include "zap.h"
+# include "list.h"
 
-/*
-** req are managed in 2 linked list (free, alloc)
+/* Global struct commands and response definition
+**	- callback
+**	- struct
+**	- enum
+**	- global
 */
-#define MAX_REQ 10
-typedef struct req_s req_t;
-typedef int		(*zap_req_cb_t)(req_t *);
 
-typedef struct zap_s zap_t;
-typedef struct profile_s profile_t;
-typedef struct req_s
-{
-	zap_t		*zap;
-	profile_t	*profile;
-	char		buf[1024];
-	uint32_t	io_len;
-	zap_req_cb_t	cb;
-	uint8_t		state;
-	uint8_t		cmd_id;
-	list_t		lst;
-} req_t;
-
-void	zap_com_req_free(zap_t *zap, req_t *req);
-req_t	*zap_com_req_alloc(zap_t *zap);
+/* callback */
+#include "zap_callback.h"
 int	zap_receive_response(zap_t *zap);
-
-
-#define ZAP_RX_BUFSIZE 1024
-#define MAX_SEND_REQ 10
-
-typedef struct com_s
-{
-	int socket;
-	req_t req[MAX_SEND_REQ + 25];
-	struct sockaddr_in sockaddr;
-	char buf_rx[ZAP_RX_BUFSIZE];
-	int buf_rx_len;
-	// TODO its not alloc free , its sended / queued / free
-	// when recv it automatically send the next available queued, if any
-	
-	// list_t req_alloc;
-	// list_t req_free;
-
-	uint8_t count_send;
-	list_t req_send;
-	list_t req_queue;
-	list_t req_free;
-} com_t;
-
 typedef int		(*zap_cb_t)(zap_t *);
+typedef int	(*zap_req_cb_t)(req_t *);
 
+/* struct */
 typedef struct	s_cmd
 {
 	char	name[256];
@@ -79,6 +44,7 @@ typedef struct	t_rsp
 	zap_cb_t  cb;
 }		t_rsp;
 
+/* enum */
 enum			e_commands
 {
 	CMD_AVANCE,
@@ -109,6 +75,7 @@ enum			e_response
 	RSP_MAX		
 };
 
+/* global */
 static t_cmd	commands[CMD_MAX] = {
 	[CMD_AVANCE]		= {.name = "avance", .len = strlen("avance"), .cb = zap_avance_cb},
 	[CMD_DROITE]		= {.name = "droite", .len = strlen("droite"), .cb = zap_droite_cb},
@@ -135,18 +102,93 @@ static t_rsp	response[CMD_MAX] = {
 	 [RSP_MESSAGE]                                   = {.name = "message", .len = strlen("message"), .cb = zap_message_cb},
 };
 
+/*
+** Request definition
+**	- struct 
+**	- function 
+*/
+
+#define MAX_SEND_REQ 1
 typedef struct zap_s zap_t;
-typedef struct zap_opt_s zap_opt_t;
+typedef struct profile_s profile_t;
 
-int	zap_com_init(zap_opt_t *opt, zap_t *zap);
-void	zap_com_deinit(zap_t *zap);
-int	zap_com_connect(zap_opt_t *opt, zap_t *zap);
-// int	zap_com_zappy_connect(zap_opt_t *opt, zap_t *zap);
-// int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap);
-int	zap_receive(zap_t *zap);
-int	zap_send_req(zap_t *zap, req_t *req);
+/*
+** struct req for request
+** req are managed in 3 linked list (send, queue, free)
+** cmd_id is used to call callback of global struct commands
+** cb of global struct cmd are used to update all zap ctx (map, vision, stuff, ...)
+** profile may want to add a custom cb (for changing state, or anything) and ctx
+*/
+typedef struct 	req_s req_t;
+typedef int	(*zap_req_cb_t)(req_t *);
+typedef struct req_s
+{
+	zap_t		*zap;
+	profile_t	*profile;
+	zap_req_cb_t	cb;
+	char		buf[1024];
+	uint32_t	io_len;
+	uint8_t		state;
+	uint8_t		cmd_id;
+	list_t		lst;
+} req_t;
 
-int	zap_send(zap_t *zap);
+/* req_send -> req_free */
+void	zap_free_reqlst(zap_t *zap, req_t *req);
+/* req_free -> req_queue */
+void	zap_queue_reqlst(zap_t *zap, req_t *req);
+/* req_queue -> req_send */
+void	zap_send_reqlst(zap_t *zap, req_t *req);
+
+/* 
+** zap_queue_cmd
+** use cmd_id to build a request and queue it
+** it only use standard_cb as it build all the req alone
+** profile that want to use req->cb should not use it
+*/
 int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id);
 
+/* call commands.cb + execute req cb if any */
+int	zap_recv_req(zap_t *zap, req_t *req);
+/* effectively send the req using send(2) */
+int	zap_send_req(zap_t *zap);
+
+/* 
+** zap_queue_profile_cmd
+** use profile and use cmd_id to build a request and queue it
+** it set the corresponding entry of cmd_id of profile cb
+** profile that want to use req->cb should use it
+*/
+int	zap_queue_profile_cmd(zap_t *zap, profile_t *profile, uint8_t cmd_id);
+
+// void	zap_com_req_free(zap_t *zap, req_t *req);
+// req_t	*zap_com_req_alloc(zap_t *zap);
+
+
+/*
+** Global com management
+*/
+#define ZAP_RX_BUFSIZE 1024
+
+typedef struct com_s
+{
+	int socket;
+	req_t req[MAX_SEND_REQ + 25];
+	struct sockaddr_in sockaddr;
+	char buf_rx[ZAP_RX_BUFSIZE];
+	int buf_rx_len;
+	// TODO its not alloc free , its sended / queued / free
+	// when recv it automatically send the next available queued, if any
+	
+	// list_t req_alloc;
+	// list_t req_free;
+
+	uint8_t count_send;
+	list_t req_send;
+	list_t req_queue;
+	list_t req_free;
+} com_t;
+
+
 #endif
+

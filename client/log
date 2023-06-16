@@ -1,0 +1,127 @@
+r=0 opt->ip={127.0.0.1} opt->port={8080}
+req[0}=0x559388c8e770 lst=0x559388c8eb90 req_free=0x559388c95888
+req[1}=0x559388c8eba0 lst=0x559388c8efc0 req_free=0x559388c95888
+req[2}=0x559388c8efd0 lst=0x559388c8f3f0 req_free=0x559388c95888
+req[3}=0x559388c8f400 lst=0x559388c8f820 req_free=0x559388c95888
+req[4}=0x559388c8f830 lst=0x559388c8fc50 req_free=0x559388c95888
+req[5}=0x559388c8fc60 lst=0x559388c90080 req_free=0x559388c95888
+req[6}=0x559388c90090 lst=0x559388c904b0 req_free=0x559388c95888
+req[7}=0x559388c904c0 lst=0x559388c908e0 req_free=0x559388c95888
+req[8}=0x559388c908f0 lst=0x559388c90d10 req_free=0x559388c95888
+req[9}=0x559388c90d20 lst=0x559388c91140 req_free=0x559388c95888
+req[10}=0x559388c91150 lst=0x559388c91570 req_free=0x559388c95888
+req[11}=0x559388c91580 lst=0x559388c919a0 req_free=0x559388c95888
+req[12}=0x559388c919b0 lst=0x559388c91dd0 req_free=0x559388c95888
+req[13}=0x559388c91de0 lst=0x559388c92200 req_free=0x559388c95888
+req[14}=0x559388c92210 lst=0x559388c92630 req_free=0x559388c95888
+req[15}=0x559388c92640 lst=0x559388c92a60 req_free=0x559388c95888
+req[16}=0x559388c92a70 lst=0x559388c92e90 req_free=0x559388c95888
+req[17}=0x559388c92ea0 lst=0x559388c932c0 req_free=0x559388c95888
+req[18}=0x559388c932d0 lst=0x559388c936f0 req_free=0x559388c95888
+req[19}=0x559388c93700 lst=0x559388c93b20 req_free=0x559388c95888
+req[20}=0x559388c93b30 lst=0x559388c93f50 req_free=0x559388c95888
+req[21}=0x559388c93f60 lst=0x559388c94380 req_free=0x559388c95888
+req[22}=0x559388c94390 lst=0x559388c947b0 req_free=0x559388c95888
+req[23}=0x559388c947c0 lst=0x559388c94be0 req_free=0x559388c95888
+req[24}=0x559388c94bf0 lst=0x559388c95010 req_free=0x559388c95888
+req[25}=0x559388c95020 lst=0x559388c95440 req_free=0x559388c95888
+zap_com_tcp_connect:39 r=0
+zap_com_connect:102 r=0
+zap_com_zappy_connect:63 r=0 buf=3
+30 30
+E
+
+zap_com_connect:105 r=0
+zap_init:130
+req[0}=0x559388c95d80 lst=0x559388c961a0 req_free=0x559388c9ce98
+req[1}=0x559388c961b0 lst=0x559388c965d0 req_free=0x559388c9ce98
+req[2}=0x559388c965e0 lst=0x559388c96a00 req_free=0x559388c9ce98
+req[3}=0x559388c96a10 lst=0x559388c96e30 req_free=0x559388c9ce98
+req[4}=0x559388c96e40 lst=0x559388c97260 req_free=0x559388c9ce98
+req[5}=0x559388c97270 lst=0x559388c97690 req_free=0x559388c9ce98
+req[6}=0x559388c976a0 lst=0x559388c97ac0 req_free=0x559388c9ce98
+req[7}=0x559388c97ad0 lst=0x559388c97ef0 req_free=0x559388c9ce98
+req[8}=0x559388c97f00 lst=0x559388c98320 req_free=0x559388c9ce98
+req[9}=0x559388c98330 lst=0x559388c98750 req_free=0x559388c9ce98
+req[10}=0x559388c98760 lst=0x559388c98b80 req_free=0x559388c9ce98
+req[11}=0x559388c98b90 lst=0x559388c98fb0 req_free=0x559388c9ce98
+req[12}=0x559388c98fc0 lst=0x559388c993e0 req_free=0x559388c9ce98
+req[13}=0x559388c993f0 lst=0x559388c99810 req_free=0x559388c9ce98
+req[14}=0x559388c99820 lst=0x559388c99c40 req_free=0x559388c9ce98
+req[15}=0x559388c99c50 lst=0x559388c9a070 req_free=0x559388c9ce98
+req[16}=0x559388c9a080 lst=0x559388c9a4a0 req_free=0x559388c9ce98
+req[17}=0x559388c9a4b0 lst=0x559388c9a8d0 req_free=0x559388c9ce98
+req[18}=0x559388c9a8e0 lst=0x559388c9ad00 req_free=0x559388c9ce98
+req[19}=0x559388c9ad10 lst=0x559388c9b130 req_free=0x559388c9ce98
+req[20}=0x559388c9b140 lst=0x559388c9b560 req_free=0x559388c9ce98
+req[21}=0x559388c9b570 lst=0x559388c9b990 req_free=0x559388c9ce98
+req[22}=0x559388c9b9a0 lst=0x559388c9bdc0 req_free=0x559388c9ce98
+req[23}=0x559388c9bdd0 lst=0x559388c9c1f0 req_free=0x559388c9ce98
+req[24}=0x559388c9c200 lst=0x559388c9c620 req_free=0x559388c9ce98
+req[25}=0x559388c9c630 lst=0x559388c9ca50 req_free=0x559388c9ce98
+zap_com_tcp_connect:39 r=0
+zap_com_connect:102 r=0
+zap_com_zappy_connect:63 r=0 buf=2
+30 30
+E
+
+zap_com_connect:105 r=0
+zap_init:130
+req[0}=0x559388c9d390 lst=0x559388c9d7b0 req_free=0x559388ca44a8
+req[1}=0x559388c9d7c0 lst=0x559388c9dbe0 req_free=0x559388ca44a8
+req[2}=0x559388c9dbf0 lst=0x559388c9e010 req_free=0x559388ca44a8
+req[3}=0x559388c9e020 lst=0x559388c9e440 req_free=0x559388ca44a8
+req[4}=0x559388c9e450 lst=0x559388c9e870 req_free=0x559388ca44a8
+req[5}=0x559388c9e880 lst=0x559388c9eca0 req_free=0x559388ca44a8
+req[6}=0x559388c9ecb0 lst=0x559388c9f0d0 req_free=0x559388ca44a8
+req[7}=0x559388c9f0e0 lst=0x559388c9f500 req_free=0x559388ca44a8
+req[8}=0x559388c9f510 lst=0x559388c9f930 req_free=0x559388ca44a8
+req[9}=0x559388c9f940 lst=0x559388c9fd60 req_free=0x559388ca44a8
+req[10}=0x559388c9fd70 lst=0x559388ca0190 req_free=0x559388ca44a8
+req[11}=0x559388ca01a0 lst=0x559388ca05c0 req_free=0x559388ca44a8
+req[12}=0x559388ca05d0 lst=0x559388ca09f0 req_free=0x559388ca44a8
+req[13}=0x559388ca0a00 lst=0x559388ca0e20 req_free=0x559388ca44a8
+req[14}=0x559388ca0e30 lst=0x559388ca1250 req_free=0x559388ca44a8
+req[15}=0x559388ca1260 lst=0x559388ca1680 req_free=0x559388ca44a8
+req[16}=0x559388ca1690 lst=0x559388ca1ab0 req_free=0x559388ca44a8
+req[17}=0x559388ca1ac0 lst=0x559388ca1ee0 req_free=0x559388ca44a8
+req[18}=0x559388ca1ef0 lst=0x559388ca2310 req_free=0x559388ca44a8
+req[19}=0x559388ca2320 lst=0x559388ca2740 req_free=0x559388ca44a8
+req[20}=0x559388ca2750 lst=0x559388ca2b70 req_free=0x559388ca44a8
+req[21}=0x559388ca2b80 lst=0x559388ca2fa0 req_free=0x559388ca44a8
+req[22}=0x559388ca2fb0 lst=0x559388ca33d0 req_free=0x559388ca44a8
+req[23}=0x559388ca33e0 lst=0x559388ca3800 req_free=0x559388ca44a8
+req[24}=0x559388ca3810 lst=0x559388ca3c30 req_free=0x559388ca44a8
+req[25}=0x559388ca3c40 lst=0x559388ca4060 req_free=0x559388ca44a8
+zap_com_tcp_connect:39 r=0
+zap_com_connect:102 r=0
+zap_com_zappy_connect:63 r=0 buf=1
+30 30
+E
+
+zap_com_connect:105 r=0
+zap_init:130
+zap:283
+zap:288
+TST1_MOVE_REL_COORD abs_pos_x=0 abs_pos_y=0 abs_dir=0
+zap_queue_cmd: QUEUE move req=0x559388c8e770 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c8e770 lst=0x559388c8eb90 into req_queue=0x559388c95878
+zap_move_rel_coord:230 r=0
+zap_queue_cmd: QUEUE move req=0x559388c8eba0 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c8eba0 lst=0x559388c8efc0 into req_queue=0x559388c95878
+zap_move_rel_coord:230 r=0
+zap_queue_cmd: QUEUE move req=0x559388c8efd0 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c8efd0 lst=0x559388c8f3f0 into req_queue=0x559388c95878
+zap_move_rel_coord:230 r=0
+zap_queue_cmd: QUEUE move req=0x559388c8f400 noprofile command={droite}
+zap_queue_reqlst: QUEUE move req=0x559388c8f400 lst=0x559388c8f820 into req_queue=0x559388c95878
+zap_queue_cmd: QUEUE move req=0x559388c8f830 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c8f830 lst=0x559388c8fc50 into req_queue=0x559388c95878
+zap_move_rel_coord:246 r=0
+zap_queue_cmd: QUEUE move req=0x559388c8fc60 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c8fc60 lst=0x559388c90080 into req_queue=0x559388c95878
+zap_move_rel_coord:250 r=0
+zap_queue_cmd: QUEUE move req=0x559388c90090 noprofile command={avance}
+zap_queue_reqlst: QUEUE move req=0x559388c90090 lst=0x559388c904b0 into req_queue=0x559388c95878
+zap_move_rel_coord:250 r=0
+tst1_fsm:45 move_rel_coord return move to x=3 y=3 r=0
