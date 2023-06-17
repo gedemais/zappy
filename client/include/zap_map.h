@@ -24,6 +24,53 @@ typedef struct case_s {
 #define RESOURCE_NB(c) ((uint32_t)(c->content & RESOURCES_NB_MSK))
 */
 
+/* Some helpfull static const for relative vision_map array */
+#define MAX_VISION_ROW 9
+static int	vision_row_size[] = {
+		1,
+		3,
+		5,
+		7,
+		9,
+		11,
+		13,
+		15,
+		17
+};
+static int	vision_row_left[] = {
+		0,
+		1,
+		4,
+		9,
+		16,
+		25,
+		36,
+		49,
+		64
+};
+static int	vision_row_right[] = {
+		0,
+		1,
+		4,
+		9,
+		16,
+		25,
+		36,
+		49,
+		64
+};
+static int	vision_row_center[] = {
+		0,
+		2,
+		6,
+		12,
+		20,
+		30,
+		42,
+		56,
+		72
+};
+
 enum			e_ressources
 {
 	R_NOURRITURE,
@@ -33,6 +80,7 @@ enum			e_ressources
 	R_MENDIANE,
 	R_PHIRAS,
 	R_THYSTAME,
+	R_PLAYER,
 	R_MAX
 };
 
@@ -56,9 +104,9 @@ static loot_t	ressources[R_MAX] =
 	[R_MENDIANE]	= {.name = "mendiane", .len = strlen("mendiane"), .type = R_MENDIANE},
 	[R_PHIRAS]	= {.name = "phiras", .len = strlen("phiras"), .type = R_PHIRAS},
 	[R_THYSTAME]	= {.name = "thystame", .len = strlen("thystame"), .type = R_THYSTAME},
+	[R_PLAYER]	= {.name = "player", .len = strlen("player"), .type = R_PLAYER},
 	[R_NOURRITURE]	= {.name = "nourriture", .len = strlen("nourriture"), .type = R_NOURRITURE},
 };
-// TODO use this for prend_cb and pose_cb
 
 /* 16 cardinal points from 0 to 15, start with N */
 enum cardinal_e
@@ -128,14 +176,15 @@ typedef struct coord_s
 typedef struct vision_s
 {
 	// maybe should rename
-	coord_t		coord;
-	uint32_t	rel_dir; // GET_INDEX_FROM_RELATIVE_POS(pos_x, pos_y)
-	uint32_t	rel_y; // 
-	uint32_t	rel_x;
-	uint32_t	size;
+	coord_t		coord; // snapshot of the position at the time of see
+	uint32_t	size; // current vision size
 #define MAX_VISION_SIZE 127
-	case_t		c[MAX_VISION_SIZE]; // index of case is GET_INDEX_FROM_RELATIVE_POS(pos_x, pos_y)
+	uint32_t	current_pos;
+	case_t		*current_case;
+	case_t		c[MAX_VISION_SIZE];
 	bool		in;
+	bool		enabled;
+	bool		requested;
 } vision_t;
 
 typedef struct zap_s zap_t;
@@ -151,5 +200,8 @@ void		zap_map_abs_avance(coord_t *coord);
 void		zap_abs_droite(zap_t *zap);
 void		zap_abs_gauche(zap_t *zap);
 void		zap_abs_avance(zap_t *zap);
+
+int		zap_vision_avance(zap_t *zap);
+int	zap_parse_voir(zap_t *zap);
 
 #endif

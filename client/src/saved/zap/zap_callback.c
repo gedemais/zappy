@@ -122,6 +122,7 @@ int		zap_prend_cb(req_t *req)
 	if (memcmp(zap->com.buf_rx, "ok", strlen("ok"))) {
 		r = -1;
 	}
+	fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 	return (r);
 }
 

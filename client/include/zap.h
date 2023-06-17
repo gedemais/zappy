@@ -41,13 +41,7 @@ typedef struct profile_s
 
 typedef struct	stuff_s
 {
-	uint32_t nourriture;
-	uint32_t linemate;
-	uint32_t deraumere;
-	uint32_t sibur;
-	uint32_t mendiane;
-	uint32_t phiras;
-	uint32_t thystame;
+	uint32_t content[R_MAX];
 } stuff_t;
 
 typedef struct	player_s

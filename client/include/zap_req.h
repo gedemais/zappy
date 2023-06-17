@@ -137,6 +137,7 @@ typedef struct req_s
 void	zap_free_reqlst(zap_t *zap, req_t *req);
 /* req_free -> req_queue */
 void	zap_queue_reqlst(zap_t *zap, req_t *req);
+void	zap_queue_reqlst_prepend(zap_t *zap, req_t *req);
 /* req_queue -> req_send */
 void	zap_send_reqlst(zap_t *zap, req_t *req);
 
@@ -147,6 +148,12 @@ void	zap_send_reqlst(zap_t *zap, req_t *req);
 ** profile that want to use req->cb should not use it
 */
 int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id);
+/* 
+** zap_queue_cmd_prepend
+** like zap_queue_cmd but put the request in front of the req list
+** WARNING this could break the suite of commands, so be careful
+*/
+int	zap_queue_cmd_prepend(zap_t *zap, uint8_t cmd_id);
 
 /* call commands.cb + execute req cb if any */
 int	zap_recv_req(zap_t *zap, req_t *req);
@@ -190,5 +197,6 @@ typedef struct com_s
 } com_t;
 
 
+req_t	*zap_get_req(zap_t *zap);
 #endif
 

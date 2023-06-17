@@ -5,7 +5,7 @@
 uint8_t	tst1_prio(profile_t *profile)
 {
 	(void)profile;
-	return ((uint8_t)255);
+	return ((uint8_t)254);
 }
 
 int	tst1_init_cb(profile_t *profile)
@@ -75,7 +75,7 @@ int 	tst1_fsm(profile_t *profile)
 			x %= profile->zap->max_x;
 			y %= profile->zap->max_y;
 
-#ifdef EXTRA_VERBOSE
+#ifdef EXTRAVERBOSE
 			fprintf(stderr, "%s:%d TST1_CHECK abs_pos_x=%d abs_pos_y=%d abs_dir=%d init_dir=%d init_x=%d init_y=%d tgt_x=%d tgt_y=%d x=%d y=%d\n",
 				__func__, 
 				__LINE__, 
@@ -96,8 +96,13 @@ int 	tst1_fsm(profile_t *profile)
 				((tst1_t*)profile->ctx)->init_direction = profile->zap->coord.abs_direction;
 				((tst1_t*)profile->ctx)->init_pos_x = profile->zap->coord.abs_pos.pos_x;
 				((tst1_t*)profile->ctx)->init_pos_y = profile->zap->coord.abs_pos.pos_y;
-				((tst1_t*)profile->ctx)->target_rel_coord_x = (((tst1_t*)profile->ctx)->target_rel_coord_x + 1) % profile->zap->max_x;
-				((tst1_t*)profile->ctx)->target_rel_coord_y = (((tst1_t*)profile->ctx)->target_rel_coord_y + 1) % profile->zap->max_y;
+				((tst1_t*)profile->ctx)->target_rel_coord_x = (((tst1_t*)profile->ctx)->target_rel_coord_x + 1) % 4;
+				((tst1_t*)profile->ctx)->target_rel_coord_y = (((tst1_t*)profile->ctx)->target_rel_coord_y + 1) % 4;
+			struct timeval tv = {0};
+			gettimeofday(&tv, NULL);
+				((tst1_t*)profile->ctx)->target_rel_coord_x =  2 + tv.tv_usec % 3;
+				((tst1_t*)profile->ctx)->target_rel_coord_y = 2 + tv.tv_usec % 3;
+			
 #endif
 				profile->state = TST1_MOVE_REL_COORD;
 				

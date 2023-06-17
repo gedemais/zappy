@@ -21,6 +21,9 @@ $(GRAPHIC):
 $(LIB): $(LIB_PATH)
 	make -C $(LIB_PATH) -j4
 
+run:
+	(sleep 3 && ./zappy_client -p 8080 -n foo) 2> $(TERM_CLIENT)  & ./zappy_server -p 8080 -x 30 -y 30 -n foo -c 3 -t 200 > $(TERM_SERVER)
+
 clean:
 	make -C server clean
 	make -C client clean

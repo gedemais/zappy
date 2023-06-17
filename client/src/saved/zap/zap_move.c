@@ -47,6 +47,9 @@ int 	compute_abs_move(uint32_t *x_move, uint32_t *y_move, uint32_t direction)
 // int create_req_move(uint32_t relpos)
 // int create_n_move_rel_dir(uint8_t cardinal)
 
+// With that i could check for every vision the nb of move needed
+// and choose the lesser
+// No this is just with relpos == 0 ...k
 
 int 	compute_rel_move(uint32_t relpos, int *rel_x, int *rel_y)
 {
@@ -163,55 +166,4 @@ int	zap_vision_update_gauche(vision_t *vision)
 	vision->direction = (vision->direction == 0 ? 12 : (vision->direction - 4) % 16);
 }
 
-#define DEBUG_SEE_SIZE 3
-int	zap_parse_voir(vision_t *vision, com_t *com)
-{
-	int r = 0;
-	int i = 0;
-	int c = 0;
-	case_t cse = {0};
-
-
-	for (uint32_t j = 0 ; j < DEBUG_SEE_SIZE ; j++) {
-		zap_map_clear_rel(map, j);
-	}
-	if (com->buf_rx[i++] != '{') {
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-		r = -1;
-	}
-	while (r == 0 && i < com->buf_rx_len)
-	{
-		// fprintf(stderr, "%s:%d com->buf_rx[i]=%x i=%d len=%d\n", __func__, __LINE__, com->buf_rx[i], i, com->buf_rx_len);
-		if (com->buf_rx[i] == '}') {
-			break ;
-		}
-		else if (com->buf_rx[i] == ',') {
-			c++;
-			i++;
-		}
-		else if (com->buf_rx[i] != ' ')
-		{
-			bool b = false;
-			for (int j = 0; j < R_MAX && b == false; j++) {
-				// fprintf(stderr, "%s:%d j=%d resources[j]=%s buf=%s\n", __func__, __LINE__, j, ressources[j].name, (char*)&com->buf_rx[i]);
-				if (!memcmp(ressources[j].name, (char*)&com->buf_rx[i], ressources[j].len)) {
-					bzero(&cse, sizeof(case_t));
-					cse.content[j] = 1;
-					b = true;
-					zap_map_add_rel(map, c, &cse);
-					// player.vision_map[c * CASE_ELEMENTS + j]++;
-					i += ressources[j].len;
-				}
-			}
-			if (b == false) {
-				// fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-				r = -1;
-			}
-		}
-		else {
-			i++;;
-		}
-	}
-	return (r);
-}
 */

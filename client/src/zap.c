@@ -129,6 +129,7 @@ i, &(*zap)->com.req[i], &(*zap)->com.req[i].lst, &(*zap)->com.req_free);
 		r = zap_com_connect(opt, *zap);
 		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		INIT_LIST_HEAD(&(*zap)->profile);
+		(*zap)->vision.enabled = true;
 	}
 	return (r);
 }
@@ -156,6 +157,7 @@ int	zap_receive_response(zap_t *zap)
 	}
 	else
 	{
+		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		req = list_first_entry(&zap->com.req_send, req_t, lst); // take it
 		r = zap_recv_req(zap, req);
 	}
@@ -230,14 +232,14 @@ int	zap_handler(zap_t *zap)
 			profile_t *head = NULL;
 			list_for_each_entry(head, &zap->profile, lst) {
 				uint8_t profile_prio = head->prio_cb(head);
-				if (prio >= profile_prio) {
-					prio = profile_prio;
-					p = head;
-				}
 #ifdef VERBOSE
 //			fprintf(stderr, "%s:%d profile(%d] prio=%hhu current_prio=%hhu\n",
 //				__func__, __LINE__, i++, profile_prio, prio);
 #endif
+				if (prio >= profile_prio) {
+					prio = profile_prio;
+					p = head;
+				}
 			};
 		}
 		if (p)
@@ -280,12 +282,10 @@ int		zap(zap_opt_t *opt)
 		&& 0 == (r = zap_init(opt, &zap2))
 		&& 0 == (r = zap_init(opt, &zap3)))
 	{
-			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		if (0 == (r = zap_profile_manager_init(zap1))
 			&& 0 == (r = zap_profile_manager_init(zap2))
 			&& 0 == (r = zap_profile_manager_init(zap3)))
 		{
-			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 			while (r == 0) {
 				r = zap_handler(zap1);
 				r = zap_handler(zap2);
@@ -294,13 +294,11 @@ int		zap(zap_opt_t *opt)
 		}
 		if (r == -1)
 		{
-			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 			zap_deinit(&zap1);
 			zap_deinit(&zap2);
 			zap_deinit(&zap3);
 		}
 		r = -1;
 	}
-	fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 	return (r);
 }

@@ -71,6 +71,104 @@ void		zap_abs_avance(zap_t *zap)
 #endif
 }
 
+void		zap_map_vision_avance(zap_t *zap)
+{
+	// if enabled
+	// if in
+	// int rel_dir = ((zap->vision.coord.__dir - zap->coord.__dir) % 16);
+	// TODO ??
+	// player is in vision, we can move current_case 
+	fprintf(stderr, "%s: [BEFORE UPDATE] abs dir=%d vision_dir=%d current_pos=%d\n", __func__, zap->coord.__dir, zap->vision.coord.__dir,
+			zap->vision.current_pos);
+	if (zap->coord.__dir == zap->vision.coord.__dir) {
+		// front
+		int rel_x = (zap->vision.coord.__x - zap->coord.__x) % zap->max_x;
+		int rel_y = (zap->vision.coord.__y - zap->coord.__y) % zap->max_y;
+		int row = 0;
+		// 1. check if going out (need to have the vision.size)
+		for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
+			if (vision_row_right[i] <= (int)zap->vision.current_pos
+				&& vision_row_left[i] >= (int)zap->vision.current_pos) {
+				row = i;
+			}
+		}
+		fprintf(stderr, "%s: rel_x=%d rel_y=%d found row=%d\n", __func__, rel_x, rel_y, row);
+		if (zap->vision.current_pos + (vision_row_size[row+1] - 1) > zap->vision.size) {
+			zap->vision.in = false;
+		}
+		else {
+			zap->vision.current_pos += (uint32_t)(vision_row_size[row+1] - 1);
+			fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
+		}
+	}
+	else if (zap->coord.__dir == (zap->vision.coord.__dir - 4) % 16) {
+		// left
+		// 1. check if going out : if current pos is on the left vision (0, 1, 4, 9, ...)
+		// 2. easy : current_pos--;
+		int row = 0;
+		for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
+			if (vision_row_left[i] == (int)zap->vision.current_pos) {
+				row = i;
+			}
+		}
+		if (row) {
+			zap->vision.in = false;
+			fprintf(stderr, "update vision : goin out\n");
+		}
+		else  {
+			zap->vision.current_pos--;
+			fprintf(stderr, "update vision current pos = %d\n", zap->vision.current_pos);
+		}
+	}
+	else if (zap->coord.__dir == (zap->vision.coord.__dir + 4) % 16) {
+		// right
+		// 1. check if going out : if current pos is on the right vision (0, 3, 8, ...)
+		// 2. easy : current_pos++;
+		int row = 0;
+		for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
+			if (vision_row_right[i] == (int)zap->vision.current_pos) {
+				row = i;
+			}
+		}
+		if (row) {
+			zap->vision.in = false;
+			fprintf(stderr, "update vision : goin out\n");
+		}
+		else  {
+			zap->vision.current_pos++;
+			fprintf(stderr, "update vision current pos = %d\n", zap->vision.current_pos);
+		}
+	}
+	else {
+		// TODO
+		// back
+		// 1. check if going out : if current pos is on the right vision (0, 3, 8, ...) OR
+		//			the left vision (0, 1, 4, 9, ...)
+		// 2. with current_pos determine the operande
+	}
+}
+
+// update current_case of vision_s struct
+int		zap_vision_avance(zap_t *zap)
+{
+	int r = 0;
+	if (zap->vision.enabled == true)
+	{
+		if (zap->vision.in == true) {
+			fprintf(stderr, "%s ============= \n", __func__);
+			zap_map_vision_avance(zap);
+			fprintf(stderr, "%s ============= \n", __func__);
+		}
+		else {
+			if (zap->vision.requested == false) {
+				r = zap_queue_cmd_prepend(zap, CMD_VOIR);
+				zap->vision.requested = true;
+			}
+		}
+	}
+	return (r);
+}
+
 /*
 void		zap_abs_droite(zap_t *zap)
 {
@@ -251,6 +349,64 @@ int	zap_move_rel_coord(zap_t *zap, int tgt_x, int tgt_y)
 			tgt_x--;
 		}
 	}
+	return (r);
+}
+
+int	zap_parse_voir(zap_t *zap)
+{
+	int r = 0;
+	int i = 0;
+	int c = 0;
+	case_t cse = {0};
+
+
+	if (zap->com.buf_rx[i++] != '{') {
+		r = -1;
+	}
+	while (r == 0 && i < zap->com.buf_rx_len)
+	{
+		/* ' ' are ignored */
+		/* , move to next case */
+		/* } close */
+		if (zap->com.buf_rx[i] == '}') {
+			break ;
+		}
+		else if (zap->com.buf_rx[i] == ',') {
+			c++;
+			i++;
+		}
+		else if (zap->com.buf_rx[i] == ' ') {
+			i++;;
+		}
+		else
+		{
+			bool b = false;
+			for (int j = 0; j < R_MAX && b == false; j++) {
+				if (!memcmp(ressources[j].name,
+					(char*)&zap->com.buf_rx[i],
+						ressources[j].len)) {
+				b = true;
+#ifdef VERBOSE
+	 			fprintf(stderr, "%s:%d adding case[%d] resources=%s\n", __func__, __LINE__,
+				c, ressources[j].name);
+#endif
+					i += ressources[j].len;
+					zap->vision.c[c].content[j]++;
+				}
+			}
+			if (b == false) {
+				// can be anything
+				fprintf(stderr, "%s:%d error unknow word buf={%s}\n", __func__, __LINE__, (char*)&zap->com.buf_rx[i]);
+				r = -1;
+			}
+		}
+	}
+#ifdef VERBOSE
+	 fprintf(stderr, "%s:%d i=%d len=%d r=%d\n", __func__, __LINE__, i, zap->com.buf_rx_len, r);
+#endif
+	zap->vision.requested = false;
+	zap->vision.size = c + 1;
+	zap->vision.current_pos = 0;
 	return (r);
 }
 
