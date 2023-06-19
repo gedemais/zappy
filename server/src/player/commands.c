@@ -108,7 +108,7 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	p->inventory[loot]--;
 	tile->content[loot]++;
-	return (send_response ? send_ko(env, p) : ERR_NONE);
+	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
