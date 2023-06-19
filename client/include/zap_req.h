@@ -200,5 +200,7 @@ typedef struct com_s
 
 
 req_t	*zap_get_req(zap_t *zap);
+int	zap_req_timeout(zap_t *zap);
+
 #endif
 

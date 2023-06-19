@@ -28,9 +28,10 @@ int	tst1_init_cb(profile_t *profile)
 	return (r);
 }
 
+// TODO FIX IT
 int connect_nbr_cb(req_t *req)
 {
-	req->profile->state = TST1_MOVE_REL_COORD;
+	req->profile->state = TST1_MOVE_D_COORDINATE;
 	return (0);
 }
 
@@ -97,6 +98,7 @@ int 	tst1_fsm(profile_t *profile)
 			break ;
 		}
 		case (TST1_INIT_ID): {
+			// TODO FIX IT
 			r = zap_queue_profile_cmd(profile->zap, profile, connect_nbr_cb, CMD_CONNECT_NBR);
 			profile->state = TST1_WAIT;
 			break ;

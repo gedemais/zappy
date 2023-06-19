@@ -65,6 +65,7 @@ typedef struct broadcast_s
 #define MAX_BROADCAST 32
 typedef struct team_s
 {
+// TODO : team shared map
 	broadcast_t		broadcast_history[MAX_BROADCAST];
 #define TEAM_MAX_PLAYERS 6
 	player_t	players[TEAM_MAX_PLAYERS];

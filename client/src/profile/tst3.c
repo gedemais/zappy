@@ -15,7 +15,7 @@ uint8_t	tst3_prio(profile_t *profile)
 	(void)profile;
 	// TODO LMA : we have to determine the numlber of food we have, for that we shall
 	// get the server time in some way and decrement the food accordingly
-	// if we have food it return 200
+	// if we have food it return 120
 	if (profile->zap->player.stuff.content[R_NOURRITURE] > 30) {
 		return (120);
 	}

@@ -204,10 +204,10 @@ void		zap_abs_gauche(zap_t *zap);
 void		zap_abs_avance(zap_t *zap);
 
 int		zap_vision_avance(zap_t *zap);
-int	zap_parse_voir(zap_t *zap);
-int	zap_cmd_prepend_take_food(zap_t *zap, uint8_t food_id);
-int	zap_parse_inventaire(zap_t *zap);
+int		zap_parse_voir(zap_t *zap);
+int		zap_cmd_prepend_take_food(zap_t *zap, uint8_t food_id);
+int		zap_parse_inventaire(zap_t *zap);
 
-int	zap_move_coordinate(zap_t *zap, coord_t *coord);
+int		zap_move_coordinate(zap_t *zap, coord_t *coord);
 
 #endif

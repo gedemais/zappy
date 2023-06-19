@@ -5,16 +5,11 @@
 
 #include <errno.h>
 
-// TODO launch 3 instance of zap and call 3 receive, 3 loop etc
-// fix server input with a setsockopt TCP_NODELAY
-
 enum zap_r {
 	ZAP_OK,
 	ZAP_ERROR,
 	PARSE_ERROR
 };
-
-// TODO : team shared map
 
 static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 {
@@ -117,7 +112,7 @@ static int zap_init(zap_opt_t *opt, zap_t **zap)
 		r = ZAP_ERROR;
 	}
 	if (r == ZAP_OK) {
-		fprintf(stderr, "opt->Winstances=%d\n", opt->instance);
+		fprintf(stderr, "opt->instances=%d\n", opt->instance);
 		for (int j = 0 ; j < opt->instance ; j++) {
 			INIT_LIST_HEAD(&(*zap)[j].com.req_free);
 			INIT_LIST_HEAD(&(*zap)[j].com.req_queue);
@@ -164,8 +159,9 @@ int	zap_receive_response(zap_t *zap)
 	
 	// TODO parse input
 	// TODO search in req for this response ? is response may be unsequential ?
-	// fprintf(stderr, "%s:%d buf={%s}\n", __func__, __LINE__, zap->com.buf_rx);
 	if (list_empty(&zap->com.req_send)) {
+
+		// TODO drift ?
 		fprintf(stderr, "buf_rx={%s} len=%d response received while req_send empty, fatal, abort\n", zap->com.buf_rx, zap->com.buf_rx_len);
 		exit(1);
 	}
@@ -183,39 +179,10 @@ int	zap_receive_response(zap_t *zap)
 // all possible first char of response are determined 
 // So response are check against {"ok", "ko", "{", "mort", ...}
 // At each response is associated a callback :
-// 	- All response string  point to zap_receive_response
+// 	- All response string  point to zap_receive_response where we assume its the response of the last sended cmd
 //		(ko, "{", ...)
 // 	- All server message string point directly to specific callback
 //		(mort, deplacement, ...)
-
-int	zap_req_timeout(zap_t *zap)
-{
-	int r = 0;
-	if (!list_empty(&zap->com.req_send))
-	{
-		req_t *req = list_first_entry(&zap->com.req_send, req_t, lst);
-		struct timeval tv = {0};
-		gettimeofday(&tv, NULL);
-//		if (tv.tv_sec > req->tv_send.tv_sec+2) {
-		if (tv.tv_sec > req->tv_send.tv_sec+2 ||
-		(tv.tv_sec > req->tv_send.tv_sec && ((tv.tv_usec > req->tv_send.tv_usec) && (tv.tv_usec - req->tv_send.tv_usec > 1000000)))) {
-			fprintf(stderr, "%s TIMEOUT no response [ID=%d] req=%p t_send=%ld.%ld curt=%ld.%ld resend\n", __func__,
-						zap->player.id, req, req->tv_send.tv_sec, req->tv_send.tv_usec, tv.tv_sec, tv.tv_usec);
-			// while (1)
-			// 	;
-			gettimeofday(&req->tv_send, NULL);
-			req->buf[req->io_len] = '\n';
-			if ((r = send(zap->com.socket, req->buf, req->io_len + 1, 0)) >= 0) {
-				r = 0;
-			}
-			else {
-				perror("send");
-			}
-			
-		}
-	}
-	return (r);
-}
 
 int	zap_handler_input(zap_t *zap)
 {
@@ -244,10 +211,10 @@ int	zap_handler_input(zap_t *zap)
 	}
 	if (r > 0)
 	{
-		r = 0;
-		// TODO if subsequent parsing fail the req shall not be removed
+		// TODO LMA need rework
 		bool found = false;
-		// test first char of response
+		// memcmp first char of responses global array
+		// if ok execute response_cb accordingly
 		for (int i = 0 ; i < RSP_MAX ; i++) {
 			if (!memcmp(response[i].name, com->buf_rx, response[i].len))
 			{
@@ -274,6 +241,7 @@ int	zap_handler_input(zap_t *zap)
 	}
 	return (r);
 }
+
 int	zap_handler(zap_t *zap)
 {
 	int 			r = 0;

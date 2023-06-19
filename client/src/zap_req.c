@@ -2,7 +2,7 @@
 #include "zap_req.h"
 #include <errno.h>
 
-/* req_send -> req_free */
+/* alloc (remove elem from req_free) */
 req_t	*zap_get_req(zap_t *zap)
 {
 	req_t *req = NULL;
@@ -29,7 +29,7 @@ void	zap_free_reqlst(zap_t *zap, req_t *req)
 	fprintf(stderr, "%s: [ID=%d] FREE req=%p lst=%p into req_free=%p\n", __func__, zap->player.id, req, &req->lst, &zap->com.req_free);
 #endif
 }
-/* req_free -> req_queue */
+/* req_free -> req_queue (WARNING do not remove from req_free) */
 void	zap_queue_reqlst(zap_t *zap, req_t *req)
 {
 	// list_del(&req->lst); // delete it from req_free
@@ -213,6 +213,35 @@ int	zap_send_req(zap_t *zap)
 		}
 		else {
 			perror("send");
+		}
+	}
+	return (r);
+}
+
+int	zap_req_timeout(zap_t *zap)
+{
+	int r = 0;
+	if (!list_empty(&zap->com.req_send))
+	{
+		req_t *req = list_first_entry(&zap->com.req_send, req_t, lst);
+		struct timeval tv = {0};
+		gettimeofday(&tv, NULL);
+//		if (tv.tv_sec > req->tv_send.tv_sec+2) {
+		if (tv.tv_sec > req->tv_send.tv_sec+2 ||
+		(tv.tv_sec > req->tv_send.tv_sec && ((tv.tv_usec > req->tv_send.tv_usec) && (tv.tv_usec - req->tv_send.tv_usec > 1000000)))) {
+			fprintf(stderr, "%s TIMEOUT no response [ID=%d] req=%p t_send=%ld.%ld curt=%ld.%ld resend\n", __func__,
+						zap->player.id, req, req->tv_send.tv_sec, req->tv_send.tv_usec, tv.tv_sec, tv.tv_usec);
+			// while (1)
+			// 	;
+			gettimeofday(&req->tv_send, NULL);
+			req->buf[req->io_len] = '\n';
+			if ((r = send(zap->com.socket, req->buf, req->io_len + 1, 0)) >= 0) {
+				r = 0;
+			}
+			else {
+				perror("send");
+			}
+			
 		}
 	}
 	return (r);
