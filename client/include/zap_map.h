@@ -81,6 +81,7 @@ enum			e_ressources
 	R_PHIRAS,
 	R_THYSTAME,
 	R_PLAYER,
+	R_TTL,
 	R_MAX
 };
 
@@ -106,6 +107,7 @@ static loot_t	ressources[R_MAX] =
 	[R_THYSTAME]	= {.name = "thystame", .len = strlen("thystame"), .type = R_THYSTAME},
 	[R_PLAYER]	= {.name = "player", .len = strlen("player"), .type = R_PLAYER},
 	[R_NOURRITURE]	= {.name = "nourriture", .len = strlen("nourriture"), .type = R_NOURRITURE},
+	[R_TTL]	= {.name = "ttl", .len = strlen("ttl"), .type = R_TTL},
 };
 
 /* 16 cardinal points from 0 to 15, start with N */
@@ -139,8 +141,8 @@ enum direction_e
 
 typedef struct point_s
 {
-	uint32_t 	pos_x;
-	uint32_t	pos_y;
+	int32_t 	pos_x;
+	int32_t	pos_y;
 	// case_t		*map;
 } point_t;
 
@@ -203,5 +205,9 @@ void		zap_abs_avance(zap_t *zap);
 
 int		zap_vision_avance(zap_t *zap);
 int	zap_parse_voir(zap_t *zap);
+int	zap_cmd_prepend_take_food(zap_t *zap, uint8_t food_id);
+int	zap_parse_inventaire(zap_t *zap);
+
+int	zap_move_coordinate(zap_t *zap, coord_t *coord);
 
 #endif

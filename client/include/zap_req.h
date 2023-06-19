@@ -130,6 +130,7 @@ typedef struct req_s
 	uint32_t	io_len;
 	uint8_t		state;
 	uint8_t		cmd_id;
+	struct timeval 	tv_send;
 	list_t		lst;
 } req_t;
 
@@ -166,7 +167,8 @@ int	zap_send_req(zap_t *zap);
 ** it set the corresponding entry of cmd_id of profile cb
 ** profile that want to use req->cb should use it
 */
-int	zap_queue_profile_cmd(zap_t *zap, profile_t *profile, uint8_t cmd_id);
+//int	zap_queue_profile_cmd(zap_t *zap, profile_t *profile, uint8_t cmd_id);
+int	zap_queue_profile_cmd(zap_t *zap, profile_t *profile, zap_req_cb_t cb, uint8_t cmd_id);
 
 // void	zap_com_req_free(zap_t *zap, req_t *req);
 // req_t	*zap_com_req_alloc(zap_t *zap);

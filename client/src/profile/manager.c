@@ -1,6 +1,7 @@
 
 #include "tst1.h"
 #include "tst2.h"
+#include "tst3.h"
 
 // TODO stop init avec malloc et
 // do a 1 client per program runnin' only on stack
@@ -27,6 +28,16 @@ profile_t profile_tst2 =
 	.fsm_cb = tst2_fsm
 };
 
+profile_t profile_tst3 =
+{
+	.name = "tst3",
+	.status = 0,
+	.zap = NULL,
+	.lst = { (void*)LIST_POISON1, (void*)LIST_POISON2 },
+	.init_cb = tst3_init_cb,
+	.prio_cb = tst3_prio,
+	.fsm_cb = tst3_fsm
+};
 
 int	zap_profile_manager_init(zap_t *zap)
 {
@@ -42,5 +53,12 @@ int	zap_profile_manager_init(zap_t *zap)
 	p->zap = zap;
 	list_add_tail(&p->lst, &zap->profile);
 	r = p->init_cb(p);
+
+	p = malloc(sizeof(profile_t));
+	memcpy(p, &profile_tst3, sizeof(profile_t));
+	p->zap = zap;
+	list_add_tail(&p->lst, &zap->profile);
+	r = p->init_cb(p);
+
 	return (r);
 }

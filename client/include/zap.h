@@ -53,12 +53,12 @@ typedef struct	player_s
 
 typedef struct broadcast_s
 {
-	char		*msg;
+	char		msg[ZAP_RX_BUFSIZE];
 	uint32_t	msg_len;
 	uint8_t		sender_id;
 	uint32_t	direction;
 	// TODO add parsed msg specific info (id, object, ...)
-	list_t *lst;
+	list_t 		lst;
 } broadcast_t;
 
 typedef struct team_s
@@ -76,8 +76,9 @@ typedef struct zap_s
 	player_t player;
 	vision_t vision;
 	coord_t coord;
-	uint32_t max_x;
-	uint32_t max_y;
+	int32_t max_x;
+	int32_t max_y;
+	uint32_t time;
 	list_t 	profile;
 	com_t 	com;
 	uint8_t	status;

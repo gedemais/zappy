@@ -105,38 +105,32 @@ void		zap_map_vision_avance(zap_t *zap)
 		// left
 		// 1. check if going out : if current pos is on the left vision (0, 1, 4, 9, ...)
 		// 2. easy : current_pos--;
-		int row = 0;
 		for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
 			if (vision_row_left[i] == (int)zap->vision.current_pos) {
-				row = i;
+				zap->vision.in = false;
+				fprintf(stderr, "update vision : goin out\n");
+				break ;
 			}
 		}
-		if (row) {
-			zap->vision.in = false;
-			fprintf(stderr, "update vision : goin out\n");
-		}
-		else  {
+		if (zap->vision.in) {
 			zap->vision.current_pos--;
-			fprintf(stderr, "update vision current pos = %d\n", zap->vision.current_pos);
+			fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
 		}
 	}
 	else if (zap->coord.__dir == (zap->vision.coord.__dir + 4) % 16) {
 		// right
 		// 1. check if going out : if current pos is on the right vision (0, 3, 8, ...)
 		// 2. easy : current_pos++;
-		int row = 0;
 		for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
 			if (vision_row_right[i] == (int)zap->vision.current_pos) {
-				row = i;
+				zap->vision.in = false;
+				fprintf(stderr, "update vision : goin out\n");
+				break ;
 			}
 		}
-		if (row) {
-			zap->vision.in = false;
-			fprintf(stderr, "update vision : goin out\n");
-		}
-		else  {
+		if (zap->vision.in) {
 			zap->vision.current_pos++;
-			fprintf(stderr, "update vision current pos = %d\n", zap->vision.current_pos);
+			fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
 		}
 	}
 	else {
@@ -160,10 +154,10 @@ int		zap_vision_avance(zap_t *zap)
 			fprintf(stderr, "%s ============= \n", __func__);
 		}
 		else {
-			if (zap->vision.requested == false) {
-				r = zap_queue_cmd_prepend(zap, CMD_VOIR);
-				zap->vision.requested = true;
-			}
+			// if (zap->vision.requested == false) {
+			// 	r = zap_queue_cmd_prepend(zap, CMD_VOIR);
+			// 	zap->vision.requested = true;
+			// }
 		}
 	}
 	return (r);
@@ -310,6 +304,101 @@ int	zap_move_direction(zap_t *zap, uint8_t dir)
 	return (r);
 }
 
+// TODO !! move is completely broken, need to fix it before continuing
+// boradcast stuff
+
+#define ABS(expr) ((expr) < 0 ? ((expr) * -1) : (expr))
+
+int	zap_move_coordinate(zap_t *zap, coord_t *coord)
+{
+	int r = 0;
+	int d_x =  coord->__x - zap->coord.__x;
+	fprintf(stderr, "d_x=%d\n", d_x);
+	if (ABS(d_x) > zap->max_x / 2) {
+		int s = (d_x < 0 ? 1 : -1);
+		d_x = zap->max_x - ABS(d_x);
+		// d_x = zap->max_x - (ABS(d_x) - ((zap->max_x/2) - ABS(d_x)));
+		d_x *= s;
+	}
+	fprintf(stderr, "d_x=%d\n", d_x);
+	int d_y =  coord->__y - zap->coord.__y;
+	fprintf(stderr, "d_y=%d\n", d_y);
+	if (ABS(d_y) > zap->max_y / 2) {
+		int s = (d_y < 0 ? 1 : -1);
+		d_y = zap->max_y - ABS(d_y);
+		// d_y = zap->max_y - (ABS(d_y) - ((zap->max_y/2) - ABS(d_y)));
+		d_y *= s;
+	}
+	fprintf(stderr, "d_y=%d\n", d_y);
+	int32_t pos_x = zap->coord.__x;
+	int32_t pos_y = zap->coord.__y;
+	int dir = zap->coord.__dir;
+	zap_queue_cmd(zap, CMD_VOIR);
+	zap_queue_cmd(zap, CMD_INVENTAIRE);
+	while (!!d_x || !!d_y) {
+		fprintf(stderr, "%s: current = {%d %d} currentdir=%d tgt={%d %d} head={%d %d} head_dir=%d d_x=%d d_y=%d\n",
+				__func__,
+				zap->coord.__x,
+				zap->coord.__y,
+				zap->coord.__dir,
+				coord->__x,
+				coord->__y,
+				pos_x,
+				pos_y ,
+				dir,
+				d_x, d_y
+				);
+		if ( d_x > 0 && dir == CARDINAL_E) {
+			zap_queue_cmd(zap, CMD_AVANCE);
+			d_x--;
+		}
+		else if ( d_y > 0 && dir == CARDINAL_S) {
+			zap_queue_cmd(zap, CMD_AVANCE);
+			d_y--;
+		}
+		else if ( d_x < 0 && dir == CARDINAL_W) {
+			zap_queue_cmd(zap, CMD_AVANCE);
+			d_x++;
+		}
+		else if ( d_y < 0 && dir == CARDINAL_N) {
+			zap_queue_cmd(zap, CMD_AVANCE);
+			d_y++;
+		}
+		else {
+			// Do one rotation
+			int right = ((dir + 4) % 16);
+			int left = ((dir - 4) < 0 ? 12 : dir - 4);
+			if ((d_y > 0 && right == CARDINAL_S)
+				|| (d_x > 0 && right == CARDINAL_E)
+				|| (d_y < 0 && right == CARDINAL_N)
+				|| (d_x < 0 && right == CARDINAL_W))
+			{
+				dir = right;
+				zap_queue_cmd(zap, CMD_DROITE);
+				zap_queue_cmd(zap, CMD_VOIR);
+				
+			}
+			else if ((d_y > 0  && left == CARDINAL_S)
+				|| (d_x > 0  && left == CARDINAL_E)
+				|| (d_y < 0  && left == CARDINAL_N)
+				|| (d_x < 0 && pos_x != coord->__x && left == CARDINAL_W))
+			{
+				dir = left;
+				zap_queue_cmd(zap, CMD_GAUCHE);
+				zap_queue_cmd(zap, CMD_VOIR);
+				
+			}
+			else if (!!d_y || !!d_x) {
+				// reverse 
+				dir = (dir + 8) % 16;
+				zap_queue_cmd(zap, CMD_GAUCHE);
+				zap_queue_cmd(zap, CMD_GAUCHE);
+			}
+		}
+	}
+	return (r);
+}
+
 int	zap_move_rel_coord(zap_t *zap, int tgt_x, int tgt_y)
 {
 	int r = 0;
@@ -408,5 +497,89 @@ int	zap_parse_voir(zap_t *zap)
 	zap->vision.size = c + 1;
 	zap->vision.current_pos = 0;
 	return (r);
+}
+
+int	zap_parse_inventaire(zap_t *zap)
+{
+	int r = 0;
+	int i = 0;
+	int c = 0;
+	case_t cse = {0};
+
+
+	if (zap->com.buf_rx[i++] != '{') {
+		r = -1;
+	}
+	while (r == 0 && i < zap->com.buf_rx_len)
+	{
+		/* ' ' are ignored */
+		/* , move to next case */
+		/* } close */
+		if (zap->com.buf_rx[i] == '}') {
+			break ;
+		}
+		else if (zap->com.buf_rx[i] == ',') {
+			c++;
+			i++;
+		}
+		else if (zap->com.buf_rx[i] == ' ') {
+			i++;;
+		}
+		else
+		{
+			bool b = false;
+			for (int j = 0; j < R_MAX && b == false; j++) {
+				/* cmp with ressources array */
+				/* if match atoi the number after ' '*/
+				if (!memcmp(ressources[j].name,
+					(char*)&zap->com.buf_rx[i],
+						ressources[j].len)) {
+				b = true;
+					i += ressources[j].len;
+					if ((char)zap->com.buf_rx[i] != ' ') {
+						return (-1);
+					}
+					int nb = atoi((char*)&zap->com.buf_rx[i]);
+#ifdef VERBOSE
+	 			fprintf(stderr, "%s:%d set %d of resources=%s\n", __func__, __LINE__,
+				nb, ressources[j].name);
+#endif
+					zap->player.stuff.content[j] = nb;
+					while (i < ZAP_RX_BUFSIZE && zap->com.buf_rx[i] != ',' && zap->com.buf_rx[i] != '}') {
+						i++;
+					}
+				}
+			}
+			if (b == false) {
+				// can be anything
+				fprintf(stderr, "%s:%d error unknow word buf={%s}\n", __func__, __LINE__, (char*)&zap->com.buf_rx[i]);
+				r = -1;
+			}
+		}
+	}
+#ifdef VERBOSE
+	 fprintf(stderr, "%s:%d i=%d len=%d r=%d\n", __func__, __LINE__, i, zap->com.buf_rx_len, r);
+#endif
+	zap->vision.requested = false;
+	zap->vision.size = c + 1;
+	zap->vision.current_pos = 0;
+	return (r);
+}
+
+int	zap_cmd_prepend_take_food(zap_t *zap, uint8_t food_id)
+{
+	req_t *req = zap_get_req(zap);
+	if (!req || food_id > R_MAX) {
+		return -1;
+	}
+	req->zap = zap;
+	req->profile = NULL;
+	req->cb = NULL;
+	INIT_LIST_HEAD(&req->lst);
+	req->io_len = snprintf(req->buf, ZAP_RX_BUFSIZE, "%s %s", commands[CMD_PREND].name, ressources[food_id].name);
+	req->cmd_id = CMD_PREND;
+	zap_queue_reqlst_prepend(zap, req);
+	zap->vision.c[zap->vision.current_pos].content[food_id]--;
+	return (0);
 }
 

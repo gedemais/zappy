@@ -60,15 +60,15 @@ static t_inventaire	requirements[LVL_MAX] = {
 
 typedef struct	s_zappy_player
 {
-	int				pos_x; // Absolute position, unused ?
-	int				pos_y; // Absolute position, unused ?
+	int			pos_x; // Absolute position, unused ?
+	int			pos_y; // Absolute position, unused ?
 	uint8_t			id, lvl;
 	uint8_t			vision_map[VISION_MAP_MAX * CASE_ELEMENTS];
 	uint8_t			relative_pos; // Relative position for vision map
 	uint8_t			relative_orientation; // Relative orientation, always start at 0 when see
-									  // The absolute orientation is not known of client
-									  // At each "see" the orientation is back to 0
-	t_inventaire	inventaire[PLAYER_MAX];
+			  // The absolute orientation is not known of client
+			  // At each "see" the orientation is back to 0
+	t_inventaire		inventaire[PLAYER_MAX];
 	uint8_t			broadcast;	// permet d'identifier le type de broadcast a effectuer
 	uint8_t			broadcast_msg[CLIENT_BUFSIZE]; // stock le broadcast_msg
 	bool			alive;
@@ -76,9 +76,9 @@ typedef struct	s_zappy_player
 
 typedef struct	s_zappy_team
 {
-	uint8_t			size; // team max size
-	uint8_t			nb_player; // current nb of players
-	char			*name;
+	uint8_t		size; // team max size
+	uint8_t		nb_player; // current nb of players
+	char		*name;
 	t_inventaire	inventaire;
 }				t_team;
 

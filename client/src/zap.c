@@ -15,6 +15,14 @@ enum zap_r {
 
 // TODO : team shared map
 
+void		update_player_food(zap_t *zap)
+{
+	if (zap->time > 126) {
+		zap->player.stuff.content[R_NOURRITURE]--;
+		fprintf(stderr, "decrementing one food -> %d\n", zap->player.stuff.content[R_NOURRITURE]);
+		zap->time -= 126;
+	}
+}
 
 static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 {
@@ -27,8 +35,8 @@ static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
     	}
 	if (r == 0)
 	{
-		int flag = 1;
-		r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
+		// int flag = 1;
+		// r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
     		com->sockaddr.sin_family = AF_INET;
     		com->sockaddr.sin_port = htons(opt->server_port);
     		if (inet_pton(AF_INET, opt->server_addr, &com->sockaddr.sin_addr) <= 0) {
@@ -60,9 +68,9 @@ static int	zap_com_zappy_connect(zap_opt_t *opt, zap_t *zap)
 		&& send(com->socket, opt->team_name, strlen(opt->team_name), 0) > 0
 		&& (len = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0)) > 0)
 	{
-		fprintf(stderr, "%s:%d r=%d buf=%s\n", __func__, __LINE__, r, com->buf_rx);
+	fprintf(stderr, "%s:%d r=%d buf={%s}\n", __func__, __LINE__, r, com->buf_rx);
 		/* parse "\n%d %d"*/
-		if (atoi((char*)com->buf_rx) < 1) {
+		if ((zap->player.id = atoi((char*)com->buf_rx)) < 1) {
 			fprintf(stderr, "%s: max client connection reached\n", __func__);
 			r = -1;
 		}
@@ -99,10 +107,10 @@ int	zap_com_connect(zap_opt_t *opt, zap_t *zap)
 	{
 		com_t *com = &zap->com;
 		r = zap_com_tcp_connect(opt, zap);
-		fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
 		if (r == 0) {
 			r = zap_com_zappy_connect(opt, zap);
-			fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
+			fprintf(stderr, "%s:%d r=%d player_id=%d\n\n", __func__, __LINE__, r,
+			zap->player.id);
 		}
 	}
 	return (r);
@@ -130,6 +138,8 @@ i, &(*zap)->com.req[i], &(*zap)->com.req[i].lst, &(*zap)->com.req_free);
 		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		INIT_LIST_HEAD(&(*zap)->profile);
 		(*zap)->vision.enabled = true;
+		INIT_LIST_HEAD(&(*zap)->team.broadcast_history);
+		(*zap)->time = 0;
 	}
 	return (r);
 }
@@ -151,8 +161,9 @@ int	zap_receive_response(zap_t *zap)
 	
 	// TODO parse input
 	// TODO search in req for this response ? is response may be unsequential ?
+	// fprintf(stderr, "%s:%d buf={%s}\n", __func__, __LINE__, zap->com.buf_rx);
 	if (list_empty(&zap->com.req_send)) {
-		fprintf(stderr, "response received while req_send empty, fatal, abort\n");
+		fprintf(stderr, "buf_rx={%s} len=%d response received while req_send empty, fatal, abort\n", zap->com.buf_rx, zap->com.buf_rx_len);
 		exit(1);
 	}
 	else
@@ -165,14 +176,14 @@ int	zap_receive_response(zap_t *zap)
 	return (r);
 }
 
-			// parse input :
-			// all possible first char of response are determined 
-			// So response are check against {"ok", "ko", "{", "mort", ...}
-			// At each response is associated a callback :
-			// 	- All response string  point to zap_receive_response
-			//		(ko, "{", ...)
-			// 	- All server message string point directly to specific callback
-			//		(mort, deplacement, ...)
+// parse input :
+// all possible first char of response are determined 
+// So response are check against {"ok", "ko", "{", "mort", ...}
+// At each response is associated a callback :
+// 	- All response string  point to zap_receive_response
+//		(ko, "{", ...)
+// 	- All server message string point directly to specific callback
+//		(mort, deplacement, ...)
 int	zap_handler(zap_t *zap)
 {
 	int 			r = 0;
@@ -201,29 +212,30 @@ int	zap_handler(zap_t *zap)
 		// TODO if subsequent parsing fail the req shall not be removed
 		bool found = false;
 		for (int i = 0 ; i < RSP_MAX ; i++) {
-			if (!memcmp(response[i].name, com->buf_rx, response[i].len)) // test first char of response
+			if (!memcmp(response[i].name, com->buf_rx, response[i].len)
+				|| (com->buf_rx[0] >= '0' && com->buf_rx[0] <= '9'))
+// test first char of response
 			{
 				r = response[i].cb(zap); // execute associated handler (zap_receive_response, mort, ..)
 				found = true;
 			}
 		}
 		if (!found) {
-			fprintf(stderr, "%s:%d ERROR received %d unknow byte\n",
-				__func__, __LINE__, com->buf_rx_len);
-			r = -1;
+			if (com->buf_rx[0] >= '0' && com->buf_rx[0] <= '9') {
+				zap->player.id = atoi(com->buf_rx);
+			}
+			else {
+				fprintf(stderr, "%s:%d ERROR received %d unknow byte\n",
+					__func__, __LINE__, com->buf_rx_len);
+				r = -1;
+			}
 		}
-		r = 0;
 	}
-#ifdef VERBOSE
-	else {
-		// no DATA
-		// fprintf(stderr, "%s:%d nothing\n", __func__, __LINE__);
-	}
-#endif
 	if (r == 0)
 	{
 		// once rsp is received, zap_cb executed, profile_cb executed
 		// search for the next profile to run
+		update_player_food(zap);
 		uint8_t prio = 255;
 		profile_t *p = NULL;
 		int i = 0;
@@ -241,6 +253,10 @@ int	zap_handler(zap_t *zap)
 					p = head;
 				}
 			};
+#ifdef VERBOSE
+			//fprintf(stderr, "%s: select profile {%s} current state = %d\n", __func__,
+			//	p->name, p->state);
+#endif
 		}
 		if (p)
 		{
@@ -251,6 +267,9 @@ int	zap_handler(zap_t *zap)
 	{
 		char buf[1024] = {0};
 		// now check if we can send some req
+		if (list_empty(&com->req_queue)) {
+			// fprintf(stderr, "%s: req_list empty\n", __func__);
+		}
 		while (!list_empty(&com->req_queue) // while there is request to send
 			&& com->count_send < MAX_SEND_REQ) // and we have space in req_send
 		{

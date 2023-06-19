@@ -8,7 +8,11 @@ uint8_t	tst2_prio(profile_t *profile)
 	// fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 	profile->zap->vision.enabled = true;
 	if (profile->zap->vision.c[profile->zap->vision.current_pos].content[R_NOURRITURE] > 0) {
-		fprintf(stderr, "%s: food detected, taking control\n", __func__);
+		// if (profile->zap->player.stuff.content[R_NOURRITURE] > 50) {
+		// fprintf(stderr, "%s: food detected, but dont need it\n", __func__);
+		// 	return ((uint8_t)255);
+		// }
+		fprintf(stderr, "%s: [ID=%d] food detected, taking control, current food = %d\n", __func__, profile->zap->player.id, profile->zap->player.stuff.content[R_NOURRITURE]);
 		return (128);
 	}
 	return ((uint8_t)255);
@@ -44,19 +48,7 @@ int 	tst2_fsm(profile_t *profile)
 		case (TST2_LOOT_FOOD):
 			fprintf(stderr, "%s:%d taking all food in case0=%d\n", __func__, __LINE__, profile->zap->vision.c[0].content[R_NOURRITURE]);
 			for (int i = 0 ; i < profile->zap->vision.c[profile->zap->vision.current_pos].content[R_NOURRITURE] ; i++) {
-				req_t *req = zap_get_req(profile->zap);
-				if (!req) {
-					return -1;
-				}
-				req->zap = profile->zap;
-				req->profile = NULL;
-				req->cb = NULL;
-				INIT_LIST_HEAD(&req->lst);
-				req->io_len = strlen("prend nourriture");
-				memcpy(req->buf, "prend nourriture", req->io_len);
-				req->cmd_id = CMD_PREND;
-				zap_queue_reqlst_prepend(profile->zap, req);
-				profile->zap->vision.c[profile->zap->vision.current_pos].content[R_NOURRITURE]--;
+				zap_cmd_prepend_take_food(profile->zap, R_NOURRITURE);
 			}
 			break ;
 		case (TST2_WAIT):
