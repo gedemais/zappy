@@ -49,6 +49,7 @@ typedef struct	player_s
 	stuff_t			stuff;
 	uint32_t		ttl;
 	uint8_t			id;
+	bool alive;
 }		player_t;
 
 typedef struct broadcast_s
@@ -61,11 +62,14 @@ typedef struct broadcast_s
 	list_t 		lst;
 } broadcast_t;
 
+#define MAX_BROADCAST 32
 typedef struct team_s
 {
-	list_t		broadcast_history;
+	broadcast_t		broadcast_history[MAX_BROADCAST];
 #define TEAM_MAX_PLAYERS 6
 	player_t	players[TEAM_MAX_PLAYERS];
+	list_t	broadcast;
+	list_t	broadcast_free;
 } team_t;
 
 

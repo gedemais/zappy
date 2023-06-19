@@ -7,12 +7,14 @@ static int zap_getopt_help(zap_opt_t *opt, char *arg);
 static int zap_getopt_ip(zap_opt_t *opt, char *arg);
 static int zap_getopt_port(zap_opt_t *opt, char *arg);
 static int zap_getopt_team(zap_opt_t *opt, char *arg);
+static int zap_getopt_instance(zap_opt_t *opt, char *arg);
 
 static char 	*flags_list[] = {
 	"--help",
 	"-h",
 	"-p",
 	"-n",
+	"-i",
 	NULL
 };
 
@@ -21,6 +23,7 @@ static char	*flags_help[] = {
 	"-h <ip> : ip of the server",
 	"-p <port> : port of the server",
 	"-n <team name> : name of the client team",
+	"-i <instance nb> : nb of instance (default=1 max=6)",
 	NULL
 };
 
@@ -29,6 +32,7 @@ static int	(*flags_handler[])(zap_opt_t *, char *) = {
 	zap_getopt_ip,
 	zap_getopt_port,
 	zap_getopt_team,
+	zap_getopt_instance,
 	NULL
 };
 
@@ -57,6 +61,15 @@ static int zap_getopt_team(zap_opt_t *opt, char *arg)
 	opt->team_name = arg;
 	return (2);
 }
+static int zap_getopt_instance(zap_opt_t *opt, char *arg)
+{
+	opt->instance = atoi(arg);
+	if (opt->instance <= 0)
+		opt->instance = 1;
+	if (opt->instance > 6)
+		opt->instance = 6;
+	return (2);
+}
 
 int	zap_getopt(int ac, char **av, zap_opt_t *opt)
 {
@@ -64,6 +77,7 @@ int	zap_getopt(int ac, char **av, zap_opt_t *opt)
 	int 	r = 0;
 	bool	b = true;
 
+	opt->instance = 3;
 	while (i < ac && r == 0)
 	{
 		b = false;

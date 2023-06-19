@@ -62,3 +62,31 @@ int	zap_profile_manager_init(zap_t *zap)
 
 	return (r);
 }
+
+profile_t	*zap_get_next_profile(zap_t *zap)
+{
+	int i = 0;
+	uint8_t prio = 255;
+	profile_t *p = NULL;
+
+	if (!list_empty(&zap->profile))
+	{
+		profile_t *head = NULL;
+		list_for_each_entry(head, &zap->profile, lst) {
+			uint8_t profile_prio = head->prio_cb(head);
+			if (prio >= profile_prio) {
+				prio = profile_prio;
+				p = head;
+			}
+#ifdef EXTRAVERBOSE
+	fprintf(stderr, "%s:%d profile(%d] prio=%hhu current_prio=%hhu\n",
+		__func__, __LINE__, i++, profile_prio, prio);
+#endif
+		}
+	}
+#ifdef EXTRAVERBOSE
+	fprintf(stderr, "%s: select profile {%s} current state = %d\n", __func__,
+		p->name, p->state);
+#endif
+	return (p);
+}

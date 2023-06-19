@@ -163,16 +163,26 @@ int	zap_recv_req(zap_t *zap, req_t *req)
 	else
 	{
 #ifdef VERBOSE
-		fprintf(stderr, "%s: [ID=%d] RECV command={%s} send at usec=%8ld noprofile , execute global cb\n", __func__,
+		struct timeval tv = {0};
+		gettimeofday(&tv, NULL);
+		fprintf(stderr, "%s: [ID=%d] RECV req=%p command={%s} send_at=%ld.%ld recv_at=%ld.%ld noprofile , execute global cb\n", __func__,
 			zap->player.id,
+			req,
 			commands[req->cmd_id].name,
-			req->tv_send.tv_usec);
+			req->tv_send.tv_sec,
+			req->tv_send.tv_usec,
+			tv.tv_sec,
+			tv.tv_usec
+			);
 #endif
 		r = commands[req->cmd_id].cb(req);
 		if (r == 0 && req->profile) {
 			r = req->cb(req); // execute cb associated with req 
 		}
-		zap_free_reqlst(zap, req);
+		if (r == 0) {
+			// failed command stay in send list
+			zap_free_reqlst(zap, req);
+		}
 	}
 	return (r);
 }

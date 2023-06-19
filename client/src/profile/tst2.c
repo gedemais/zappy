@@ -4,15 +4,7 @@
 
 uint8_t	tst2_prio(profile_t *profile)
 {
-	(void)profile;
-	// fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-	profile->zap->vision.enabled = true;
 	if (profile->zap->vision.c[profile->zap->vision.current_pos].content[R_NOURRITURE] > 0) {
-		// if (profile->zap->player.stuff.content[R_NOURRITURE] > 50) {
-		// fprintf(stderr, "%s: food detected, but dont need it\n", __func__);
-		// 	return ((uint8_t)255);
-		// }
-		fprintf(stderr, "%s: [ID=%d] food detected, taking control, current food = %d\n", __func__, profile->zap->player.id, profile->zap->player.stuff.content[R_NOURRITURE]);
 		return (128);
 	}
 	return ((uint8_t)255);
@@ -46,13 +38,15 @@ int 	tst2_fsm(profile_t *profile)
 	switch (profile->state)
 	{
 		case (TST2_LOOT_FOOD):
-			fprintf(stderr, "%s:%d taking all food in case0=%d\n", __func__, __LINE__, profile->zap->vision.c[0].content[R_NOURRITURE]);
+#ifdef VERBOSE
+			fprintf(stderr, "%s: [ID=%d] food current=%d\n", __func__, profile->zap->player.id, profile->zap->player.stuff.content[R_NOURRITURE]);
+			fprintf(stderr, "%s:%d taking all food in case[%d]=%d\n", __func__, __LINE__, profile->zap->vision.current_pos, profile->zap->vision.c[0].content[R_NOURRITURE]);
+#endif
 			for (int i = 0 ; i < profile->zap->vision.c[profile->zap->vision.current_pos].content[R_NOURRITURE] ; i++) {
 				zap_cmd_prepend_take_food(profile->zap, R_NOURRITURE);
 			}
 			break ;
 		case (TST2_WAIT):
-			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		default:
 			break ;
 	}

@@ -4,5 +4,6 @@ INCS_NAME=\
 		zap.h \
 		zap_map.h \
 		zap_req.h \
+		manager.h \
 		list.h \
 		zap_callback.h
