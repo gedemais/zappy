@@ -15,6 +15,8 @@ uint8_t	check_broadcast_history(profile_t *profile)
 		{
 			if (!(profile->zap->player.id & 0x1)) { // even
 				if (!memcmp(bc->msg, message, i)) {
+					// TODO get the target dir and comput the target pos in d_x, d_y,
+					// then directly send broadcast, if the next broadcast received dir=0 its OK
 					fprintf(stderr, "CHECK_BROADCAST [ID=%d] detect partner bc={id=%d dir=%d msg={%s}}\n", profile->zap->player.id, bc->id, bc->dir, bc->msg);
 					profile->state = TST3_YELL;
 					prio = 127;
@@ -99,10 +101,12 @@ int 	tst3_fsm(profile_t *profile)
 				int tgt = (profile->zap->player.id + 1) % 6;
 				char message[256] = {0};
 				if (!(profile->zap->player.id & 0x1)) { // even
+					fprintf(stderr, "BROADCAST even send \n");
 					int i = snprintf(message, 256, "player_id %d come",
 							tgt);
 				}
 				else { // odd
+					fprintf(stderr, "BROADCAST odd send \n");
 					int i = snprintf(message, 256, "player_id %d comin",
 							profile->zap->player.id);
 				}

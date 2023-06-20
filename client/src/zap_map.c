@@ -70,90 +70,6 @@ void		zap_abs_avance(zap_t *zap)
 #endif
 }
 
-/*
-//static void		zap_map_vision_avance(zap_t *zap)
-//{
-//	(void)zap;
-//	// if enabled
-//	// if in
-//	// int rel_dir = ((zap->vision.coord.__dir - zap->coord.__dir) % 16);
-//	// TODO ??
-//	// player is in vision, we can move current_case 
-//	//fprintf(stderr, "%s: [BEFORE UPDATE] abs dir=%d vision_dir=%d current_pos=%d\n", __func__, zap->coord.__dir, zap->vision.coord.__dir,
-//	//		zap->vision.current_pos);
-//	//if (zap->coord.__dir == zap->vision.coord.__dir) {
-//	//	// front
-//	//	int rel_x = (zap->vision.coord.__x - zap->coord.__x) % zap->max_x;
-//	//	int rel_y = (zap->vision.coord.__y - zap->coord.__y) % zap->max_y;
-//	//	int row = 0;
-//	//	// 1. check if going out (need to have the vision.size)
-//	//	for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
-//	//		if (vision_row_right[i] <= (int)zap->vision.current_pos
-//	//			&& vision_row_left[i] >= (int)zap->vision.current_pos) {
-//	//			row = i;
-//	//		}
-//	//	}
-//	//	fprintf(stderr, "%s: rel_x=%d rel_y=%d found row=%d\n", __func__, rel_x, rel_y, row);
-//	//	if (zap->vision.current_pos + (vision_row_size[row+1] - 1) > zap->vision.size) {
-//	//		zap->vision.in = false;
-//	//	}
-//	//	else {
-//	//		zap->vision.current_pos += (uint32_t)(vision_row_size[row+1] - 1);
-//	//		fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
-//	//	}
-//	//}
-//	//else if (zap->coord.__dir == (zap->vision.coord.__dir - 4) % 16) {
-//	//	// left
-//	//	// 1. check if going out : if current pos is on the left vision (0, 1, 4, 9, ...)
-//	//	// 2. easy : current_pos--;
-//	//	for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
-//	//		if (vision_row_left[i] == (int)zap->vision.current_pos) {
-//	//			zap->vision.in = false;
-//	//			fprintf(stderr, "update vision : goin out\n");
-//	//			break ;
-//	//		}
-//	//	}
-//	//	if (zap->vision.in) {
-//	//		zap->vision.current_pos--;
-//	//		fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
-//	//	}
-//	//}
-//	//else if (zap->coord.__dir == (zap->vision.coord.__dir + 4) % 16) {
-//	//	// right
-//	//	// 1. check if going out : if current pos is on the right vision (0, 3, 8, ...)
-//	//	// 2. easy : current_pos++;
-//	//	for (int i = 0 ; i < MAX_VISION_ROW ; i++) {
-//	//		if (vision_row_right[i] == (int)zap->vision.current_pos) {
-//	//			zap->vision.in = false;
-//	//			fprintf(stderr, "update vision : goin out\n");
-//	//			break ;
-//	//		}
-//	//	}
-//	//	if (zap->vision.in) {
-//	//		zap->vision.current_pos++;
-//	//		fprintf(stderr, "[AFTER UPDATE] vision current_pos %d\n", zap->vision.current_pos);
-//	//	}
-//	//}
-//	//else {
-//	//	// TODO
-//	//	// back
-//	//	// 1. check if going out : if current pos is on the right vision (0, 3, 8, ...) OR
-//	//	//			the left vision (0, 1, 4, 9, ...)
-//	//	// 2. with current_pos determine the operande
-//	//}
-//}
-//
-int		zap_vision_avance(zap_t *zap)
-{
-	int r = 0;
-	if (zap->vision.enabled == true)
-	{
-		fprintf(stderr, "%s: vision enabled\n", __func__);
-	}
-	return (r);
-}
-
-*/
 #define ABS(expr) ((expr) < 0 ? ((expr) * -1) : (expr))
 
 int	zap_move_d_coordinate(zap_t *zap, int d_x, int d_y)
@@ -192,45 +108,23 @@ int	zap_move_d_coordinate(zap_t *zap, int d_x, int d_y)
 	return (r);
 }
 
-int	zap_move_coordinate(zap_t *zap, coord_t *coord)
+void	zap_move_d_alternate_coordinate(zap_t *zap, int d_x, int d_y)
 {
-	int r = 0;
-	int d_x =  coord->__x - zap->coord.__x;
-	fprintf(stderr, "d_x=%d\n", d_x);
-	if (ABS(d_x) > zap->max_x / 2) {
-		int s = (d_x < 0 ? 1 : -1);
-		d_x = zap->max_x - ABS(d_x);
-		// d_x = zap->max_x - (ABS(d_x) - ((zap->max_x/2) - ABS(d_x)));
-		d_x *= s;
-	}
-	fprintf(stderr, "d_x=%d\n", d_x);
-	int d_y =  coord->__y - zap->coord.__y;
-	fprintf(stderr, "d_y=%d\n", d_y);
-	if (ABS(d_y) > zap->max_y / 2) {
-		int s = (d_y < 0 ? 1 : -1);
-		d_y = zap->max_y - ABS(d_y);
-		// d_y = zap->max_y - (ABS(d_y) - ((zap->max_y/2) - ABS(d_y)));
-		d_y *= s;
-	}
-	fprintf(stderr, "d_y=%d\n", d_y);
-	int32_t pos_x = zap->coord.__x;
-	int32_t pos_y = zap->coord.__y;
+
 	int dir = zap->coord.__dir;
 	zap_queue_cmd(zap, CMD_VOIR);
 	zap_queue_cmd(zap, CMD_INVENTAIRE);
 	while (!!d_x || !!d_y) {
-		fprintf(stderr, "%s: current = {%d %d} currentdir=%d tgt={%d %d} head={%d %d} head_dir=%d d_x=%d d_y=%d\n",
+#ifdef VERBOSE
+		fprintf(stderr, "%s: MOVE current = {%d %d} currentdir=%d head_dir=%d d_x=%d d_y=%d\n",
 				__func__,
 				zap->coord.__x,
 				zap->coord.__y,
 				zap->coord.__dir,
-				coord->__x,
-				coord->__y,
-				pos_x,
-				pos_y ,
 				dir,
 				d_x, d_y
 				);
+#endif
 		if ( d_x > 0 && dir == CARDINAL_E) {
 			zap_queue_cmd(zap, CMD_AVANCE);
 			d_x--;
@@ -264,7 +158,7 @@ int	zap_move_coordinate(zap_t *zap, coord_t *coord)
 			else if ((d_y > 0  && left == CARDINAL_S)
 				|| (d_x > 0  && left == CARDINAL_E)
 				|| (d_y < 0  && left == CARDINAL_N)
-				|| (d_x < 0 && pos_x != coord->__x && left == CARDINAL_W))
+				|| (d_x < 0 && left == CARDINAL_W))
 			{
 				dir = left;
 				zap_queue_cmd(zap, CMD_GAUCHE);
@@ -279,23 +173,6 @@ int	zap_move_coordinate(zap_t *zap, coord_t *coord)
 			}
 		}
 	}
-	return (r);
-}
-
-case_t *zap_map_get_new_case(zap_t *zap)
-{
-	case_t *cs = list_last_entry(&zap->vision.cs, case_t, lst);
-	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
-	// memset(cs->content, 0, R_MAX);
-	fprintf(stderr, "%s: [ID=%d] alloc case=%p lst=%p lst->next=%p lst->prev=%p\n", __func__, zap->player.id, cs, &cs->lst,
-					cs->lst.next, cs->lst.prev);
-	memset(cs->content, 0, R_MAX);
-	list_del(&cs->lst);
-	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
-	list_add(&cs->lst, &zap->vision.cs);
-	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
-	// list_add_tail(&cs->lst, &zap->vision.cs);
-	return (cs);
 }
 
 void	get_coord_dxy(zap_t *zap, int dx, int dy, coord_t *coord)
@@ -329,6 +206,51 @@ void	get_coord_dxy(zap_t *zap, int dx, int dy, coord_t *coord)
 		coord->__y += 30;
 	fprintf(stderr, "dx=%d dy=%d coordx=%d coordy=%d\n", dx, dy, coord->__x, coord->__y);
 }
+
+void	get_dxy_coord(zap_t *zap, int *d_x, int *d_y, coord_t *coord)
+{
+	*d_x =  coord->__x - zap->coord.__x;
+	if (ABS(*d_x) > zap->max_x / 2) {
+		int s = (*d_x < 0 ? 1 : -1);
+		*d_x = zap->max_x - ABS(*d_x);
+		// d_x = zap->max_x - (ABS(d_x) - ((zap->max_x/2) - ABS(d_x)));
+		*d_x *= s;
+	}
+	*d_y =  coord->__y - zap->coord.__y;
+	if (ABS(*d_y) > zap->max_y / 2) {
+		int s = (*d_y < 0 ? 1 : -1);
+		*d_y = zap->max_y - ABS(*d_y);
+		// d_y = zap->max_y - (ABS(d_y) - ((zap->max_y/2) - ABS(d_y)));
+		*d_y *= s;
+	}
+}
+
+int	zap_move_coordinate(zap_t *zap, coord_t *coord)
+{
+	int r = 0;
+	int d_x = 0;
+	int d_y = 0;
+	get_dxy_coord(zap, &d_x, &d_y, coord);
+	zap_move_d_alternate_coordinate(zap, d_x, d_y);
+	return (r);
+}
+
+case_t *zap_map_get_new_case(zap_t *zap)
+{
+	case_t *cs = list_last_entry(&zap->vision.cs, case_t, lst);
+	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
+	// memset(cs->content, 0, R_MAX);
+	fprintf(stderr, "%s: [ID=%d] alloc case=%p lst=%p lst->next=%p lst->prev=%p\n", __func__, zap->player.id, cs, &cs->lst,
+					cs->lst.next, cs->lst.prev);
+	memset(cs->content, 0, R_MAX);
+	list_del(&cs->lst);
+	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
+	list_add(&cs->lst, &zap->vision.cs);
+	fprintf(stderr, "%s: [ID=%d] alloc case=%p\n", __func__, zap->player.id, cs);
+	// list_add_tail(&cs->lst, &zap->vision.cs);
+	return (cs);
+}
+
 static void	get_coord_zappy_relpos(zap_t *zap, int relpos, coord_t *coord)
 {
 	int dx = 0, dy = 0;

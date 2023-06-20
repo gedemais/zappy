@@ -56,6 +56,26 @@ void	zap_send_reqlst(zap_t *zap, req_t *req)
 #endif
 }
 
+static req_t *zap_build_queue_cmd(zap_t *zap, uint8_t cmd_id)
+{
+	req_t *req = zap_get_req(zap);
+#ifdef VERBOSE
+		fprintf(stderr, "%s: [ID=%d] QUEUE req=%p noprofile command={%s}\n", __func__,
+			zap->player.id, req,
+			commands[cmd_id].name);
+#endif
+	if (req)
+	{
+		req->zap = zap;
+		req->profile = NULL;
+		req->cb = commands[cmd_id].cb;
+		memcpy(req->buf, commands[cmd_id].name, commands[cmd_id].len);
+		req->io_len = commands[cmd_id].len;
+		req->cmd_id = cmd_id;
+	}
+	return (req);
+}
+
 int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id)
 {
 	req_t *req = NULL;
@@ -71,19 +91,10 @@ int	zap_queue_cmd(zap_t *zap, uint8_t cmd_id)
 	}
 	else
 	{
-		req = zap_get_req(zap);
-#ifdef VERBOSE
-		fprintf(stderr, "%s: [ID=%d] QUEUE req=%p noprofile command={%s}\n", __func__,
-			zap->player.id, req,
-			commands[cmd_id].name);
-#endif
-		req->zap = zap;
-		req->profile = NULL;
-		req->cb = commands[cmd_id].cb;
-		memcpy(req->buf, commands[cmd_id].name, commands[cmd_id].len);
-		req->io_len = commands[cmd_id].len;
-		req->cmd_id = cmd_id;
-		zap_queue_reqlst(zap, req);
+		req = zap_build_queue_cmd(zap, cmd_id);
+		if (req) {
+			zap_queue_reqlst(zap, req);
+		}
 	}
 	return (r);
 }
@@ -102,20 +113,10 @@ int	zap_queue_cmd_prepend(zap_t *zap, uint8_t cmd_id)
 	}
 	else
 	{
-		req = zap_get_req(zap);
-#ifdef VERBOSE
-		fprintf(stderr, "%s: [ID=%d] ==PREPEND=== WARNING QUEUE move req=%p noprofile command={%s}\n", __func__,
-			zap->player.id, req,
-			commands[cmd_id].name);
-#endif
-		req->zap = zap;
-		req->profile = NULL;
-		req->cb = commands[cmd_id].cb;
-		bzero(req->buf, 255);
-		memcpy(req->buf, commands[cmd_id].name, commands[cmd_id].len);
-		req->io_len = commands[cmd_id].len;
-		req->cmd_id = cmd_id;
-		zap_queue_reqlst_prepend(zap, req);
+		req = zap_build_queue_cmd(zap, cmd_id);
+		if (req) {
+			zap_queue_reqlst_prepend(zap, req);
+		}
 	}
 	return (r);
 }

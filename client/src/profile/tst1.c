@@ -49,14 +49,7 @@ int 	tst1_fsm(profile_t *profile)
 			gettimeofday(&ctx->t_send, NULL);
 			ctx->d_x *= (((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
 			get_coord_dxy(profile->zap, ctx->d_x, ctx->d_y, &ctx->tgt);
-			// ctx->tgt.__x = ( (int)profile->zap->coord.__x + (int)ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1) ) % profile->zap->max_x;
-			// if (ctx->tgt.__x < 0)
-			// 	ctx->tgt.__x = profile->zap->max_x + ctx->tgt.__x;
-			// // ctx->tgt.__x += (ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
-			// ctx->tgt.__y = ( profile->zap->coord.__y + ctx->d_y ) % profile->zap->max_y;
-			// if (ctx->tgt.__y < 0)
-			// 	ctx->tgt.__y = profile->zap->max_y + ctx->tgt.__y;
-			fprintf(stderr, "%s: MOVE current={%d %d}->%d tgt={%d %d}\n",
+			fprintf(stderr, "%s: MOVE_D current={%d %d}->%d tgt={%d %d}\n",
 				__func__,
 				profile->zap->coord.__x, profile->zap->coord.__y, profile->zap->coord.__dir,
 				ctx->tgt.__x, ctx->tgt.__y);
@@ -70,14 +63,6 @@ int 	tst1_fsm(profile_t *profile)
 			gettimeofday(&ctx->t_send, NULL);
 			ctx->d_x *= (((ctx->t_send.tv_sec & 0x1) ? -1 : 1));
 			get_coord_dxy(profile->zap, ctx->d_x, ctx->d_y, &ctx->tgt);
-			//memcpy(&ctx->tgt, &profile->zap->coord, sizeof(coord_t));
-			//ctx->tgt.__x = ( (int)profile->zap->coord.__x + (int)ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1) ) % profile->zap->max_x;
-			//if (ctx->tgt.__x < 0)
-			//	ctx->tgt.__x = profile->zap->max_x + ctx->tgt.__x;
-			//// ctx->tgt.__x += (ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
-			//ctx->tgt.__y = ( profile->zap->coord.__y + ctx->d_y ) % profile->zap->max_y;
-			//if (ctx->tgt.__y < 0)
-			//	ctx->tgt.__y = profile->zap->max_y + ctx->tgt.__y;
 #ifdef VERBOSE
 			fprintf(stderr, " [ID=%d] TST1_MOVE: position: d_x=%d d_y=%d current={%d %d} tgt={%d %d} time=%ld\n",
 					profile->zap->player.id,
@@ -96,24 +81,17 @@ int 	tst1_fsm(profile_t *profile)
 		case (TST1_CHECK_COORDINATE): {
 			struct timeval tv = {0};
 			gettimeofday(&tv, NULL);
-			// enable timeout on this ? TODO 
-			//fprintf(stderr, "[ID=%d] TST1_CHECK t=%8ld\n",
-			//		profile->zap->player.id,
-			//		tv.tv_usec);
-			//if (tv.tv_sec - 4 > ctx->t_send.tv_sec) {
-			//	fprintf(stderr, "[ID=%d] TIMEOUT tgt={%d %d} current={%d %d}\n",
-			//		profile->zap->player.id,
-			//		ctx->tgt.__x,
-			//		ctx->tgt.__y,
-			//		profile->zap->coord.__x,
-			//		profile->zap->coord.__y);
-			//	while (1)
-			//		;
-			//	// profile->state = TST1_MOVE_D_COORDINATE;
-			//}
+			if (tv.tv_sec - 4 > ctx->t_send.tv_sec) {
+				fprintf(stderr, "[ID=%d] TIMEOUT tgt={%d %d} current={%d %d}\n",
+					profile->zap->player.id,
+					ctx->tgt.__x,
+					ctx->tgt.__y,
+					profile->zap->coord.__x,
+					profile->zap->coord.__y);
+			}
 			if ((ctx->tgt.__x == profile->zap->coord.__x)
 				&& (ctx->tgt.__y == profile->zap->coord.__y)) {
-				profile->state = TST1_MOVE_D_COORDINATE;
+				profile->state = (!(tv.tv_sec & 0x1) ? TST1_MOVE_D_COORDINATE : TST1_MOVE_COORDINATE);
 #ifdef VERBOSE
 				fprintf(stderr, "[ID=%d] TST1_CHECK MATCH\n",
 					profile->zap->player.id);

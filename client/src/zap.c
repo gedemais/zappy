@@ -1,5 +1,4 @@
 #include "zap.h"
-#include "tst1.h"
 #include "zap_getopt.h"
 #include "manager.h"
 
@@ -112,7 +111,6 @@ int	zap_com_connect(zap_opt_t *opt, zap_t *zap)
 	}
 	return (r);
 }
-
 
 static int zap_init(zap_opt_t *opt, zap_t **zap)
 {
