@@ -21,8 +21,8 @@ int	tst1_init_cb(profile_t *profile)
 		// profile->state = TST1_INIT_ID;
 		profile->state = TST1_MOVE_D_COORDINATE;
 
-		tst1_ctx->d_x=1;
-		tst1_ctx->d_y=2;
+		tst1_ctx->d_x=2;
+		tst1_ctx->d_y=1;
 		memset(&tst1_ctx->tgt, 0, sizeof(coord_t));
 	}
 	return (r);
@@ -45,15 +45,39 @@ int 	tst1_fsm(profile_t *profile)
 	{
 
 		case (TST1_MOVE_D_COORDINATE): {
+			// OPTIONAL : CALCULATE NEXT POSITION 
 			gettimeofday(&ctx->t_send, NULL);
-			memcpy(&ctx->tgt, &profile->zap->coord, sizeof(coord_t));
-			ctx->tgt.__x = ( (int)profile->zap->coord.__x + (int)ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1) ) % profile->zap->max_x;
-			if (ctx->tgt.__x < 0)
-				ctx->tgt.__x = profile->zap->max_x + ctx->tgt.__x;
-			// ctx->tgt.__x += (ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
-			ctx->tgt.__y = ( profile->zap->coord.__y + ctx->d_y ) % profile->zap->max_y;
-			if (ctx->tgt.__y < 0)
-				ctx->tgt.__y = profile->zap->max_y + ctx->tgt.__y;
+			ctx->d_x *= (((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
+			get_coord_dxy(profile->zap, ctx->d_x, ctx->d_y, &ctx->tgt);
+			// ctx->tgt.__x = ( (int)profile->zap->coord.__x + (int)ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1) ) % profile->zap->max_x;
+			// if (ctx->tgt.__x < 0)
+			// 	ctx->tgt.__x = profile->zap->max_x + ctx->tgt.__x;
+			// // ctx->tgt.__x += (ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
+			// ctx->tgt.__y = ( profile->zap->coord.__y + ctx->d_y ) % profile->zap->max_y;
+			// if (ctx->tgt.__y < 0)
+			// 	ctx->tgt.__y = profile->zap->max_y + ctx->tgt.__y;
+			fprintf(stderr, "%s: MOVE current={%d %d}->%d tgt={%d %d}\n",
+				__func__,
+				profile->zap->coord.__x, profile->zap->coord.__y, profile->zap->coord.__dir,
+				ctx->tgt.__x, ctx->tgt.__y);
+
+			r = zap_move_d_coordinate(profile->zap, (int)ctx->d_x, (int)ctx->d_y);
+			profile->state = TST1_CHECK_COORDINATE;
+			break ;
+		}
+		case (TST1_MOVE_COORDINATE): {
+			r = zap_queue_cmd(profile->zap, CMD_INVENTAIRE);
+			gettimeofday(&ctx->t_send, NULL);
+			ctx->d_x *= (((ctx->t_send.tv_sec & 0x1) ? -1 : 1));
+			get_coord_dxy(profile->zap, ctx->d_x, ctx->d_y, &ctx->tgt);
+			//memcpy(&ctx->tgt, &profile->zap->coord, sizeof(coord_t));
+			//ctx->tgt.__x = ( (int)profile->zap->coord.__x + (int)ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1) ) % profile->zap->max_x;
+			//if (ctx->tgt.__x < 0)
+			//	ctx->tgt.__x = profile->zap->max_x + ctx->tgt.__x;
+			//// ctx->tgt.__x += (ctx->d_x * ((ctx->t_send.tv_usec & 0x1) ? -1 : 1));
+			//ctx->tgt.__y = ( profile->zap->coord.__y + ctx->d_y ) % profile->zap->max_y;
+			//if (ctx->tgt.__y < 0)
+			//	ctx->tgt.__y = profile->zap->max_y + ctx->tgt.__y;
 #ifdef VERBOSE
 			fprintf(stderr, " [ID=%d] TST1_MOVE: position: d_x=%d d_y=%d current={%d %d} tgt={%d %d} time=%ld\n",
 					profile->zap->player.id,

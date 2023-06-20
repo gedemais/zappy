@@ -50,14 +50,14 @@ static int	vision_row_left[] = {
 };
 static int	vision_row_right[] = {
 		0,
-		1,
-		4,
-		9,
-		16,
-		25,
-		36,
-		49,
-		64
+		3,
+		8,
+		15,
+		22,
+		33,
+		46,
+		61,
+		78
 };
 static int	vision_row_center[] = {
 		0,
@@ -84,11 +84,6 @@ enum			e_ressources
 	R_TTL,
 	R_MAX
 };
-
-typedef struct case_s
-{
-	uint8_t content[R_MAX];
-} case_t;
 
 typedef struct		loot_s
 {
@@ -146,11 +141,6 @@ typedef struct point_s
 	// case_t		*map;
 } point_t;
 
-typedef struct vec_s
-{
-	uint32_t	direction;
-	point_t		p;
-} vec_t;
 
 typedef struct coord_s
 {
@@ -165,26 +155,27 @@ typedef struct coord_s
 	*/
 	uint8_t	abs_direction; // abs direction if we're starting looking at the north
 	point_t abs_pos; // pos_x and pos_y are updated from the pos 0:0 with CARDINAL_N direction
-			// should be usefull to calculate pos from direction
+			// should be usefull to calculate abs pos for team
+// lazy alias
 #define __dir abs_direction
 #define __x abs_pos.pos_x
 #define __y abs_pos.pos_y
 } coord_t;
 
-// Ok alors un move de loot doit respecter ces regles :
-// 1. Ne doit pas sortir de la vision map
-// 2. Toujours aller au plus rapide
-// 3. Si mouvement a faire > vision_size, relance un voir
+typedef struct case_s
+{
+	uint8_t content[R_MAX]; // idx is the enum resource_e
+	coord_t coord; // coordinate of the case
+	list_t lst;
+} case_t;
+
 typedef struct vision_s
 {
-	// maybe should rename
-	coord_t		coord; // snapshot of the position at the time of see
 	uint32_t	size; // current vision size
-#define MAX_VISION_SIZE 127
+#define MAX_VISION_SIZE 128
 	uint32_t	current_pos;
-	case_t		*current_case;
 	case_t		c[MAX_VISION_SIZE];
-	bool		in;
+	list_t		cs; // the list cs contain MAX_VISION_SIZE, it rotating with function zap_map_get_new_case
 	bool		enabled;
 	bool		requested;
 } vision_t;
@@ -209,5 +200,8 @@ int		zap_cmd_prepend_take_food(zap_t *zap, uint8_t food_id);
 int		zap_parse_inventaire(zap_t *zap);
 
 int		zap_move_coordinate(zap_t *zap, coord_t *coord);
+int	zap_move_d_coordinate(zap_t *zap, int d_x, int d_y);
+void	get_coord_dxy(zap_t *zap, int dx, int dy, coord_t *coord);
+int	zap_move_d_coordinate(zap_t *zap, int d_x, int d_y);
 
 #endif

@@ -56,9 +56,9 @@ typedef struct broadcast_s
 {
 	char		msg[ZAP_RX_BUFSIZE];
 	uint32_t	msg_len;
-	uint8_t		sender_id;
-	uint32_t	direction;
+	uint32_t	dir;
 	// TODO add parsed msg specific info (id, object, ...)
+	int		id;
 	list_t 		lst;
 } broadcast_t;
 
@@ -66,11 +66,11 @@ typedef struct broadcast_s
 typedef struct team_s
 {
 // TODO : team shared map
-	broadcast_t		broadcast_history[MAX_BROADCAST];
+	char		*name;
+	broadcast_t	broadcast_history[MAX_BROADCAST];
 #define TEAM_MAX_PLAYERS 6
 	player_t	players[TEAM_MAX_PLAYERS];
-	list_t	broadcast;
-	list_t	broadcast_free;
+	list_t		broadcast;
 } team_t;
 
 

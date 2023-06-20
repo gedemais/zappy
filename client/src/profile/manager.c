@@ -3,9 +3,8 @@
 #include "tst2.h"
 #include "tst3.h"
 
-// TODO stop init avec malloc et
-// do a 1 client per program runnin' only on stack
-
+// profile see + move random in vision map
+// TODO make parameters available here
 profile_t profile_tst1 =
 {
 	.name = "tst1",
@@ -17,6 +16,8 @@ profile_t profile_tst1 =
 	.fsm_cb = tst1_fsm
 };
 
+// nourriture watcher, if any nourriture is present at current pos take all
+// it prepend its commands in req_queue TODO: if send_req > 0 (stacked cmd) current pos is not accurate
 profile_t profile_tst2 =
 {
 	.name = "tst2",
@@ -28,6 +29,8 @@ profile_t profile_tst2 =
 	.fsm_cb = tst2_fsm
 };
 
+// broadcast, if we have enough nourriture send broadcast
+// + look in broadcast history and recognize player n - 1 / n + 1
 profile_t profile_tst3 =
 {
 	.name = "tst3",
@@ -63,6 +66,8 @@ int	zap_profile_manager_init(zap_t *zap)
 	return (r);
 }
 
+// execute all prio cb
+// called at the sequencer level
 profile_t	*zap_get_next_profile(zap_t *zap)
 {
 	int i = 0;

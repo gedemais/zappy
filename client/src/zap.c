@@ -22,8 +22,8 @@ static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
     	}
 	if (r == 0)
 	{
-		// int flag = 1;
-		// r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
+		int flag = 1;
+		r = setsockopt(com->socket, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
     		com->sockaddr.sin_family = AF_INET;
     		com->sockaddr.sin_port = htons(opt->server_port);
     		if (inet_pton(AF_INET, opt->server_addr, &com->sockaddr.sin_addr) <= 0) {
@@ -31,7 +31,6 @@ static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 			close(com->socket);
 			r = -1;
     		}
-		fprintf(stderr, "%s:%d r=%d\n", __func__, __LINE__, r);
 	}
 	if (r == 0)
 	{
@@ -55,7 +54,6 @@ static int	zap_com_zappy_connect(zap_opt_t *opt, zap_t *zap)
 		&& send(com->socket, opt->team_name, strlen(opt->team_name), 0) > 0
 		&& (len = recv(com->socket, com->buf_rx, ZAP_RX_BUFSIZE, 0)) > 0)
 	{
-	fprintf(stderr, "%s:%d r=%d buf={%s}\n", __func__, __LINE__, r, com->buf_rx);
 		/* parse "\n%d %d"*/
 		if ((zap->player.id = atoi((char*)com->buf_rx)) < 1) {
 			fprintf(stderr, "%s: max client connection reached\n", __func__);
@@ -96,8 +94,8 @@ int	zap_com_connect(zap_opt_t *opt, zap_t *zap)
 		r = zap_com_tcp_connect(opt, zap);
 		if (r == 0) {
 			r = zap_com_zappy_connect(opt, zap);
-			fprintf(stderr, "%s:%d r=%d player_id=%d\n\n", __func__, __LINE__, r,
-			zap->player.id);
+			fprintf(stderr, "%s:%d r=%d [ID=%d]\n\n", __func__, __LINE__, r,
+					zap->player.id);
 		}
 	}
 	return (r);
@@ -126,10 +124,23 @@ static int zap_init(zap_opt_t *opt, zap_t **zap)
 			r = zap_com_connect(opt, &(*zap)[j]);
 			fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 			INIT_LIST_HEAD(&(*zap)[j].profile);
+			(*zap)[j].team.name = opt->team_name;
 			INIT_LIST_HEAD(&(*zap)[j].team.broadcast);
-			INIT_LIST_HEAD(&(*zap)[j].team.broadcast_free);
 			for (int i = 0 ; i < MAX_BROADCAST ; i++) {
-				list_add_tail(&(*zap)[j].team.broadcast_history[i].lst, &(*zap)[j].team.broadcast_free);
+				fprintf(stderr, "INIT broadcast [%d]=%p lst=%p req_free=%p\n",
+				i, &(*zap)[j].team.broadcast_history[i], &(*zap)[j].team.broadcast_history[i].lst, &(*zap)[j].team.broadcast);
+				list_add_tail(&(*zap)[j].team.broadcast_history[i].lst, &(*zap)[j].team.broadcast);
+				bzero((*zap)[j].team.broadcast_history[i].msg , 255);
+				(*zap)[j].team.broadcast_history[i].msg_len = 0;
+				
+			}
+			INIT_LIST_HEAD(&(*zap)[j].vision.cs);
+			for (int i = 0 ; i < MAX_VISION_SIZE ; i++) {
+				memset((*zap)[j].vision.c[i].content, 0, R_MAX);
+				list_add_tail(&(*zap)[j].vision.c[i].lst, &(*zap)[j].vision.cs);
+				fprintf(stderr, "INIT vision case [%d]=%p lst=%p vision.cs=%p next=%p prev=%p\n",
+					i, &(*zap)[j].vision.c[i], &(*zap)[j].vision.c[i].lst, &(*zap)[j].vision.cs,
+					(*zap)[j].vision.c[i].lst.prev, (*zap)[j].vision.c[i].lst.next);
 			}
 			(*zap)[j].vision.enabled = true;
 			(*zap)[j].time = 0;

@@ -12,12 +12,10 @@ enum tst2_state_e
 
 typedef struct tst2_s
 {
-	uint32_t 	init_direction;
-	uint32_t 	init_pos_x;
-	uint32_t 	init_pos_y;
-	int		target_rel_coord_x; // set to 3 to move +3 on x axis
-	int		target_rel_coord_y;
-	uint32_t target_rel_pos; // for rel pos tests..
+	
+	coord_t coord_tgt;
+	case_t case_tgt;
+	case_t *case_p;
 } tst2_t;
 
 uint8_t	tst2_prio(profile_t *profile);

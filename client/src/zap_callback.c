@@ -12,14 +12,22 @@
 
 static broadcast_t *get_broadcast(zap_t *zap)
 {
-	return (list_empty(&zap->team.broadcast_free) ? NULL : list_first_entry(&zap->team.broadcast_free, broadcast_t ,lst));
+	broadcast_t *bc = list_last_entry(&zap->team.broadcast, broadcast_t, lst);
+	memset(bc->msg, 0, 255);
+	bc->msg_len = 0;
+	list_del(&bc->lst);
+	list_add(&bc->lst, &zap->team.broadcast);
+	fprintf(stderr, "%s: [ID=%d] alloc broadcast=%p\n", __func__, zap->player.id, bc);
+	// list_add_tail(&cs->lst, &zap->vision.cs);
+	return (bc);
 }
 
 int	zap_message_cb(zap_t *zap)
 {
 	broadcast_t *brd = get_broadcast(zap);
 	if (brd) {
-		brd->direction = atoi(&zap->com.buf_rx[7]);
+		list_del(&brd->lst);
+		brd->dir = atoi(&zap->com.buf_rx[7]);
 		int i = -1;
 		while (++i < ZAP_RX_BUFSIZE) {
 			if (zap->com.buf_rx[i] == ',') {
@@ -27,10 +35,21 @@ int	zap_message_cb(zap_t *zap)
 				break;
 			}
 		}
-		fprintf(stderr, "%s: [ID=%d] adding broadcast message to history direction=%d len=%d\n", __func__,
-		zap->player.id, brd->direction, zap->com.buf_rx_len - i);
+		if (i == ZAP_RX_BUFSIZE) {
+			fprintf(stderr, "[ERROR] [ID=%d]\n", zap->player.id);
+			return (-1);
+		}
 		memcpy(brd->msg, &zap->com.buf_rx[i], zap->com.buf_rx_len - (i+1));
+		if (!memcmp(brd->msg, "player_id", strlen("player_id"))) {
+			brd->id = atoi(&zap->com.buf_rx[i + strlen("player_id") + 1]);
+			i += strlen("player_id") + 1;
+		}
+		else {
+			brd->id = -1;
+		}
 		brd->msg_len = zap->com.buf_rx_len - (i+1);
+		fprintf(stderr, "%s: [ID=%d] adding broadcast message to history direction=%d len=%d src_id=%d\n", __func__,
+			zap->player.id, brd->dir, brd->msg_len, brd->id);
 		list_add_tail(&brd->lst, &zap->team.broadcast);
 	}
 	else {
@@ -96,20 +115,28 @@ int		zap_voir_cb(req_t *req)
 	zap_t *zap = req->zap;
 	int r = 0;
 
-	memset(zap->vision.c, 0, sizeof(zap->vision.c));
+	// memset(zap->vision.c, 0, sizeof(zap->vision.c));
 	if (zap_parse_voir(zap) == 0)
 	{
-	
-		for (uint32_t i = 0 ; i < req->zap->vision.size ; i++) {
-			fprintf(stderr, "%s: c[%d]={", __func__, i);;
+		case_t *cs = NULL;
+		int i = 0;
+		list_for_each_entry(cs, &req->zap->vision.cs, lst) {
+			fprintf(stderr, "%s: [ID=%d] c=%p cur_pos={%d %d} case_pos={%d %d} c[%d]= {", __func__, 
+					req->zap->player.id,
+					cs,
+					req->zap->coord.__x,
+					req->zap->coord.__y,
+					cs->coord.__x, cs->coord.__y, i++);;
 			for (int j = 0 ; j < R_MAX ; j++) {
-				fprintf(stderr, "%d ", (((uint8_t*)&req->zap->vision.c[i])[j]));;
+				fprintf(stderr, "%d ", (((uint8_t*)cs->content)[j]));;
 			}
 			fprintf(stderr, "}\n");;
+			if (i > 3)
+				break ;
 		}
-		req->zap->vision.requested = false;
-		req->zap->vision.in = true;
-		memcpy(&req->zap->vision.coord, &zap->coord, sizeof(coord_t));
+		if (req->zap->vision.enabled) {
+			req->zap->vision.requested = false;
+		}
 #ifdef VERBOSE
 		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
 		fprintf(stderr, "%s:%d r=%d refresh vision map\n", __func__, __LINE__, r);
@@ -138,8 +165,7 @@ int		zap_avance_cb(req_t *req)
 				zap->player.id, req, zap->com.buf_rx);
 	}
 	if (r == 0) {
-		zap_abs_avance(req->zap);
-		r = zap_vision_avance(zap);
+		zap_abs_avance(req->zap); // moving zap->coord
 	}
 	req->zap->time += 7; // 7 unit time
 	return (r);

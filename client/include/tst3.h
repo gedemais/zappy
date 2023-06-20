@@ -8,6 +8,7 @@
 enum tst3_state_e
 {
 	TST3_YELL,
+	TST3_IDLE,
 	TST3_WAIT
 };
 
