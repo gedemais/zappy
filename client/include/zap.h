@@ -62,7 +62,7 @@ typedef struct broadcast_s
 	list_t 		lst;
 } broadcast_t;
 
-#define MAX_BROADCAST 32
+#define MAX_BROADCAST 8
 typedef struct team_s
 {
 // TODO : team shared map
@@ -72,8 +72,6 @@ typedef struct team_s
 	player_t	players[TEAM_MAX_PLAYERS];
 	list_t		broadcast;
 } team_t;
-
-
 
 typedef struct zap_s
 {
@@ -94,5 +92,7 @@ int 	compute_abs_move(uint32_t *x_move, uint32_t *y_move, uint32_t direction);
 int	zap_move_direction(zap_t *zap, uint8_t dir);
 int	zap_move_rel_coord(zap_t *zap, int tgt_x, int tgt_y);;
 int		zap(zap_opt_t *opt);
+
+broadcast_t *get_broadcast(zap_t *zap);
 
 #endif

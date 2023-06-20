@@ -2,25 +2,16 @@
 #include "zap_map.h"
 #include "zap_callback.h"
 
-// execute zap_cb for this given cmd id
-// func are in zap_callback.c
-// def of command array are in zap_def.h
-// this cb is used to update all zap context :
-// team, map, stuff
-// note that cb mort, deplacement, message do it too
-// so, zap ctx is updated before profile-specific cb
-
-static broadcast_t *get_broadcast(zap_t *zap)
-{
-	broadcast_t *bc = list_last_entry(&zap->team.broadcast, broadcast_t, lst);
-	memset(bc->msg, 0, 255);
-	bc->msg_len = 0;
-	list_del(&bc->lst);
-	list_add(&bc->lst, &zap->team.broadcast);
-	fprintf(stderr, "%s: [ID=%d] alloc broadcast=%p\n", __func__, zap->player.id, bc);
-	// list_add_tail(&cs->lst, &zap->vision.cs);
-	return (bc);
-}
+/*
+** global static callback for zap commands[R_XXX]
+** update all env :
+**	- team : broadcast, ..
+**	- coord
+**	- vision
+**	- stuff
+** called for each response detected, update ctx
+** zap ctx is updated before profile-specific cb
+*/
 
 int	zap_message_cb(zap_t *zap)
 {
@@ -57,17 +48,20 @@ int	zap_message_cb(zap_t *zap)
 	}
 	return (0);
 }
+
 int	zap_mort_cb(zap_t *zap)
 {
 	fprintf(stderr, "You lose! MORT [ID=%d] pos_x=%d pos_y=%d dir=%d\n", zap->player.id, zap->coord.abs_pos.pos_x, zap->coord.abs_pos.pos_x, zap->coord.abs_direction);
 	zap->player.alive = false;
 	return (0);
 }
+
 int	zap_niveau_cb(zap_t *zap)
 {
 	(void)zap;
 	return (0);
 }
+
 int	zap_deplacement_cb(zap_t *zap)
 {
 	// TODO DIRECTION
@@ -115,11 +109,13 @@ int		zap_voir_cb(req_t *req)
 	zap_t *zap = req->zap;
 	int r = 0;
 
-	// memset(zap->vision.c, 0, sizeof(zap->vision.c));
 	if (zap_parse_voir(zap) == 0)
 	{
-		case_t *cs = NULL;
+#ifdef VERBOSE
+		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
+		fprintf(stderr, "%s:%d r=%d refresh vision map\n", __func__, __LINE__, r);
 		int i = 0;
+		case_t *cs = NULL;
 		list_for_each_entry(cs, &req->zap->vision.cs, lst) {
 			fprintf(stderr, "%s: [ID=%d] c=%p cur_pos={%d %d} case_pos={%d %d} c[%d]= {", __func__, 
 					req->zap->player.id,
@@ -134,17 +130,14 @@ int		zap_voir_cb(req_t *req)
 			if (i > 3)
 				break ;
 		}
+#endif
 		if (req->zap->vision.enabled) {
 			req->zap->vision.requested = false;
 		}
-#ifdef VERBOSE
-		fprintf(stderr, "%s:%d\n", __func__, __LINE__);
-		fprintf(stderr, "%s:%d r=%d refresh vision map\n", __func__, __LINE__, r);
-#endif
 		req->zap->time += 7; // 7 unit time
 	}
 	else {
-		fprintf(stderr, "%s:%d [ERROR] [ID=%d] req=%p parse voir: buf={%s}drifting packet?\n", __func__, __LINE__,
+		fprintf(stderr, "%s:%d [ERROR] [ID=%d] req=%p parse voir: buf={%s}\n", __func__, __LINE__,
 				zap->player.id, req, zap->com.buf_rx);
 		r = -1;
 	}
@@ -221,16 +214,19 @@ int		zap_prend_cb(req_t *req)
 		fprintf(stderr, "%s: [ERROR] [ID=%d] req=%p prend failed\n", __func__, zap->player.id, req);
 	}
 	else {
+		// TODO DEBUG on devrait incrementer le stuff
 		//for (int i = 0 ; i < R_MAX ; i++) {
 		//	if (!memcmp(&req->buf[6], ressources[i].name, ressources[i].len)) {
 		//		req->zap->player.stuff.content[i]++;
 		//	}
 		//}
+#ifdef VERBOSE
 		fprintf(stderr, "%s:%d PREND stuff={", __func__, __LINE__);
 		for (int i = 0 ; i < R_MAX ; i++) {
 			fprintf(stderr, "%d ", req->zap->player.stuff.content[i]);
 		}
 		fprintf(stderr, "}\n");
+#endif
 	}
 	req->zap->time += 7; // 7 unit time
 	return (r);

@@ -11,6 +11,18 @@ enum zap_r {
 	PARSE_ERROR
 };
 
+broadcast_t *get_broadcast(zap_t *zap)
+{
+	broadcast_t *bc = list_last_entry(&zap->team.broadcast, broadcast_t, lst);
+	memset(bc->msg, 0, 255);
+	bc->msg_len = 0;
+	list_del(&bc->lst);
+	list_add(&bc->lst, &zap->team.broadcast);
+	fprintf(stderr, "%s: [ID=%d] alloc broadcast=%p\n", __func__, zap->player.id, bc);
+	// last < -- > first + bzero
+	return (bc);
+}
+
 static int	zap_com_tcp_connect(zap_opt_t *opt, zap_t *zap)
 {
 	int r = 0;
@@ -186,15 +198,6 @@ int	zap_receive_response(zap_t *zap)
 	return (r);
 }
 
-// parse input :
-// all possible first char of response are determined 
-// So response are check against {"ok", "ko", "{", "mort", ...}
-// At each response is associated a callback :
-// 	- All response string  point to zap_receive_response where we assume its the response of the last sended cmd
-//		(ko, "{", ...)
-// 	- All server message string point directly to specific callback
-//		(mort, deplacement, ...)
-
 int	zap_handler_input(zap_t *zap)
 {
 	int 			r = 0;
@@ -222,12 +225,26 @@ int	zap_handler_input(zap_t *zap)
 	}
 	if (r > 0)
 	{
-		// TODO LMA need rework
+		/*
+		** response[RSP_XXX] each response is associated a callback :
+		** [RSP_OK]                  = {.name = "ok", .len = strlen("ok"), .cb = zap_receive_response},
+		** [RSP_KO]                  = {.name = "ko", .len = strlen("ko"), .cb = zap_receive_response},
+		** [RSP_LIST]                = {.name = "{", .len = strlen("{"), .cb = zap_receive_response},
+		** [RSP_ELEVATION]           = {.name = "niveau actuel :", .len = strlen("niveau actuel "), .cb = zap_niveau_cb},
+		** [RSP_VALUE]               = {.name = "TODO", .len = strlen("TODO"), .cb = zap_receive_response},
+		** [RSP_MORT]                = {.name = "mort", .len = strlen("mort"), .cb = zap_mort_cb},
+		** [RSP_DEPLACEMENT]         = {.name = "deplacement", .len = strlen("deplacement"), .cb = zap_deplacement_cb},
+		** [RSP_MESSAGE]             = {.name = "message", .len = strlen("message"), .cb = zap_message_cb},
+		** So response are check against {"ok", "ko", "{", "mort", ...}
+		*/
 		bool found = false;
-		// memcmp first char of responses global array
-		// if ok execute response_cb accordingly
 		for (int i = 0 ; i < RSP_MAX ; i++) {
-			if (!memcmp(response[i].name, com->buf_rx, response[i].len))
+			if (!memcmp(response[i].name, "TODO", strlen("TODO"))
+				&& (com->buf_rx[0] >= '0' && com->buf_rx[0] <= '9')) {
+				zap->player.id = atoi(com->buf_rx);
+				r = 0;
+			}
+			else if (!memcmp(response[i].name, com->buf_rx, response[i].len))
 			{
 				r = response[i].cb(zap); // execute associated handler (zap_receive_response, mort, ..)
 				found = true;
@@ -238,16 +255,9 @@ int	zap_handler_input(zap_t *zap)
 			}
 		}
 		if (!found) {
-			// TODO LMA : connect_nbr
-			if (com->buf_rx[0] >= '0' && com->buf_rx[0] <= '9') {
-				zap->player.id = atoi(com->buf_rx);
-				r = 0;
-			}
-			else {
-				fprintf(stderr, "%s:%d ERROR received %d unknow byte\n",
-					__func__, __LINE__, com->buf_rx_len);
-				r = -1;
-			}
+			fprintf(stderr, "%s:%d ERROR received %d unknow byte\n",
+				__func__, __LINE__, com->buf_rx_len);
+			r = -1;
 		}
 	}
 	return (r);

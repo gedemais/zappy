@@ -91,7 +91,7 @@ static t_cmd	commands[CMD_MAX] = {
 	[CMD_CONNECT_NBR]	= {.name = "connect_nbr", .len = strlen("connect_nbr"), .cb = zap_connect_nbr_cb}
 };
 
-static t_rsp	response[CMD_MAX] = {
+static t_rsp	response[RSP_MAX] = {
 	 [RSP_OK]                                        = {.name = "ok", .len = strlen("ok"), .cb = zap_receive_response},
 	 [RSP_KO]                                        = {.name = "ko", .len = strlen("ko"), .cb = zap_receive_response},
 	 [RSP_LIST]                                      = {.name = "{", .len = strlen("{"), .cb = zap_receive_response},
