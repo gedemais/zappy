@@ -9,13 +9,11 @@ uint8_t	waiting_response(t_env *env, t_player *player)
 
 uint8_t	place_command_in_queue(t_env *env, t_player *player)
 {
-	t_cmd		new;
-	char		**lines;
-	char		**tokens;
-	bool		cmd_found;
+	t_cmd			new;
+	char			**lines;
+	char			**tokens;
+	bool			cmd_found;
 
-	printf("%d\n", (int)strlen(env->buffers.request));
-	printf("%s\n", env->buffers.request);
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
@@ -33,7 +31,7 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 
 		for (int i = 0; i < CMD_MAX; i++)
 		{
-			if (strcmp(tokens[0], cmd_names[i]) == 0)
+			if (strcmp(tokens[1], cmd_names[i]) == 0)
 			{
 				cmd_found = true;
 
@@ -43,8 +41,8 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 				bzero(&new, sizeof(t_cmd));
 				new = commands[i];
 				new.tokens = tokens;
+				new.id = atoi(tokens[0]);
 
-				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
 				if ((player->cmd_queue.byte_size == 0
 					&& dynarray_init(&player->cmd_queue, sizeof(t_cmd), 10))
 					|| dynarray_push(&player->cmd_queue, &new, false))
@@ -53,13 +51,17 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 					ft_arrfree(tokens);
 					return (ERR_MALLOC_FAILED);
 				}
+
+				// LOGGING
+				PUTTIME()
+				fprintf(stderr, "[COMMAND STORAGE] message : {%s} from client %d have been stored as command %d\n", lines[line], *player->connection, new.id);
 				break;
 			}
 		}
 
 		if (!cmd_found)
 		{
-			printf("|||%s|||\n", tokens[0]);
+			fprintf(stderr, "|||%s|||\n", tokens[0]);
 			ft_arrfree(tokens);
 			ft_arrfree(lines);
 			return (ERR_CMD_NOT_FOUND);

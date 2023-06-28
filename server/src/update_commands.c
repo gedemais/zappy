@@ -2,12 +2,20 @@
 
 static uint8_t	run_command(t_env *env, t_player *p, t_cmd *cmd)
 {
-	uint8_t	code;
+	uint8_t			code;
 
-	env->buffers.cmd_params = &cmd->tokens[1];
+	env->buffers.cmd_params = &cmd->tokens[2];
+
+	// LOGGING
+	PUTTIME()
+	fprintf(stderr, "[COMMAND EXECUTION] Client %d sent a command with id %d : {%s}\n", *p->connection, cmd->id, cmd->tokens[1]);
 
 	if ((code = cmd->cmd_func(env, p, true)) != ERR_NONE)
 		return (code);
+
+	// LOGGING
+	PUTTIME()
+	fprintf(stderr, "[COMMAND SUCCESS] Command %d sent by client %d executed properly\n", cmd->id, *p->connection);
 
 	free_cmd(cmd);
 	dynarray_pop(&p->cmd_queue, true);

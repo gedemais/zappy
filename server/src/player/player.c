@@ -1,30 +1,30 @@
 #include "main.h"
 
-void	teams_log(t_env *env)
+void	teams_log(t_env *env, bool log)
 {
 	t_team		*t;
 	t_player	*p;
 	t_egg		*egg;
 
-	printf("============= TEAMS LOG =============\n");
-	printf("%d pending players\n", env->world.pending.players.nb_cells);
+	fprintf(log ? stderr : stdout, "======== TEAMS LOG ========\n");
+	fprintf(log ? stderr : stdout, "%d pending players\n", env->world.pending.players.nb_cells);
 	for (int team = 0; team < env->world.teams.nb_cells; team++)
 	{
 		t = dyacc(&env->world.teams, team);
-		printf("***** Team %s (%d / %d) *****\n", t->name, t->connected, t->max_client);
+		fprintf(log ? stderr : stdout, "***** Team %s (%d / %d) *****\n", t->name, t->connected, t->max_client);
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			printf("Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
+			fprintf(log ? stderr : stdout, "Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
 		}
 	}
-	printf("=====================================\n");
+	fprintf(log ? stderr : stdout, "===========================\n");
 }
 
 uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 {
-	printf("THERE3\n");
-	fflush(stdout);
+	struct timeval	killed;
+
 	if (disconnected == false)
 	{
 		FLUSH_RESPONSE
@@ -36,6 +36,8 @@ uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 
 	*p->connection = -1;
 
+	PUTTIME()
+	fprintf(stderr, "[PLAYER DEATH] message : Client %d died !\n", *p->connection);
 	return (remove_player(env, *p->connection));
 }
 
@@ -89,11 +91,8 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// PID generation
 	new->pid = rand() * rand() * rand();
 	// Player's random coordinates definition
-	//new->tile_x = rand() % env->settings.map_width;
-//	new->tile_y = rand() % env->settings.map_height;
-	new->tile_x = 10;
-	new->tile_y = 10;
-	(void)env;
+	new->tile_x = rand() % env->settings.map_width;
+	new->tile_y = rand() % env->settings.map_height;
 
 	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!

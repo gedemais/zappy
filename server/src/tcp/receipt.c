@@ -2,8 +2,9 @@
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
 {
-	int			new_fd;
-	uint8_t		code;
+	int					new_fd;
+	uint8_t				code;
+	struct timeval		t;
 
 	if (FD_ISSET(env->tcp.server_fd, read_fd_set)) // If a new event occured on the server
 	{
@@ -13,12 +14,15 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 			for (uint32_t i = 0; i < 1024; i++) // Looking for a connection slot
 				if (env->buffers.connections[i] < 0) // If the slot is available
 				{
+
+					env->buffers.connections[i] = new_fd; // We save the connection for later
+
+					PUTTIME()
+					fprintf(stderr, "[CLIENT LOGIN] Client %d logged in\n", env->buffers.connections[i]);
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
 					fflush(stdout);
 					//sleep(1);
 
-					env->buffers.connections[i] = new_fd; // We save the connection for later
-														  //
 					add_player(env, &env->world.pending, &env->buffers.connections[i]); // We add a new player in the pending players list
 
 					if ((code = auth_send_welcome(env, (t_player*)dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1))))
@@ -52,6 +56,7 @@ uint8_t	receipt(t_env *env)
 	fd_set				read_fd_set;
 	struct sockaddr_in	new_addr;
 	struct timeval		timeout = {.tv_sec = 0, .tv_usec = env->settings.tick_length * (1.0f / env->settings.t)};
+	struct timeval		rcv;
 	socklen_t			addrlen = sizeof(new_addr);
 	int					*connections = env->buffers.connections;
 	int					ret;
@@ -81,9 +86,8 @@ uint8_t	receipt(t_env *env)
 				{
 					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) <= 0) // Connection closes
 					{
-						printf("Client disconnected of slot %d (fd : %d)!\n", i, connections[i]);
-						fflush(stdout);
-						sleep(1);
+						PUTTIME()
+						fprintf(stderr, "[CLIENT LOGOUT] Client %d logged out by itself\n", connections[i]);
 
 						// Remove player from his team
 						if ((code = kill_player(env, get_team_client(env, connections[i]), true)))
@@ -92,13 +96,13 @@ uint8_t	receipt(t_env *env)
 						continue;
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
-					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
-					//fflush(stdout);
+
+					// LOGGING
+					PUTTIME()
+					fprintf(stderr, "[MESSAGE RECEPTION] Client %d sent a message : {%.*s}\n", connections[i], (int)strlen(env->buffers.request) - 1, env->buffers.request);
 
 					if ((code = process_request(env, connections[i])))
 						return (code);
-					//if ((code = place_command_in_queue(env, connections[i])))
-					//	return (code);
 				}
 				else if (ret == -1)
 					return (ERR_RECV_FAILED);

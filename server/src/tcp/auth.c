@@ -72,6 +72,8 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 
 	remove_pending_player(env, p);
 
+	fprintf(stderr, "[CLIENT AUTH] Client %d authenticated properly as a player of team {%s}\n", *p->connection, team->name);
+
 	return (ERR_NONE);
 }
 

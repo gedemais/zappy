@@ -17,8 +17,6 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 			write(1, "\033[2J", 1);
 			print_map(env);
 		}
-		if (DATA_PRINT)
-			printf("DATA\n");
 		fflush(stdout);
 
 		// Server tasks
@@ -36,8 +34,6 @@ int		main(int argc, char **argv)
 
 	srand(time(NULL)); // Random seed initialisation
 	memset(&env, 0, sizeof(t_env)); // Wipe environment structure
-
-	ft_arr_cprint(argv);
 
 	// Main server function
 	if ((err_code = zappy_server(&env, argc, argv)) != ERR_NONE)

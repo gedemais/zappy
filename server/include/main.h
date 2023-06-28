@@ -23,6 +23,14 @@
 # define min(a,b) (((a)<(b))?(a):(b))
 # define max(a,b) (((a)>(b))?(a):(b))
 
+# define PUTTIME() do {\
+	struct timeval t;\
+	gettimeofday(&t, NULL);\
+	fprintf(stderr, "%ld.%06ld|", t.tv_sec, t.tv_usec);\
+	}\
+	while (0);
+	
+
 # define DEV true
 
 # define RESPONSE_SIZE pow(2, 20)
@@ -36,12 +44,13 @@ typedef struct s_env t_env;
 
 typedef struct	s_cmd
 {
-	t_player	*p; // Player who sent the command
-	char		**tokens; // Word-tokens composing the command
-	uint16_t	cycles; // Number of cycles remaining before to actually execute the instruction
-	uint8_t		(*cmd_func)(t_env *, t_player*, bool); // Function pointer storing the address of the instruction related function
-	int32_t		pid;
-}				t_cmd;
+	t_player		*p; // Player who sent the command
+	int32_t			id;
+	char			**tokens; // Word-tokens composing the command
+	uint16_t		cycles; // Number of cycles remaining before to actually execute the instruction
+	uint8_t			(*cmd_func)(t_env *, t_player*, bool); // Function pointer storing the address of the instruction related function
+	int32_t			pid;
+}					t_cmd;
 
 // Server settings
 typedef struct	s_settings
@@ -135,7 +144,7 @@ uint8_t		add_player(t_env *env, t_team *team, int *connection);
 uint8_t		kill_player(t_env *env, t_player *p, bool disconnected);
 uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);
-void		teams_log(t_env *env);
+void		teams_log(t_env *env, bool log);
 uint8_t		response(t_env *env, t_player *p);
 
 
