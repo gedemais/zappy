@@ -8,6 +8,7 @@ SRCS_NAME=main.c\
 		  update_commands.c\
 		  graphical/update.c\
 		  graphical/commands.c\
+		  graphical/dispatcher.c\
 		  graphical/send_graphical_data.c\
 		  graphical/tools.c\
 		  player/broadcast.c\

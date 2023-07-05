@@ -37,6 +37,8 @@
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define REQUEST_BUFF_SIZE 4096
 
+# define MAX_T 300
+
 # define MAP_PRINT true
 # define DATA_PRINT false
 
@@ -86,9 +88,8 @@ struct	s_env
 	t_world		world; // See world.h
 	t_tcp		tcp; // TCP logistic variables
 	t_player	graphical;
-	int			gx, gy;
-	int			gindex;
-	t_player	*gplayer;
+	int			gx, gy, gindex, gpid, gnew_t;
+	t_player	gplayer;
 	t_settings	settings;
 	bool		start;
 };
@@ -120,15 +121,21 @@ uint8_t		waiting_response(t_env *env, t_player *player);
 // Graphical TCP connection
 uint8_t		handle_graphical_connection(t_env *env, t_player *p);
 uint8_t		update_graphical(t_env *env);
+uint8_t		graphical_request(t_env *env);
 
 uint8_t		send_graphical_data(t_env *env, t_player *p);
 
 // Graphical details functions
 uint8_t		gcmd_map_size(t_env *env);
+uint8_t		gcmd_map_content(t_env *env);
 uint8_t		gcmd_server_time_unit(t_env *env);
 uint8_t		gcmd_block_content(t_env *env);
 uint8_t		gcmd_teams_names(t_env *env);
 uint8_t		gcmd_player_new(t_env *env);
+uint8_t		gcmd_player_position(t_env *env);
+uint8_t		gcmd_player_level(t_env *env);
+uint8_t		gcmd_player_inventory(t_env *env);
+uint8_t		gcmd_set_new_t(t_env *env);
 
 // Graphical tools
 uint8_t		cat_spaced_number(t_env *env, int n, bool newline);
@@ -188,6 +195,7 @@ t_player	*get_team_client(t_env *env, int client_fd);
 uint8_t		remove_player_from_tile(t_env *env, int x, int y);
 uint8_t		send_ko(t_env *env, t_player *p);
 uint8_t		send_ok(t_env *env, t_player *p);
+bool		is_only_number(char *s);
 
 /* * * * * * * * * * * * * * * * * */
 
@@ -243,6 +251,20 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = NULL},
 							[CMD_FORK] = {.cycles = 42, .cmd_func = cmd_fork},
 							[CMD_CONNECT_NBR] = {.cycles = 0, .cmd_func = cmd_connect_nbr}
+};
+
+// Graphical functions pointers array
+static uint8_t	(*gcmds[GCMD_MAX])(t_env *) = {
+
+	[GCMD_MAP_SIZE] = gcmd_map_size,
+	[GCMD_BLOCK_CONTENT] = gcmd_block_content,
+	[GCMD_MAP_CONTENT] = gcmd_map_content,
+	[GCMD_TEAMS_NAME] = gcmd_teams_names,
+	[GCMD_PLAYER_POSITION] = gcmd_player_position,
+	[GCMD_PLAYER_LEVEL] = gcmd_player_level,
+	[GCMD_PLAYER_INVENTORY] = gcmd_player_inventory,
+	[GCMD_SGT] = gcmd_server_time_unit,
+	[GCMD_SST] = gcmd_set_new_t
 };
 
 #endif

@@ -18,7 +18,7 @@ uint8_t	send_graphical_data(t_env *env, t_player *p)
 		for (int j = 0; j < env->world.teams.nb_cells; j++)
 		{
 			pl = dyacc(&team->players, j);
-			env->gplayer = pl;
+			memcpy(&env->gplayer, pl, sizeof(t_player));
 			gcmd_player_new(env);
 		}
 	}
