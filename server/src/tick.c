@@ -29,7 +29,14 @@ uint8_t	tick(t_env *env)
 
 	// LOGGING
 	n++;
+#ifdef MACOS
+	fprintf(stderr, "============= TICK %llu =============\n", n);
+#endif
+
+#ifdef LINUX
 	fprintf(stderr, "============= TICK %ld =============\n", n);
+#endif
+
 	teams_log(env, true);
 	teams_log(env, false);
 	check_game_start(env);

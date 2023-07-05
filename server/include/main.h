@@ -26,7 +26,7 @@
 # define PUTTIME() do {\
 	struct timeval t;\
 	gettimeofday(&t, NULL);\
-	fprintf(stderr, "%ld.%06ld|", t.tv_sec, t.tv_usec);\
+	fprintf(stderr, "%ld.%06ld|", t.tv_sec, (long)t.tv_usec);\
 	}\
 	while (0);
 	
