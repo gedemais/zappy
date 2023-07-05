@@ -70,9 +70,9 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 	if ((code = add_player(env, team, p->connection)))
 		return (ERR_NONE);
 
-	remove_pending_player(env, p);
-
 	fprintf(stderr, "[CLIENT AUTH] Client %d authenticated properly as a player of team {%s}\n", *p->connection, team->name);
+
+	remove_pending_player(env, p);
 
 	return (ERR_NONE);
 }
