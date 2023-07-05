@@ -35,3 +35,31 @@ uint8_t	gevent_player_broadcast(t_env *env)
 	sprintf(env->buffers.gresponse, "pbc #%d %s\n", env->gplayer->pid, &env->buffers.response[10]);
 	return (gresponse(env, &env->graphical));
 }
+
+uint8_t	gevent_player_lays_egg(t_env *env)
+{
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pfk #%d\n", env->gplayer->pid);
+	return (gresponse(env, &env->graphical));
+}
+
+uint8_t	gevent_player_put(t_env *env)
+{
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pdr #%d %d\n", env->gplayer->pid, env->gindex);
+	return (gresponse(env, &env->graphical));
+}
+
+uint8_t	gevent_player_take(t_env *env)
+{
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pgt #%d %d\n", env->gplayer->pid, env->gindex);
+	return (gresponse(env, &env->graphical));
+}
+
+uint8_t	gevent_player_died(t_env *env)
+{
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pdi #%d\n", env->gplayer->pid);
+	return (gresponse(env, &env->graphical));
+}
