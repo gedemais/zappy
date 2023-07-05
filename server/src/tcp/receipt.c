@@ -39,12 +39,12 @@ static uint8_t	process_request(t_env *env, int client_fd)
 	t_player	*p;
 	uint8_t		code;
 
-	if (client_fd == *env->gplayer.connection && (code = graphical_request(env)) != ERR_NONE)
-		return (code);
-	else if ((p = get_pending_client(env, client_fd)) != NULL)
+	if ((p = get_pending_client(env, client_fd)) != NULL)
 		return (auth(env, p));
 	else if ((p = get_team_client(env, client_fd)))
 		return (env->start ? place_command_in_queue(env, p) : waiting_response(env, p));
+	else if (client_fd == *env->gplayer.connection && (code = graphical_request(env)) != ERR_NONE)
+		return (code);
 
 	return (ERR_NONE);
 }
