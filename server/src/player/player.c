@@ -43,7 +43,11 @@ static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
+	{
+		env->gplayer = p;
+		gevent_player_died(env);
 		return (kill_player(env, p, false));
+	}
 	else if (p->satiety == 0)
 	{ // Eating mechanism
 		p->inventory[LOOT_FOOD]--;

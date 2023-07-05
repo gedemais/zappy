@@ -51,6 +51,7 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 					ft_arrfree(tokens);
 					return (ERR_MALLOC_FAILED);
 				}
+
 				break;
 			}
 		}

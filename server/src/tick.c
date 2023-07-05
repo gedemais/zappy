@@ -4,9 +4,6 @@ static void	check_game_start(t_env *env)
 {
 	t_team	*team;
 
-	if (env->start)
-		return;
-
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		team = dyacc(&env->world.teams, i);
@@ -14,6 +11,36 @@ static void	check_game_start(t_env *env)
 			return ;
 	}
 	env->start = true;
+}
+
+static void	check_game_end(t_env *env)
+{
+	t_team		*team;
+	t_player	*player;
+	bool		won;
+
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		won = true;
+		team = dyacc(&env->world.teams, i);
+		for (int p = 0; p < team->players.nb_cells; i++)
+		{
+			player = dyacc(&team->players, i);
+			if (player->level < 8)
+			{
+				won = false;
+				break ;
+			}
+		}
+
+		if (won == true)
+		{
+			env->gindex = i;
+			gevent_game_ended(env);
+			printf("GAME WIN\n");
+			exit(0);
+		}
+	}
 }
 
 uint8_t	tick(t_env *env)
@@ -25,7 +52,8 @@ uint8_t	tick(t_env *env)
 	gettimeofday(&tick_start, NULL);
 
 	teams_log(env);
-	check_game_start(env);
+	env->start ? check_game_end(env) : check_game_start(env);
+
 	if ((code = receipt(env)) != ERR_NONE
 		|| 	(env->start && (code = update_players(env))) != ERR_NONE
 		|| 	(code = update_eggs(env)) != ERR_NONE
