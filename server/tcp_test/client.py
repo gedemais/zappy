@@ -2,7 +2,7 @@ import socket
 
 host = socket.gethostname()
 port = 8080                   # The same port as used by the server
-team_name = 'team_a' 
+team_name = 'team_b' 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))

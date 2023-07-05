@@ -89,6 +89,7 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			return (code);
 	}
 
+	PUTTIME()
 	fprintf(stderr, "[CLIENT_SENT_TEAM_NAME] Pending client %d sent |%s| as a team name\n", p->pid, env->buffers.request);
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
@@ -107,7 +108,10 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			}
 		}
 	}
-	return (ERR_NONE);
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "Invalid team name.\n");
+	response(env, p);
+	return (kill_player(env, p, true));
 }
 
 uint8_t	auth(t_env *env, t_player *p)

@@ -24,7 +24,10 @@ void	teams_log(t_env *env, bool log)
 uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 {
 	struct timeval	killed;
+	uint8_t			code;
 
+	PUTTIME()
+	fprintf(stderr, "[PLAYER DEATH] message : Client %d died !\n", *p->connection);
 	if (disconnected == false)
 	{
 		FLUSH_RESPONSE
@@ -34,11 +37,9 @@ uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 	else
 		close(*p->connection);
 
-	*p->connection = -1;
+	code = remove_player(env, *p->connection);
 
-	PUTTIME()
-	fprintf(stderr, "[PLAYER DEATH] message : Client %d died !\n", *p->connection);
-	return (remove_player(env, *p->connection));
+	return (code);
 }
 
 static uint8_t	update_food(t_env *env, t_player *p)
@@ -119,12 +120,19 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 			player = dyacc(&team->players, p);
 			if (*player->connection == connection_fd)
 			{
+				*player->connection = -1;
+				bool pending = (t == env->world.teams.nb_cells - 1);
+				PUTTIME()
+				fprintf(stderr, "[CLIENT REMOVED] Client connected to slot %d was removed from team {%s}.\n", connection_fd, pending ? "pending" : team->name);
+
 				dynarray_free(&player->cmd_queue);
 				if ((code = remove_player_from_tile(env, player->tile_x, player->tile_y)) != ERR_NONE)
 					return (code);
 
-				if (dynarray_extract(&team->players, p))
+				if (dynarray_extract(pending ? &env->world.pending.players : &team->players, p))
 					return (ERR_MALLOC_FAILED);
+
+				fprintf(stderr, "%d\n", team->players.nb_cells);
 
 				dynarray_pop(&env->world.teams, false);
 
