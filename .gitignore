@@ -7,4 +7,4 @@ server/server
 zappy_client
 zappy_server
 zappy_graphical_client
-graphical_client/__pycache__
+__pycache__
