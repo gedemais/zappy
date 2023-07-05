@@ -88,6 +88,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 
 	// PID generation
 	new->pid = rand() * rand() * rand();
+	new->pid *= (new->pid < 0) ? -1 : 1;
 	// Player's random coordinates definition
 	//new->tile_x = rand() % env->settings.map_width;
 //	new->tile_y = rand() % env->settings.map_height;

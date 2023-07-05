@@ -70,12 +70,12 @@ uint8_t	gcmd_player_new(t_env *env)
 	t_team	*team;
 	char	s[128];
 
-	team = dyacc(&env->world.teams, env->gplayer->team);
-	sprintf(s, "pnw #%d %d %d %d %d %s\n",	env->gplayer->pid,
-			env->gplayer->tile_x,
-			env->gplayer->tile_y,
-			(int)env->gplayer->direction.d,
-			env->gplayer->level,
+	team = dyacc(&env->world.teams, env->gplayer.team);
+	sprintf(s, "pnw #%d %d %d %d %d %s\n",	env->gplayer.pid,
+			env->gplayer.tile_x,
+			env->gplayer.tile_y,
+			(int)env->gplayer.direction.d,
+			env->gplayer.level,
 			team->name);
 
 	strcat(env->buffers.response, s);
@@ -98,10 +98,10 @@ uint8_t	gcmd_player_position(t_env *env)
 {
 	char	s[128];
 
-	sprintf(s, "ppo #%d %d %d %d\n",	env->gplayer->pid,
-			env->gplayer->tile_x,
-			env->gplayer->tile_y,
-			(int)env->gplayer->direction.d);
+	sprintf(s, "ppo #%d %d %d %d\n",	env->gplayer.pid,
+			env->gplayer.tile_x,
+			env->gplayer.tile_y,
+			(int)env->gplayer.direction.d);
 
 	strcat(env->buffers.response, s);
 	return (ERR_NONE);
@@ -112,7 +112,7 @@ uint8_t	gcmd_player_level(t_env *env)
 {
 	char	s[128];
 
-	sprintf(s, "plv #%d %d\n", env->gplayer->pid, env->gplayer->level);
+	sprintf(s, "plv #%d %d\n", env->gplayer.pid, env->gplayer.level);
 	strcat(env->buffers.response, s);
 	return (ERR_NONE);
 }
@@ -122,14 +122,14 @@ uint8_t	gcmd_player_inventory(t_env *env)
 {
 	char	s[128];
 
-	sprintf(s, "pin #%d %d %d ", env->gplayer->pid,
-			env->gplayer->tile_x,
-			env->gplayer->tile_y);
+	sprintf(s, "pin #%d %d %d ", env->gplayer.pid,
+			env->gplayer.tile_x,
+			env->gplayer.tile_y);
 
 	strcat(env->buffers.response, s);
 
 	for (int i = 0; i < LOOT_MAX; i++)
-		cat_spaced_number(env->buffers.response, env->gplayer->inventory[i], i == LOOT_MAX - 1);
+		cat_spaced_number(env, env->gplayer.inventory[i], i == LOOT_MAX - 1);
 
 	strcat(env->buffers.response, "\n");
 	return (ERR_NONE);
@@ -138,6 +138,13 @@ uint8_t	gcmd_player_inventory(t_env *env)
 
 uint8_t	gcmd_set_new_t(t_env *env)
 {
-	if (env)
+	char	s[128];
+
+	env->settings.t = env->gnew_t;
+	env->settings.tick_length = 1000000 / env->settings.t;
+
+	sprintf(s, "sgt %d\n", env->settings.t);
+	strcat(env->buffers.response, s);
+
 	return (ERR_NONE);
 }
