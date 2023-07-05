@@ -89,6 +89,7 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			return (code);
 	}
 
+	fprintf(stderr, "[CLIENT_SENT_TEAM_NAME] Pending client %d sent |%s| as a team name\n", p->pid, env->buffers.request);
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);

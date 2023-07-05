@@ -31,7 +31,7 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 
 		for (int i = 0; i < CMD_MAX; i++)
 		{
-			if (strcmp(tokens[1], cmd_names[i]) == 0)
+			if (strcmp(tokens[0], cmd_names[i]) == 0)
 			{
 				cmd_found = true;
 
@@ -41,7 +41,8 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 				bzero(&new, sizeof(t_cmd));
 				new = commands[i];
 				new.tokens = tokens;
-				new.id = atoi(tokens[0]);
+				new.id = rand() * rand() * rand();
+				new.id *= (new.id >= 0) ? 1 : -1;
 
 				if ((player->cmd_queue.byte_size == 0
 					&& dynarray_init(&player->cmd_queue, sizeof(t_cmd), 10))

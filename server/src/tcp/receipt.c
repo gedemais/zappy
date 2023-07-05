@@ -101,7 +101,7 @@ uint8_t	receipt(t_env *env)
 
 					// LOGGING
 					PUTTIME()
-					fprintf(stderr, "[MESSAGE RECEPTION] Client %d sent a message : {%.*s}\n", connections[i], (int)strlen(env->buffers.request) - 1, env->buffers.request);
+					fprintf(stderr, "[MESSAGE RECEPTION] Client %d sent a message : {%.*s}\n", connections[i], (int)strlen(env->buffers.request), env->buffers.request);
 
 					if ((code = process_request(env, connections[i])))
 						return (code);
