@@ -23,6 +23,7 @@ class	Bot:
 		self.qreceive = client_data.qreceive
 		self.qtransceive = client_data.qtransceive
 		self.task = self.task_constructor(id = T.CONNECT_NBR)
+		self.task_id = T.CONNECT_NBR
 		self.tasks = {
 			T.CONNECT_NBR	: self.task_constructor(command = "connect_nbr", callback = Callback.connect_nbr),
 			T.INVENTAIRE	: self.task_constructor(command = "inventaire", callback = Callback.inventaire),
@@ -48,7 +49,7 @@ class	Bot:
 		}
 
 	def	transceive(self, task):
-		self.task = self.task_constructor(self.task["id"], task["command"], task["callback"], task["buf"])
+		self.task = self.task_constructor(task["id"], task["command"], task["callback"], task["buf"])
 		command = task["command"]
 		if task["buf"] != None:
 			command = task["command"] + ' ' + task["buf"]
@@ -90,5 +91,4 @@ class	Bot:
 	def	run(self):
 		self.server_instructions()
 		self.callback()
-		print(self.task)
-		self.manager(self.task["id"])
+		self.manager(self.task_id)

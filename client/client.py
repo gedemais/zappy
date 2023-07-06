@@ -51,7 +51,7 @@ class	Client:
 			for i in range(len(split)):
 				if len(split[i]) > 0:
 					self.qreceive.append(split[i])
-			print("receive:", self.qreceive.buf)
+		print("receive:", self.qreceive.buf)
 
 	def transceive(self):
 		buf_len = len(self.qtransceive.buf)
