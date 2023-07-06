@@ -15,7 +15,7 @@ class	Queue:
 
 	def	pop(self, index):
 		self.buf.pop(index)
-	
+
 	def	clear(self):
 		self.buf = []
 
