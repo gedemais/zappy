@@ -1,44 +1,42 @@
-from task import T
+from command import C
 
 
 class	Callback:
-	def	connect_nbr(task):
-		print(task["response"])
+	def	connect_nbr(cmd):
+		cmd.id = C.INVENTAIRE
 
-	def	inventaire(task):
-		print(task["response"])
+	def	inventaire(cmd):
+		cmd.id = C.VOIR
 
-	def	voir(task):
-		print(task["response"])
+	def	voir(cmd):
+		cmd.id = C.AVANCE
 
-	def	avance(task):
-		print(task["response"])
+	def	avance(cmd):
+		print(cmd.response)
 
-	def	droite(task):
-		print(task["response"])
+	def	droite(cmd):
+		print(cmd.response)
 
-	def	gauche(task):
-		print(task["response"])
+	def	gauche(cmd):
+		print(cmd.response)
 
-	def	prend(task):
-		print(task["response"])
+	def	prend(cmd):
+		print(cmd.response)
 
-	def	pose(task):
-		print(task["response"])
+	def	pose(cmd):
+		print(cmd.response)
 
-	def	incantation(task):
-		print(task["response"])
+	def	incantation(cmd):
+		print(cmd.response)
 
-	def	fork(task):
-		print(task["response"])
+	def	fork(cmd):
+		print(cmd.response)
 
-	def	expulse(task):
-		print(task["response"])
+	def	expulse(cmd):
+		print(cmd.response)
 
-	def	broadcast(task):
-		print(task["response"])
+	def	broadcast(cmd):
+		print(cmd.response)
 
-	def	run(task):
-		if  task["response"] != None and task["callback"] != None:
-			print("callback", task["command"].strip())
-			task["callback"](task)
+	def	run(cmd):
+		cmd.callback(cmd)

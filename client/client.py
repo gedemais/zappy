@@ -1,6 +1,7 @@
 import socket
 
 from bot import Bot
+from command import S
 
 
 class	Queue:
@@ -51,7 +52,8 @@ class	Client:
 			for i in range(len(split)):
 				if len(split[i]) > 0:
 					self.qreceive.append(split[i])
-		print("receive:", self.qreceive.buf)
+		if len(self.qreceive.buf):
+			print("receive:", self.qreceive.buf)
 
 	def transceive(self):
 		buf_len = len(self.qtransceive.buf)
@@ -61,3 +63,4 @@ class	Client:
 			for i in range(buf_len):
 				self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
 			self.qtransceive.clear()
+			self.bot.cmd.state = S.PENDING
