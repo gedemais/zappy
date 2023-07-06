@@ -1,4 +1,23 @@
-moves = ['avance\n', 'avance\n', 'avance\n', 'avance\n', 'droite\n']
+import socket
+
+from bot import Bot
+
+
+class	Queue:
+	def __init__(self):
+		self.buf = []
+
+	def	append(self, cmd):
+		self.buf.append(cmd)
+	
+	def	remove(self, element):
+		self.buf.remove(element)
+
+	def	pop(self, index):
+		self.buf.pop(index)
+	
+	def	clear(self):
+		self.buf = []
 
 class	Client:
 	def __init__(self, host, port, team_name, s):
@@ -6,33 +25,39 @@ class	Client:
 		self.port = port
 		self.team_name = team_name
 		self.s = s
+		self.qreceive = Queue()
+		self.qtransceive = Queue()
+		self.bot = Bot(self)
 
-	def send(self, cmd):
-		self.s.send(bytes(cmd.encode("utf-8")))
-		reply = self.s.recv(1024).decode("utf-8")
-		print(cmd.strip(), reply.strip())
-
-	def connect_to_server(self):
+	def connect(self):
 		self.s.connect((self.host, self.port))
 		reply = self.s.recv(1024).decode("utf-8")
-		print(reply) # BIENVENUE
-		self.send(self.team_name)
+		print(reply.strip()) # BIENVENUE
+		self.s.send(bytes(self.team_name.encode("utf-8")))
+		reply = self.s.recv(1024).decode("utf-8")
+		print(reply.strip())
 
-	def	connect_nbr(self):
-		self.send("connect_nbr")
+	def	receive(self):
+		self.qreceive.clear()
+		self.s.settimeout(0.25)
+		while True:
+			try:
+				data = self.s.recv(1024)
+			except socket.timeout:
+				break
+			if not data:
+				break
+			split = data.decode("utf-8").split('\n')
+			for i in range(len(split)):
+				if len(split[i]) > 0:
+					self.qreceive.append(split[i])
+			print("receive:", self.qreceive.buf)
 
-	def	voir(self):
-		self.send("voir")
+	def transceive(self):
+		buf_len = len(self.qtransceive.buf)
 
-	def	inventaire(self):
-		self.send("inventaire")
-
-	def	broadcast(self, message):
-		self.send("broadcast " + message)
-
-	def	move(self, i):
-		if i == 0:
-			self.connect_nbr()
-			self.voir()
-			self.inventaire()
-		self.send(moves[i])
+		if buf_len > 0:
+			print("transceive:", self.qtransceive.buf)
+			for i in range(buf_len):
+				self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
+			self.qtransceive.clear()

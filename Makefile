@@ -5,15 +5,11 @@ GRAPHIC = zappy_graphical_client
 LIB_PATH = libft/
 LIB = $(LIB_PATH)libft.a
 
-all: $(LIB) $(SERVER) $(CLIENT) $(GRAPHIC)
+all: $(LIB) $(SERVER) $(GRAPHIC)
 
 $(SERVER):
 	make -C server
 	ln -sf server/server zappy_server
-
-$(CLIENT):
-	make -C client
-	ln -sf client/client zappy_client
 
 $(GRAPHIC):
 	ln -sf graphical_client/client_v0.py zappy_graphical_client
@@ -23,13 +19,11 @@ $(LIB): $(LIB_PATH)
 
 clean:
 	make -C server clean
-	make -C client clean
 	make -C $(LIB_PATH) clean
 
 fclean:
 	make -C server fclean
-	make -C client fclean
 	make -C $(LIB_PATH) fclean
-	rm -f $(SERVER) $(CLIENT) $(GRAPHIC)
+	rm -f $(SERVER) $(GRAPHIC)
 
 re: fclean all

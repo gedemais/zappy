@@ -5,13 +5,11 @@ from client import Client
 
 
 host = "localhost"
-port = 8080 # The same port as used by the server
+port = 8080
 team_name = "foo"
 
 def	parse_arguments():
 	arguments = sys.argv
-
-moves = ['avance\n', 'avance\n', 'avance\n', 'avance\n', 'droite\n']
 
 if __name__ == "__main__":
 
@@ -19,9 +17,9 @@ if __name__ == "__main__":
 
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client = Client(host, port, team_name, s)
-	client.connect_to_server()
+	client.connect()
 
-	while True:
-		client.broadcast("bonjour")
-		for i in range(len(moves)):
-			client.move(i)
+	while client.bot.alive == True:
+		client.receive()
+		client.bot.run()
+		client.transceive()
