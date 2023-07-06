@@ -1,3 +1,6 @@
+from task import T
+
+
 class	Callback:
 	def	connect_nbr(task):
 		print(task["response"])
