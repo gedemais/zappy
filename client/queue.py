@@ -2,16 +2,20 @@ class	Queue:
 	def __init__(self):
 		self.buf = []
 		self.state = 0
+		self.length = 0
 		self.running = False
 
-	def	start(self):
+	def	start(self, buf):
 		if self.running == False:
-			self.state = 0
 			self.running = True
+			self.state = 0
+			self.buf = buf
+			self.length = len(buf)
 
 	def	end(self):
-		if self.state == len(self.buf):
+		if self.state == self.length:
 			self.state = 0
+			self.length = 0
 			self.running = False
 
 	def	update(self, int):

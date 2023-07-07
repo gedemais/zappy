@@ -3,6 +3,7 @@ import socket
 
 from client import Client
 from IA import IA
+from brain import Brain
 
 
 host = "localhost"
@@ -22,13 +23,7 @@ if __name__ == "__main__":
 
 	bernard = IA()
 
-	bernard.square()
-	bernard.prend()
-
 	while client.bot.alive == True:
-		client.bot.server_instructions(bernard.cmd)
-		client.bot.callback(bernard.cmd)
-		bernard.interact()
-		client.bot.query(bernard.cmd)
+		print("Busy:", bernard.interact(Brain.simpe()))
 		client.transceive(bernard.cmd)
-		client.receive()
+		client.receive(bernard.cmd)
