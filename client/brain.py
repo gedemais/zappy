@@ -28,9 +28,7 @@ class Brain:
         self.machine = Machine(model=self, states=["IDLE", "POPULATE", "LOOT"], initial="IDLE")
         self.machine.add_transition("fetch", "IDLE", "LOOT")
         self.machine.add_transition("stop", "LOOT", "IDLE")
-
-    def update_state(self, client):
-        pass
+        self.busy = True
 
     def update(self, client, cmd):
         if self.state == "LOOT":
@@ -79,4 +77,4 @@ class Brain:
         for i, c in enumerate(commands):
             print(c)
             commands[i] = Command(id = c)
-        return commands
+        return commands if self.busy == False else []
