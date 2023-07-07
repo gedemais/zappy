@@ -31,15 +31,14 @@ class Brain:
         self.busy = True
 
     def update(self, client, cmd):
+        if self.busy == True:
+            return
         if self.state == "LOOT":
-            return self.loot(client)
+            return self.loot(client, cmd)
         elif self.state == "IDLE":
             return
 
-    def populate(self):
-        print("toto")
-
-    def loot(self, client):
+    def loot(self, client, cmd):
         commands = []
 
         if self.blind and len(self.view) == 0:
@@ -64,6 +63,7 @@ class Brain:
         if (self.x, self.y) in self.explored_tiles:
             # Move it on the next tile of its view
             pass
+        print(cmd.response)
 
         #if len(view[self.tile]) > 0: # and not busy
         #    if 
@@ -77,4 +77,4 @@ class Brain:
         for i, c in enumerate(commands):
             print(c)
             commands[i] = Command(id = c)
-        return commands if self.busy == False else []
+        return commands

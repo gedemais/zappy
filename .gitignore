@@ -8,3 +8,4 @@ zappy_client
 zappy_server
 zappy_graphical_client
 __pycache__
+log
