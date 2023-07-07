@@ -32,7 +32,7 @@ class	IA:
 			self.cmd.buf = cmd.buf
 
 	def	start(self, queue):
-		if self.busy == False and queue != None:
+		if self.busy == False and queue != None and len(queue) > 0:
 			self.busy = True
 			self.queue.start(queue)
 	
@@ -40,7 +40,7 @@ class	IA:
 		self.queue.end()
 		if self.queue.running == False:
 			self.queue.clear()
-			self.busy = False
+			self.busy = False	
 
 	#return True if busy
 	def	interact(self, queue = None):
