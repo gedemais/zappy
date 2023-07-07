@@ -1,42 +1,43 @@
-from command import C
+from command import C, S
+from IA	import _commands_state
 
 
 class	Callback:
 	def	connect_nbr(cmd):
-		cmd.id = C.INVENTAIRE
+		_commands_state[C.CONNECT_NBR] = S.RECEIVED
 
 	def	inventaire(cmd):
-		cmd.id = C.VOIR
+		_commands_state[C.INVENTAIRE] = S.RECEIVED
 
 	def	voir(cmd):
-		cmd.id = C.AVANCE
+		_commands_state[C.VOIR] = S.RECEIVED
 
 	def	avance(cmd):
-		print(cmd.response)
+		_commands_state[C.AVANCE] = S.RECEIVED
 
 	def	droite(cmd):
-		print(cmd.response)
+		_commands_state[C.DROITE] = S.RECEIVED
 
 	def	gauche(cmd):
-		print(cmd.response)
+		_commands_state[C.GAUCHE] = S.RECEIVED
 
 	def	prend(cmd):
-		print(cmd.response)
+		_commands_state[C.PREND] = S.RECEIVED
 
 	def	pose(cmd):
-		print(cmd.response)
+		_commands_state[C.POSE] = S.RECEIVED
 
 	def	incantation(cmd):
-		print(cmd.response)
+		_commands_state[C.INCANTATION] = S.RECEIVED
 
 	def	fork(cmd):
-		print(cmd.response)
+		_commands_state[C.FORK] = S.RECEIVED
 
 	def	expulse(cmd):
-		print(cmd.response)
+		_commands_state[C.EXPULSE] = S.RECEIVED
 
 	def	broadcast(cmd):
-		print(cmd.response)
+		_commands_state[C.BROADCAST] = S.RECEIVED
 
 	def	run(cmd):
 		cmd.callback(cmd)

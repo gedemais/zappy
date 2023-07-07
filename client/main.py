@@ -2,6 +2,7 @@ import sys
 import socket
 
 from client import Client
+from IA import IA
 
 
 host = "localhost"
@@ -19,7 +20,15 @@ if __name__ == "__main__":
 	client = Client(host, port, team_name, s)
 	client.connect()
 
+	bernard = IA()
+
+	bernard.square()
+	bernard.prend()
+
 	while client.bot.alive == True:
+		client.bot.server_instructions(bernard.cmd)
+		client.bot.callback(bernard.cmd)
+		bernard.interact()
+		client.bot.query(bernard.cmd)
+		client.transceive(bernard.cmd)
 		client.receive()
-		client.bot.run()
-		client.transceive()

@@ -7,7 +7,6 @@ class	Bot:
 		self.alive = True
 		self.qreceive = client_data.qreceive
 		self.qtransceive = client_data.qtransceive
-		self.cmd = Command(id = C.CONNECT_NBR)
 		self.cmds = {
 			C.CONNECT_NBR	: Command(command = "connect_nbr", callback = Callback.connect_nbr),
 			C.INVENTAIRE	: Command(command = "inventaire", callback = Callback.inventaire),
@@ -23,27 +22,27 @@ class	Bot:
 			C.BROADCAST		: Command(command = "broadcast", callback = Callback.broadcast),
 		}
 
-	def	transceive(self, cmd):
-		if self.cmd.state != None and self.cmd.state == S.NONE:
+	def	transceive(self, _cmd, cmd):
+		if _cmd.state != None and _cmd.state == S.NONE:
 			command = cmd.command
-			if self.cmd.buf != None:
-				command = cmd.command + ' ' + self.cmd.buf
+			if _cmd.buf != None:
+				command = cmd.command + ' ' + _cmd.buf
 			#on push la query dans qtransceive
 			self.qtransceive.append(command + '\n')
 			#on set la command en cours
-			self.cmd.update(id = self.cmd.id, command = cmd.command, callback = cmd.callback, state = S.APPENDED)
+			_cmd.reset(id = _cmd.id, command = cmd.command, callback = cmd.callback, state = S.APPENDED)
 
 	def	death(self):
 		self.alive = False
 		self.qtransceive.clear()
 
-	def	query(self):
-		if self.cmd.id == C.DEATH:
+	def	query(self, cmd):
+		if cmd.id == C.DEATH:
 			self.death()
-		elif self.cmd.id in self.cmds:
-			self.transceive(self.cmds[self.cmd.id])
+		elif cmd.id in self.cmds:
+			self.transceive(cmd, self.cmds[cmd.id])
 
-	def	server_instructions(self):
+	def	server_instructions(self, cmd):
 		for i in range(len(self.qreceive.buf)):
 			if "message " in self.qreceive.buf[i]:
 				#server send a broadcast
@@ -54,23 +53,14 @@ class	Bot:
 			elif "mort" in self.qreceive.buf[i]:
 				#server send death
 				print("bot has die")
-				self.cmd.id = C.DEATH
+				cmd.reset(id = C.DEATH)
 				return
-			else:
+			elif cmd.state != S.TRAITING:
 				#server respond to our query
-				self.cmd.update(response = self.qreceive.buf[i], state = S.RECEIVED)
+				cmd.update(response = self.qreceive.buf[i], state = S.RECEIVED)
 
-	def	callback(self):
+	def	callback(self, cmd):
 		#si on a une reponse et un callback lié
-		if self.cmd.response != None and self.cmd.state == S.RECEIVED:
-			Callback.run(self.cmd)
-			self.cmd.clean()
-
-	def	run(self):
-		#read server instructions
-		self.server_instructions()
-		#execute callback when there is a query's response
-		self.callback()
-		if self.cmd.state != S.PENDING:
-			#make a query
-			self.query()
+		if cmd.response != None and cmd.state == S.RECEIVED:
+			Callback.run(cmd)
+			cmd.state = S.TRAITING

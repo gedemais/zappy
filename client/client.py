@@ -2,23 +2,8 @@ import socket
 
 from bot import Bot
 from command import S
+from queue import Queue
 
-
-class	Queue:
-	def __init__(self):
-		self.buf = []
-
-	def	append(self, cmd):
-		self.buf.append(cmd)
-	
-	def	remove(self, element):
-		self.buf.remove(element)
-
-	def	pop(self, index):
-		self.buf.pop(index)
-
-	def	clear(self):
-		self.buf = []
 
 class	Client:
 	def __init__(self, host, port, team_name, s):
@@ -40,7 +25,7 @@ class	Client:
 
 	def	receive(self):
 		self.qreceive.clear()
-		self.s.settimeout(0.25)
+		self.s.settimeout(0.1)
 		while True:
 			try:
 				data = self.s.recv(1024)
@@ -55,7 +40,7 @@ class	Client:
 		if len(self.qreceive.buf):
 			print("receive:", self.qreceive.buf)
 
-	def transceive(self):
+	def transceive(self, cmd):
 		buf_len = len(self.qtransceive.buf)
 
 		if buf_len > 0:
@@ -63,4 +48,4 @@ class	Client:
 			for i in range(buf_len):
 				self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
 			self.qtransceive.clear()
-			self.bot.cmd.state = S.PENDING
+			cmd.state = S.PENDING

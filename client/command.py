@@ -21,7 +21,7 @@ class	S(Enum):
 	APPENDED	= 1
 	PENDING		= 2
 	RECEIVED	= 3
-	DONE		= 4
+	TRAITING	= 4
 
 class	Command:
 	def	__init__(self, id = None, command = None, response = None, callback = None, buf = None, state = S.NONE):
