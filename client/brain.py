@@ -18,6 +18,7 @@ class Brain:
     loot_priorities = [5, 4, 3, 3, 2, 2, 4]
     x, y = 0, 0
     orientation = 0
+    blind = True
 
     def __init__(self):
         self.machine = Machine(model=self, states=["IDLE", "POPULATE", "LOOT"], initial="IDLE")

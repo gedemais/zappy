@@ -33,6 +33,7 @@ class	Bot:
 			_cmd.reset(id = _cmd.id, command = cmd.command, callback = cmd.callback, state = S.APPENDED)
 
 	def	death(self):
+		print("bot has die")
 		self.alive = False
 		self.qtransceive.clear()
 
@@ -46,13 +47,12 @@ class	Bot:
 		for i in range(len(self.qreceive.buf)):
 			if "message " in self.qreceive.buf[i]:
 				#server send a broadcast
-				print("bot receive a broadcast")
+				Callback.broadcast_received()
 			elif "deplacement " in self.qreceive.buf[i]:
 				#server send a kick
-				print("bot has been kick")
+				Callback.kick()
 			elif "mort" in self.qreceive.buf[i]:
 				#server send death
-				print("bot has die")
 				cmd.reset(id = C.DEATH)
 				return
 			elif cmd.state != S.TRAITING:
