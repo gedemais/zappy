@@ -46,7 +46,6 @@ class	Client:
 		#use the bot to prepare qtransceive
 		self.bot.server_transceive(cmd)
 		buf_len = len(self.qtransceive.buf)
-
 		if buf_len > 0:
 			print("transceive:", self.qtransceive.buf)
 			for i in range(buf_len):

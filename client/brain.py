@@ -77,4 +77,11 @@ class Brain:
         for i, c in enumerate(commands):
             print(c)
             commands[i] = Command(id = c)
+        commands += [
+            Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
+            Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
+            Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
+            Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
+            Command(id = C.DROITE), Command(id = C.PREND, buf="nourriture"),
+        ]
         return commands

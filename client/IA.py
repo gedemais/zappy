@@ -27,9 +27,7 @@ class	IA:
 	def	action(self, cmd):
 		self.cmd.clean()
 		self.cmd.id = cmd.id
-		_commands_state[cmd.id] = S.PENDING
-		if cmd.buf != None:
-			self.cmd.buf = cmd.buf
+		self.cmd.buf = cmd.buf
 
 	def	start(self, queue):
 		if self.busy == False and queue != None and len(queue) > 0:
@@ -51,12 +49,10 @@ class	IA:
 			return self.busy
 		state = self.queue.state
 		cmd = self.queue.buf[state]
-		if _commands_state[cmd.id] == S.NONE:
+		if self.cmd.state == S.NONE:
 			self.action(cmd)
-		if self.cmd.state != S.TRAITING:
-			return self.busy
-		if _commands_state[cmd.id] == S.RECEIVED:
-			_commands_state[cmd.id] = S.NONE
+		if self.cmd.state == S.TRAITING:
+			self.action(cmd)
 			self.queue.update(1)
 		self.end()
 		return self.busy
