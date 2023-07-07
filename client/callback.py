@@ -39,5 +39,13 @@ class	Callback:
 	def	broadcast(cmd):
 		_commands_state[C.BROADCAST] = S.RECEIVED
 
+	def	broadcast_received(cmd):
+		print("bot receive a broadcast")
+		print(cmd.debug())
+
+	def	kick(cmd):
+		print("bot has been kick")
+		print(cmd.debug())
+
 	def	run(cmd):
 		cmd.callback(cmd)

@@ -39,8 +39,8 @@ class	Client:
 					self.qreceive.append(split[i])
 		if len(self.qreceive.buf):
 			print("receive:", self.qreceive.buf)
-		#use the bot to parse reception
-		self.bot.server_receive(cmd)
+			#use the bot to parse reception
+			self.bot.server_receive(cmd)
 
 	def transceive(self, cmd):
 		#use the bot to prepare qtransceive

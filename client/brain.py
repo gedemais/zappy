@@ -17,6 +17,7 @@ class Brain:
     loot_priorities = [5, 4, 3, 3, 2, 2, 4]
     x, y = 0, 0
     orientation = 0
+    blind = True
 
     def __init__(self):
         self.machine = Machine(model=self, states=["IDLE", "POPULATE", "LOOT"], initial="IDLE")
@@ -33,9 +34,16 @@ class Brain:
         print("toto")
 
     def loot(self):
-         return [
-              Command(id = C.VOIR)
-		 ]
+         if (self.blind == True):
+              return (Command(id = C.VOIR))
+        #  return [
+        #       Command(id = C.VOIR),
+        #       Command(id = C.AVANCE),
+        #       Command(id = C.AVANCE),
+        #       Command(id = C.AVANCE),
+        #       Command(id = C.DROITE),
+        #       Command(id = C.PREND, buf = "nourriture"),
+		#  ]
         #if len(view) == 0 or self.view_size == len(view):
         #   Randomize orientation
         #   Launch view command and parse result in an array of arrays

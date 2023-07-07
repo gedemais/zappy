@@ -31,15 +31,22 @@ class	IA:
 		if cmd.buf != None:
 			self.cmd.buf = cmd.buf
 
-	#return True if busy
-	def	interact(self, queue = None):
+	def	start(self, queue):
 		if self.busy == False and queue != None:
-			print("interact busy")
 			self.busy = True
 			self.queue.start(queue)
+	
+	def	end(self):
+		self.queue.end()
+		if self.queue.running == False:
+			self.queue.clear()
+			self.busy = False
+
+	#return True if busy
+	def	interact(self, queue = None):
+		self.start(queue)
 		if self.busy == False:
-			print("interact not busy")
-			return self.busy
+			return False
 		if self.cmd.state != S.NONE and self.cmd.state != S.TRAITING:
 			return self.busy
 		state = self.queue.state
@@ -51,8 +58,5 @@ class	IA:
 		if _commands_state[cmd.id] == S.RECEIVED:
 			_commands_state[cmd.id] = S.NONE
 			self.queue.update(1)
-		self.queue.end()
-		if self.queue.running == False:
-			self.queue.clear()
-			self.busy = False
+		self.end()
 		return self.busy
