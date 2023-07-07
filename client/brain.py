@@ -13,7 +13,6 @@ class L(Enum):
 	LOOT_THYSTAME = 6
 
 class Brain:
-<<<<<<< HEAD
     # Explorated tiles
     explored_tiles = []
     view = []
@@ -33,7 +32,7 @@ class Brain:
     def update_state(self, client):
         pass
 
-    def update(self, client):
+    def update(self, client, cmd):
         if self.state == "LOOT":
             return self.loot(client)
         elif self.state == "IDLE":
