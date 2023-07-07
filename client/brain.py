@@ -1,5 +1,6 @@
 from transitions import Machine
 from enum import Enum
+from command import C, Command
 
 class L(Enum):
 	LOOT_FOOD = 0
@@ -17,21 +18,24 @@ class Brain:
     x, y = 0, 0
     orientation = 0
 
-    def __init__(self, ia):
+    def __init__(self):
         self.machine = Machine(model=self, states=["IDLE", "POPULATE", "LOOT"], initial="IDLE")
         self.machine.add_transition("go_loot", "IDLE", "LOOT")
         self.machine.add_transition("stop", "LOOT", "IDLE")
-        self.ia = ia
 
     def update(self):
-        if self.state == LOOT:
-            self.loot()
-        elif self.state == IDLE:
-            continue
+        if self.state == "LOOT":
+            return self.loot()
+        elif self.state == "IDLE":
+            return
 
     def populate(self):
+        print("toto")
 
     def loot(self):
+         return [
+              Command(id = C.VOIR)
+		 ]
         #if len(view) == 0 or self.view_size == len(view):
         #   Randomize orientation
         #   Launch view command and parse result in an array of arrays

@@ -22,8 +22,10 @@ if __name__ == "__main__":
 	client.connect()
 
 	bernard = IA()
+	brain = Brain()
+	brain.go_loot()
 
 	while client.bot.alive == True:
-		print("Busy:", bernard.interact(Brain.simpe()))
+		bernard.interact(brain.update())
 		client.transceive(bernard.cmd)
 		client.receive(bernard.cmd)
