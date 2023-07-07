@@ -36,13 +36,13 @@ class	Bot:
 		self.alive = False
 		self.qtransceive.clear()
 
-	def	query(self, cmd):
+	def	server_transceive(self, cmd):
 		if cmd.id == C.DEATH:
 			self.death()
 		elif cmd.id in self.cmds:
 			self.transceive(cmd, self.cmds[cmd.id])
 
-	def	server_instructions(self, cmd):
+	def	server_receive(self, cmd):
 		for i in range(len(self.qreceive.buf)):
 			if "message " in self.qreceive.buf[i]:
 				#server send a broadcast
@@ -58,6 +58,8 @@ class	Bot:
 			elif cmd.state != S.TRAITING:
 				#server respond to our query
 				cmd.update(response = self.qreceive.buf[i], state = S.RECEIVED)
+		#use the bot to call the callback
+		self.callback(cmd)
 
 	def	callback(self, cmd):
 		#si on a une reponse et un callback lié

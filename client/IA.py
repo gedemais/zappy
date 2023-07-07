@@ -22,17 +22,7 @@ class	IA:
 		self.name = "bernard"
 		self.cmd = Command()
 		self.queue = Queue()
-	
-	def	square(self):
-		self.queue.append([
-			Command(id = C.AVANCE),
-			Command(id = C.AVANCE),
-			Command(id = C.AVANCE),
-			Command(id = C.DROITE),
-		])
-
-	def	prend(self):
-		self.queue.append(Command(id = C.PREND, buf = "nourriture"))
+		self.busy = False
 
 	def	action(self, cmd):
 		self.cmd.clean()
@@ -42,24 +32,27 @@ class	IA:
 			self.cmd.buf = cmd.buf
 
 	#return True if busy
-	def	interact(self):
+	def	interact(self, queue = None):
+		if self.busy == False and queue != None:
+			print("interact busy")
+			self.busy = True
+			self.queue.start(queue)
+		if self.busy == False:
+			print("interact not busy")
+			return self.busy
 		if self.cmd.state != S.NONE and self.cmd.state != S.TRAITING:
-			return True
-		self.queue.start()
+			return self.busy
 		state = self.queue.state
 		cmd = self.queue.buf[state]
-
 		if _commands_state[cmd.id] == S.NONE:
 			self.action(cmd)
 		if self.cmd.state != S.TRAITING:
-			return
+			return self.busy
 		if _commands_state[cmd.id] == S.RECEIVED:
 			_commands_state[cmd.id] = S.NONE
 			self.queue.update(1)
-
 		self.queue.end()
-		return self.queue.running
-	
-	def	use(self):
-		print("use")
-		
+		if self.queue.running == False:
+			self.queue.clear()
+			self.busy = False
+		return self.busy
