@@ -27,7 +27,6 @@ if __name__ == "__main__":
     brain = Brain()
     brain.fetch()
     while client.bot.alive == True:
-        brain.update_state(client)
-        bernard.interact(brain.update(client))
+        brain.busy = bernard.interact(brain.update(client, bernard.cmd))
         client.transceive(bernard.cmd)
         client.receive(bernard.cmd)

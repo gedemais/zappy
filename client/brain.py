@@ -1,6 +1,6 @@
 from transitions import Machine
 from enum import Enum
-from command import C, Command
+from command import C, S, Command
 from random import randint
 
 class L(Enum):
@@ -13,6 +13,7 @@ class L(Enum):
 	LOOT_THYSTAME = 6
 
 class Brain:
+<<<<<<< HEAD
     # Explorated tiles
     explored_tiles = []
     view = []

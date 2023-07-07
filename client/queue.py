@@ -15,6 +15,7 @@ class	Queue:
 	def	end(self):
 		if self.state == self.length:
 			self.state = 0
+			self.buf = []
 			self.length = 0
 			self.running = False
 
