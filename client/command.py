@@ -18,10 +18,10 @@ class	C(Enum):
 
 class	S(Enum):
 	NONE		= 0
-	APPENDED	= 1
-	PENDING		= 2
-	RECEIVED	= 3
-	TRAITING	= 4
+	CREATED		= 1
+	TRANSCEIVED	= 2
+	PENDING		= 3
+	RECEIVED	= 4
 
 class	Command:
 	def	__init__(self, id = None, command = None, response = None, buf = None, state = S.NONE):
@@ -31,24 +31,12 @@ class	Command:
 		self.buf = buf
 		self.state = state
 
-	def	update(self, id = None, command = None, response = None, buf = None, state = None):
-		self.id = id = id if id != None else self.id
-		self.command = command if command != None else self.command
-		self.response = response if response != None else self.response
-		self.buf = buf if buf != None else self.buf
-		self.state = state if state != None else self.state
-
 	def	reset(self, id = None, command = None, response = None, buf = None, state = S.NONE):
 		self.id = id
 		self.command = command
 		self.response = response
 		self.buf = buf
 		self.state = state
-
-	def	clean(self):
-		self.command = None
-		self.response = None
-		self.state = S.NONE
 
 	def	data(self):
 		return {
@@ -62,6 +50,5 @@ class	Command:
 	def	debug(self):
 		return {
 			"id"		: self.id,
-			"command"	: self.command,
 			"state"		: self.state
 		}

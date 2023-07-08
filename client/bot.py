@@ -21,27 +21,44 @@ class	Bot:
 			C.BROADCAST		: Command(command = "broadcast"),
 		}
 
-	def	transceive(self, _cmd, cmd):
-		if _cmd.state != None and _cmd.state == S.NONE:
-			command = cmd.command
-			if _cmd.buf != None:
-				command = cmd.command + ' ' + _cmd.buf
-			#on push la query dans qtransceive
-			self.qtransceive.append(command + '\n')
-			#on set la command en cours
-			_cmd.reset(id = _cmd.id, command = cmd.command, state = S.APPENDED)
-
 	def	death(self):
 		print("bot has die")
 		self.alive = False
-		self.qtransceive.clear()
 
+	def	transceive(self, cmd_to_transceive, cmd):
+		if cmd_to_transceive.state == S.CREATED:
+			command = cmd.command
+			if cmd_to_transceive.buf != None:
+				command = cmd.command + ' ' + cmd_to_transceive.buf
+			#on push la query dans qtransceive
+			self.qtransceive.append(command + '\n')
+			cmd_to_transceive.state = S.TRANSCEIVED
+
+	#append la cmd en cours dans qtransceive pour un envoit au server
 	def	server_transceive(self, cmd):
 		if cmd.id == C.DEATH:
 			self.death()
 		elif cmd.id in self.cmds:
 			self.transceive(cmd, self.cmds[cmd.id])
 
+	def	parse_response(self, cmd):
+		response = cmd.response
+		#parsing view and inventory
+		if response[0] == '{' and response[-1] == '}':
+			cmd.response = []
+			response = response[1:-1]
+			for tile in response.split(','):
+				loots = tile.split(' ')
+				while '' in loots:
+					loots.remove('')
+				cmd.response.append(loots)
+			if "ttl" in response:
+				response = {}
+				for i in range(len(cmd.response)):
+					response[cmd.response[i][0]] = cmd.response[i][1]
+				cmd.response = response
+
+	#parse les données du server fraichement reçues
 	def	server_receive(self, cmd):
 		for i in range(len(self.qreceive.buf)):
 			if "message " in self.qreceive.buf[i]:
@@ -54,11 +71,10 @@ class	Bot:
 				print(cmd.debug())
 			elif "mort" in self.qreceive.buf[i]:
 				#server send death
-				cmd.reset(id = C.DEATH)
+				self.death()
 				return
-			elif cmd.state != S.TRAITING:
-				#server respond to our query
-				cmd.update(response = self.qreceive.buf[i], state = S.RECEIVED)
-		#si on a une reponse
-		if cmd.response != None and cmd.state == S.RECEIVED:
-			cmd.state = S.TRAITING
+			elif cmd.state == S.PENDING and len(self.qreceive.buf[i]) > 0:
+				#server send our response
+				cmd.response = self.qreceive.buf[i]
+				cmd.state = S.RECEIVED
+				self.parse_response(cmd)

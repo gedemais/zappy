@@ -2,8 +2,8 @@ import sys
 import socket
 
 from client import Client
-from IA import IA
 from brain import Brain
+from bernard import IA
 
 from time import sleep
 
@@ -22,11 +22,11 @@ if __name__ == "__main__":
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client = Client(host, port, team_name, s)
     client.connect()
-
+    
     bernard = IA()
-    brain = Brain()
-    brain.fetch()
+    bernard.fetch()
+
     while client.bot.alive == True:
-        brain.busy = bernard.interact(brain.update(client, bernard.cmd))
-        client.transceive(bernard.cmd)
-        client.receive(bernard.cmd)
+        bernard.interact()
+        client.transceive(bernard.brain.cmd)
+        client.receive(bernard.brain.cmd)

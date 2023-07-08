@@ -24,7 +24,7 @@ class	Client:
 		print(reply.strip())
 
 	def	receive(self, cmd):
-		self.qreceive.clear()
+		self.qreceive.reset()
 		self.s.settimeout(0.1)
 		while True:
 			try:
@@ -39,17 +39,17 @@ class	Client:
 					self.qreceive.append(split[i])
 		if len(self.qreceive.buf):
 			print("receive:", self.qreceive.buf)
-			#use the bot to parse reception
+			#use the bot to parse qreceive
 			self.bot.server_receive(cmd)
 
 	def transceive(self, cmd):
-		#use the bot to prepare qtransceive
-		self.bot.server_transceive(cmd)
-		buf_len = len(self.qtransceive.buf)
-		if buf_len > 0:
-			print("transceive:", self.qtransceive.buf)
-			for i in range(buf_len):
-				self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
-			self.qtransceive.clear()
-			#set a pending state one the query
-			cmd.state = S.PENDING
+		if cmd.id != None:
+			#use the bot to prepare qtransceive
+			self.bot.server_transceive(cmd)
+			buf_len = len(self.qtransceive.buf)
+			if cmd.state == S.TRANSCEIVED and buf_len > 0:
+				print("transceive:", self.qtransceive.buf)
+				for i in range(buf_len):
+					self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
+				self.qtransceive.reset()
+				cmd.state = S.PENDING
