@@ -38,7 +38,7 @@ class	Client:
 				if len(split[i]) > 0:
 					self.qreceive.append(split[i])
 		if len(self.qreceive.buf):
-			print("receive:", self.qreceive.buf)
+			# print("receive:", self.qreceive.buf)
 			#use the bot to parse qreceive
 			self.bot.server_receive(cmd)
 
@@ -48,7 +48,7 @@ class	Client:
 			self.bot.server_transceive(cmd)
 			buf_len = len(self.qtransceive.buf)
 			if cmd.state == S.TRANSCEIVED and buf_len > 0:
-				print("transceive:", self.qtransceive.buf)
+				# print("transceive:", self.qtransceive.buf)
 				for i in range(buf_len):
 					self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
 				self.qtransceive.reset()

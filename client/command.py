@@ -38,6 +38,15 @@ class	Command:
 		self.buf = buf
 		self.state = state
 
+	def	copy(self):
+		return(Command(
+			id = self.id,
+			command = self.command,
+			response = self.response,
+			buf	= self.buf,
+			state = self.state
+		))
+
 	def	data(self):
 		return {
 			"id"		: self.id,

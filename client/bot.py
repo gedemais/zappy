@@ -55,7 +55,7 @@ class	Bot:
 			if "ttl" in response:
 				response = {}
 				for i in range(len(cmd.response)):
-					response[cmd.response[i][0]] = cmd.response[i][1]
+					response[cmd.response[i][0]] = int(cmd.response[i][1])
 				cmd.response = response
 
 	#parse les données du server fraichement reçues

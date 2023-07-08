@@ -6,13 +6,13 @@ from brain import Brain
 
 
 class	L(Enum):
-	LOOT_FOOD = 0
-	LOOT_LINEMATE = 1
-	LOOT_DERAUMERE = 2
-	LOOT_SIBUR = 3
-	LOOT_MENDIANE = 4
-	LOOT_PHIRAS = 5
-	LOOT_THYSTAME = 6
+	FOOD = 0
+	LINEMATE = 1
+	DERAUMERE = 2
+	SIBUR = 3
+	MENDIANE = 4
+	PHIRAS = 5
+	THYSTAME = 6
 
 class	IA:
 	# Explorated tiles
@@ -24,76 +24,93 @@ class	IA:
 	x, y = 0, 0
 	# Tile index in view's tiles referential (amount depending on bot level)
 	tile = 0
-	# Has the player ever seen ?
-	blind = True
 	# bernard command
 	cmd = Command()
-	# commands to send to bernard when he's not busy
-	commands = []
-	# inventaire
 	inventory = []
+	needs = {
+			C.CONNECT_NBR	: 0,
+			C.INVENTAIRE	: 1,
+			C.VOIR			: 1,
+			C.AVANCE		: 0,
+			C.DROITE		: 0,
+			C.GAUCHE		: 0,
+			C.PREND			: 1,
+			C.POSE			: 0,
+			C.INCANTATION	: 0,
+			C.FORK			: 0,
+			C.EXPULSE		: 0,
+			C.BROADCAST		: 0,
+		}
 
 	def __init__(self):
 		self.brain = Brain()
-		self.machine = Machine(model=self, states=["IDLE", "LOOT"], initial="IDLE")
-		self.machine.add_transition("fetch", "IDLE", "LOOT")
-		self.machine.add_transition("stop", "LOOT", "IDLE")
+		self.machine = Machine(model=self, states=["IDLE", "RUSH"], initial="IDLE")
+		self.machine.add_transition("rush", "IDLE", "RUSH")
+		self.machine.add_transition("stop", "RUSH", "IDLE")
 
 	def	interact(self):
 		if self.brain.cmd.state == S.RECEIVED:
-			self.cmd.reset(id = self.brain.cmd.id, response = self.brain.cmd.response, state = self.brain.cmd.state)
+			self.cmd = self.brain.cmd.copy()
 		if self.brain.busy == False:
-			self.update()
-			self.brain.input(self.commands)
+			commands = self.rush()
+			self.brain.input(commands)
 		self.brain.process()
 
-	def update(self):
-		self.commands = []
-		if self.state == "LOOT":
-			self.loot()
-		elif self.state == "IDLE":
-			pass
+	# def update(self):
+	# 	if self.state == "RUSH":
+	# 		self.rush()
+	# 	elif self.state == "IDLE":
+	# 		pass
 
-	def	vision(self):
-		if self.cmd.id == C.VOIR and self.cmd.state == S.RECEIVED:
-			for loot in self.cmd.response:
-				self.view.append(loot)
-			self.view_size = len(self.view)
-			if (self.view_size > 0):
-				self.blind = False
-			#on reset la cmd car elle vient d'être traitée
-			self.cmd.reset()
-		if self.blind:
-			self.commands.append(Command(id = C.VOIR))
+	def	await_response(self, id):
+		if self.cmd.id == id and self.cmd.state == S.RECEIVED:
+			return True
+		return False
+	
+	def	execute(self, commands, id, buf = None):
+		if self.await_response(id) == True:
+			return True
+		if self.needs[id] == 1:
+			command = Command(id = id)
+			if buf != None:
+				command.buf = buf
+			commands.append(command)
 			return False
 		return True
 	
-	def	inventaire(self):
-		if self.cmd.id == C.INVENTAIRE and self.cmd.state == S.RECEIVED:
+	def	callback(self, id):
+		if self.needs[id] == 1 and self.cmd.state == S.RECEIVED:
+			self.needs[id] = 0
+			return True
+		return False
+
+	def rush(self):
+
+		print("road to level 2 !", self.cmd.debug())
+		commands = []
+		item = "nourriture"
+
+		if self.execute(commands, C.VOIR) == False:
+			return commands
+		elif self.callback(C.VOIR) == True:
+			for loot in self.cmd.response:
+				self.view.append(loot)
+			self.view_size = len(self.view)
+
+		if self.execute(commands, C.INVENTAIRE) == False:
+			return commands
+		elif self.callback(C.INVENTAIRE) == True:
 			self.inventory = self.cmd.response
-			#on reset la cmd car elle vient d'être traitée
-			self.cmd.reset()
 
-		if self.cmd.id == None:
-			self.commands.append(Command(id = C.INVENTAIRE))
-			return False
+		if self.execute(commands, C.PREND, item) == False:
+			return commands
+		elif self.callback(C.PREND) == True:
+			self.inventory[item] = self.inventory[item] + 1
+			self.needs[C.AVANCE] = 1
 
-		return True
-
-	def loot(self):
-
-		print("loot")
-
-		if self.vision() == False:
-			return
+		if self.execute(commands, C.AVANCE) == False:
+			return commands
+		elif self.callback(C.AVANCE) == True:
+			self.needs[C.PREND] = 1
 		
-		if self.inventaire() == False:
-			return
-
-		self.commands += [
-			Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
-			Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
-			Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
-			Command(id = C.AVANCE), Command(id = C.PREND, buf="nourriture"),
-			Command(id = C.DROITE),
-		]
+		return commands

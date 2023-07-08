@@ -24,7 +24,6 @@ if __name__ == "__main__":
     client.connect()
     
     bernard = IA()
-    bernard.fetch()
 
     while client.bot.alive == True:
         bernard.interact()

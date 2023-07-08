@@ -26,7 +26,6 @@ class	Brain:
 			#on set une nouvelle cmd à transceive
 			self.cmd.reset(id = cmd.id, buf = cmd.buf, state = S.CREATED)
 		else:
-			self.cmd.reset()
 			self.queue.running = False
 
 	def	end(self):
@@ -40,6 +39,7 @@ class	Brain:
 
 	#return True if busy
 	def	process(self, state = False):
+		print("brain", self.cmd.debug())
 		if self.busy == False:
 			return False
 		if state == True:
