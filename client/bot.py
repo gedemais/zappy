@@ -25,6 +25,7 @@ class	Bot:
 		print("bot has die")
 		self.alive = False
 
+	#push the cmd in a queue
 	def	transceive(self, cmd_to_transceive, cmd):
 		if cmd_to_transceive.state == S.CREATED:
 			command = cmd.command

@@ -17,9 +17,7 @@ class	L(Enum):
 class	T(Enum):
 	NONE = 0
 	MANGER = 1
-	INCANT_GATHER = 2
-	INCANT_PUT = 3
-	INCANT = 4
+	INCANTATION = 2
 
 class	IA:
 	# view data
@@ -38,6 +36,7 @@ class	IA:
 	inventory = []
 	tasks = {
 		T.MANGER		: Command(id = T.MANGER),
+		T.INCANTATION	: Command(id = T.INCANTATION),
 	}
 	needs = {
 		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR),
@@ -54,22 +53,20 @@ class	IA:
 		C.BROADCAST		: Command(id = C.BROADCAST),
 	}
 
-	def __init__(self):
+	def __init__(self, wx, wy):
 		self.brain = Brain()
 		self.machine = Machine(model=self, states=["IDLE", "RUSH"], initial="IDLE")
 		self.machine.add_transition("fetch", "IDLE", "RUSH")
 		self.machine.add_transition("stop", "RUSH", "IDLE")
+		#world size
+		self.wx, self.wy = wx, wy
 
 	def	interact(self, ticks):
 		self.ticks = ticks
-		#si la cmd est received on la stock
-		if self.brain.cmd.state == S.RECEIVED:
-			self.cmd = self.brain.cmd.copy()
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
-			commands = self.update()
+			commands = self.update(ticks)
 			self.brain.input(commands)
-			self.cmd.reset()
 		#on process le brain
 		self.brain.process()
 
@@ -80,49 +77,54 @@ class	IA:
 			pass
 
 	#comportement par défaut des fonctions lors des callbacks
-	def	update_bot(self, id):
+	def	update_bot(self, command):
 		#on stock view
-		if id == C.VOIR:
+		if command.id == C.VOIR:
+			#WIP
 			if self.te == 0:
 				self.te = self.ticks - self.t
+			#
 			self.view = []
+			#on reset la position du joueur
 			self.x, self.y = 0, 0
-			for loot in self.cmd.response:
+			for loot in command.response:
 				self.view.append(loot)
 			self.view_size = len(self.view)
 		#on stock l'inventaire
-		elif id == C.INVENTAIRE:
-			self.inventory = self.cmd.response
+		elif command.id == C.INVENTAIRE:
+			self.inventory = command.response
 			#on stock le tick du dernier update
 			self.needs[C.INVENTAIRE].buf = self.ticks
 		#on prend les elements sur la case et on update l'inventaire et la viewcase
-		elif id == C.PREND:
+		elif command.id == C.PREND:
 			for element in self.inventory:
-				if element == self.cmd.buf:
+				if element == command.buf:
 					self.inventory[element] = self.inventory[element] + 1
 			viewcase = self.view[self.getviewindex()]
-			if self.cmd.buf in viewcase:
-				viewcase[self.cmd.buf] = viewcase[self.cmd.buf] - 1
+			if command.buf in viewcase:
+				viewcase[command.buf] = viewcase[command.buf] - 1
 		#on pose les elements sur la case et on update l'inventaire et la viewcase
-		elif id == C.POSE:
+		elif command.id == C.POSE:
 			for element in self.inventory:
-				if element == self.cmd.buf:
+				if element == command.buf:
 					self.inventory[element] = self.inventory[element] - 1
 			viewcase = self.view[self.getviewindex()]
-			if self.cmd.buf in viewcase:
-				viewcase[self.cmd.buf] = viewcase[self.cmd.buf] + 1
+			if command.buf in viewcase:
+				viewcase[command.buf] = viewcase[command.buf] + 1
 		#right rotation
-		elif id == C.DROITE:
+		elif command.id == C.DROITE:
 			self.dir = self.dir + 90
 			if self.dir == 270:
 				self.dir = -90
+			print("dir", self.dir)
 		#left rotation
-		elif id == C.GAUCHE:
+		elif command.id == C.GAUCHE:
 			self.dir = self.dir - 90
 			if self.dir == -270:
 				self.dir = 90
+			print("dir", self.dir)
 		#movement forward
-		elif id == C.AVANCE:
+		elif command.id == C.AVANCE:
 			#front
 			if self.dir == 0:
 				self.x = self.x + 1
@@ -139,18 +141,15 @@ class	IA:
 			if self.dir == -90:
 				self.y = self.y - 1
 				self.sy = self.sy - 1
-
-	#on return True si la derniere cmd reçue a le même id que la response à check
-	def	await_response(self, id):
-		if self.cmd.id == id and self.cmd.state == S.RECEIVED:
-			return True
-		return False
+			print("pos x {} y {} spos {} {}".format(self.x, self.y, self.sx, self.sy))
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
 	def	receive(self, id):
-		print("receive", id)
-		self.update_bot(id)
-		self.needs[id].state = S.NONE
+		for command in self.brain.memory:
+			if command.id == id:
+				print("receive", id)
+				self.update_bot(command)
+				self.needs[id].state = S.NONE
 	
 	def	transceive(self, commands, id):
 		print("transceive", id)
@@ -164,6 +163,13 @@ class	IA:
 			else:
 				command = Command(id = id, buf = buf)
 		commands.append(command)
+
+	#on return True si on a une reponse a la cmd envoyée
+	def	await_response(self, id):
+		for command in self.brain.memory:
+			if command.id == id and command.state == S.RECEIVED:
+				return True
+		return False
 	
 	def	callback(self):
 		#si un need est pending et que cmd.id == need.id et cmd.state == received
@@ -178,7 +184,6 @@ class	IA:
 			command = self.needs[i]
 			if self.await_response(command.id) == False and command.state == S.NEEDED:
 				self.transceive(commands, command.id)
-				return
 
 	#WIP
 	def	getviewindex(self):
@@ -191,6 +196,8 @@ class	IA:
 		return index
 	#WIP
 	def	outofview(self):
+		if self.view == None or len(self.view) == 0:
+			return True
 		range = self.lvl
 		if self.x < 0 or self.x > range:
 			return True
@@ -198,15 +205,29 @@ class	IA:
 		if self.y < -range or self.y > range:
 			return True
 		return False
+
+	#WIP
+	def	task_assign(self):
+		#on reset les tasks en cours
+		for task in self.tasks:
+			self.tasks[task].state = S.NONE
+		if self.inventory != None and len(self.inventory) > 0 and self.inventory["nourriture"] < 10:
+			self.tasks[T.MANGER].state = S.NEEDED
+			return
+		#si le bot ne meurs pas de fin on va tenter une incantation
+		self.tasks[T.INCANTATION].state = S.NEEDED
+
 	#assigne une tache au joueur celon ses besoins
 	def	task_manager(self):
 		print("start task manager -----")
+		self.task_assign()
 		if self.tasks[T.MANGER].state == S.NEEDED:
 			#il faut trouver de la nourriture
 			print("T.MANGER")
 			#suis-je en dehors de mon champ de vision ?
 			if self.outofview() == True:
 				self.needs[C.VOIR].state = S.NEEDED
+				self.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE].state = S.NEEDED
 				return
 			#y a t-il de la nourriture ou je suis ?
 			#oui : prendre
@@ -219,25 +240,23 @@ class	IA:
 			else:
 				print("no food on bot pos, on avance")
 				self.needs[C.AVANCE].state = S.NEEDED	
-		print("end task manager -------")	
+		if self.tasks[T.INCANTATION].state == S.NEEDED:
+			print("T.INCANTATION")
+		print("end task manager -------")
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	manager(self):
 		print("start manager ----------")
-		if len(self.view) == 0:
+		#first view
+		if self.view == None or len(self.view) == 0:
 			self.t = self.ticks
 			self.needs[C.VOIR].state = S.NEEDED
-			return
-		if len(self.inventory) == 0:
-			self.needs[C.INVENTAIRE].reset(id = C.INVENTAIRE, state = S.NEEDED)
-		else:
-			if self.inventory["nourriture"] < 10:
-				self.tasks[T.MANGER].state = S.NEEDED
-			else:
-				self.tasks[T.MANGER].state = S.NONE	
+		#first inventory
+		if self.inventory == None or len(self.inventory) == 0:
+			self.needs[C.INVENTAIRE].state = S.NEEDED
 		#WIP
 		if self.needs[C.INVENTAIRE].buf != None:
-			print("inventaire will update {} / {}".format(self.ticks - self.needs[C.INVENTAIRE].buf, self.te * 4))
+			print("inventaire update", self.te * 4 - (self.ticks - self.needs[C.INVENTAIRE].buf))
 			if self.ticks - self.needs[C.INVENTAIRE].buf > self.te * 4:
 				self.needs[C.INVENTAIRE].reset(id = C.INVENTAIRE, state = S.NEEDED)
 		print("end manager ------------")

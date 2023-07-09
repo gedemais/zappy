@@ -5,7 +5,7 @@ class	Queue:
 		self.length = 0
 		self.running = False
 
-	def	start(self, buf):
+	def	start(self, buf = []):
 		if self.running == False:
 			self.running = True
 			self.state = 0
