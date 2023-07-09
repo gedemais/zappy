@@ -25,18 +25,34 @@ class	S(Enum):
 	NEEDED		= 5
 
 class	Command:
-	def	__init__(self, id = None, command = None, response = None, buf = None, state = S.NONE):
+	def	__init__(self, id = None, command = None, response = None, buf = None, callback = None, state = S.NONE):
 		self.id = id
 		self.command = command
 		self.response = response
 		self.buf = buf
+		self.callback = callback
 		self.state = state
 
-	def	reset(self, id = None, command = None, response = None, buf = None, state = S.NONE):
+	def	update(self, id = None, command = None, response = None, buf = None, callback = None, state = None):
+		if id != None:
+			self.id = id
+		if command != None:
+			self.command = command
+		if response != None:
+			self.response = response
+		if buf != None:
+			self.buf = buf
+		if callback != None:
+			self.callback = callback
+		if state != None:
+			self.state = state
+
+	def	reset(self, id = None, command = None, response = None, buf = None, callback = None, state = S.NONE):
 		self.id = id
 		self.command = command
 		self.response = response
 		self.buf = buf
+		self.callback = callback
 		self.state = state
 
 	def	copy(self):
@@ -45,6 +61,7 @@ class	Command:
 			command = self.command,
 			response = self.response,
 			buf	= self.buf,
+			callback = self.callback,
 			state = self.state
 		))
 
@@ -54,6 +71,7 @@ class	Command:
 			"command"	: self.command,
 			"response"	: self.response,
 			"buf"		: self.buf,
+			"callback"	: self.callback,
 			"state"		: self.state
 		}
 
