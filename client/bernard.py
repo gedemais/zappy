@@ -22,10 +22,6 @@ class	T(Enum):
 	INCANT = 4
 
 class	IA:
-	# Explorated tiles
-	explored_tiles = []
-	# Tile index in view's tiles referential (amount depending on bot level)
-	tile = 0
 	# view data
 	view = []
 	view_size = 0
@@ -182,6 +178,7 @@ class	IA:
 			command = self.needs[i]
 			if self.await_response(command.id) == False and command.state == S.NEEDED:
 				self.transceive(commands, command.id)
+				return
 
 	#WIP
 	def	getviewindex(self):
@@ -203,7 +200,7 @@ class	IA:
 		return False
 	#assigne une tache au joueur celon ses besoins
 	def	task_manager(self):
-		print("task manager")
+		print("start task manager -----")
 		if self.tasks[T.MANGER].state == S.NEEDED:
 			#il faut trouver de la nourriture
 			print("T.MANGER")
@@ -221,11 +218,12 @@ class	IA:
 			#non : avancer
 			else:
 				print("no food on bot pos, on avance")
-				self.needs[C.AVANCE].state = S.NEEDED		
+				self.needs[C.AVANCE].state = S.NEEDED	
+		print("end task manager -------")	
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	manager(self):
-		print("manager")
+		print("start manager ----------")
 		if len(self.view) == 0:
 			self.t = self.ticks
 			self.needs[C.VOIR].state = S.NEEDED
@@ -239,19 +237,20 @@ class	IA:
 				self.tasks[T.MANGER].state = S.NONE	
 		#WIP
 		if self.needs[C.INVENTAIRE].buf != None:
-			print("inventaire will update {} / {}".format(self.ticks - self.needs[C.INVENTAIRE].buf, self.te * 5))
-			if self.ticks - self.needs[C.INVENTAIRE].buf > self.te * 5:
+			print("inventaire will update {} / {}".format(self.ticks - self.needs[C.INVENTAIRE].buf, self.te * 4))
+			if self.ticks - self.needs[C.INVENTAIRE].buf > self.te * 4:
 				self.needs[C.INVENTAIRE].reset(id = C.INVENTAIRE, state = S.NEEDED)
+		print("end manager ------------")
 		#WIP
 		self.task_manager()
 
 	def rush(self):
-		print("rush - start loop")
+		print("rush - start loop ================")
 		commands = []
 
 		self.callback()
 		self.manager()
 		self.call(commands)
 
-		print("rush - end loop")
+		print("rush - end loop ==================")
 		return commands
