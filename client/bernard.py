@@ -30,8 +30,7 @@ class	IA:
 	dir = 0
 	#server speed and ticks ellapsed
 	ticks, t, te = 0, 0, 0
-	# bernard command
-	cmd = Command()
+	# bernard
 	lvl = 1
 	inventory = []
 	tasks = {
@@ -65,7 +64,7 @@ class	IA:
 		self.ticks = ticks
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
-			commands = self.update(ticks)
+			commands = self.update()
 			self.brain.input(commands)
 		#on process le brain
 		self.brain.process()
@@ -172,7 +171,7 @@ class	IA:
 		return False
 	
 	def	callback(self):
-		#si un need est pending et que cmd.id == need.id et cmd.state == received
+		#si un need est pending et que la cmd est received (dans brain.memory)
 		for i in self.needs:
 			command = self.needs[i]
 			if self.await_response(command.id) == True and command.state == S.NEEDED:
@@ -219,7 +218,6 @@ class	IA:
 
 	#assigne une tache au joueur celon ses besoins
 	def	task_manager(self):
-		print("start task manager -----")
 		self.task_assign()
 		if self.tasks[T.MANGER].state == S.NEEDED:
 			#il faut trouver de la nourriture
@@ -242,11 +240,9 @@ class	IA:
 				self.needs[C.AVANCE].state = S.NEEDED	
 		if self.tasks[T.INCANTATION].state == S.NEEDED:
 			print("T.INCANTATION")
-		print("end task manager -------")
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	manager(self):
-		print("start manager ----------")
 		#first view
 		if self.view == None or len(self.view) == 0:
 			self.t = self.ticks
@@ -259,7 +255,6 @@ class	IA:
 			print("inventaire update", self.te * 4 - (self.ticks - self.needs[C.INVENTAIRE].buf))
 			if self.ticks - self.needs[C.INVENTAIRE].buf > self.te * 4:
 				self.needs[C.INVENTAIRE].reset(id = C.INVENTAIRE, state = S.NEEDED)
-		print("end manager ------------")
 		#WIP
 		self.task_manager()
 
