@@ -24,8 +24,11 @@ if __name__ == "__main__":
     client.connect()
     
     bernard = IA()
+    bernard.fetch()
 
+    ticks = 0
     while client.bot.alive == True:
-        bernard.interact()
+        ticks = ticks + 1
+        bernard.interact(ticks)
         client.transceive(bernard.brain.cmd)
         client.receive(bernard.brain.cmd)

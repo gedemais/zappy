@@ -43,7 +43,7 @@ class	Bot:
 
 	def	parse_response(self, cmd):
 		response = cmd.response
-		#parsing view and inventory
+		#parsing inventaire and voir
 		if response[0] == '{' and response[-1] == '}':
 			cmd.response = []
 			response = response[1:-1]
@@ -52,10 +52,23 @@ class	Bot:
 				while '' in loots:
 					loots.remove('')
 				cmd.response.append(loots)
+			#parsing inventaire
 			if "ttl" in response:
 				response = {}
 				for i in range(len(cmd.response)):
 					response[cmd.response[i][0]] = int(cmd.response[i][1])
+				cmd.response = response
+			#parsing voir
+			else:
+				response = []
+				for element in cmd.response:
+					tmp = {}
+					for elt in element:
+						if elt in tmp:
+							tmp[elt] = tmp[elt] + 1	
+						else:
+							tmp[elt] = 1
+					response.append(tmp)
 				cmd.response = response
 
 	#parse les données du server fraichement reçues
@@ -78,3 +91,4 @@ class	Bot:
 				cmd.response = self.qreceive.buf[i]
 				cmd.state = S.RECEIVED
 				self.parse_response(cmd)
+		print("server response", self.qreceive.buf)

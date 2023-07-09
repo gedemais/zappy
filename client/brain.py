@@ -34,8 +34,11 @@ class	Brain:
 			self.busy = False
 
 	def	input(self, commands):
-		self.busy = True
-		self.queue.start(commands)
+		if commands != None and len(commands) > 0:
+			self.busy = True
+			self.queue.start(commands)
+			command = self.queue.get_state_elt()
+			self.cmd = command.copy()
 
 	#return True if busy
 	def	process(self, state = False):
