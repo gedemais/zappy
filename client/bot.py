@@ -91,4 +91,3 @@ class	Bot:
 				cmd.response = self.qreceive.buf[i]
 				cmd.state = S.RECEIVED
 				self.parse_response(cmd)
-		print("server response", self.qreceive.buf)
