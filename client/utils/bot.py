@@ -1,4 +1,4 @@
-from command import C, S, Command
+from utils.command import C, S, Command
 
 
 class	Bot:

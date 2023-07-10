@@ -1,8 +1,8 @@
 import socket
 
-from bot import Bot
-from command import S
-from queue import Queue
+from utils.bot import Bot
+from utils.command import S
+from utils.queue import Queue
 
 
 class	Client:

@@ -19,8 +19,8 @@ if __name__ == "__main__":
 	client = Client(host, port, team_name, s)
 	#connect return world's dimension
 	wx, wy = client.connect()
-	#time start, time
-	ts, t = 0, 0
+	#time start, time, time ellapsed
+	ts, t, te = 0, 0, 0
 
 	if wx > 0 and wy > 0:
 		bernard = IA(wx, wy)
@@ -33,3 +33,4 @@ if __name__ == "__main__":
 			bernard.interact(t)
 			client.transceive(bernard.brain.cmd)
 			client.receive(bernard.brain.cmd)
+			te = int(time.time() * 1000) - t

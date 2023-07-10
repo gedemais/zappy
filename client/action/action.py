@@ -1,4 +1,5 @@
-from command import C, S, Command
+from utils.command import S, Command
+from action.view import getviewindex
 
 
 # append l'action demandée dans une queue de Command
@@ -6,86 +7,11 @@ from command import C, S, Command
 # element	: string ou array lié(e) à la commande
 #	pour chaque element de l'array une commande sera executée avec buf = array[i]
 #	ça permet d'envoyer une list de ressources à poser/prendre
-def	compute_action(bernard, id, repeat = 1, element = None):
-	bernard.needs[id].update(state = S.NEEDED)
-	command = Command(id = id)
-	command.repeat = repeat
-	command.buf = element
-	bernard.actions.append(command)
-
-#return the index of bernard in view with x, y
-def	getviewindex(x, y):
-	index = 0
-	middle = x * (x + 1)
-	index = middle + y
-	return index
-
-#return the pos of bernard in view with index
-def	getviewpos(index):
-	x, y = 0, 0
-	#if index == 0, pox == 0, 0
-	if index == 0:
-		return x, y
-	start, end = 0, 0
-	for i in range(1, 8):
-		lvl = i + 1
-		middle = lvl * i
-		start = middle - lvl
-		end = middle + lvl
-		if index > start and index < end:
-			break
-	x = lvl - 1
-	y = -x
-	for i in range(start, end):
-		if index == getviewindex(x, y):
-			break
-		y += 1
-	return x, y
-
-#return true if x, y are out of bernard.view
-def	outofview(x, y, lvl):
-	offset = lvl
-	if x < 0 or x > offset:
-		return True
-	offset = abs(lvl - lvl - x)
-	if y < -offset or y > offset:
-		return True
-	return False
-
-#WIP
-def	goto_index(bernard, index):
-	targetx, targety = getviewpos(index)
-	x, y = bernard.x, bernard.y
-	front, back, right, left = 0, 0, 0, 0
-	#on stock les déplacements nécessaire pour rejoindre bêtement la pos target
-	while x < targetx:
-		x += 1
-		front += 1
-	while x > targetx:
-		x -=1
-		back += 1
-	while y < targety:
-		y += 1
-		right += 1
-	while y > targety:
-		y -= 1
-		left += 1
-	#on push les mouvements nécessaire dans une queue à executer
-	if front > 0:
-		compute_action(bernard, C.AVANCE, front)
-	if back > 0:
-		compute_action(bernard, C.DROITE, 2)
-		compute_action(bernard, C.AVANCE, back)
-		compute_action(bernard, C.GAUCHE, 2)
-	if right > 0:
-		compute_action(bernard, C.DROITE, 1)
-		compute_action(bernard, C.AVANCE, right)
-		compute_action(bernard, C.GAUCHE, 1)
-	if left > 0:
-		compute_action(bernard, C.GAUCHE, 1)
-		compute_action(bernard, C.AVANCE, left)
-		compute_action(bernard, C.DROITE, 1)
-
+def		compute_action(bernard, id, repeat = 1, element = None):
+	for i in range(repeat):
+		command = Command(id = id)
+		command.buf = element
+		bernard.actions.append(command)
 
 class	Action:
 	def	__init__(self):
@@ -146,20 +72,20 @@ class	Action:
 		#update direction by forward
 		#front
 		if bernard.dir == 0:
-			bernard.x += 1
-			bernard.sx += 1
-		#back
-		if bernard.dir == 180 or bernard.dir == -180:
-			bernard.x -= 1
-			bernard.sx -= 1
-		#right
-		if bernard.dir == 90:
 			bernard.y += 1
 			bernard.sy += 1
-		#left
-		if bernard.dir == -90:
+		#back
+		if bernard.dir == 180 or bernard.dir == -180:
 			bernard.y -= 1
 			bernard.sy -= 1
+		#right
+		if bernard.dir == 90:
+			bernard.x += 1
+			bernard.sx += 1
+		#left
+		if bernard.dir == -90:
+			bernard.x -= 1
+			bernard.sx -= 1
 		print("avance")
 		print("pos x {} y {} spos {} {}".format(bernard.x, bernard.y, bernard.sx, bernard.sy))
 

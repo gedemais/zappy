@@ -1,5 +1,5 @@
-from command import C, S, Command
-from queue import Queue
+from utils.command import C, S, Command
+from utils.queue import Queue
 
 
 class	Brain:
