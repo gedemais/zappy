@@ -18,27 +18,45 @@ def	compute_action(need, repeat = 1, element = None):
 		else:
 			need.buf.append(element)
 
-#return the index of bernard.view with x, y
+def	goto_index(bernard, index):
+	pass
+
+#return the index of bernard in view with x, y
 def	getviewindex(x, y):
 	index = 0
 	middle = x * (x + 1)
-	if y < 0:
-		index = middle - y
-	else:
-		index = middle + y
+	index = middle + y
 	return index
 
-#return the pos of bernard.view with index
-def	getviewpos(index, lvl):
-	pass
+#return the pos of bernard in view with index
+def	getviewpos(index):
+	x, y = 0, 0
+	#if index == 0, pox == 0, 0
+	if index == 0:
+		return x, y
+	start, end = 0, 0
+	for i in range(1, 8):
+		lvl = i + 1
+		middle = lvl * i
+		start = middle - lvl
+		end = middle + lvl
+		if index > start and index < end:
+			break
+	x = lvl - 1
+	y = -x
+	for i in range(start, end):
+		if index == getviewindex(x, y):
+			break
+		y += 1
+	return x, y
 
 #return true if x, y are out of bernard.view
 def	outofview(x, y, lvl):
-	range = lvl
-	if x < 0 or x > range:
+	offset = lvl
+	if x < 0 or x > offset:
 		return True
-	range = abs(lvl - lvl - x)
-	if y < -range or y > range:
+	offset = abs(lvl - lvl - x)
+	if y < -offset or y > offset:
 		return True
 	return False
 

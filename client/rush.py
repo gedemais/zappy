@@ -1,7 +1,7 @@
 from enum import Enum
 
 from command import C, S, Command
-from action import compute_action, getviewindex, outofview
+from action import compute_action, getviewindex, outofview, getviewpos
 from random import randint
 
 
@@ -58,7 +58,7 @@ class	Rush:
 		if bernard.view == None or len(bernard.view) == 0 \
 				or outofview(bernard.x, bernard.y, bernard.lvl) == True:
 			compute_action(bernard.needs[C.VOIR])
-			compute_action(bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE])
+			# compute_action(bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE])
 			return
 		#first inventory or update inventory (each 2s)
 		if bernard.inventory == None or len(bernard.inventory) == 0 \
