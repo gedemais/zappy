@@ -1,25 +1,17 @@
-from command import S
+from command import C, S, Command
 
 
-# need		: la commande need qui doit être compute
+# append l'action demandée dans une queue de Command
 # repeat	: le nombre de fois ou elle sera executée
 # element	: string ou array lié(e) à la commande
 #	pour chaque element de l'array une commande sera executée avec buf = array[i]
 #	ça permet d'envoyer une list de ressources à poser/prendre
-def	compute_action(need, repeat = 1, element = None):
-	need.update(state = S.NEEDED)
-	need.buf = None
-	need.repeat = repeat
-	if element != None:
-		need.buf = []
-		if type(element) == list:
-			for elt in element:
-				need.buf.append(elt)
-		else:
-			need.buf.append(element)
-
-def	goto_index(bernard, index):
-	pass
+def	compute_action(bernard, id, repeat = 1, element = None):
+	bernard.needs[id].update(state = S.NEEDED)
+	command = Command(id = id)
+	command.repeat = repeat
+	command.buf = element
+	bernard.actions.append(command)
 
 #return the index of bernard in view with x, y
 def	getviewindex(x, y):
@@ -59,6 +51,41 @@ def	outofview(x, y, lvl):
 	if y < -offset or y > offset:
 		return True
 	return False
+
+#WIP
+def	goto_index(bernard, index):
+	targetx, targety = getviewpos(index)
+	x, y = bernard.x, bernard.y
+	front, back, right, left = 0, 0, 0, 0
+	#on stock les déplacements nécessaire pour rejoindre bêtement la pos target
+	while x < targetx:
+		x += 1
+		front += 1
+	while x > targetx:
+		x -=1
+		back += 1
+	while y < targety:
+		y += 1
+		right += 1
+	while y > targety:
+		y -= 1
+		left += 1
+	#on push les mouvements nécessaire dans une queue à executer
+	if front > 0:
+		compute_action(bernard, C.AVANCE, front)
+	if back > 0:
+		compute_action(bernard, C.DROITE, 2)
+		compute_action(bernard, C.AVANCE, back)
+		compute_action(bernard, C.GAUCHE, 2)
+	if right > 0:
+		compute_action(bernard, C.DROITE, 1)
+		compute_action(bernard, C.AVANCE, right)
+		compute_action(bernard, C.GAUCHE, 1)
+	if left > 0:
+		compute_action(bernard, C.GAUCHE, 1)
+		compute_action(bernard, C.AVANCE, left)
+		compute_action(bernard, C.DROITE, 1)
+
 
 class	Action:
 	def	__init__(self):

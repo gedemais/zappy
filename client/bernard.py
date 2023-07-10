@@ -45,6 +45,7 @@ class	IA:
 		C.EXPULSE		: Command(id = C.EXPULSE, callback = Action.expulse ),
 		C.BROADCAST		: Command(id = C.BROADCAST, callback = Action.broadcast ),
 	}
+	actions = []
 
 	def __init__(self, wx, wy):
 		self.brain = Brain()
@@ -80,31 +81,24 @@ class	IA:
 		for command in self.brain.memory:
 			if command.id == id:
 				if "ko" not in command.response:
+					print("receive", id)
 					self.needs[command.id].callback(self, command)
 				else:
 					print("response is ko")
 				self.needs[id].update(state = S.NONE)
-				self.needs[id].buf = None
 	
 	#fonction pour append la command
-	def	transceive(self, commands, id):
-		command = Command(id = id)
-		buf = self.needs[id].buf
-
-		repeat = 1
-		if hasattr(self.needs[id], "repeat") and self.needs[id].repeat != None:
-			repeat = self.needs[id].repeat
-		for i in range(repeat):
-			if buf != None:
-				if type(buf) == list:
-					for elt in buf:
-						command = Command(id = id, buf = elt)
-						commands.append(command)
+	def	transceive(self, commands, cmd):
+		print("transceive", cmd.id)
+		for i in range(cmd.repeat):
+			if cmd.buf != None:
+				if type(cmd.buf) == list:
+					for elt in cmd.buf:
+						commands.append(Command(id = cmd.id, buf = elt))
 				else:
-					command = Command(id = id, buf = buf)
+					commands.append(Command(id = cmd.id, buf = cmd.buf))
 			else:
-				commands.append(command)
-		self.needs[id].repeat = None
+				commands.append(Command(id = cmd.id))
 
 	#on return True si on a une reponse a la cmd envoyée
 	def	await_response(self, id):
@@ -121,8 +115,8 @@ class	IA:
 				self.receive(command.id)
 
 	def	call(self, commands):
-		#si un need est pending et que l'on a pas de reponse
-		for i in self.needs:
-			command = self.needs[i]
-			if self.await_response(command.id) == False and command.state == S.NEEDED:
-				self.transceive(commands, command.id)
+		#si la queue d'actions n'est pas vide et que l'on a pas de reponse
+		for command in self.actions:
+			if self.await_response(self.needs[command.id].id) == False and self.needs[command.id].state == S.NEEDED:
+				self.transceive(commands, command)
+		self.actions = []

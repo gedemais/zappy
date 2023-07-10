@@ -1,8 +1,8 @@
 from enum import Enum
+from random import randint
 
 from command import C, S, Command
-from action import compute_action, getviewindex, outofview, getviewpos
-from random import randint
+from action import compute_action, getviewindex, outofview, getviewpos, goto_index
 
 
 class	T(Enum):
@@ -42,11 +42,12 @@ class	Rush:
 			print(bernard.view[index])
 			if "nourriture" in bernard.view[index] and bernard.view[index]["nourriture"] > 0:
 				print("food on bot pos, on prend")
-				compute_action(bernard.needs[C.PREND], bernard.view[index]["nourriture"], ["nourriture"])
+				# compute_action(bernard, C.PREND, bernard.view[index]["nourriture"], ["nourriture"])
+
 			#non : avancer
 			else:
 				print("no food on bot pos, on avance")
-				compute_action(bernard.needs[C.AVANCE])
+				compute_action(bernard, C.AVANCE)
 		if self.tasks[T.INCANTATION].state == S.NEEDED:
 			#WIP
 			print("T.INCANTATION")
@@ -57,13 +58,17 @@ class	Rush:
 		#first view or update view
 		if bernard.view == None or len(bernard.view) == 0 \
 				or outofview(bernard.x, bernard.y, bernard.lvl) == True:
-			compute_action(bernard.needs[C.VOIR])
+			compute_action(bernard, C.VOIR)
 			# compute_action(bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE])
 			return
 		#first inventory or update inventory (each 2s)
 		if bernard.inventory == None or len(bernard.inventory) == 0 \
 				or bernard.t - bernard.update_inventory > 2000:
-			compute_action(bernard.needs[C.INVENTAIRE])
+			compute_action(bernard, C.INVENTAIRE)
+
+		goto_index(bernard, 7)
+		return
+
 		#task manager
 		self.task_manager(bernard)
 		print("==================================")
