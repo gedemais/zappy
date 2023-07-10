@@ -48,6 +48,7 @@ class	Rush:
 				print("no food on bot pos, on avance")
 				compute_action(bernard.needs[C.AVANCE])
 		if self.tasks[T.INCANTATION].state == S.NEEDED:
+			#WIP
 			print("T.INCANTATION")
 
 	#celon les données de bernard on assigne de nouvelles taches
@@ -56,13 +57,13 @@ class	Rush:
 		#first view or update view
 		if bernard.view == None or len(bernard.view) == 0 \
 				or outofview(bernard.x, bernard.y, bernard.lvl) == True:
-			bernard.needs[C.VOIR].update(state = S.NEEDED)
-			# bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE].update(state = S.NEEDED)
+			compute_action(bernard.needs[C.VOIR])
+			compute_action(bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE])
 			return
 		#first inventory or update inventory (each 2s)
 		if bernard.inventory == None or len(bernard.inventory) == 0 \
 				or bernard.t - bernard.update_inventory > 2000:
-			bernard.needs[C.INVENTAIRE].update(state = S.NEEDED)
-		#WIP
+			compute_action(bernard.needs[C.INVENTAIRE])
+		#task manager
 		self.task_manager(bernard)
 		print("==================================")
