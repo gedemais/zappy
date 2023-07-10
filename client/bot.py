@@ -26,21 +26,20 @@ class	Bot:
 		self.alive = False
 
 	#push the cmd in a queue
-	def	transceive(self, cmd_to_transceive, cmd):
-		if cmd_to_transceive.state == S.CREATED:
-			command = cmd.command
-			if cmd_to_transceive.buf != None:
-				command = cmd.command + ' ' + cmd_to_transceive.buf
+	def	transceive(self, cmd, command):
+		if cmd.state == S.CREATED:
+			if cmd.buf != None:
+				command += ' ' + cmd.buf
 			#on push la query dans qtransceive
 			self.qtransceive.append(command + '\n')
-			cmd_to_transceive.state = S.TRANSCEIVED
+			cmd.state = S.TRANSCEIVED
 
 	#append la cmd en cours dans qtransceive pour un envoit au server
 	def	server_transceive(self, cmd):
 		if cmd.id == C.DEATH:
 			self.death()
 		elif cmd.id in self.cmds:
-			self.transceive(cmd, self.cmds[cmd.id])
+			self.transceive(cmd, str(self.cmds[cmd.id].command))
 
 	def	parse_response(self, cmd):
 		response = cmd.response
@@ -66,7 +65,7 @@ class	Bot:
 					tmp = {}
 					for elt in element:
 						if elt in tmp:
-							tmp[elt] = tmp[elt] + 1	
+							tmp[elt] += 1	
 						else:
 							tmp[elt] = 1
 					response.append(tmp)
@@ -78,11 +77,9 @@ class	Bot:
 			if "message " in self.qreceive.buf[i]:
 				#server send a broadcast
 				print("bot receive a broadcast")
-				print(cmd.debug())
 			elif "deplacement " in self.qreceive.buf[i]:
 				#server send a kick
 				print("bot has been kick")
-				print(cmd.debug())
 			elif "mort" in self.qreceive.buf[i]:
 				#server send death
 				self.death()

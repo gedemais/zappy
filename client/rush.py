@@ -1,7 +1,7 @@
 from enum import Enum
 
 from command import C, S, Command
-from action import getviewindex, outofview
+from action import compute_action, getviewindex, outofview
 from random import randint
 
 
@@ -15,7 +15,6 @@ class	Rush:
 		T.MANGER		: Command(id = T.MANGER),
 		T.INCANTATION	: Command(id = T.INCANTATION),
 	}
-	ticks = 0
 
 	def	__init__(self):
 		pass
@@ -37,44 +36,33 @@ class	Rush:
 		if self.tasks[T.MANGER].state == S.NEEDED:
 			#il faut trouver de la nourriture
 			print("T.MANGER")
-			#suis-je en dehors de mon champ de vision ?
-			if outofview(bernard.x, bernard.y, bernard.lvl) == True:
-				bernard.needs[C.VOIR].update(state = S.NEEDED)
-				bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE].update(state = S.NEEDED)
-				return
 			#y a t-il de la nourriture ou je suis ?
 			#oui : prendre
 			index = getviewindex(bernard.x, bernard.y)
 			print(bernard.view[index])
 			if "nourriture" in bernard.view[index] and bernard.view[index]["nourriture"] > 0:
 				print("food on bot pos, on prend")
-				bernard.needs[C.PREND].update(state = S.NEEDED, buf = "nourriture")
+				compute_action(bernard.needs[C.PREND], bernard.view[index]["nourriture"], ["nourriture"])
 			#non : avancer
 			else:
 				print("no food on bot pos, on avance")
-				bernard.needs[C.AVANCE].update(state = S.NEEDED)
+				compute_action(bernard.needs[C.AVANCE])
 		if self.tasks[T.INCANTATION].state == S.NEEDED:
 			print("T.INCANTATION")
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	run(self, bernard):
-		self.ticks = self.ticks + 1
-		print("road to level2 ! =================", bernard.ticks, self.ticks)
-		#first view
-		if bernard.view == None or len(bernard.view) == 0:
-			#WIP
-			bernard.t = bernard.ticks
-			###
+		print("road to level2 ! =================")
+		#first view or update view
+		if bernard.view == None or len(bernard.view) == 0 \
+				or outofview(bernard.x, bernard.y, bernard.lvl) == True:
 			bernard.needs[C.VOIR].update(state = S.NEEDED)
+			# bernard.needs[C.DROITE if randint(0, 100) < 50 else C.GAUCHE].update(state = S.NEEDED)
 			return
-		#first inventory
-		if bernard.inventory == None or len(bernard.inventory) == 0:
+		#first inventory or update inventory (each 2s)
+		if bernard.inventory == None or len(bernard.inventory) == 0 \
+				or bernard.t - bernard.update_inventory > 2000:
 			bernard.needs[C.INVENTAIRE].update(state = S.NEEDED)
-		#update inventory
-		print("ticks", bernard.ticks, "st", self.ticks, "te", bernard.te, bernard.te * 4)
-		if bernard.ticks - self.ticks > bernard.te * 4:
-			bernard.needs[C.INVENTAIRE].update(state = S.NEEDED)
-			self.ticks = bernard.ticks
 		#WIP
 		self.task_manager(bernard)
 		print("==================================")

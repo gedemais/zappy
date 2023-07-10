@@ -21,6 +21,7 @@ class	Client:
 		#world size
 		wsize = [0, 0]
 		self.s.connect((self.host, self.port))
+		#todo protéger les appels servers
 		if self.s == None:
 			return wsize[0], wsize[1]
 		reply = self.s.recv(1024).decode("utf-8")
@@ -56,7 +57,6 @@ class	Client:
 				if len(split[i]) > 0:
 					self.qreceive.append(split[i])
 		if len(self.qreceive.buf) > 0:
-			# print("receive:", self.qreceive.buf)
 			#use the bot to parse qreceive
 			self.bot.server_receive(cmd)
 
@@ -68,7 +68,6 @@ class	Client:
 			buf_len = len(self.qtransceive.buf)
 			#si le cmd.state a été push dans la queue et qu'une queue existe
 			if cmd.state == S.TRANSCEIVED and buf_len > 0:
-				# print("transceive:", self.qtransceive.buf)
 				for i in range(buf_len):
 					self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
 				self.qtransceive.reset()

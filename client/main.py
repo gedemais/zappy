@@ -1,5 +1,4 @@
-import sys
-import socket
+import sys, socket, time
 
 from client import Client
 from bernard import IA
@@ -20,14 +19,17 @@ if __name__ == "__main__":
 	client = Client(host, port, team_name, s)
 	#connect return world's dimension
 	wx, wy = client.connect()
+	#time start, time
+	ts, t = 0, 0
+
 	if wx > 0 and wy > 0:
 		bernard = IA(wx, wy)
 		bernard.fetch()
-		ticks = 0
+		ts = int(time.time() * 1000)
 		while client.bot.alive == True:
-			ticks = ticks + 1
+			t = int(time.time() * 1000) - ts
 			#bernard créé une cmd a transceive au serveur
 			#il attend la réponse et actualise son état
-			bernard.interact(ticks)
+			bernard.interact(t)
 			client.transceive(bernard.brain.cmd)
 			client.receive(bernard.brain.cmd)

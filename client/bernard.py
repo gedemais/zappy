@@ -17,8 +17,8 @@ class	L(Enum):
 	THYSTAME = 6
 
 class	IA:
-	#server speed and ticks ellapsed
-	ticks, t, te = 0, 0, 0
+	#time
+	t = 0
 	# view data
 	view = []
 	view_size = 0
@@ -30,6 +30,7 @@ class	IA:
 	# bernard
 	lvl = 1
 	inventory = []
+	update_inventory = 0
 	needs = {
 		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Action.connect_nbr ),
 		C.INVENTAIRE	: Command(id = C.INVENTAIRE, callback = Action.inventaire ),
@@ -54,8 +55,8 @@ class	IA:
 		#world size
 		self.wx, self.wy = wx, wy
 
-	def	interact(self, ticks):
-		self.ticks = ticks
+	def	interact(self, t):
+		self.t = t
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
 			commands = self.update()
@@ -78,7 +79,10 @@ class	IA:
 	def	receive(self, id):
 		for command in self.brain.memory:
 			if command.id == id:
-				self.needs[command.id].callback(self, command)
+				if "ko" not in command.response:
+					self.needs[command.id].callback(self, command)
+				else:
+					print("response is ko")
 				self.needs[id].update(state = S.NONE)
 				self.needs[id].buf = None
 	
@@ -87,14 +91,20 @@ class	IA:
 		command = Command(id = id)
 		buf = self.needs[id].buf
 
-		if buf != None:
-			if type(buf) == list:
-				for elt in buf:
-					command = Command(id = id, buf = elt)
-					commands.append(command)
+		repeat = 1
+		if hasattr(self.needs[id], "repeat") and self.needs[id].repeat != None:
+			repeat = self.needs[id].repeat
+		for i in range(repeat):
+			if buf != None:
+				if type(buf) == list:
+					for elt in buf:
+						command = Command(id = id, buf = elt)
+						commands.append(command)
+				else:
+					command = Command(id = id, buf = buf)
 			else:
-				command = Command(id = id, buf = buf)
-		commands.append(command)
+				commands.append(command)
+		self.needs[id].repeat = None
 
 	#on return True si on a une reponse a la cmd envoyée
 	def	await_response(self, id):
