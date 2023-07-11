@@ -2,7 +2,7 @@ from enum import Enum
 
 from utils.command import C, S, Command
 from action.action import compute_action
-from action.view import getviewindex, outofview, getviewpos
+from action.view import view_pos, outofview, view_find
 from action.move import goto_pos
 
 
@@ -26,32 +26,34 @@ class	Rush:
 		for task in self.tasks:
 			self.tasks[task].state = S.NONE
 		if bernard.inventory != None and len(bernard.inventory) > 0 and bernard.inventory["nourriture"] < 50:
-			self.tasks[T.MANGER].state = S.NEEDED
+			self.tasks[T.MANGER].state = S.NEED
 			return
 		#si le bot ne meurs pas de fin on va tenter une incantation
-		self.tasks[T.INCANTATION].state = S.NEEDED
+		self.tasks[T.INCANTATION].state = S.NEED
 
 	#assigne une tache au joueur celon ses besoins
 	def	task_manager(self, bernard):
 		self.task_assign(bernard)
-		if self.tasks[T.MANGER].state == S.NEEDED:
+		if self.tasks[T.MANGER].state == S.NEED:
 			#il faut trouver de la nourriture
 			print("T.MANGER")
 			#y a t-il de la nourriture proche ?
 			#oui : y aller et prendre
-			for i in range(len(bernard.view)):
-				loot = bernard.view[i]
+			targetindex = view_find(bernard, "nourriture")
+			if targetindex is not None:
+				loot = bernard.view[targetindex]
 				if "nourriture" in loot and loot["nourriture"] > 0:
-					print("see food ! going to pos: {}".format(i))
+					print("see food ! going to pos: {}".format(targetindex))
 					print(loot)
-					targetx, targety = getviewpos(i)
+					targetx, targety = view_pos(targetindex)
 					goto_pos(bernard, targetx, targety)
 					compute_action(bernard, C.PREND, loot["nourriture"], "nourriture")
 					return
 			#non : avancer
 			print("no food in vision")
 			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
-		if self.tasks[T.INCANTATION].state == S.NEEDED:
+			compute_action(bernard, C.DROITE, 1)
+		if self.tasks[T.INCANTATION].state == S.NEED:
 			#WIP
 			print("T.INCANTATION")
 

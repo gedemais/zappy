@@ -22,7 +22,7 @@ class	S(Enum):
 	TRANSCEIVED	= 2
 	PENDING		= 3
 	RECEIVED	= 4
-	NEEDED		= 5
+	NEED		= 5
 
 class	Command:
 	def	__init__(self, id = None, command = None, response = None, buf = None, callback = None, state = S.NONE):

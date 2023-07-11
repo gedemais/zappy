@@ -27,6 +27,8 @@ class	IA:
 	# Position and Direction in bot's referential
 	x, y = 0, 0
 	dir = 0
+	#target index where bernard wanna go
+	target = None
 	# bernard
 	lvl = 1
 	inventory = []
@@ -80,11 +82,11 @@ class	IA:
 		return commands
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
-	def	receive(self, id):
+	def	receive(self, cmd):
 		for command in self.brain.memory:
-			if command.state == S.PENDING and command.id == id:
+			if command.state == S.PENDING and command.id == cmd.id:
 				if "ko" not in command.response:
-					print("receive", id)
+					print("receive", command.id)
 					self.needs[command.id].callback(self, command)
 				else:
 					print("response is ko")
@@ -103,9 +105,10 @@ class	IA:
 			commands.append(Command(id = cmd.id))
 
 	#on return True si on a une reponse a la cmd envoyée
-	def	await_response(self, id):
+	def	await_response(self, cmd):
 		for command in self.brain.memory:
-			if command.state == S.RECEIVED and command.id == id:
+			if command.state == S.RECEIVED and command.id == cmd.id \
+					and cmd.buf == command.buf:
 				command.state = S.PENDING
 				return True
 		return False
@@ -113,8 +116,8 @@ class	IA:
 	def	callback(self):
 		#si un need est pending et que la cmd est received (dans brain.memory)
 		for command in self.actions:
-			if self.await_response(command.id) == True:
-				self.receive(command.id)
+			if self.await_response(command) == True:
+				self.receive(command)
 		self.actions = []
 
 	def	call(self, commands):
