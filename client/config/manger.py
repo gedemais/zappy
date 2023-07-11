@@ -10,6 +10,11 @@ class	Manger:
 
 	def	run(bernard):
 		print("I'm hungry !")
+		if bernard.view == None or bernard.inventory == None \
+				or len(bernard.view) == 0 or len(bernard.inventory) == 0:
+			compute_action(bernard, C.VOIR, 1)
+			compute_action(bernard, C.INVENTAIRE, 1)
+			return
 		#y a t-il de la nourriture proche ?
 		targetindex = view_find(bernard, "nourriture")
 		if targetindex is not None:

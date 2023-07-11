@@ -31,8 +31,7 @@ class	Incantation:
 				print("there is nothing useful nearby. I'm going forward !'")
 				compute_action(bernard, C.AVANCE, bernard.lvl + 1)
 				compute_action(bernard, C.DROITE)
-				compute_action(bernard, C.VOIR)
-					
+				compute_action(bernard, C.VOIR)	
 		else:
 			print("incantation is possible ! putting stuff on the ground")
 			n = incant_put(bernard)

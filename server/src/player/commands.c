@@ -240,6 +240,9 @@ uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 
 	// Consume resources
 	// Plan level up for each concerned player
+	(void)env;
+	(void)p;
+	(void)send_response;
 	return (ERR_NONE);
 }
 
