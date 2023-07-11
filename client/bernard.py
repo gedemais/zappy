@@ -3,7 +3,7 @@ from enum import Enum
 
 from utils.command import C, S, Command
 from utils.brain import Brain
-from action.action import Action
+from action.callback import Callback
 from config.rush import Rush
 
 
@@ -26,18 +26,18 @@ class	IA:
 	update_inventory = 0
 	#permet de savoir quand un call a été effectué
 	needs = {
-		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Action.connect_nbr ),
-		C.INVENTAIRE	: Command(id = C.INVENTAIRE, callback = Action.inventaire ),
-		C.VOIR			: Command(id = C.VOIR, callback = Action.voir ),
-		C.AVANCE		: Command(id = C.AVANCE, callback = Action.avance ),
-		C.DROITE		: Command(id = C.DROITE, callback = Action.droite ),
-		C.GAUCHE		: Command(id = C.GAUCHE, callback = Action.gauche ),
-		C.PREND			: Command(id = C.PREND, callback = Action.prend ),
-		C.POSE			: Command(id = C.POSE, callback = Action.pose ),
-		C.INCANTATION	: Command(id = C.INCANTATION, callback = Action.incantation ),
-		C.FORK			: Command(id = C.FORK, callback = Action.fork ),
-		C.EXPULSE		: Command(id = C.EXPULSE, callback = Action.expulse ),
-		C.BROADCAST		: Command(id = C.BROADCAST, callback = Action.broadcast ),
+		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Callback.connect_nbr ),
+		C.INVENTAIRE	: Command(id = C.INVENTAIRE, callback = Callback.inventaire ),
+		C.VOIR			: Command(id = C.VOIR, callback = Callback.voir ),
+		C.AVANCE		: Command(id = C.AVANCE, callback = Callback.avance ),
+		C.DROITE		: Command(id = C.DROITE, callback = Callback.droite ),
+		C.GAUCHE		: Command(id = C.GAUCHE, callback = Callback.gauche ),
+		C.PREND			: Command(id = C.PREND, callback = Callback.prend ),
+		C.POSE			: Command(id = C.POSE, callback = Callback.pose ),
+		C.INCANTATION	: Command(id = C.INCANTATION, callback = Callback.incantation ),
+		C.FORK			: Command(id = C.FORK, callback = Callback.fork ),
+		C.EXPULSE		: Command(id = C.EXPULSE, callback = Callback.expulse ),
+		C.BROADCAST		: Command(id = C.BROADCAST, callback = Callback.broadcast ),
 	}
 	#queue des actions qui vont être call
 	actions = []
@@ -45,7 +45,6 @@ class	IA:
 	def __init__(self, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
-		self.rush = Rush()
 		self.machine = Machine(model=self, states=["IDLE", "RUSH"], initial="IDLE")
 		self.machine.add_transition("fetch", "IDLE", "RUSH")
 		self.machine.add_transition("stop", "RUSH", "IDLE")
@@ -66,7 +65,7 @@ class	IA:
 
 		self.callback()
 		if self.state == "RUSH":
-			self.rush.run(self)
+			Rush.run(self)
 		elif self.state == "IDLE":
 			pass
 		self.call(commands)

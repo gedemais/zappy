@@ -5,6 +5,9 @@ from utils.command import S
 from utils.queue import Queue
 
 
+#on utilise une queue pour stocker les cmds a envoyer
+#on utilise une queue pour stocker les réponses / messages du servers
+#ces deux queues sont traitées dans le bot afin de gérer la reception et l'envois des cmds emisent par brain
 class	Client:
 	def __init__(self, host, port, team_name, s):
 		self.host = host

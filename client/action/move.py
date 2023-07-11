@@ -1,4 +1,4 @@
-from action.action import compute_action
+from action.callback import compute_action
 from utils.command import C
 
 

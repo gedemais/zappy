@@ -1,4 +1,4 @@
-from utils.command import S, Command
+from utils.command import Command
 from action.view import view_index
 
 
@@ -13,7 +13,7 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 		command.buf = element
 		bernard.actions.append(command)
 
-class	Action:
+class	Callback:
 	def	__init__(self):
 		pass
 

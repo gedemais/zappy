@@ -30,6 +30,8 @@ if __name__ == "__main__":
 			t = int(time.time() * 1000) - ts
 			#bernard créé une cmd a transceive au serveur
 			#il attend la réponse et actualise son état
+			#brain lui permet de préparer des list de cmd à transceive
+			#la list est executée cmd par cmd (create, transceive, receive)
 			bernard.interact(t)
 			client.transceive(bernard.brain.cmd)
 			client.receive(bernard.brain.cmd)
