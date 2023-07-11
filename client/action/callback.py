@@ -59,8 +59,8 @@ class	Callback:
 					bernard.inventory[element] -= 1
 			print("[ pose ] - {}".format(command.buf))
 			print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-				bernard.inventory[index] + 1, bernard.inventory[index]),
-				view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf])
+				bernard.inventory[index] + 1, bernard.inventory[index],
+				view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
 
 	def	droite(bernard, command):
 		tmp = bernard.dir

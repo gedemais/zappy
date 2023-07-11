@@ -9,29 +9,36 @@ class	Incantation:
 	def	__init__(self):
 		pass
 
-	def	run(self, bernard):
-		#check prerequis pour lvl up
-		#ramasser si besoin
-		#si tout est ok on pose tout et on incant
-		n = incant_need(bernard.lvl, bernard.inventory)
+	def	run(bernard):
+		print("I want to eleve myself !")
 		if incant_possible(bernard.lvl, bernard.inventory) == False:
-			print("incant not possible yet ! going to loot")
+			print("incantation is not possible yet")
+			#looking for the needed loots
+			find = False
+			n = incant_need(bernard.lvl, bernard.inventory)
 			for loot in n:
 				if n[loot] > 0:
+					print("looking for {}".format(loot))
 					targetindex = view_find(bernard, loot)
 					if targetindex is not None:
-						print("see {} ! going to pos: {}".format(loot, targetindex))
+						find = True
+						print("I see {} {} ! going to pos: {}".format(bernard.view[targetindex][loot], loot, targetindex))
 						targetx, targety = view_pos(targetindex)
 						goto_pos(bernard, targetx, targety)
+						print("looting {} {}".format(bernard.view[targetindex][loot], loot))
 						compute_action(bernard, C.PREND, bernard.view[targetindex][loot], loot)
-						return
-			print("no loot needed in view ! moving")
-			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
-			compute_action(bernard, C.DROITE)
+			if find == False:
+				print("there is nothing useful nearby. I'm going forward !'")
+				compute_action(bernard, C.AVANCE, bernard.lvl + 1)
+				compute_action(bernard, C.DROITE)
+				compute_action(bernard, C.VOIR)
+					
 		else:
-			print("incant is possible ! putting stuff on the ground")
+			print("incantation is possible ! putting stuff on the ground")
 			n = incant_put(bernard)
 			for loot in n:
 				if n[loot] > 0:
-					print("putting {} {} on the ground !".format(n[loot], loot))
+					print("dropping {} {}".format(n[loot], loot))
 					compute_action(bernard, C.POSE, n[loot], loot)
+			print("I'm starting to elevate !!")
+			compute_action(bernard, C.INCANTATION)

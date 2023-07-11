@@ -1,3 +1,6 @@
+from action.view import view_index
+
+
 #tableau de prerequis pour lvl up
 require = [
 	#1 - 2
@@ -31,17 +34,18 @@ def		incant_possible(lvl, inventory):
 def		incant_put(bernard):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
 	loots_to_incant = require[bernard.lvl - 1]
+	index = view_index(bernard.x, bernard.y)
 
 	for loot in bernard.inventory:
 		if "nourriture" in loot or "ttl" in loot:
 			continue
 		#si les loot au sol sont < au prérequis
-		if loot in bernard.view[0] and bernard.view[0][loot] < loots_to_incant[loot]:
+		if loot in bernard.view[index] and bernard.view[index][loot] < loots_to_incant[loot]:
 			#on deande la diff entre les ressources au sol et celles présente dans l'inventaire
-			needs[loot] = bernard.inventory[loot] - bernard.view[0][loot]
+			needs[loot] = loots_to_incant[loot] - bernard.view[index][loot]
 	return needs
 
-#return un array contenant tout les loots nécessaire au lvl up
+#return un array contenant tout les loots nécessaire au lvl up (inventaire soustrait)
 def		incant_need(lvl, inventory):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
 	loots_to_incant = require[lvl - 1]

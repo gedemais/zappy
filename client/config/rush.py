@@ -30,7 +30,7 @@ def		task_manager(bernard):
 	if tasks[T.INCANTATION].state == S.NEED:
 		#WIP
 		print("T.INCANTATION")
-		# Incantation().run(bernard)
+		Incantation.run(bernard)
 	if tasks[T.BROADCAST].state == S.NEED:
 		#WIP
 		print("T.BROADCAST")
@@ -38,9 +38,9 @@ def		task_manager(bernard):
 #WIP
 def		task_assign(bernard):
 	#il faut de la nourriture
-	if bernard.inventory["nourriture"] < 10:
+	if bernard.inventory["nourriture"] < 5:
 		tasks[T.MANGER].state = S.NEED
-	elif bernard.inventory["nourriture"] > 15:
+	elif bernard.inventory["nourriture"] > 10:
 		tasks[T.MANGER].state = S.NONE
 	#si le bot ne meurs pas de fin on va tenter une incantation
 	tasks[T.INCANTATION].state = S.NEED
