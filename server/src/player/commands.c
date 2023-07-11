@@ -88,6 +88,8 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 		p->inventory[(int)loot]++;
 	}
 
+	env->gplayer = *p;
+	gevent_player_take(env);
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
@@ -108,6 +110,10 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	p->inventory[loot]--;
 	tile->content[loot]++;
+
+	env->gplayer = *p;
+	gevent_player_put(env);
+
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
@@ -164,6 +170,8 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, kicked ? "ok\n" : "ko\n");
 		response(env, p);
 	}
+	env->gplayer = *p;
+	gevent_player_expulse(env);
 
 	return (ERR_NONE);
 }
@@ -188,6 +196,11 @@ uint8_t	cmd_broadcast(t_env *env, t_player *p, bool send_response)
 	FLUSH_RESPONSE
 	strcat(env->buffers.response, "ok\n");
 	response(env, p);
+
+	env->gplayer = *p;
+	env->gstr = env->buffers.cmd_params[0];
+	gevent_player_broadcast(env);
+
 	return (ERR_NONE);
 }
 
@@ -219,12 +232,17 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
-/*
+
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
+	// Check required resources
+	// Check required players
+
+	// Consume resources
+	// Plan level up for each concerned player
 	return (ERR_NONE);
 }
-*/
+
 
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {

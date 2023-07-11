@@ -3,6 +3,8 @@
 tags
 .vscode
 server/server
+server/log
+zappy_client
 zappy_server
 zappy_graphical_client
 __pycache__

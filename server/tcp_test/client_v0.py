@@ -6,7 +6,7 @@ port = 8080                   # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 
-moves = ['connect_nbr\n', 'avance\n', 'avance\n', 'avance\n', 'avance\n', 'droite\n', 'broadcast tourne et pas retourne\n']
+moves = ['avance\n', 'avance\n', 'avance\n', 'avance\n', 'droite\n']
 
 cmd_index = 0
 
@@ -16,7 +16,7 @@ reply = s.recv(1024).decode('utf-8')
 print(reply)
 
 print('sending team_name...')
-s.send(bytes('team_a'.encode('utf-8')))
+s.send(bytes('foo'.encode('utf-8')))
 print('sent')
 
 reply = s.recv(1024).decode('utf-8')
@@ -25,8 +25,8 @@ print(reply)
 
 while True:
     for i in range(len(moves)):
-        cmd_index += 1
-        s.send(bytes((str(cmd_index) + ' ' + moves[i]).encode('utf-8')))
+        reply = ""
+        s.send(bytes(moves[i].encode('utf-8')))
         reply = s.recv(1024).decode('utf-8')
         print(reply)
 

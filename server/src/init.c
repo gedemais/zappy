@@ -11,7 +11,8 @@ static void			intro(void)
 // Allocation of buffers for the server
 static uint8_t		init_buffers(t_buffers *buffers)
 {
-	if (!(buffers->response = (char*)malloc(sizeof(char) * RESPONSE_SIZE)))
+	if (!(buffers->response = (char*)malloc(sizeof(char) * RESPONSE_SIZE))
+		|| !(buffers->gresponse = (char*)malloc(sizeof(char) * RESPONSE_SIZE)))
 		return (ERR_MALLOC_FAILED);
 
 	memset(buffers->response, 0, sizeof(char) * RESPONSE_SIZE);
