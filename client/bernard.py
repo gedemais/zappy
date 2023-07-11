@@ -7,15 +7,6 @@ from action.action import Action
 from config.rush import Rush
 
 
-class	L(Enum):
-	FOOD = 0
-	LINEMATE = 1
-	DERAUMERE = 2
-	SIBUR = 3
-	MENDIANE = 4
-	PHIRAS = 5
-	THYSTAME = 6
-
 class	IA:
 	#time
 	t = 0

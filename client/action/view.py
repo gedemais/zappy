@@ -27,12 +27,7 @@ def	view_check_neighbors(bernard, x, y, item):
 	return None
 
 def	view_find(bernard, item):
-	print("player position", view_index(bernard.x, bernard.y))
 	index = view_check_neighbors(bernard, bernard.x, bernard.y, item)
-	if index is not None:
-		print("closest {}: {}".format(item, index))
-	else:
-		print("no {} in view".format(item))
 	#reset visited state
 	for loot in bernard.view:
 		if "visited" in loot:
