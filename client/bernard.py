@@ -5,7 +5,6 @@ from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
 from config.rush import Rush
-from config.manger import Manger
 
 
 class	IA:
@@ -66,7 +65,7 @@ class	IA:
 
 		self.callback()
 		if self.state == "RUSH":
-			Manger.run(self)
+			Rush.run(self)
 		elif self.state == "IDLE":
 			pass
 		self.call(commands)
