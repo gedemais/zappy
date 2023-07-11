@@ -22,6 +22,8 @@ kill_player segfault
 
 log eggs, broadcasts, incantations
 
+Split player/commands.c dans les fichiers deja crees (fork, etc)
+
  =============
 0 pending players
 ***** Team team_a *****

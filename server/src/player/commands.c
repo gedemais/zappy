@@ -233,16 +233,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 }
 
 
-uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
-{
-	// Check required resources
-	// Check required players
-
-	// Consume resources
-	// Plan level up for each concerned player
-	return (ERR_NONE);
-}
-
 
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {

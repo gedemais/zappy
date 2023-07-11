@@ -91,7 +91,7 @@ typedef struct	s_player
 
 // Minerals and players requirements for level up incantations
 // Players number is in last position in the arrays to allow index-aligned access
-static const uint8_t	requirements[LVL_MAX][LOOT_MAX + 1] = {
+static const uint8_t	lvl_up_requirements[LVL_MAX][LOOT_MAX + 1] = {
 						{1, 0, 0, 0, 0, 0, 1},
 						{1, 1, 1, 0, 0, 0, 2},
 						{2, 0, 1, 0, 2, 0, 2},
