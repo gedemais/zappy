@@ -21,7 +21,6 @@ class	Manger:
 				goto_pos(bernard, targetx, targety)
 				print("taking {} nourriture", loot["nourriture"])
 				compute_action(bernard, C.PREND, loot["nourriture"], "nourriture")
-				return
 		else:
 			#non : avancer
 			print("there is no food nearby. I'm going forward !'")
