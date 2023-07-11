@@ -1,12 +1,12 @@
 #include "main.h"
 
-uint8_t	send_graphical_data(t_env *env, t_player *p)
+uint8_t	send_graphical_data(t_env *env)
 {
 	t_team		*team;
 	t_player	*pl;
 	uint8_t		code;
 
-	FLUSH_RESPONSE
+	FLUSH_GRESPONSE
 
 	if ((code = gcmd_map_size(env))
 		|| (code = gcmd_server_time_unit(env)))
@@ -29,6 +29,5 @@ uint8_t	send_graphical_data(t_env *env, t_player *p)
 		gcmd_egg_new(env);
 	}*/
 
-
-	return (response(env, p));
+	return (gresponse(env));
 }

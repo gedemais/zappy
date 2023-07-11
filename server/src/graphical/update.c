@@ -14,7 +14,7 @@ uint8_t	handle_graphical_connection(t_env *env, t_player *p)
 
 	memcpy(&env->graphical, p, sizeof(t_player));
 
-	return (send_graphical_data(env, p));
+	return (send_graphical_data(env));
 }
 
 uint8_t	update_graphical(t_env *env)

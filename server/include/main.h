@@ -35,6 +35,7 @@
 
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
+# define FLUSH_GRESPONSE memset(env->buffers.gresponse, 0, strlen(env->buffers.gresponse));
 # define REQUEST_BUFF_SIZE 4096
 
 # define MAX_T 300
@@ -69,7 +70,8 @@ typedef struct	s_buffers
 {
 	int			*connections; // Clients sockets file descriptors
 	char		*request; // Buffer containing client-sent requests.
-	char		*response; // Buffer containing response text. Associated with FLUSH_BUFFER macro.
+	char		*response; // Buffer containing response text. Associated with FLUSH_RESPONSE macro.
+	char		*gresponse; // Buffer containing graphical client response text. Associated with GFLUSH_RESPONSE macro.
 	char		**cmd_params; // Params of the command received by the server (split by spaces)
 	t_dynarray	view; // Dynamic array of dynamic arrays, representing the content of a view.
 }				t_buffers;
@@ -90,6 +92,7 @@ struct	s_env
 	t_player	graphical;
 	int			gx, gy, gindex, gpid, gnew_t;
 	t_player	gplayer;
+	char		*gstr;
 	t_settings	settings;
 	bool		start;
 };
@@ -123,9 +126,9 @@ uint8_t		handle_graphical_connection(t_env *env, t_player *p);
 uint8_t		update_graphical(t_env *env);
 uint8_t		graphical_request(t_env *env);
 
-uint8_t		send_graphical_data(t_env *env, t_player *p);
+uint8_t		send_graphical_data(t_env *env);
 
-// Graphical details functions
+// Graphical client commands
 uint8_t		gcmd_map_size(t_env *env);
 uint8_t		gcmd_map_content(t_env *env);
 uint8_t		gcmd_server_time_unit(t_env *env);
@@ -136,6 +139,21 @@ uint8_t		gcmd_player_position(t_env *env);
 uint8_t		gcmd_player_level(t_env *env);
 uint8_t		gcmd_player_inventory(t_env *env);
 uint8_t		gcmd_set_new_t(t_env *env);
+
+// Graphical events notifications
+uint8_t		gevent_player_new(t_env *env);
+uint8_t		gevent_player_expulse(t_env *env);
+uint8_t		gevent_player_broadcast(t_env *env);
+uint8_t		gevent_player_lays_egg(t_env *env);
+uint8_t		gevent_player_put(t_env *env);
+uint8_t		gevent_player_take(t_env *env);
+uint8_t		gevent_player_died(t_env *env);
+uint8_t		gevent_player_layed_egg(t_env *env);
+uint8_t		gevent_egg_hatched(t_env *env);
+uint8_t		gevent_player_connected_for_egg(t_env *env);
+uint8_t		gevent_egg_rotted(t_env *env);
+uint8_t		gevent_game_ended(t_env *env);
+uint8_t		gevent_broadcast(t_env *env);
 
 // Graphical tools
 uint8_t		cat_spaced_number(t_env *env, int n, bool newline);
@@ -153,7 +171,7 @@ uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);
 void		teams_log(t_env *env, bool log);
 uint8_t		response(t_env *env, t_player *p);
-
+uint8_t		gresponse(t_env *env);
 
 /* * * * * Commands procedures * * * * */
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);

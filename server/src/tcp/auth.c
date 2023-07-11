@@ -31,6 +31,9 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 	free(x);
 	free(y);
 
+	env->gplayer = *p;
+	gevent_player_new(env);
+
 	return (ERR_NONE);
 }
 

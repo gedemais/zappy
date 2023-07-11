@@ -4,6 +4,7 @@ tags
 .vscode
 client/client
 server/server
+server/log
 zappy_client
 zappy_server
 zappy_graphical_client
