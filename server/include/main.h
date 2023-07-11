@@ -114,7 +114,7 @@ uint8_t		waiting_response(t_env *env, t_player *player);
 uint8_t		handle_graphical_connection(t_env *env, t_player *p);
 uint8_t		update_graphical(t_env *env);
 
-uint8_t		send_graphical_data(t_env *env, t_player *p);
+uint8_t		send_graphical_data(t_env *env);
 
 // Graphical client commands
 uint8_t		gcmd_map_size(t_env *env);

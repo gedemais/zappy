@@ -6,7 +6,7 @@ uint8_t	gresponse(t_env *env)
 	return (ERR_NONE);
 }
 
-uint8_t	send_graphical_data(t_env *env, t_player *p)
+uint8_t	send_graphical_data(t_env *env)
 {
 	t_team		*team;
 	t_player	*pl;
@@ -35,5 +35,5 @@ uint8_t	send_graphical_data(t_env *env, t_player *p)
 		gcmd_egg_new(env);
 	}*/
 
-	return (gresponse(env, p));
+	return (gresponse(env));
 }

@@ -6,8 +6,8 @@ uint8_t	response(t_env *env, t_player *p)
 	return (ERR_NONE);
 }
 
-uint8_t	gresponse(t_env *env, t_player *p)
+uint8_t	gresponse(t_env *env)
 {
-	write(*p->connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
+	write(&env->graphical.connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
 	return (ERR_NONE);
 }
