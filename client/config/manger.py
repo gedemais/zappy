@@ -1,5 +1,5 @@
 from utils.command import C
-from action.callback import compute_action, blind
+from action.callback import compute_action, is_blind
 from action.view import view_pos, view_find
 from action.move import goto_pos
 
@@ -9,11 +9,11 @@ class	Manger:
 		pass
 
 	def	run(bernard):
-		if blind(bernard) == True:
+		if is_blind(bernard) == True:
 			return
 		print("I'm hungry >< !")
 		#y a t-il de la nourriture proche ?
-		targetindex = view_find(bernard, "nourriture")
+		targetindex = view_find(bernard.view, bernard.lvl, bernard.x, bernard.y, "nourriture")
 		if targetindex is not None:
 			loot = bernard.view[targetindex]
 			if "nourriture" in loot and loot["nourriture"] > 0:
@@ -26,6 +26,6 @@ class	Manger:
 		else:
 			#non : avancer
 			print("there is no food nearby. I'm going forward !'")
-			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
+			compute_action(bernard, C.AVANCE, 2)
 			compute_action(bernard, C.DROITE, 1)
 			compute_action(bernard, C.VOIR, 1)

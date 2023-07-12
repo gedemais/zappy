@@ -1,5 +1,5 @@
 from utils.command import C, Command
-from action.view import view_index
+from action.view import view_index, outofview
 
 
 # append l'action demandée dans une queue de Command
@@ -13,14 +13,26 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 		command.buf = element
 		bernard.actions.append(command)
 
-def		blind(bernard):
+def		is_blind(bernard):
+	blind = False
+
 	if bernard.view == None or bernard.inventory == None \
 			or len(bernard.view) == 0 or len(bernard.inventory) == 0:
-		print("I'm blind :(")
+		print("I'm blind :'(")
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
-		return True
-	return False
+		blind = True
+	#update view if out of view array
+	elif outofview(bernard.x, bernard.y, bernard.lvl) == True:
+		print("I'm lost in the dark")
+		compute_action(bernard, C.VOIR, 1)
+		blind = True
+	#update inventory (each 3s)
+	if bernard.t - bernard.update_inventory > 3000:
+		print("I need to check my stuff !")
+		compute_action(bernard, C.INVENTAIRE, 1)
+		blind = True
+	return blind
 
 class	Callback:
 	def	__init__(self):
@@ -59,17 +71,19 @@ class	Callback:
 	def	pose(bernard, command):
 		#update view
 		viewcase = bernard.view[view_index(bernard.x, bernard.y)]
-		if command.buf in viewcase:
+		if command.buf not in viewcase:
+			viewcase[command.buf] = 1
+		else:
 			viewcase[command.buf] += 1
-			#update inventory
-			for element in bernard.inventory:
-				if element == command.buf:
-					index = element
-					bernard.inventory[element] -= 1
-			print("[ pose ] - {}".format(command.buf))
-			print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-				bernard.inventory[index] + 1, bernard.inventory[index],
-				view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
+		#update inventory
+		for element in bernard.inventory:
+			if element == command.buf:
+				index = element
+				bernard.inventory[element] -= 1
+		print("[ pose ] - {}".format(command.buf))
+		print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
+			bernard.inventory[index] + 1, bernard.inventory[index],
+			view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
 
 	def	droite(bernard, command):
 		tmp = bernard.dir
