@@ -1,5 +1,4 @@
 from transitions import Machine
-from enum import Enum
 
 from utils.command import C, S, Command
 from utils.brain import Brain

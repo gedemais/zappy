@@ -1,5 +1,3 @@
-import copy
-
 from utils.command import C
 from action.callback import compute_action, is_blind
 from action.view import view_find
@@ -27,8 +25,8 @@ def		farm_case(bernard, n, nt, ti, loot):
 				nt[element] -= view[ti][element]
 	#on ramasse un peu de nourriture si il y en a
 	if "nourriture" in view[ti] and view[ti]["nourriture"] > 0:
-		print("looting nourriture")
-		compute_action(bernard, C.PREND, 1, "nourriture")
+		print("looting {} nourriture".format(view[ti]["nourriture"]))
+		compute_action(bernard, C.PREND, view[ti]["nourriture"], "nourriture")
 
 def		farm_ressources(bernard):
 	#looking for the needed loots
@@ -71,7 +69,7 @@ class	Incantation:
 		pass
 
 	def	run(bernard):
-		if is_blind(bernard) == True:
+		if is_blind(bernard) == True or bernard.lvl > 8:
 			return
 		print("I want to Eleve myself \o/ !")
 		if incant_possible(bernard.lvl, bernard.inventory) == False:

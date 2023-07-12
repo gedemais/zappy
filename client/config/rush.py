@@ -1,8 +1,7 @@
 from enum import Enum
 
-from utils.command import C, S, Command
-from action.callback import compute_action, is_blind
-from action.view import outofview
+from utils.command import S, Command
+from action.callback import is_blind
 from config.manger import Manger
 from config.incantation import Incantation
 
