@@ -42,6 +42,17 @@ uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 	return (code);
 }
 
+static void	update_level(t_player *p)
+{
+	if (p->elevation > 0)
+		p->elevation--;
+	else if (p->elevation == 0)
+	{
+		p->level++;
+		p->elevation = -1;
+	}
+}
+
 static uint8_t	update_food(t_env *env, t_player *p)
 {
 	// If player's satiety is zero and have no food, he will die.
@@ -78,6 +89,8 @@ uint8_t			update_players(t_env *env)
 			p = dyacc(&t->players, player);
 			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
 				return (code);
+
+			update_level(p);
 		}
 	}
 
@@ -100,7 +113,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	new->tile_x = rand() % env->settings.map_width;
 	new->tile_y = rand() % env->settings.map_height;
 
-	new->level = 1; // Starting level
+	new->level = 0; // Starting level
 	new->alive = true; // It's ALIVE !!!
 	new->direction.d = (uint8_t)d; // Direction assignment
 	new->connection = connection; // Connection fd assignment
