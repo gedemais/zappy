@@ -86,7 +86,8 @@ typedef struct	s_player
 	t_direction	direction; // Current cardinal orientation of the player
 	bool		alive; // Is the player currently alive ?
 	uint8_t		auth_step; // Which step of authentication has the player reached yet.
-	int32_t		pid;
+	int32_t		pid; // Player identifier (rand() * rand() * rand())
+	int16_t		elevation; // Number of cycles until the next level elevation
 }				t_player;
 
 // Minerals and players requirements for level up incantations

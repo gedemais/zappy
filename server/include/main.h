@@ -174,6 +174,9 @@ uint8_t		response(t_env *env, t_player *p);
 uint8_t		gresponse(t_env *env);
 
 /* * * * * Commands procedures * * * * */
+uint8_t		check_requirements(t_env *env, char **tokens, t_player *player, int cmd, bool *ret);
+
+// Moving
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_left(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_right(t_env *env, t_player *p, bool send_response);

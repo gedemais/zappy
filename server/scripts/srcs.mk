@@ -15,12 +15,12 @@ SRCS_NAME=main.c\
 		  player/broadcast.c\
 		  player/commands.c\
 		  player/fork.c\
-		  player/incantation.c\
 		  player/move_commands.c\
 		  player/player.c\
 		  player/see.c\
 		  tcp/auth.c\
 		  tcp/commands.c\
+		  tcp/commands_requirements.c\
 		  tcp/init.c\
 		  tcp/receipt.c\
 		  tcp/response.c\

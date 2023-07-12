@@ -12,7 +12,9 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 	t_cmd			new;
 	char			**lines;
 	char			**tokens;
+	bool			req;
 	bool			cmd_found;
+	uint8_t			code;
 
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
@@ -34,6 +36,19 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			if (strcmp(tokens[0], cmd_names[i]) == 0)
 			{
 				cmd_found = true;
+
+				req = false;
+				if ((code = check_requirements(env, tokens, player, i, &req)))
+					return (code);
+
+				if (req == false)
+				{
+					FLUSH_RESPONSE
+					ft_arrfree(lines);
+					ft_arrfree(tokens);
+					send_ko(env, player);
+					break ;
+				}
 
 				if (player->cmd_queue.nb_cells >= MAX_QUEUED_CMD)
 					break ;
