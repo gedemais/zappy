@@ -12,19 +12,17 @@ incrementant la variable max_client de l'equipe qui a pondu l'oeuf. La mort
 d'un joueur entraine une decrementation du nombre de connection autorisees dans
 l'equipe du joueur mort.
 
-Tester le broadcast
-
-Update la direction du kick
-
-Tester le kick
-
-select qui fail sur macos
-
-relier response a la chaine d'erreur
-
-fork
+fix le leak de split dans place_command in queue
 
 incantation
+
+les commandes ne sont plus prises en compte lors de l'envoi d'une ligne vide par le client
+
+kill_player segfault
+
+log eggs, broadcasts, incantations
+
+Split player/commands.c dans les fichiers deja crees (fork, etc)
 
  =============
 0 pending players

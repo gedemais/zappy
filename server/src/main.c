@@ -17,8 +17,6 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 			write(1, "\033[2J", 1);
 			print_map(env);
 		}
-		if (DATA_PRINT)
-			printf("DATA\n");
 		fflush(stdout);
 
 		// Server tasks

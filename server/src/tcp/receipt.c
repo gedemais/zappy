@@ -1,75 +1,10 @@
 #include "main.h"
-/*
-uint8_t	commands_receipt(t_env *env)
-{
-	return (ERR_NONE);
-}*/
-
-static uint8_t	place_command_in_queue(t_env *env, t_player *player)
-{
-	t_cmd		new;
-	char		**lines;
-	char		**tokens;
-	bool		cmd_found;
-
-	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
-		return (ERR_MALLOC_FAILED);
-
-	for (uint32_t line = 0; lines[line]; line++)
-	{
-		cmd_found = false;
-		if (strlen(lines[line]) <= 1)
-			continue ;
-
-		if (!(tokens = ft_strsplit(lines[line], " ")))
-		{
-			ft_arrfree(lines);
-			return (ERR_MALLOC_FAILED);
-		}
-
-		for (int i = 0; i < CMD_MAX; i++)
-		{
-			if (strcmp(tokens[0], cmd_names[i]) == 0)
-			{
-				cmd_found = true;
-
-				if (player->queued_commands >= MAX_QUEUED_CMD)
-					break ;
-
-				bzero(&new, sizeof(t_cmd));
-				new = commands[i];
-				new.tokens = tokens;
-
-				new.p = player;
-				//printf("%s command received (%d commands in queue)\n", tokens[0], env->buffers.cmd_queue.nb_cells);
-				if (dynarray_push(&env->buffers.cmd_queue, &new, false))
-				{
-					ft_arrfree(lines);
-					ft_arrfree(tokens);
-					return (ERR_MALLOC_FAILED);
-				}
-				player->queued_commands++;
-				break;
-			}
-		}
-
-		if (!cmd_found)
-		{
-			printf("|||%s|||\n", tokens[0]);
-			ft_arrfree(tokens);
-			ft_arrfree(lines);
-			return (ERR_CMD_NOT_FOUND);
-		}
-	}
-
-	ft_arrfree(lines);
-	return (ERR_NONE);
-}
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
 {
-	int			new_fd;
-	uint8_t		code;
+	int					new_fd;
+	uint8_t				code;
+	struct timeval		t;
 
 	if (FD_ISSET(env->tcp.server_fd, read_fd_set)) // If a new event occured on the server
 	{
@@ -79,12 +14,15 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 			for (uint32_t i = 0; i < 1024; i++) // Looking for a connection slot
 				if (env->buffers.connections[i] < 0) // If the slot is available
 				{
+
+					env->buffers.connections[i] = new_fd; // We save the connection for later
+
+					PUTTIME()
+					fprintf(stderr, "[CLIENT LOGIN] Client %d logged in\n", env->buffers.connections[i]);
 					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
 					fflush(stdout);
 					//sleep(1);
 
-					env->buffers.connections[i] = new_fd; // We save the connection for later
-														  //
 					add_player(env, &env->world.pending, &env->buffers.connections[i]); // We add a new player in the pending players list
 
 					if ((code = auth_send_welcome(env, (t_player*)dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1))))
@@ -108,7 +46,9 @@ static uint8_t	process_request(t_env *env, int client_fd)
 	if ((p = get_pending_client(env, client_fd)) != NULL)
 		return (auth(env, p));
 	else if ((p = get_team_client(env, client_fd)))
-		return (place_command_in_queue(env, p));
+		return (env->start ? place_command_in_queue(env, p) : waiting_response(env, p));
+	else if (client_fd == *env->gplayer.connection && (code = graphical_request(env)) != ERR_NONE)
+		return (code);
 
 	return (ERR_NONE);
 }
@@ -118,6 +58,7 @@ uint8_t	receipt(t_env *env)
 	fd_set				read_fd_set;
 	struct sockaddr_in	new_addr;
 	struct timeval		timeout = {.tv_sec = 0, .tv_usec = env->settings.tick_length * (1.0f / env->settings.t)};
+	struct timeval		rcv;
 	socklen_t			addrlen = sizeof(new_addr);
 	int					*connections = env->buffers.connections;
 	int					ret;
@@ -147,24 +88,23 @@ uint8_t	receipt(t_env *env)
 				{
 					if ((ret = recv(connections[i], env->buffers.request, REQUEST_BUFF_SIZE, 0)) <= 0) // Connection closes
 					{
-						printf("Client disconnected of slot %d (fd : %d)!\n", i, connections[i]);
-						fflush(stdout);
-						sleep(1);
+						PUTTIME()
+						fprintf(stderr, "[CLIENT LOGOUT] Client %d logged out by itself\n", connections[i]);
 
 						// Remove player from his team
-						if ((code = kill_player(env, get_team_client(env, connections[i]))))
+						if ((code = kill_player(env, get_team_client(env, connections[i]), true)))
 							return (code);
 
 						continue;
 					}
 					env->buffers.request[ret] = '\0'; // Segfault after some time...
-					//printf("REQUEST : |%s| (%ld bytes)", env->buffers.request, strlen(env->buffers.request)); // Request isn't always received
-					//fflush(stdout);
+
+					// LOGGING
+					PUTTIME()
+					fprintf(stderr, "[MESSAGE RECEPTION] Client %d sent a message : {%.*s}\n", connections[i], (int)strlen(env->buffers.request), env->buffers.request);
 
 					if ((code = process_request(env, connections[i])))
 						return (code);
-					//if ((code = place_command_in_queue(env, connections[i])))
-					//	return (code);
 				}
 				else if (ret == -1)
 					return (ERR_RECV_FAILED);

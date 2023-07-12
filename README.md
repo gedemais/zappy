@@ -1,21 +1,22 @@
-<!-- MACOS -->
-
-<!-- installing docker -->
+# INSTALLING DOCKER
+## for LINUX
+sudo apt-get install docker
+## for MACOS
 sudo brew install docker
-
-<!-- il faut installer Docker Desktop car MACOS c'est garbage -->
+### MACOS :: il faut installer Docker Desktop car cet OS est garbage
 https://docs.docker.com/desktop/install/mac-install/
 
-<!-- il faut créer l'image zappy -->
-<!-- pour vérifier qu'elle existe : cmd : docker images -->
-docker build -t zappy .
+# Create SERVER zappy image
+### pour vérifier qu'elle existe : cmd : docker images
+### ! IMPORTANT : run this command where the SERVER Dockerfile is !
+docker build -f ./Dockerfile_server -t zappy_server .
 
-<!-- il faut lancer l'image dans un container -->
-docker run -it -p 8080:8080 zappy
+# Run the SERVER container
+docker run -it -p 8080:8080 -e ZPORT="8080" -e ZX="10" -e ZY="10" -e ZTEAM="foo" -e ZCLIENT="10" -e ZT="25" zappy_server
 
-<!-- docker run -it -p 8080:8080 -e SERVER_ARGS="-p 8080 -x 10 -y 10 -n foo -c 10 -t 25" zappy -->
+# Create CLIENT zappy image
+### ! IMPORTANT : run this command where the CLIENT Dockerfile is !
+docker build -f ./Dockerfile_client -t zappy_client .
 
-<!-- cmd pour lancer le serveur -->
-./server -p 8080 -x 10 -y 10 -n foo -c 10 -t 25
-<!-- cmd pour lancer le client (en dehors du container) -->
-./client -h 127.0.0.1 -p 8080 -n foo
+# Run the CLIENT container
+docker run -it -p 8080:8080 -e ZHOST="127.0.0.1" -e ZPORT="8080" -e ZTEAM="foo" zappy_client

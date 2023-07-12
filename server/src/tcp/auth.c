@@ -31,6 +31,9 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 	free(x);
 	free(y);
 
+	env->gplayer = *p;
+	gevent_player_new(env);
+
 	return (ERR_NONE);
 }
 
@@ -70,6 +73,8 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 	if ((code = add_player(env, team, p->connection)))
 		return (ERR_NONE);
 
+	fprintf(stderr, "[CLIENT AUTH] Client %d authenticated properly as a player of team {%s}\n", *p->connection, team->name);
+
 	remove_pending_player(env, p);
 
 	return (ERR_NONE);
@@ -78,7 +83,17 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 {
 	t_team	*t;
+	uint8_t	code;
 
+	if (strcmp(env->buffers.request, "GRAPHICAL\n") == 0)
+	{
+		if ((code = handle_graphical_connection(env, p)) != ERR_NONE
+			|| (code = remove_pending_player(env, p)))
+			return (code);
+	}
+
+	PUTTIME()
+	fprintf(stderr, "[CLIENT_SENT_TEAM_NAME] Pending client %d sent |%s| as a team name\n", p->pid, env->buffers.request);
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
@@ -96,7 +111,10 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 			}
 		}
 	}
-	return (ERR_NONE);
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, "Invalid team name.\n");
+	response(env, p);
+	return (kill_player(env, p, true));
 }
 
 uint8_t	auth(t_env *env, t_player *p)
