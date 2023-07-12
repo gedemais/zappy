@@ -27,8 +27,8 @@ def	view_check_neighbors(view, lvl, x, y, item):
 	return None
 
 #find l'item le plus proche du joueur
-def	view_find(view, lvl, x, y, item):
-	index = view_check_neighbors(view, lvl, x, y, item)
+def	view_find(bernard, view, item):
+	index = view_check_neighbors(view, bernard.lvl, bernard.x, bernard.y, item)
 	#reset visited state
 	for loot in view:
 		if "visited" in loot:

@@ -1,4 +1,5 @@
 from action.callback import compute_action
+from action.view import view_pos
 from utils.command import C
 
 
@@ -67,3 +68,7 @@ def	goto_pos(bernard, targetx, targety):
 	set_direction(bernard, targetx, targety)
 	#on push les mouvements nécessaire dans une queue à executer
 	compute_path(bernard, front, back, right, left)
+
+def	goto_index(bernard, index):
+	targetx, targety = view_pos(index)
+	goto_pos(bernard, targetx, targety)

@@ -27,8 +27,8 @@ def		is_blind(bernard):
 		print("I'm lost in the dark")
 		compute_action(bernard, C.VOIR, 1)
 		blind = True
-	#update inventory (each 3s)
-	if bernard.t - bernard.update_inventory > 3000:
+	#update inventory (each 4s)
+	if bernard.t - bernard.update_inventory > 4000:
 		print("I need to check my stuff !")
 		compute_action(bernard, C.INVENTAIRE, 1)
 		blind = True
@@ -45,13 +45,13 @@ class	Callback:
 		for loot in command.response:
 			bernard.view.append(loot)
 		bernard.view_size = len(bernard.view)
-		print("[ voir ]", bernard.view)
+		# print("[ voir ]", bernard.view)
 
 	def	inventaire(bernard, command):
 		#last inventory update
 		bernard.update_inventory = bernard.t
 		bernard.inventory = command.response
-		print("[ inventaire ]", bernard.inventory)
+		# print("[ inventaire ]", bernard.inventory)
 
 	def	prend(bernard, command):
 		#update view
@@ -63,10 +63,10 @@ class	Callback:
 				if element == command.buf:
 					index = element
 					bernard.inventory[element] += 1
-			print("[ prend ] - {}".format(command.buf))
-			print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-				bernard.inventory[index] - 1, bernard.inventory[index],
-				view_index(bernard.x, bernard.y), viewcase[command.buf] + 1, viewcase[command.buf]))
+			# print("[ prend ] - {}".format(command.buf))
+			# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
+			# 	bernard.inventory[index] - 1, bernard.inventory[index],
+			# 	view_index(bernard.x, bernard.y), viewcase[command.buf] + 1, viewcase[command.buf]))
 
 	def	pose(bernard, command):
 		#update view
@@ -80,10 +80,10 @@ class	Callback:
 			if element == command.buf:
 				index = element
 				bernard.inventory[element] -= 1
-		print("[ pose ] - {}".format(command.buf))
-		print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-			bernard.inventory[index] + 1, bernard.inventory[index],
-			view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
+		# print("[ pose ] - {}".format(command.buf))
+		# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
+		# 	bernard.inventory[index] + 1, bernard.inventory[index],
+		# 	view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
 
 	def	droite(bernard, command):
 		tmp = bernard.dir
@@ -91,7 +91,7 @@ class	Callback:
 		bernard.dir = bernard.dir + 90
 		if bernard.dir == 270:
 			bernard.dir = -90
-		print("[ droite ] - dir: {} -> {}".format(tmp, bernard.dir))
+		# print("[ droite ] - dir: {} -> {}".format(tmp, bernard.dir))
 
 	def	gauche(bernard, command):
 		tmp = bernard.dir
@@ -99,7 +99,7 @@ class	Callback:
 		bernard.dir = bernard.dir - 90
 		if bernard.dir == -270:
 			bernard.dir = 90
-		print("[ gauche ] - dir: {} -> {}".format(tmp, bernard.dir))
+		# print("[ gauche ] - dir: {} -> {}".format(tmp, bernard.dir))
 
 	def	avance(bernard, command):
 		#update direction by forward
@@ -119,8 +119,8 @@ class	Callback:
 		if bernard.dir == -90:
 			bernard.x -= 1
 			bernard.sx -= 1
-		print("[ avance ] - pos: {}, {} - spos: {}, {} - index: {}"
-			.format(bernard.x, bernard.y, bernard.sx, bernard.sy, view_index(bernard.x, bernard.y)))
+		# print("[ avance ] - pos: {}, {} - spos: {}, {} - index: {}"
+		# 	.format(bernard.x, bernard.y, bernard.sx, bernard.sy, view_index(bernard.x, bernard.y)))
 
 	def	connect_nbr():
 		pass

@@ -76,7 +76,6 @@ class	IA:
 		for command in self.brain.memory:
 			if command.state == S.PENDING and command.id == cmd.id:
 				if "ko" not in command.response:
-					print("receive", command.id)
 					self.needs[command.id].callback(self, command)
 				else:
 					print("response is ko")
@@ -84,7 +83,6 @@ class	IA:
 	
 	#fonction pour append la command
 	def	transceive(self, commands, cmd):
-		print("transceive", cmd.id)
 		if cmd.buf != None:
 			if type(cmd.buf) == list:
 				for elt in cmd.buf:

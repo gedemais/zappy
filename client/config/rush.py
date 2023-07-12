@@ -42,12 +42,13 @@ def		task_assign(bernard):
 		tasks[T.MANGER].state = S.NEED
 	elif bernard.inventory["nourriture"] > 10:
 		tasks[T.MANGER].state = S.NONE
-	if bernard.lvl >= 8:
-		#si le bot a finit de lvlup
-		tasks[T.BROADCAST].state = S.NEED
-	else:
+	if bernard.lvl < 8:
 		#si le bot ne meurs pas de fin on va tenter une incantation
 		tasks[T.INCANTATION].state = S.NEED
+	else:
+		tasks[T.INCANTATION].state = S.NONE
+		#si le bot a finit de lvlup
+		tasks[T.BROADCAST].state = S.NEED
 
 class	Rush:
 	def	__init__(self):
@@ -55,9 +56,10 @@ class	Rush:
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	run(bernard):
-		print("road to level2 ! =================")
+		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
+		print("bernard lvl {} food {}".format(bernard.lvl, bernard.inventory["nourriture"]))
 		#WIP
 		task_assign(bernard)
 		#WIP
