@@ -25,4 +25,3 @@ class	Incantation:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
 			compute_action(bernard, C.INCANTATION)
-			# bernard.lvl += 1
