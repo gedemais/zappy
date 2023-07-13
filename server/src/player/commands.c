@@ -267,5 +267,12 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
+	uint8_t	code;
+
+	env->gplayer = p;
+
+	if ((code = gevent_incantation_ended(env)))
+		return (code);
+
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }

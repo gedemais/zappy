@@ -107,3 +107,45 @@ uint8_t	gevent_broadcast(t_env *env)
 	sprintf(env->buffers.gresponse, "smg %s\n", env->buffers.response);
 	return (gresponse(env));
 }
+
+uint8_t		gevent_incantation_launch(t_env *env)
+{
+	t_team			*t;
+	t_player		*p;
+	t_player		*pl;
+	char			tmp[128];
+
+	p = env->gplayer;
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pic %d %d %d ", p->tile_x, p->tile_y, p->level);
+
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		t = dyacc(&env->world.teams, i);
+		for (int j = 0; j < env->world.teams.nb_cells; j++)
+		{
+			pl = dyacc(&t->players, j);
+			bool coords = (bool)(pl->tile_x == p->tile_x && pl->tile_y == p->tile_y);
+			if (coords && pl->level == p->level)
+			{
+				bzero(tmp, sizeof(char) * 128);
+				sprintf(tmp, "#%d ", p->pid);
+				strcat(env->buffers.gresponse, tmp);
+			}
+		}
+	}
+
+	env->buffers.gresponse[strlen(env->buffers.gresponse) - 1] = '\n';
+
+	return (gresponse(env));
+}
+
+uint8_t	gevent_incantation_ended(t_env *env)
+{
+	t_player	*p;
+
+	p = env->gplayer;
+	FLUSH_GRESPONSE
+	sprintf(env->buffers.gresponse, "pie %d %d %d\n", p->tile_x, p->tile_y, 1);
+	return (gresponse(env));
+}
