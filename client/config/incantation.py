@@ -1,6 +1,6 @@
 from utils.command import C
 from action.callback import compute_action, is_blind
-from action.view import view_find, view_distance
+from action.view import view_find, view_distance, view_index
 from action.move import goto_index
 from action.incant import incant_possible, incant_need, incant_put, incant_total
 
@@ -30,15 +30,20 @@ def		farm_case(bernard, n, nt, need):
 #WIP trouver la case avec le plus de ressources pour nt
 def		find_closest_need(bernard, needs_to_incant):
 	need = { "item" : None, "index" : bernard.view_size }
-
+	bernardindex = view_index(bernard.x, bernard.y)
+	list_of_index = []
+	#on recupere une list avec d'items needed et leurs index, présent dans le champ de vision
 	for item in needs_to_incant:
 		if "player" not in item and needs_to_incant[item] > 0:
-			targetindex = view_find(bernard, bernard.view, item)
-			if targetindex is not None:
-				print("found {} {} at {}".format(bernard.view[targetindex][item], item, targetindex))
-				if view_distance(0, targetindex) < view_distance(0, need["index"]):
-					need["item"] = item
-					need["index"] = targetindex
+			index = view_find(bernard, bernard.view, item)
+			if index is not None:
+				list_of_index.append({ "item" : item, "index" : index })
+	#on recupere le loot le plus proche de bernard
+	for target in list_of_index:
+		print("found {} {} at {}".format(bernard.view[target["index"]][target["item"]], target["item"], target["index"]))
+		if view_distance(bernardindex, target["index"]) < view_distance(bernardindex, need["index"]):
+			need["item"] = target["item"]
+			need["index"] = target["index"]
 	return need
 def		farm_ressources(bernard):
 	#looking for the needed loots
