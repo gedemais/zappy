@@ -1,10 +1,9 @@
 from transitions import Machine
-from enum import Enum
 
 from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
-from config.rush import Rush
+from config.maboye import Maboye
 
 
 class	IA:
@@ -45,9 +44,9 @@ class	IA:
 	def __init__(self, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
-		self.machine = Machine(model=self, states=["IDLE", "RUSH"], initial="IDLE")
-		self.machine.add_transition("fetch", "IDLE", "RUSH")
-		self.machine.add_transition("stop", "RUSH", "IDLE")
+		self.machine = Machine(model=self, states=["IDLE", "MABOYE"], initial="IDLE")
+		self.machine.add_transition("maboye", "IDLE", "MABOYE")
+		self.machine.add_transition("stop", "MABOYE", "IDLE")
 		#world size
 		self.wx, self.wy = wx, wy
 
@@ -64,8 +63,8 @@ class	IA:
 		commands = []
 
 		self.callback()
-		if self.state == "RUSH":
-			Rush.run(self)
+		if self.state == "MABOYE":
+			Maboye.run(self)
 		elif self.state == "IDLE":
 			pass
 		self.call(commands)
@@ -76,7 +75,6 @@ class	IA:
 		for command in self.brain.memory:
 			if command.state == S.PENDING and command.id == cmd.id:
 				if "ko" not in command.response:
-					print("receive", command.id)
 					self.needs[command.id].callback(self, command)
 				else:
 					print("response is ko")
@@ -84,7 +82,6 @@ class	IA:
 	
 	#fonction pour append la command
 	def	transceive(self, commands, cmd):
-		print("transceive", cmd.id)
 		if cmd.buf != None:
 			if type(cmd.buf) == list:
 				for elt in cmd.buf:

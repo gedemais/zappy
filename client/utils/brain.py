@@ -54,7 +54,7 @@ class	Brain:
 	#process est busy lorsqu'il traite une série de commandes
 	#return True if busy
 	def	process(self):
-		print("brain", self.cmd.debug())
+		print("BRAIN", self.cmd.debug())
 		if self.busy == False:
 			return False
 		#brain only trait none created or received cmds

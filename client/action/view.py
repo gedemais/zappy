@@ -1,38 +1,55 @@
-def	view_check_neighbors(bernard, x, y, item):
+import math
+
+
+def	view_check_neighbors(view, lvl, x, y, item):
 	#si out of view on sort
-	if outofview(x, y, bernard.lvl) == True:
+	if outofview(x, y, lvl) == True:
 		return None
 	index = view_index(x, y)
 	#si deja visitée on sort
-	if "visited" in bernard.view[index] and bernard.view[index]["visited"] == True:
+	if "visited" in view[index] and view[index]["visited"] == True:
 		return None
 	#has been visited
-	bernard.view[index]["visited"] = True
+	view[index]["visited"] = True
 	#si item sur la case et item > 0 on return l'index
-	if item in bernard.view[index] and bernard.view[index][item] > 0:
+	if item in view[index] and view[index][item] > 0:
 		return index
 	#recursion sur les 4 neighbors si result is not None: result is index
-	result = view_check_neighbors(bernard, x + 1, y, item)
+	result = view_check_neighbors(view, lvl, x + 1, y, item)
 	if result is not None:
 		return result
-	result = view_check_neighbors(bernard, x - 1, y, item)
+	result = view_check_neighbors(view, lvl, x - 1, y, item)
 	if result is not None:
 		return result
-	result = view_check_neighbors(bernard, x, y + 1, item)
+	result = view_check_neighbors(view, lvl, x, y + 1, item)
 	if result is not None:
 		return result
-	result = view_check_neighbors(bernard, x, y - 1, item)
+	result = view_check_neighbors(view, lvl, x, y - 1, item)
 	if result is not None:
 		return result
 	return None
 
-def	view_find(bernard, item):
-	index = view_check_neighbors(bernard, bernard.x, bernard.y, item)
+#find l'item le plus proche du joueur
+def	view_find(bernard, view, item):
+	index = view_check_neighbors(view, bernard.lvl, bernard.x, bernard.y, item)
 	#reset visited state
-	for loot in bernard.view:
+	for loot in view:
 		if "visited" in loot:
 			loot["visited"] = False
 	return index
+
+
+def	view_distance(a ,b):
+	ax, ay = view_pos(a)
+	bx, by = view_pos(b)
+
+	deltax = bx - ax
+	deltax *= deltax
+
+	deltay = by - ay
+	deltay *= deltay
+
+	return math.sqrt(deltax + deltay)
 
 #return the index of bernard in view with x, y
 def	view_index(x, y):
