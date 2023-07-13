@@ -84,6 +84,8 @@ class	Bot:
 				#server send death
 				self.death()
 				return
+			elif "You have to wait for the game to start" in self.qreceive.buf[i]:
+				return
 			elif cmd.state == S.PENDING and len(self.qreceive.buf[i]) > 0:
 				#server send our response
 				cmd.response = self.qreceive.buf[i]

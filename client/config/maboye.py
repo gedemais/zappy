@@ -91,6 +91,7 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
+		print(bernard.inventory)
 		print("bernard lvl {} food {}".format(bernard.lvl, bernard.inventory["nourriture"]))
 		#WIP
 		task_assign(bernard)

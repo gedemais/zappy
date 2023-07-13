@@ -17,8 +17,6 @@ class	IA:
 	# Position and Direction in bot's referential
 	x, y = 0, 0
 	dir = 0
-	#target index where bernard wanna go
-	target = None
 	# bernard
 	lvl = 1
 	inventory = []
