@@ -1,3 +1,6 @@
+import math
+
+
 def	view_check_neighbors(view, lvl, x, y, item):
 	#si out of view on sort
 	if outofview(x, y, lvl) == True:
@@ -26,9 +29,33 @@ def	view_check_neighbors(view, lvl, x, y, item):
 		return result
 	return None
 
+def	view_distance(a ,b):
+	ax, ay = view_pos(a)
+	bx, by = view_pos(b)
+
+	deltax = bx - ax
+	deltax *= deltax
+
+	deltay = by - ay
+	deltay *= deltay
+
+	return math.sqrt(deltax + deltay)
+
+
 #find l'item le plus proche du joueur
-def	view_find(bernard, view, item):
-	index = view_check_neighbors(view, bernard.lvl, bernard.x, bernard.y, item)
+def	view_find(bernard, view, items):
+	if type(items) == list:
+		index = []
+		for item in items:
+			tmp = view_check_neighbors(view, bernard.lvl, bernard.x, bernard.y, item)
+			#reset visited state
+			for loot in view:
+				if "visited" in loot:
+					loot["visited"] = False
+			if tmp is not None:
+				index.append([item, tmp])
+		return index
+	index = view_check_neighbors(view, bernard.lvl, bernard.x, bernard.y, items)
 	#reset visited state
 	for loot in view:
 		if "visited" in loot:

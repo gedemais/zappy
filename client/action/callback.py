@@ -27,8 +27,8 @@ def		is_blind(bernard):
 		print("I'm lost in the dark")
 		compute_action(bernard, C.VOIR, 1)
 		blind = True
-	#update inventory (each 4s)
-	if bernard.t - bernard.update_inventory > 4000:
+	#update inventory (each 5s)
+	if bernard.t - bernard.update_inventory > 5000:
 		print("I need to check my stuff !")
 		compute_action(bernard, C.INVENTAIRE, 1)
 		blind = True

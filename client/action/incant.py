@@ -27,11 +27,11 @@ def		incant_total(lvl, inventory):
 	#il faut soustraire tout les loots requis des lvl inferieurs
 	for i in range(lvl - 1 - 1):
 		loots_to_incant = require[i]
-		for loot in loots_to_incant:
-			if "player" in loot:
+		for item in loots_to_incant:
+			if "player" in item:
 				continue
-			if loot in needs and loots_to_incant[loot] > 0:
-				needs[loot] -= loots_to_incant[loot]
+			if item in needs and loots_to_incant[item] > 0:
+				needs[item] -= loots_to_incant[item]
 	#il faut soustraire l'inventaire
 	for element in inventory:
 		if "nourriture" in element or "ttl" in element:
@@ -57,15 +57,15 @@ def		incant_put(bernard):
 	loots_to_incant = require[bernard.lvl - 1]
 	index = view_index(bernard.x, bernard.y)
 
-	for loot in loots_to_incant:
-		if "player" not in loot and loots_to_incant[loot] > 0:
+	for item in loots_to_incant:
+		if "player" not in item and loots_to_incant[item] > 0:
 			#si les loot au sol sont < au prérequis
-			if loot in bernard.view[index] and bernard.view[index][loot] > 0:
-				if bernard.view[index][loot] < loots_to_incant[loot]:
+			if item in bernard.view[index] and bernard.view[index][item] > 0:
+				if bernard.view[index][item] < loots_to_incant[item]:
 					#on fait la diff entre les ressources au sol et celles présente dans l'inventaire
-					needs[loot] = loots_to_incant[loot] - bernard.view[index][loot]
+					needs[item] = loots_to_incant[item] - bernard.view[index][item]
 			else:
-				needs[loot] = loots_to_incant[loot]
+				needs[item] = loots_to_incant[item]
 	return needs
 
 #return un array contenant tout les loots nécessaire au lvl up (inventaire soustrait)
