@@ -232,8 +232,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
-
-
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	t_team		*team;
@@ -269,7 +267,11 @@ uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
 	uint8_t	code;
 
-	env->gplayer = p;
+	printf("THERE\n");
+	fflush(stdout);
+	env->gplayer = *p;
+	printf("THERE\n");
+	fflush(stdout);
 
 	if ((code = gevent_incantation_ended(env)))
 		return (code);

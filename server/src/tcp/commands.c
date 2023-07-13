@@ -44,8 +44,6 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 				if (req == false)
 				{
 					FLUSH_RESPONSE
-					ft_arrfree(lines);
-					ft_arrfree(tokens);
 					send_ko(env, player);
 					break ;
 				}

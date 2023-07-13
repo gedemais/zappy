@@ -115,7 +115,7 @@ uint8_t		gevent_incantation_launch(t_env *env)
 	t_player		*pl;
 	char			tmp[128];
 
-	p = env->gplayer;
+	p = &env->gplayer;
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pic %d %d %d ", p->tile_x, p->tile_y, p->level);
 
@@ -144,7 +144,7 @@ uint8_t	gevent_incantation_ended(t_env *env)
 {
 	t_player	*p;
 
-	p = env->gplayer;
+	p = &env->gplayer;
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pie %d %d %d\n", p->tile_x, p->tile_y, 1);
 	return (gresponse(env));

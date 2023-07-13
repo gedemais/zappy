@@ -1,4 +1,4 @@
-from utils.command import Command
+from utils.command import C, Command
 from action.view import view_index
 
 
@@ -12,6 +12,15 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 		command = Command(id = id)
 		command.buf = element
 		bernard.actions.append(command)
+
+def		blind(bernard):
+	if bernard.view == None or bernard.inventory == None \
+			or len(bernard.view) == 0 or len(bernard.inventory) == 0:
+		print("I'm blind :(")
+		compute_action(bernard, C.VOIR, 1)
+		compute_action(bernard, C.INVENTAIRE, 1)
+		return True
+	return False
 
 class	Callback:
 	def	__init__(self):

@@ -148,7 +148,7 @@ static uint8_t	incantation_req(t_env *env, char **tokens, t_player *p, bool *ret
 
 	consume_resources(env, p);
 
-	env->gplayer = p;
+	env->gplayer = *p;
 	if ((code = gevent_incantation_launch(env)))
 		return (code);
 

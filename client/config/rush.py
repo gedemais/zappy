@@ -1,7 +1,7 @@
 from enum import Enum
 
 from utils.command import C, S, Command
-from action.callback import compute_action
+from action.callback import compute_action, blind
 from action.view import outofview
 from config.manger import Manger
 from config.incantation import Incantation
@@ -38,9 +38,9 @@ def		task_manager(bernard):
 #WIP
 def		task_assign(bernard):
 	#il faut de la nourriture
-	if bernard.inventory["nourriture"] < 5:
+	if bernard.inventory["nourriture"] < 10:
 		tasks[T.MANGER].state = S.NEED
-	elif bernard.inventory["nourriture"] > 10:
+	elif bernard.inventory["nourriture"] > 15:
 		tasks[T.MANGER].state = S.NONE
 	#si le bot ne meurs pas de fin on va tenter une incantation
 	tasks[T.INCANTATION].state = S.NEED
@@ -52,19 +52,18 @@ class	Rush:
 	#celon les données de bernard on assigne de nouvelles taches
 	def	run(bernard):
 		print("road to level2 ! =================")
-		if bernard.view is not None and bernard.inventory is not None \
-				and len(bernard.view) > 0 and len(bernard.inventory) > 0:
-			#update view if out of view array
-			if outofview(bernard.x, bernard.y, bernard.lvl) == True:
-				compute_action(bernard, C.VOIR)
-			#update inventory (each 2s)
-			if bernard.t - bernard.update_inventory > 2000:
-				compute_action(bernard, C.INVENTAIRE)
-			#WIP
-			task_assign(bernard)
-			#WIP
-			task_manager(bernard)
-		else:
+		if blind(bernard) == True:
+			return
+		#update view if out of view array
+		if outofview(bernard.x, bernard.y, bernard.lvl) == True:
+			print("I'm lost in the dark")
 			compute_action(bernard, C.VOIR)
+			return
+		#update inventory (each 2s)
+		if bernard.t - bernard.update_inventory > 2000:
 			compute_action(bernard, C.INVENTAIRE)
+		#WIP
+		task_assign(bernard)
+		#WIP
+		task_manager(bernard)
 		print("==================================")
