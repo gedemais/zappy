@@ -55,8 +55,13 @@ def		task_assign(bernard):
 		tasks[T.RUSH].state = S.NEED
 	#on ramasse des ressources
 	else:
+		#WIP add une variable qui simule la prise de lvl pour stop la collect
+		# ou verifier si incant_total dans la task Collect est vide, si oui on change de task
 		tasks[T.RUSH].state = S.NONE
 		tasks[T.COLLECT].state = S.NEED
+	#WIP quand la collecte sera terminée on est lvl 2 et on a de quoi up lvl 8
+	#il faut rejoindre les autres joueurs (manger sur le trajet)
+	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
 
 class	Maboye:
 	def	__init__(self):
