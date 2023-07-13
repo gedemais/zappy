@@ -82,7 +82,6 @@ def	view_pos(index):
 
 #return true if x, y are out of bernard.view
 def	outofview(x, y, lvl):
-	lvl = 1
 	offset = lvl
 	if y < 0 or y > offset:
 		return True

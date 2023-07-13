@@ -61,8 +61,8 @@ class	Callback:
 			#update inventory
 			for element in bernard.inventory:
 				if element == command.buf:
-					index = element
 					bernard.inventory[element] += 1
+			# 		index = element
 			# print("[ prend ] - {}".format(command.buf))
 			# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
 			# 	bernard.inventory[index] - 1, bernard.inventory[index],
@@ -78,15 +78,14 @@ class	Callback:
 		#update inventory
 		for element in bernard.inventory:
 			if element == command.buf:
-				index = element
 				bernard.inventory[element] -= 1
+		# 		index = element
 		# print("[ pose ] - {}".format(command.buf))
 		# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
 		# 	bernard.inventory[index] + 1, bernard.inventory[index],
 		# 	view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
 
 	def	droite(bernard, command):
-		tmp = bernard.dir
 		#update direction by right
 		bernard.dir = bernard.dir + 90
 		if bernard.dir == 270:
@@ -94,7 +93,6 @@ class	Callback:
 		# print("[ droite ] - dir: {} -> {}".format(tmp, bernard.dir))
 
 	def	gauche(bernard, command):
-		tmp = bernard.dir
 		#update direction by left
 		bernard.dir = bernard.dir - 90
 		if bernard.dir == -270:
@@ -125,8 +123,10 @@ class	Callback:
 	def	connect_nbr():
 		pass
 
-	def incantation():
-		pass
+	def incantation(bernard, command):
+		print(command.debug())
+		bernard.lvl += 1
+		print("------------------------------ LVL [ {} ]".format(bernard.lvl))
 
 	def	fork():
 		pass

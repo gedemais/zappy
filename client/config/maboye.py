@@ -61,6 +61,10 @@ def		task_assign(bernard):
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
+
+	tasks[T.MEET].state = S.NEED
+	return
+
 	#on verifie si il manque des ressources pour passer lvl 8
 	miss = False
 	it = incant_total(bernard.inventory, bernard.lvl, 8)

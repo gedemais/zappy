@@ -24,6 +24,5 @@ class	Incantation:
 		if incant_possible(bernard.inventory, bernard.lvl) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
-			# compute_action(bernard, C.INCANTATION)
-			bernard.lvl += 1
-			print("------------------------------ LVL [ {} ]".format(bernard.lvl))
+			compute_action(bernard, C.INCANTATION)
+			# bernard.lvl += 1

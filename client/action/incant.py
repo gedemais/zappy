@@ -28,9 +28,7 @@ def		incant_total(inventory, lvlmin, lvlmax):
 	for i in range(lvlmin - 1, lvlmax - 1):
 		loots = require[i]
 		for item in loots:
-			if "player" in item:
-				continue
-			if loots[item] > 0:
+			if "player" not in item and loots[item] > 0:
 				needs[item] += loots[item]
 	#il faut soustraire l'inventaire
 	for element in inventory:

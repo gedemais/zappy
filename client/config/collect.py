@@ -28,6 +28,7 @@ def		find_closest_need(bernard, needs):
 			index = view_find(bernard, bernard.view, item)
 			if index is not None:
 				list_of_index.append({ "item" : item, "index" : index })
+	#WIP ramasser le plus de loot needed
 	#on recupere le loot le plus proche de bernard
 	for target in list_of_index:
 		print("found {} {} at {}".format(bernard.view[target["index"]][target["item"]], target["item"], target["index"]))
