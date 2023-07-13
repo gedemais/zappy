@@ -17,21 +17,21 @@ require = [
 	{ "linemate" : 1, "deraumere" : 2, "sibur" : 3, "mendiane" : 0, "phiras" : 1, "thystame" : 0, "player" : 6 },
 	#7- 8
 	{ "linemate" : 2, "deraumere" : 2, "sibur" : 2, "mendiane" : 2, "phiras" : 2, "thystame" : 1, "player" : 6 },
-	#total
-	{ "linemate" : 9, "deraumere" : 8, "sibur" : 10, "mendiane" : 5, "phiras" : 6, "thystame" : 1, "player" : 0 },
 ]
 
-#return le nb de loot total a avoir pour passer du lvl actuel a max
-def		incant_total(lvl, inventory):
-	needs = require[len(require) - 1]
-	#il faut soustraire tout les loots requis des lvl inferieurs
-	for i in range(lvl - 1 - 1):
-		loots_to_incant = require[i]
-		for item in loots_to_incant:
+#WIP
+#return le nb de loot total a avoir pour passer du lvlmin au lvlmax
+def		incant_total(inventory, lvlmin, lvlmax):
+	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0 }
+
+	#on additionne tout les loots entre le lvlmin et le lvlmax
+	for i in range(lvlmin - 1, lvlmax - 1):
+		loots = require[i]
+		for item in loots:
 			if "player" in item:
 				continue
-			if item in needs and loots_to_incant[item] > 0:
-				needs[item] -= loots_to_incant[item]
+			if loots[item] > 0:
+				needs[item] += loots[item]
 	#il faut soustraire l'inventaire
 	for element in inventory:
 		if "nourriture" in element or "ttl" in element:
@@ -41,7 +41,7 @@ def		incant_total(lvl, inventory):
 	return needs
 
 #return True if can incant else False
-def		incant_possible(lvl, inventory):
+def		incant_possible(inventory, lvl):
 	loots_to_incant = require[lvl - 1]
 
 	for element in inventory:
@@ -69,11 +69,11 @@ def		incant_put(bernard):
 	return needs
 
 #return un array contenant tout les loots nécessaire au lvl up (inventaire soustrait)
-def		incant_need(lvl, inventory):
+def		incant_need(inventory, lvl):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
 	loots_to_incant = require[lvl - 1]
 
-	if incant_possible(lvl, inventory) == True:
+	if incant_possible(inventory, lvl) == True:
 		return needs
 	else:
 		for element in inventory:

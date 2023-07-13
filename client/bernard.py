@@ -3,7 +3,7 @@ from transitions import Machine
 from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
-from config.rush import Rush
+from config.maboye import Maboye
 
 
 class	IA:
@@ -44,9 +44,9 @@ class	IA:
 	def __init__(self, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
-		self.machine = Machine(model=self, states=["IDLE", "RUSH"], initial="IDLE")
-		self.machine.add_transition("fetch", "IDLE", "RUSH")
-		self.machine.add_transition("stop", "RUSH", "IDLE")
+		self.machine = Machine(model=self, states=["IDLE", "MABOYE"], initial="IDLE")
+		self.machine.add_transition("maboye", "IDLE", "MABOYE")
+		self.machine.add_transition("stop", "MABOYE", "IDLE")
 		#world size
 		self.wx, self.wy = wx, wy
 
@@ -63,8 +63,8 @@ class	IA:
 		commands = []
 
 		self.callback()
-		if self.state == "RUSH":
-			Rush.run(self)
+		if self.state == "MABOYE":
+			Maboye.run(self)
 		elif self.state == "IDLE":
 			pass
 		self.call(commands)

@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
 	if wx > 0 and wy > 0:
 		bernard = IA(wx, wy)
-		bernard.fetch()
+		bernard.maboye()
 		ts = int(time.time() * 1000)
 		while client.bot.alive == True:
 			t = int(time.time() * 1000) - ts
