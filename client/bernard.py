@@ -3,6 +3,7 @@ from transitions import Machine
 from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
+from action.message import Message
 from config.maboye import Maboye
 
 
@@ -48,8 +49,11 @@ class	IA:
 		#world size
 		self.wx, self.wy = wx, wy
 
-	def	interact(self, t):
+	def	interact(self, t, server_messages):
 		self.t = t
+
+		if len(server_messages) > 0:
+			self.handle_server_messages(server_messages)
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
 			commands = self.update()
@@ -67,6 +71,21 @@ class	IA:
 			pass
 		self.call(commands)
 		return commands
+	
+	def	handle_server_messages(self, server_messages):
+		for message in server_messages:
+			if "You have to wait for the game to start" in message:
+				#game didn't start yet
+				Message.start(self, message)
+			elif "message " in message:
+				#server send a broadcast
+				Message.message(self, message)
+			elif "niveau actuel" in message:
+				#server send success to an elevation
+				Message.level(self, message)
+			elif "deplacement " in message:
+				#server send a kick
+				Message.kick(self, message)
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
 	def	receive(self, cmd):

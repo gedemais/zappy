@@ -36,9 +36,13 @@ class	Client:
 			self.wx, self.wy = wsize[0], wsize[1]
 		return int(wsize[0]), int(wsize[1])
 
+	def	close(self):
+		self.s.close()
+
 	#receive data from server
 	def	receive(self, cmd):
 		self.qreceive.reset()
+		server_messages = []
 		self.s.settimeout(0.2)
 		while True:
 			try:
@@ -52,8 +56,10 @@ class	Client:
 				if len(split[i]) > 0:
 					self.qreceive.append(split[i])
 		if len(self.qreceive.buf) > 0:
-			#use the bot to parse qreceive
-			self.bot.server_receive(cmd)
+			#use the bot to parse qreceive and check if the server sent us a message
+			#(broadcast, kick, death, game didn't start yet)
+			server_messages = self.bot.server_receive(cmd)
+		return server_messages
 
 	#transceive data to server
 	def transceive(self, cmd):

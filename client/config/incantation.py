@@ -19,7 +19,9 @@ class	Incantation:
 		pass
 
 	def	run(bernard):
-		if is_blind(bernard) == True or bernard.lvl > 8:
+		if is_blind(bernard) == True:
+			return
+		if  bernard.lvl > 8 or bernard.inventory["nourriture"] < 5:
 			return
 		if incant_possible(bernard.inventory, bernard.lvl) == True:
 			drop_requirement(bernard)

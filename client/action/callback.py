@@ -124,9 +124,7 @@ class	Callback:
 		pass
 
 	def incantation(bernard, command):
-		print(command.debug())
-		bernard.lvl += 1
-		print("------------------------------ LVL [ {} ]".format(bernard.lvl))
+		pass
 
 	def	fork():
 		pass
@@ -134,5 +132,5 @@ class	Callback:
 	def	expulse():
 		pass
 
-	def	broadcast():
+	def	broadcast(bernard, command):
 		pass

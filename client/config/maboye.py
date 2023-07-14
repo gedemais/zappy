@@ -56,11 +56,11 @@ def		task_assign(bernard):
 	elif bernard.inventory["nourriture"] > 10:
 		tasks[T.MANGER].state = S.NONE
 	#rush lvl 2
-	if bernard.lvl < 2:
-		tasks[T.RUSH].state = S.NEED
-		return
-	else:
-		tasks[T.RUSH].state = S.NONE
+	# if bernard.lvl < 2:
+	# 	tasks[T.RUSH].state = S.NEED
+	# 	return
+	# else:
+	# 	tasks[T.RUSH].state = S.NONE
 
 	tasks[T.MEET].state = S.NEED
 	return
@@ -91,7 +91,6 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		print(bernard.inventory)
 		print("bernard lvl {} food {}".format(bernard.lvl, bernard.inventory["nourriture"]))
 		#WIP
 		task_assign(bernard)
