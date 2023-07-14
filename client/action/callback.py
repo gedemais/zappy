@@ -124,7 +124,8 @@ class	Callback:
 		pass
 
 	def incantation(bernard, command):
-		pass
+		bernard.lvl += 1
+		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork():
 		pass

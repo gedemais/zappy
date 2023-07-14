@@ -9,6 +9,23 @@ class	Brain:
 		self.busy = False
 		self.memory = []
 
+	#input a Command or an array of Commands
+	#start the brain process if commands is valid
+	def	input(self, commands):
+		self.memory = []
+		if commands != None and len(commands) > 0:
+			self.busy = True
+			self.queue.start(commands)
+			command = self.queue.get_state_elt()
+			self.cmd = command.copy()
+
+	def	reset(self):
+		self.cmd.reset()
+		self.queue.running == False
+		self.queue.end()
+		self.busy = False
+		self.memory = []
+
 	def	parse_cmd(self, cmd):
 		if cmd == None or hasattr(cmd, "id") == False:
 			return False
@@ -39,16 +56,6 @@ class	Brain:
 		self.queue.end()
 		if self.queue.running == False:
 			self.busy = False
-
-	#input a Command or an array of Commands
-	#start the brain process if commands is valid
-	def	input(self, commands):
-		self.memory = []
-		if commands != None and len(commands) > 0:
-			self.busy = True
-			self.queue.start(commands)
-			command = self.queue.get_state_elt()
-			self.cmd = command.copy()
 
 	#transform le tableau de commands input en commande individuelle à transceive
 	#process est busy lorsqu'il traite une série de commandes

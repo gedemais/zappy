@@ -52,9 +52,9 @@ class	Client:
 			if not data:
 				break
 			split = data.decode("utf-8").split('\n')
-			for i in range(len(split)):
-				if len(split[i]) > 0:
-					self.qreceive.append(split[i])
+			for message in split:
+				if len(message) > 0:
+					self.qreceive.append(message)
 		if len(self.qreceive.buf) > 0:
 			#use the bot to parse qreceive and check if the server sent us a message
 			#(broadcast, kick, death, game didn't start yet)
@@ -66,11 +66,10 @@ class	Client:
 		if cmd.id != None:
 			#use the bot to prepare qtransceive
 			self.bot.server_transceive(cmd)
-			buf_len = len(self.qtransceive.buf)
 			#si le cmd.state a été push dans la queue et qu'une queue existe
-			if cmd.state == S.TRANSCEIVED and buf_len > 0:
-				for i in range(buf_len):
-					self.s.send(bytes(self.qtransceive.buf[i].encode("utf-8")))
+			if cmd.state == S.TRANSCEIVED:
+				for command in self.qtransceive.buf:
+					self.s.send(bytes(command.encode("utf-8")))
 				self.qtransceive.reset()
 				#cmd has been sent so state is now pending
 				cmd.state = S.PENDING

@@ -76,29 +76,28 @@ class	Bot:
 	def	server_receive(self, cmd):
 		server_messages = []
 
-		for i in range(len(self.qreceive.buf)):
-			if "message " in self.qreceive.buf[i]:
+		for message in self.qreceive.buf:
+			if "You have to wait for the game to start" in message:
+				#game didn't start yet
+				server_messages.append(message)
+				cmd.state = S.NONE
+			elif "message" in message:
 				#server send a broadcast
-				server_messages.append(self.qreceive.buf[i])
-			elif "deplacement " in self.qreceive.buf[i]:
+				server_messages.append(message)
+			elif "deplacement" in message:
 				#server send a kick
-				server_messages.append(self.qreceive.buf[i])
-			elif "niveau actuel" in self.qreceive.buf[i]:
-				#server send success to an elevation
-				server_messages.append(self.qreceive.buf[i])
-			elif "mort" in self.qreceive.buf[i]:
+				server_messages.append(message)
+			elif "mort" in message:
 				#server send death
 				self.death()
 				return
-			elif "You have to wait for the game to start" in self.qreceive.buf[i]:
-				#game didn't start yet
-				server_messages.append(self.qreceive.buf[i])
-				cmd.state = S.NONE
-			elif cmd.state == S.PENDING and len(self.qreceive.buf[i]) > 0:
+			elif "elevation en cours" in message:
+				#server will send a message when elevation will end so we do nothing until it
+				print("elevation en cours")
+				pass
+			elif cmd.state == S.PENDING and len(message) > 0:
 				#server send our response
-				cmd.response = self.qreceive.buf[i]
+				cmd.response = message
 				cmd.state = S.RECEIVED
 				self.parse_response(cmd)
-			else:
-				print("response is an error")
 		return server_messages

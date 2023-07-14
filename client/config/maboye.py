@@ -55,7 +55,7 @@ def		task_assign(bernard):
 		return
 	elif bernard.inventory["nourriture"] > 10:
 		tasks[T.MANGER].state = S.NONE
-	#rush lvl 2
+	# # rush lvl 2
 	# if bernard.lvl < 2:
 	# 	tasks[T.RUSH].state = S.NEED
 	# 	return
