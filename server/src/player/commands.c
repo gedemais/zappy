@@ -232,8 +232,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
-
-
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	t_team		*team;
@@ -244,10 +242,7 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	if (team->max_client >= 6)
 	{
 		if (send_response)
-		{
-			strcat(env->buffers.response, "ko\n");
-			response(env, p);
-		}
+			return (send_ko(env, p));
 		return (ERR_NONE);
 	}
 
@@ -257,15 +252,31 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	team->max_client++;
 
 	if (send_response)
-	{
-		strcat(env->buffers.response, "ok\n");
-		response(env, p);
-	}
+		return (send_ok(env, p));
 
 	return (ERR_NONE);
 }
 
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
+	char	r[128];
+	char	*lvl;
+	uint8_t	code;
+
+	bzero(r, sizeof(char) * 128);
+	strcat(r, "niveau actuel : ");
+
+	if (!(lvl = itoa((int)p->level)))
+		return (ERR_MALLOC_FAILED);
+
+	strcat(r, lvl);
+
+	free(lvl);
+
+	strcat(r, "\n");
+
+	if (send_response && (code = send_response(env, p, r)))
+		return (code);
+
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }

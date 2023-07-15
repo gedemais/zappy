@@ -170,6 +170,7 @@ uint8_t		kill_player(t_env *env, t_player *p, bool disconnected);
 uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);
 void		teams_log(t_env *env, bool log);
+uint8_t		send_response(t_env *env, t_player *p, char *s);
 uint8_t		response(t_env *env, t_player *p);
 uint8_t		gresponse(t_env *env);
 
