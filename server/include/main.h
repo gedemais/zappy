@@ -154,6 +154,8 @@ uint8_t		gevent_player_connected_for_egg(t_env *env);
 uint8_t		gevent_egg_rotted(t_env *env);
 uint8_t		gevent_game_ended(t_env *env);
 uint8_t		gevent_broadcast(t_env *env);
+uint8_t		gevent_incantation_launch(t_env *env);
+uint8_t		gevent_incantation_ended(t_env *env);
 
 // Graphical tools
 uint8_t		cat_spaced_number(t_env *env, int n, bool newline);

@@ -60,10 +60,10 @@ static uint8_t	fork_req(t_env *env, char **tokens, t_player *p, bool *ret)
 	if (team->max_client - team->connected > 0)
 		*ret = true;
 
-	return (true);
+	return (ERR_NONE);
 }
 
-// ========================================================
+// ==================== INCANTATION REQUIREMENTS  ======================
 
 static bool	check_resources(t_env *env, t_player *p)
 {
@@ -144,12 +144,18 @@ static uint8_t	incantation_req(t_env *env, char **tokens, t_player *p, bool *ret
 		return (code);
 
 	if (*ret == false)
-		return (false);
+		return (ERR_NONE);
 
 	consume_resources(env, p);
 
-	return (true);
+	env->gplayer = *p;
+	if ((code = gevent_incantation_launch(env)))
+		return (code);
+
+	return (ERR_NONE);
 }
+
+// =====================================================================
 
 uint8_t	check_requirements(t_env *env, char **tokens, t_player *player, int cmd, bool *ret)
 {

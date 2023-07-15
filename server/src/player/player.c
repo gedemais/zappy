@@ -15,7 +15,7 @@ void	teams_log(t_env *env, bool log)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			fprintf(log ? stderr : stdout, "Player %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
+			fprintf(log ? stderr : stdout, "Player %d | level %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, p->level, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
 		}
 	}
 	fprintf(log ? stderr : stdout, "===========================\n");
