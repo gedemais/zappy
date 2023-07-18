@@ -54,71 +54,31 @@ class	Callback:
 		# print("[ inventaire ]", bernard.inventory)
 
 	def	prend(bernard, command):
-		#update view
-		viewcase = bernard.view[view_index(bernard.dir, bernard.x, bernard.y)]
-		if command.buf in viewcase:
-			viewcase[command.buf] -= 1
-			#update inventory
-			for element in bernard.inventory:
-				if element == command.buf:
-					bernard.inventory[element] += 1
-			# 		index = element
-			# print("[ prend ] - {}".format(command.buf))
-			# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-			# 	bernard.inventory[index] - 1, bernard.inventory[index],
-			# 	view_index(bernard.x, bernard.y), viewcase[command.buf] + 1, viewcase[command.buf]))
+		#update inventory
+		for element in bernard.inventory:
+			if element == command.buf:
+				bernard.inventory[element] += 1
+		# 		index = element
+		# print("[ prend ] - {}".format(command.buf))
+		# print("inventaire: {} -> {}".format(bernard.inventory[index] - 1, bernard.inventory[index]))
 
 	def	pose(bernard, command):
-		#update view
-		viewcase = bernard.view[view_index(bernard.dir, bernard.x, bernard.y)]
-		if command.buf not in viewcase:
-			viewcase[command.buf] = 1
-		else:
-			viewcase[command.buf] += 1
 		#update inventory
 		for element in bernard.inventory:
 			if element == command.buf:
 				bernard.inventory[element] -= 1
 		# 		index = element
 		# print("[ pose ] - {}".format(command.buf))
-		# print("inventaire: {} -> {} - viewcase[{}] {} -> {}".format(
-		# 	bernard.inventory[index] + 1, bernard.inventory[index],
-		# 	view_index(bernard.x, bernard.y), viewcase[command.buf] - 1, viewcase[command.buf]))
+		# print("inventaire: {} -> {}".format(bernard.inventory[index] + 1, bernard.inventory[index]))
 
 	def	droite(bernard, command):
-		#update direction by right
-		bernard.dir = bernard.dir + 90
-		if bernard.dir == 270:
-			bernard.dir = -90
-		# print("[ droite ] - dir: {} -> {}".format(tmp, bernard.dir))
+		pass
 
 	def	gauche(bernard, command):
-		#update direction by left
-		bernard.dir = bernard.dir - 90
-		if bernard.dir == -270:
-			bernard.dir = 90
-		# print("[ gauche ] - dir: {} -> {}".format(tmp, bernard.dir))
+		pass
 
 	def	avance(bernard, command):
-		#update direction by forward
-		#front
-		if bernard.dir == 0:
-			bernard.y += 1
-			bernard.sy += 1
-		#back
-		if bernard.dir == 180 or bernard.dir == -180:
-			bernard.y -= 1
-			bernard.sy -= 1
-		#right
-		if bernard.dir == 90:
-			bernard.x += 1
-			bernard.sx += 1
-		#left
-		if bernard.dir == -90:
-			bernard.x -= 1
-			bernard.sx -= 1
-		# print("[ avance ] - pos: {}, {} - spos: {}, {} - index: {}"
-		# 	.format(bernard.x, bernard.y, bernard.sx, bernard.sy, view_index(bernard.x, bernard.y)))
+		pass
 
 	def	connect_nbr():
 		pass

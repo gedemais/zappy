@@ -51,7 +51,7 @@ def		task_manager(bernard):
 #WIP
 def		task_assign(bernard):
 	#il faut de la nourriture
-	if bernard.inventory["nourriture"] < 5:
+	if bernard.inventory["nourriture"] < 50:
 		tasks[T.MANGER].state = S.NEED
 		return
 	elif bernard.inventory["nourriture"] > 10:
@@ -63,10 +63,10 @@ def		task_assign(bernard):
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
-
+		bernard.rushlvl = 8
 	#on verifie si il manque des ressources pour passer lvl 8
 	miss = False
-	it = incant_total(bernard, 8)
+	it = incant_total(bernard, bernard.rushlvl)
 	for item in it:
 		if "player" not in item and it[item] > 0:
 			miss = True
@@ -93,13 +93,12 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		print("[ bernard ] - lvl: {} - food: {} - pos: {}, {} - index: {} - dir: {} - vpos: {}".format(\
+		print("[ bernard ] - lvl: {} - food: {} - pos: {}, {} - index: {} - vlen: {}".format(\
 			bernard.lvl,\
 			bernard.inventory["nourriture"],\
 			bernard.x, bernard.y,\
-			view_index(bernard.dir, bernard.x, bernard.y),\
-			bernard.dir,\
-			view_pos(bernard.dir, view_index(bernard.dir, bernard.x, bernard.y)),\
+			view_index(bernard.x, bernard.y),\
+			bernard.view_size,\
 		))
 		#WIP
 		task_assign(bernard)

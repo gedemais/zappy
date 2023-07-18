@@ -13,11 +13,8 @@ class	IA:
 	# view data
 	view = []
 	view_size = 0
-	# position from start
-	sx, sy = 0, 0
-	# Position and Direction in bot's referential
+	# Position in bot's referential
 	x, y = 0, 0
-	dir = 0
 	# bernard
 	lvl = 1
 	rushlvl = 2
@@ -97,7 +94,7 @@ class	IA:
 				if "ko" not in command.response:
 					self.needs[command.id].callback(self, command)
 				else:
-					print("response is ko")
+					print("{} {} : KO".format(command.id, command.buf))
 				command.state = S.NONE
 	
 	#fonction pour append la command

@@ -6,21 +6,24 @@ from action.move import goto_index
 
 def		farm_case(bernard, needs, need):
 	view = bernard.view
+	viewcase = view[need["index"]]
 
 	for item in needs:
 		if "player" not in item and needs[item] > 0:
 			if item in view[need["index"]] and view[need["index"]][item] > 0:
 				print("looting {} {}".format(view[need["index"]][item], item))
 				compute_action(bernard, C.PREND, view[need["index"]][item], item)
+				viewcase[item] -= viewcase[item]
 	#on ramasse un peu de nourriture si il y en a
 	if "nourriture" in view[need["index"]] and view[need["index"]]["nourriture"] > 0:
 		print("looting {} nourriture".format(view[need["index"]]["nourriture"]))
 		compute_action(bernard, C.PREND, view[need["index"]]["nourriture"], "nourriture")
+		viewcase["nourriture"] -= viewcase["nourriture"]
 
 #trouve la ressource dans nt la plus proche
 def		find_closest_need(bernard, needs):
 	need = { "item" : None, "index" : bernard.view_size }
-	bernardindex = view_index(bernard.dir, bernard.x, bernard.y)
+	bernardindex = view_index(bernard.x, bernard.y)
 	list_of_index = []
 	#on recupere une list d'items needed et leurs index, présent dans le champ de vision
 	for item in needs:
@@ -32,7 +35,7 @@ def		find_closest_need(bernard, needs):
 	#on recupere le loot le plus proche de bernard
 	for target in list_of_index:
 		print("found {} {} at {}".format(bernard.view[target["index"]][target["item"]], target["item"], target["index"]))
-		if view_distance(bernard.dir, bernardindex, target["index"]) < view_distance(bernard.dir, bernardindex, need["index"]):
+		if view_distance(bernardindex, target["index"]) < view_distance(bernardindex, need["index"]):
 			need["item"] = target["item"]
 			need["index"] = target["index"]
 	return need
@@ -44,6 +47,8 @@ def		farm_ressources(bernard, needs):
 	#process un goto sur chaque pos en actualisant la pos de benard dans un tmp
 	#pb: list de commands trop longue ?
 	need = find_closest_need(bernard, needs)
+	for v in bernard.view:
+		print(v)
 	if need["item"] is not None:
 		find = True
 		print("going for {} at {}".format(need["item"], need["index"]))
@@ -62,7 +67,7 @@ class	Collect:
 			return
 		if farm_ressources(bernard, needs) == False:
 			print("going forward !")
-			compute_action(bernard, C.AVANCE, 2)
+			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
 			compute_action(bernard, C.DROITE)
 			print("scooting the area")
 			compute_action(bernard, C.VOIR)

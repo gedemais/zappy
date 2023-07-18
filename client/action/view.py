@@ -5,7 +5,7 @@ def	view_check_neighbors(bernard, x, y, item):
 	#si out of view on sort
 	if outofview(bernard, x, y) == True:
 		return None
-	index = view_index(bernard.dir, x, y)
+	index = view_index(x, y)
 	#si deja visitée on sort
 	if "visited" in bernard.view[index] and bernard.view[index]["visited"] == True:
 		return None
@@ -35,10 +35,19 @@ def	view_find(bernard, item):
 			loot["visited"] = False
 	return index
 
+#WIP
+def	view_distance(a ,b):
+	ax, ay = view_pos(a)
+	bx, by = view_pos(b)
 
-def	view_distance(dir, a ,b):
-	ax, ay = view_pos(dir, a)
-	bx, by = view_pos(dir, b)
+	if ax > bx:
+		tmp = bx
+		bx = ax
+		ax = tmp
+	if ay > by:
+		tmp = by
+		by = ay
+		ay = tmp
 
 	deltax = bx - ax
 	deltax *= deltax
@@ -48,30 +57,35 @@ def	view_distance(dir, a ,b):
 
 	return math.sqrt(deltax + deltay)
 
-def	rotate_pos(dir, x, y):
-	nx, ny = x, y
+# def	rotate_pos(dir, x, y):
+# 	nx, ny = x, y
 
-	if dir == 90:
-		nx = y
-		ny = -x
-	elif dir == 180 or dir == -180:
-		nx = -x
-		ny = -y
-	elif dir == -90:
-		nx = -y
-		ny = x
-	return nx, ny
+# 	if dir == 0:
+# 		nx = x
+# 		ny = abs(y)
+# 	elif dir == 180 or dir == -180:
+# 		nx = -x
+# 		ny = abs(y)
+# 	elif dir == 90:
+# 		nx = -y
+# 		ny = abs(x)
+# 	elif dir == -90:
+# 		nx = y
+# 		ny = abs(x)
+# 	return nx, ny
 
 #return the index of bernard in view with x, y
-def	view_index(dir, x, y):
-	x, y = rotate_pos(dir, x, y)
+def	view_index(x, y):
 	index = 0
+	if x == 0 and y == 0:
+		return index
+	y = abs(y)
 	middle = y * (y + 1)
 	index = middle + x
 	return index
 
 #return the pos of bernard with view index
-def	view_pos(dir, index):
+def	view_pos(index):
 	x, y = 0, 0
 	#if index == 0, pox == 0, 0
 	if index <= 0:
@@ -80,22 +94,50 @@ def	view_pos(dir, index):
 	for i in range(1, 8):
 		lvl = i + 1
 		middle = lvl * i
-		start = middle - lvl + 1
-		end = middle + lvl - 1
+		start = middle - lvl
+		end = middle + lvl
 		if index > start and index < end:
 			break
 	y = lvl - 1
-	x = -y
-	for i in range(start, end):
-		if index == view_index(0, x, y):
-			break
+	x = -lvl
+	for i in range(start + 1, end):
 		x += 1
-	x, y = rotate_pos(dir, x, y)
+		if index == view_index(x, y):
+			break
+
+	# if dir == 0:
+	# 	y = lvl - 1
+	# 	x = -lvl
+	# 	for i in range(start + 1, end):
+	# 		x += 1
+	# 		if index == view_index(dir, x, y):
+	# 			break
+	# elif dir == 180 or dir == -180:
+	# 	y = -(lvl - 1)
+	# 	x = -lvl
+	# 	for i in range(start + 1, end):
+	# 		x += 1
+	# 		if index == view_index(dir, x, y):
+	# 			break
+	# elif dir == 90:
+	# 	x = lvl - 1
+	# 	y = -lvl
+	# 	for i in range(start + 1, end):
+	# 		y += 1
+	# 		if index == view_index(dir, x, y):
+	# 			break
+	# elif dir == -90:
+	# 	x = -(lvl - 1)
+	# 	y = -lvl
+	# 	for i in range(start + 1, end):
+	# 		y += 1
+	# 		if index == view_index(dir, x, y):
+	# 			break
+
 	return x, y
 
 #return true if x, y are out of bernard.view
 def	outofview(bernard, x, y):
-	index = view_index(bernard.dir, x, y)
-	if index < 0 or index > bernard.view_size - 1:
-		return True
-	return False
+	index = view_index(x, y)
+
+	return index < 0 or index > bernard.view_size - 1

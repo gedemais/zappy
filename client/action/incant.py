@@ -42,7 +42,7 @@ def		incant_total(bernard, lvlmax):
 #if case is True incant possible count items on the ground as well
 def		incant_possible(bernard, case = False):
 	loots_to_incant = require[bernard.lvl - 1]
-	bernardindex = view_index(bernard.dir, bernard.x, bernard.y)
+	bernardindex = view_index(bernard.x, bernard.y)
 	viewcase = bernard.view[bernardindex]
 
 	for element in bernard.inventory:
@@ -59,10 +59,7 @@ def		incant_possible(bernard, case = False):
 def		incant_put(bernard):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
 	loots_to_incant = require[bernard.lvl - 1]
-	index = view_index(bernard.dir, bernard.x, bernard.y)
-
-	if incant_possible(bernard, True):
-		return needs
+	index = view_index(bernard.x, bernard.y)
 
 	for item in loots_to_incant:
 		if "player" not in item and loots_to_incant[item] > 0:

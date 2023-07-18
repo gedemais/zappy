@@ -35,7 +35,7 @@ uint8_t	check_connected_egg(t_env *env, uint16_t team)
 	t_egg		*egg;
 	t_egg		*oldest_egg;
 	int			index = -1;
-	int32_t		id;
+	int32_t		id = 0;
 
 	eggs = &env->world.eggs;
 	oldest_egg = dyacc(eggs, 0);
