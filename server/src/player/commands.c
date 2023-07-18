@@ -259,36 +259,13 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
-<<<<<<< HEAD
-	char	r[128];
-	char	*lvl;
 	uint8_t	code;
 
-	bzero(r, sizeof(char) * 128);
-	strcat(r, "niveau actuel : ");
-
-	if (!(lvl = itoa((int)p->level)))
-		return (ERR_MALLOC_FAILED);
-
-	strcat(r, lvl);
-
-	free(lvl);
-
-	strcat(r, "\n");
-
-	if (send_response && (code = send_response(env, p, r)))
-=======
-	uint8_t	code;
-
-	printf("THERE\n");
-	fflush(stdout);
 	env->gplayer = *p;
-	printf("THERE\n");
-	fflush(stdout);
 
+	(void)send_response;
 	if ((code = gevent_incantation_ended(env)))
->>>>>>> main
 		return (code);
 
-	return (send_response ? send_ok(env, p) : ERR_NONE);
+	return (ERR_NONE);
 }

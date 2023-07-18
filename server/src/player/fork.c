@@ -5,6 +5,7 @@ uint8_t	update_eggs(t_env *env)
 	t_egg		*egg;
 	t_team		*team;
 
+	log_function((char*)__FUNCTION__);
 	for (int i = 0; i < env->world.eggs.nb_cells; i++)
 	{
 		egg = dyacc(&env->world.eggs, i);

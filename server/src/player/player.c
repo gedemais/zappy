@@ -1,5 +1,11 @@
 #include "main.h"
 
+void	log_function(char *s)
+{
+	PUTTIME()
+	fprintf(stderr, "Function %s launched\n", s);
+}
+
 void	teams_log(t_env *env, bool log)
 {
 	t_team		*t;
@@ -42,24 +48,44 @@ uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 	return (code);
 }
 
-static void	update_level(t_player *p)
+static uint8_t	update_level(t_env *env, t_player *p)
 {
+	char	r[128];
+	char	*lvl;
+
 	if (p->elevation > 0)
 		p->elevation--;
 	else if (p->elevation == 0)
 	{
 		p->level++;
 		p->elevation = -1;
+
+		bzero(r, sizeof(char) * 128);
+
+		strcat(r, "niveau actuel : ");
+
+		if (!(lvl = ft_itoa((int)p->level)))
+			return (ERR_MALLOC_FAILED);
+
+		strcat(r, lvl);
+		free(lvl);
+		strcat(r, "\n");
+
+		return (send_response(env, p, r));
 	}
+	return (ERR_NONE);
 }
 
 static uint8_t	update_food(t_env *env, t_player *p)
 {
+	uint8_t	code;
+
 	// If player's satiety is zero and have no food, he will die.
 	if (p->satiety <= 0 && p->inventory[LOOT_FOOD] == 0)
 	{
 		env->gplayer = *p;
-		gevent_player_died(env);
+		if ((code = gevent_player_died(env)))
+			return (code);
 		return (kill_player(env, p, false));
 	}
 	else if (p->satiety == 0)
@@ -79,6 +105,7 @@ uint8_t			update_players(t_env *env)
 	t_team		*t;
 	t_player	*p;
 
+	log_function((char*)__FUNCTION__);
 	// Iterate on every team playing on the server
 	for (int team = 0; team < env->world.teams.nb_cells; team++)
 	{
@@ -90,7 +117,8 @@ uint8_t			update_players(t_env *env)
 			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
 				return (code);
 
-			update_level(p);
+			if ((code = update_level(env, p)))
+				return (code);
 		}
 	}
 
@@ -113,10 +141,11 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	new->tile_x = rand() % env->settings.map_width;
 	new->tile_y = rand() % env->settings.map_height;
 
-	new->level = 0; // Starting level
+	new->level = 1; // Starting level
 	new->alive = true; // It's ALIVE !!!
 	new->direction.d = (uint8_t)d; // Direction assignment
 	new->connection = connection; // Connection fd assignment
+	new->elevation = -1;
 }
 
 // Removes player connected to the server by connection fd

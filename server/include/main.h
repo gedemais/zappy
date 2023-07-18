@@ -100,6 +100,7 @@ struct	s_env
 // Core
 uint8_t		tick(t_env *env);
 uint8_t		update_commands(t_env *env);
+void		log_function(char *s);
 
 // Memory free
 void		free_env(t_env *env);
@@ -178,6 +179,8 @@ uint8_t		gresponse(t_env *env);
 
 /* * * * * Commands procedures * * * * */
 uint8_t		check_requirements(t_env *env, char **tokens, t_player *player, int cmd, bool *ret);
+
+uint8_t		cmd_incantation(t_env *env, t_player *p, bool send_response);
 
 // Moving
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
@@ -272,7 +275,7 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_PUTDOWN] = {.cycles = 7, .cmd_func = &cmd_put},
 							[CMD_KICK] = {.cycles = 7, .cmd_func = &cmd_kick},
 							[CMD_BROADCAST] = {.cycles = 7, .cmd_func = &cmd_broadcast},
-							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = NULL},
+							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = cmd_incantation},
 							[CMD_FORK] = {.cycles = 42, .cmd_func = cmd_fork},
 							[CMD_CONNECT_NBR] = {.cycles = 0, .cmd_func = cmd_connect_nbr}
 };
