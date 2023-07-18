@@ -12,9 +12,9 @@ class	Rush:
 		if is_blind(bernard) == True or bernard.lvl > lvl - 1:
 			return
 		print("I want to Eleve myself \o/ !")
-		if incant_possible(bernard.inventory, bernard.lvl) == False:
+		if incant_possible(bernard, True) == False:
 			print("incantation is not possible yet !")
-			Collect.run(bernard, incant_total(bernard.inventory, bernard.lvl, lvl))
+			Collect.run(bernard, incant_total(bernard, lvl))
 		else:
 			print("incantation is possible !")
 			Incantation.run(bernard)

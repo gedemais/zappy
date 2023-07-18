@@ -23,7 +23,7 @@ def		is_blind(bernard):
 		compute_action(bernard, C.INVENTAIRE, 1)
 		blind = True
 	#update view if out of view array
-	elif outofview(bernard.x, bernard.y, bernard.lvl) == True:
+	elif outofview(bernard, bernard.x, bernard.y) == True:
 		print("I'm lost in the dark")
 		compute_action(bernard, C.VOIR, 1)
 		blind = True
@@ -55,7 +55,7 @@ class	Callback:
 
 	def	prend(bernard, command):
 		#update view
-		viewcase = bernard.view[view_index(bernard.x, bernard.y)]
+		viewcase = bernard.view[view_index(bernard.dir, bernard.x, bernard.y)]
 		if command.buf in viewcase:
 			viewcase[command.buf] -= 1
 			#update inventory
@@ -70,7 +70,7 @@ class	Callback:
 
 	def	pose(bernard, command):
 		#update view
-		viewcase = bernard.view[view_index(bernard.x, bernard.y)]
+		viewcase = bernard.view[view_index(bernard.dir, bernard.x, bernard.y)]
 		if command.buf not in viewcase:
 			viewcase[command.buf] = 1
 		else:

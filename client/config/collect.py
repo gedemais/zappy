@@ -20,19 +20,19 @@ def		farm_case(bernard, needs, need):
 #trouve la ressource dans nt la plus proche
 def		find_closest_need(bernard, needs):
 	need = { "item" : None, "index" : bernard.view_size }
-	bernardindex = view_index(bernard.x, bernard.y)
+	bernardindex = view_index(bernard.dir, bernard.x, bernard.y)
 	list_of_index = []
 	#on recupere une list d'items needed et leurs index, présent dans le champ de vision
 	for item in needs:
 		if "player" not in item and needs[item] > 0:
-			index = view_find(bernard, bernard.view, item)
+			index = view_find(bernard, item)
 			if index is not None:
 				list_of_index.append({ "item" : item, "index" : index })
 	#WIP ramasser le plus de loot needed
 	#on recupere le loot le plus proche de bernard
 	for target in list_of_index:
 		print("found {} {} at {}".format(bernard.view[target["index"]][target["item"]], target["item"], target["index"]))
-		if view_distance(bernardindex, target["index"]) < view_distance(bernardindex, need["index"]):
+		if view_distance(bernard.dir, bernardindex, target["index"]) < view_distance(bernard.dir, bernardindex, need["index"]):
 			need["item"] = target["item"]
 			need["index"] = target["index"]
 	return need

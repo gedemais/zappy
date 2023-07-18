@@ -13,13 +13,13 @@ class	Manger:
 			return
 		print("I'm hungry >< !")
 		#y a t-il de la nourriture proche ?
-		targetindex = view_find(bernard, bernard.view, "nourriture")
+		targetindex = view_find(bernard, "nourriture")
 		if targetindex is not None:
 			loot = bernard.view[targetindex]
 			if "nourriture" in loot and loot["nourriture"] > 0:
 				#oui : y aller et prendre
 				print("{} nourriture ! going to pos: {}".format(loot["nourriture"], targetindex))
-				targetx, targety = view_pos(targetindex)
+				targetx, targety = view_pos(bernard.dir, targetindex)
 				goto_pos(bernard, targetx, targety)
 				print("taking {} nourriture".format(loot["nourriture"]))
 				compute_action(bernard, C.PREND, loot["nourriture"], "nourriture")

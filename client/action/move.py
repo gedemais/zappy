@@ -1,5 +1,5 @@
 from action.callback import compute_action
-from action.view import view_pos
+from action.view import view_pos, view_index
 from utils.command import C
 
 
@@ -62,6 +62,11 @@ def	goto_pos(bernard, targetx, targety):
 	#si bernard est déjà à la pos indiquée
 	if bernard.x == targetx and bernard.y == targety:
 		return
+	print("target: {}, {} - index: {} - vpos: {}".format(\
+		targetx, targety,\
+		view_index(bernard.dir, targetx, targety),\
+		view_pos(bernard.dir, view_index(bernard.dir, targetx, targety)),\
+	))
 	#WIP
 	front, back, right, left = dummy_path(bernard.x, bernard.y, targetx, targety)
 	#il faut verifier la direction du joueur et la set a front
@@ -70,5 +75,5 @@ def	goto_pos(bernard, targetx, targety):
 	compute_path(bernard, front, back, right, left)
 
 def	goto_index(bernard, index):
-	targetx, targety = view_pos(index)
+	targetx, targety = view_pos(bernard.dir, index)
 	goto_pos(bernard, targetx, targety)

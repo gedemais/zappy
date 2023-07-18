@@ -23,7 +23,8 @@ class	Incantation:
 			return
 		if  bernard.lvl > 8 or bernard.inventory["nourriture"] < 5:
 			return
-		if incant_possible(bernard.inventory, bernard.lvl) == True:
+		if incant_possible(bernard, True) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
-			compute_action(bernard, C.INCANTATION)
+			# compute_action(bernard, C.INCANTATION)
+			bernard.lvl += 1
