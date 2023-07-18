@@ -21,31 +21,37 @@ require = [
 
 #WIP
 #return le nb de loot total a avoir pour passer du lvlmin au lvlmax
-def		incant_total(inventory, lvlmin, lvlmax):
+def		incant_total(bernard, lvlmax):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0 }
 
 	#on additionne tout les loots entre le lvlmin et le lvlmax
-	for i in range(lvlmin - 1, lvlmax - 1):
+	for i in range(bernard.lvl - 1, lvlmax - 1):
 		loots = require[i]
 		for item in loots:
 			if "player" not in item and loots[item] > 0:
 				needs[item] += loots[item]
 	#il faut soustraire l'inventaire
-	for element in inventory:
+	for element in bernard.inventory:
 		if "nourriture" in element or "ttl" in element:
 			continue
-		if element in needs and inventory[element] > 0:
-			needs[element] -= inventory[element]
+		if element in needs and bernard.inventory[element] > 0:
+			needs[element] -= bernard.inventory[element]
 	return needs
 
 #return True if can incant else False
-def		incant_possible(inventory, lvl):
-	loots_to_incant = require[lvl - 1]
+#if case is True incant possible count items on the ground as well
+def		incant_possible(bernard, case = False):
+	loots_to_incant = require[bernard.lvl - 1]
+	bernardindex = view_index(bernard.dir, bernard.x, bernard.y)
+	viewcase = bernard.view[bernardindex]
 
-	for element in inventory:
+	for element in bernard.inventory:
 		if "nourriture" in element or "ttl" in element:
 			continue
-		if inventory[element] < loots_to_incant[element]:
+		offset = 0
+		if case == True and element in viewcase and viewcase[element] > 0:
+			offset = viewcase[element]
+		if bernard.inventory[element] + offset < loots_to_incant[element]:
 			return False
 	return True
 
@@ -53,7 +59,10 @@ def		incant_possible(inventory, lvl):
 def		incant_put(bernard):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
 	loots_to_incant = require[bernard.lvl - 1]
-	index = view_index(bernard.x, bernard.y)
+	index = view_index(bernard.dir, bernard.x, bernard.y)
+
+	if incant_possible(bernard, True):
+		return needs
 
 	for item in loots_to_incant:
 		if "player" not in item and loots_to_incant[item] > 0:
@@ -67,17 +76,17 @@ def		incant_put(bernard):
 	return needs
 
 #return un array contenant tout les loots nécessaire au lvl up (inventaire soustrait)
-def		incant_need(inventory, lvl):
+def		incant_need(bernard):
 	needs = { "linemate" : 0, "deraumere" : 0, "sibur" : 0, "mendiane" : 0, "phiras" : 0, "thystame" : 0, "player" : 0 }
-	loots_to_incant = require[lvl - 1]
+	loots_to_incant = require[bernard.lvl - 1]
 
-	if incant_possible(inventory, lvl) == True:
+	if incant_possible(bernard) == True:
 		return needs
 	else:
-		for element in inventory:
+		for element in bernard.inventory:
 			if "nourriture" in element or "ttl" in element:
 				continue
 			#si on a pas assez de ressources dans l'inventaire
-			if inventory[element] < loots_to_incant[element]:
-				needs[element] = loots_to_incant[element] - inventory[element]
+			if bernard.inventory[element] < loots_to_incant[element]:
+				needs[element] = loots_to_incant[element] - bernard.inventory[element]
 	return needs

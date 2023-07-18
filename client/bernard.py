@@ -20,6 +20,7 @@ class	IA:
 	dir = 0
 	# bernard
 	lvl = 1
+	rushlvl = 2
 	inventory = []
 	update_inventory = 0
 	#permet de savoir quand un call a été effectué

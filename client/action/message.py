@@ -1,6 +1,3 @@
-from action.view import view_index
-
-
 class	Message:
 	def	__init__(self):
 		pass
@@ -49,6 +46,7 @@ class	Message:
 		print("pos: {}, {} -> {}, {}".format(x, y, bernard.x, bernard.y))
 		#comme on a été poussé alors il faut revoir les commandes en cours
 		bernard.brain.reset()
+		bernard.view = []
 
 	def	start(bernard, message):
 		print(message)
