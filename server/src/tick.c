@@ -27,10 +27,9 @@ uint8_t	tick(t_env *env)
 	teams_log(env);
 	check_game_start(env);
 	if ((code = receipt(env)) != ERR_NONE
-		|| 	(env->start && (code = update_players(env))) != ERR_NONE
-		|| 	(code = update_eggs(env)) != ERR_NONE
-		|| (code = update_commands(env)) != ERR_NONE
-		|| (code = update_graphical(env)) != ERR_NONE)
+		|| (env->start && (code = update_players(env))) != ERR_NONE
+		|| (code = update_eggs(env)) != ERR_NONE
+		|| (code = update_commands(env)) != ERR_NONE)
 		return (code);
 	//send_responses
 
