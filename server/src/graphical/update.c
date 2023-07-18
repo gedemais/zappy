@@ -16,10 +16,3 @@ uint8_t	handle_graphical_connection(t_env *env, t_player *p)
 
 	return (send_graphical_data(env));
 }
-
-uint8_t	update_graphical(t_env *env)
-{
-	(void)env;
-	log_function((char*)__FUNCTION__);
-	return (ERR_NONE);
-}
