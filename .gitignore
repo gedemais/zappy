@@ -9,3 +9,5 @@ zappy_server
 zappy_graphical_client
 __pycache__
 log
+graphical_client/__pycache__
+*.pyc

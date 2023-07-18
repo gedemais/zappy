@@ -64,6 +64,7 @@ uint8_t	receipt(t_env *env)
 	int					ret;
 	uint8_t				code;
 
+	log_function((char*)__FUNCTION__);
 	FD_ZERO(&read_fd_set);
 
 	int	sets = 0;

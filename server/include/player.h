@@ -86,19 +86,20 @@ typedef struct	s_player
 	t_direction	direction; // Current cardinal orientation of the player
 	bool		alive; // Is the player currently alive ?
 	uint8_t		auth_step; // Which step of authentication has the player reached yet.
-	int32_t		pid;
+	int32_t		pid; // Player identifier (rand() * rand() * rand())
+	int16_t		elevation; // Number of cycles until the next level elevation
 }				t_player;
 
 // Minerals and players requirements for level up incantations
 // Players number is in last position in the arrays to allow index-aligned access
-static const uint8_t	requirements[LVL_MAX][LOOT_MAX + 1] = {
-						{1, 0, 0, 0, 0, 0, 1},
-						{1, 1, 1, 0, 0, 0, 2},
-						{2, 0, 1, 0, 2, 0, 2},
-						{1, 1, 2, 0, 1, 0, 4},
-						{1, 2, 1, 3, 0, 0, 4},
-						{1, 2, 3, 0, 1, 0, 6},
-						{2, 2, 2, 2, 2, 1, 6}
+static const uint8_t	lvl_up_requirements[LVL_MAX][LOOT_MAX + 1] = {
+						{0, 1, 0, 0, 0, 0, 0, 1},
+						{0, 1, 1, 1, 0, 0, 0, 2},
+						{0, 2, 0, 1, 0, 2, 0, 2},
+						{0, 1, 1, 2, 0, 1, 0, 4},
+						{0, 1, 2, 1, 3, 0, 0, 4},
+						{0, 1, 2, 3, 0, 1, 0, 6},
+						{0, 2, 2, 2, 2, 2, 1, 6}
 };
 
 #endif

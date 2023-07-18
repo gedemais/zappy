@@ -232,21 +232,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
-
-uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
-{
-	// Check required resources
-	// Check required players
-
-	// Consume resources
-	// Plan level up for each concerned player
-	(void)env;
-	(void)p;
-	(void)send_response;
-	return (ERR_NONE);
-}
-
-
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	t_team		*team;
@@ -257,10 +242,7 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	if (team->max_client >= 6)
 	{
 		if (send_response)
-		{
-			strcat(env->buffers.response, "ko\n");
-			response(env, p);
-		}
+			return (send_ko(env, p));
 		return (ERR_NONE);
 	}
 
@@ -270,11 +252,20 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	team->max_client++;
 
 	if (send_response)
-	{
-		strcat(env->buffers.response, "ok\n");
-		response(env, p);
-	}
+		return (send_ok(env, p));
 
 	return (ERR_NONE);
 }
 
+uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
+{
+	uint8_t	code;
+
+	env->gplayer = *p;
+
+	(void)send_response;
+	if ((code = gevent_incantation_ended(env)))
+		return (code);
+
+	return (ERR_NONE);
+}

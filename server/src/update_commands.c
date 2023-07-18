@@ -38,6 +38,7 @@ uint8_t	update_commands(t_env *env)
 	t_player	*p;
 	uint8_t		code;
 
+	log_function((char*)__FUNCTION__);
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		team = dyacc(&env->world.teams, i);

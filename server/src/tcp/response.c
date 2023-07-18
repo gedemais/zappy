@@ -1,5 +1,12 @@
 #include "main.h"
 
+uint8_t	send_response(t_env *env, t_player *p, char *s)
+{
+	FLUSH_RESPONSE
+	strcat(env->buffers.response, s);
+	return (response(env, p));
+}
+
 uint8_t	response(t_env *env, t_player *p)
 {
 	// LOGGING
