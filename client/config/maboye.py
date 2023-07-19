@@ -51,38 +51,43 @@ def		task_manager(bernard):
 #WIP
 def		task_assign(bernard):
 	#il faut de la nourriture
-	if bernard.inventory["nourriture"] < 50:
-		tasks[T.MANGER].state = S.NEED
-		return
-	elif bernard.inventory["nourriture"] > 10:
-		tasks[T.MANGER].state = S.NONE
+	# if bernard.inventory["nourriture"] < bernard.foodmin:
+	# 	tasks[T.MANGER].state = S.NEED
+	# 	return
+	# elif bernard.inventory["nourriture"] > bernard.foodmax:
+	# 	tasks[T.MANGER].state = S.NONE
 	# rush lvl 2
-	if bernard.lvl < 2:
-		tasks[T.RUSH].state = S.NEED
-		bernard.rushlvl = 2
-		return
-	else:
-		tasks[T.RUSH].state = S.NONE
-		bernard.rushlvl = 8
+	# if bernard.lvl < 2:
+	# 	tasks[T.RUSH].state = S.NEED
+	# 	bernard.rushlvl = 2
+	# 	return
+	# else:
+	# 	tasks[T.RUSH].state = S.NONE
+	# 	bernard.rushlvl = 8
 	#on verifie si il manque des ressources pour passer lvl 8
-	miss = False
-	it = incant_total(bernard, bernard.rushlvl)
-	for item in it:
-		if "player" not in item and it[item] > 0:
-			miss = True
-	#si il manque des ressources alors on va les collect
-	if miss == True:
-		tasks[T.COLLECT].state = S.NEED
+	# miss = False
+	# it = incant_total(bernard, bernard.rushlvl)
+	# for item in it:
+	# 	if "player" not in item and it[item] > 0:
+	# 		miss = True
+	# #si il manque des ressources alors on va les collect
+	# if miss == True:
+	# 	tasks[T.COLLECT].state = S.NEED
+	# 	return
+	# else:
+	# 	tasks[T.COLLECT].state = S.NONE
+	#WIP prevoir la bouffe pour 6 incantations 2.5 * 6 = 18
+	# bernard.foodmin = 15
+	# bernard.foodmax = 20
+	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
+	#il faut rejoindre les autres joueurs (manger sur le trajet)
+	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
+		tasks[T.MEET].state = S.NEED
 		return
 	else:
-		tasks[T.COLLECT].state = S.NONE
-	#WIP quand la collecte sera terminée on est lvl 2 et on a de quoi up lvl 8
-	#il faut rejoindre les autres joueurs (manger sur le trajet)
-	tasks[T.MEET].state = S.NEED
-	return
+		tasks[T.MEET].state = S.NONE
 	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
 	tasks[T.RUSH].state = S.NEED
-	bernard.rushlvl = 8
 
 class	Maboye:
 	def	__init__(self):

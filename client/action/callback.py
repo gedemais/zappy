@@ -28,7 +28,7 @@ def		is_blind(bernard):
 		compute_action(bernard, C.VOIR, 1)
 		blind = True
 	#update inventory (each 5s)
-	if bernard.t - bernard.update_inventory > 5000:
+	if bernard.t - bernard.last_inventory > 5000:
 		print("I need to check my stuff !")
 		compute_action(bernard, C.INVENTAIRE, 1)
 		blind = True
@@ -49,7 +49,7 @@ class	Callback:
 
 	def	inventaire(bernard, command):
 		#last inventory update
-		bernard.update_inventory = bernard.t
+		bernard.last_inventory = bernard.t
 		bernard.inventory = command.response
 		# print("[ inventaire ]", bernard.inventory)
 
@@ -94,4 +94,5 @@ class	Callback:
 		pass
 
 	def	broadcast(bernard, command):
-		pass
+		#last broadcast sent
+		bernard.last_broadcast = bernard.t

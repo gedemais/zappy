@@ -18,8 +18,12 @@ class	IA:
 	# bernard
 	lvl = 1
 	rushlvl = 2
+	foodmin = 5
+	foodmax = 10
+	leader = None
 	inventory = []
-	update_inventory = 0
+	last_broadcast = 0
+	last_inventory = 0
 	#permet de savoir quand un call a été effectué
 	needs = {
 		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Callback.connect_nbr ),

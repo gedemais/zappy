@@ -62,7 +62,8 @@ class	Brain:
 	#return True if busy
 	def	process(self):
 		if self.cmd.state is not S.NONE:
-			print("BRAIN", self.cmd.debug())
+			# print("BRAIN", self.cmd.debug())
+			pass
 		if self.busy == False:
 			return False
 		#brain only trait none created or received cmds

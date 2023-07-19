@@ -9,6 +9,8 @@ class	Message:
 		split = split[0].split(' ')
 		dir = int(split[1].strip())
 		print("from: {} - message: {}".format(dir, message))
+		if "Come to your leader !" in message:
+			bernard.leader = dir
 
 	#format: deplacement <K>
 	# 1 is front
