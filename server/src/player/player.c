@@ -132,7 +132,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
-	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 100; // Food starting quantity
 
 	// PID generation
 	new->pid = rand() * rand() * rand();
