@@ -56,57 +56,7 @@ class Player():
             'phiras': 0,
             'thystame': 0
         }
-
-    def updatePos(response):
-        pass
-    
-    def updateLvl(response):
-        pass
-    
-    def updateInventory(response):
-        pass
-
-    # def updateVector(self):
-    #     if self.orientation == 1:
-    #         self.vx = 0; self.vy = -self.speed
-    #     elif self.orientation == 2:
-    #         self.vx = self.speed; self.vy = 0
-    #     elif self.orientation == 3:
-    #         self.vx = 0; self.vy = self.speed 
-    #     elif self.orientation == 4:
-    #         self.vx = -self.speed; self.vy = 0
-
-    def watch(self):
-        pass
-
-    # def turnLeft(self):
-    #     self.orientation = self.orientation - 1 if self.orientation > 1 else 4
-    #     self.updateVector()
-
-    # def turnRight(self):
-    #     self.orientation = self.orientation + 1 if self.orientation < 4 else 0
-    #     self.updateVector()
         
-    # def walk(self):
-    #     # Calculate new position
-    #     new_x = (self.position[0] + self.vx) % self.gameBoard.width
-    #     new_y = (self.position[1] + self.vy) % self.gameBoard.height
-    #     self.position = (new_x, new_y)
-
-    # def collectResource(self, resourceId):
-    #     # Get the current cell
-    #     cell = self.gameBoard.cells[self.position[1]][self.position[0]]
-    #     # Add cell's resource to player's resource and clear the cell's resource
-    #     cell.resources[resourceId] -= 1
-    #     self.resources[resourceId] += 1
-
-    # def throwResource(self, resourceId):
-    #     # Get the current cell
-    #     cell = self.gameBoard.cells[self.position[1]][self.position[0]] 
-    #     # Add player's resource to cell's resource and clear the player's resource
-    #     cell.resources[resourceId] += 1
-    #     self.resources[resourceId] -= 1
-
     # One nourriture unit allows him to survive 126 time units, therefore 126/t seconds.
     def consumeNourriture(self):
         if self.resources['nourriture'] > 0:
@@ -116,27 +66,53 @@ class Player():
             # The player is out of 'nourriture' and is removed from the game
             self.die()
 
-    # def die(self):
-    #     # For now, just print a message when a player dies
-    #     print(f'Player {self.playerId} from team {self.team_id} has died.')
+    def updatePos(self, x, y, o):
+        # Calculate new position
+        # add animation
+        #
+        # new_x = (self.position[0] + self.vx) % self.gameBoard.width
+        # new_y = (self.position[1] + self.vy) % self.gameBoard.height
+        # self.position = (new_x, new_y)
+        pass
+    
+    def updateLvl(self, level):
+        self.level = level
+    
+    def updateInventory(self, resources):
+        self.resources = resources
 
-    # def reproduce(self):
-    #     # For now, just print a message when a player reproduce
-    #     print(f'Player {self.playerId} from team {self.team_id} laid an egg')
-
-    # def seeInventory(self):
-    #     #For now, just print the inventory in the console
-    #     print(f'Player {self.playerId} from team {self.team_id} see his inventory : {str(self.resources)}')
-        
+    def watch(self):
+        # launch animation
+        pass
+    
     def update(self):
-        self.animate()
+        # animate
+        pass
 
-    def handleKeys(self, keys, resources):
-        # Handle exit button
-        if keys[K_ESCAPE]:
-            pygame.event.post(QUIT)
-            
-    # Only for debug purpose
+    def collectResource(self):
+        # launch animation to collect
+        pass
+
+    def throwResource(self, resourceId):
+        # launch animation to throw
+        pass
+    
+    def die(self):
+        # launch death animation
+        # For now, just print a message when a player dies
+        print(f'Player {self.playerId} from team {self.team_id} has died.')
+
+    def reproduce(self):
+        # launch reproduce animation
+        # For now, just print a message when a player reproduce
+        print(f'Player {self.playerId} from team {self.team_id} laid an egg')
+
+    def seeInventory(self):
+        # launch animation
+        #For now, just print the inventory in the console
+        print(f'Player {self.playerId} from team {self.team_id} see his inventory : {str(self.resources)}')
+    
+    ############################################################################################### Only for debug purpose
         # Handle character movement and animation
         # if keys[K_LEFT] or keys[K_a]:
         #     self.animation_finished = False
@@ -179,5 +155,3 @@ class Player():
         #         self.levelup()
         
     # end debug
-        
-        # Add other event handlers here

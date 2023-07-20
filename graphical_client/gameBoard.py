@@ -10,30 +10,56 @@ class Cell:
     def __init__(self, x , y):
         self.position = (x, y)
         self.players = []  # List of player ids present in this cell
-        self.resources = {
-            'nourriture': 0,
-            'linemate': 0,
-            'deraumere': 0,
-            'sibur': 0,
-            'mendiane': 0,
-            'phiras': 0,
-            'thystame': 0
-        }
+        self.resources = [
+            0, # 0 'nourriture'
+            0, # 1 'linemate'
+            0, # 2 'deraumere'
+            0, # 3 'sibur'
+            0, # 4 'mendiane': 0,
+            0, # 5 'phiras': 0,
+            0, # 6 'thystame': 0
+        ]
         
-    def update(self, response):
-        pass
+    def update(self, resources):
+        self.resources = resources
 
 class GameBoard:
     def __init__(self, width, height):
+        self.timeUnit = 0
         self.width = width
         self.height = height
         # self.hub_space = 280
         self.cells = [[Cell(x, y) for x in range(width)] for y in range(height)]
+        self.nbTeams = 0
         self.teams = []
         self.players = []
         self.eggs = []
+        
+    def handleKeys(self, keys):
+        # Handle exit button
+        if keys[K_ESCAPE]:
+            pygame.event.post(QUIT)
+    
+    def getPlayer(self, playerId):
+        player = list(filter(
+            lambda player: player.id == playerId, self.players
+        ))[0]
+        
+        return player
+    
+    def getEgg(self, eggId):
+        egg = list(filter(
+            lambda egg: egg.id == eggId, self.eggs
+        ))[0]
+        
+        return egg
 
-    def initializeGame(self, response):
+    def applyCmd(self, cmdLine):
+        # apply a command from the server
+        pass
+
+    def send(self, cmd):
+        # send a command to the server
         pass
 
     def render(self, surface):
@@ -68,221 +94,16 @@ class GameBoard:
                 #     surface.blit(playerSprite, (x * cell_width, y * cell_height))
         
         surface.blit(area, (50, 50))
-                    
-    def getPlayer(self, playerId):
-        player = list(filter(
-            lambda player: player.id == playerId, self.players
-        ))[0]
-        
-        return player
-    
-    def getEgg(self, eggId):
-        egg = list(filter(
-            lambda egg: egg.id == eggId, self.eggs
-        ))[0]
-        
-        return egg
-
-    def applyCmd(self, cmdLine):
-        # apply a command from the server
-        pass
-
-    def send(self, cmd):
-        # send a command to the server
-        pass
-    
-    def updateMapSize(self, response):
-        pass
-    
-    def loadMap(self, response):
-        pass
-    
-    def updateTeams(self, response):
-        pass
-    
-    def updateTimeUnit(self, response):
-        pass
 
 ##################################################################################
 # command for the server
 ##################################################################################
 
-    def getMapSize(self):
-        # Taille de la carte.
-        response = self.send(f'msz\n')
-        # update info
-        self.updateMapSize(response)
-
-    def getCell(self, x, y):
-        # Contenu d’une case de la carte
-        response = self.send(f'bct {x} {y}\n')
-        # update info if needed
-        self.cells[y][x].update(response)
-        # show info in visu
+    def initializeGame(self, response):
+        # "BIENVENUE\n"
         pass
-
-    def getMap(self):
-        # Contenu de la carte (toutes les cases).
-        response = self.send(f'mct\n')
-        # update info if needed
-        self.loadMap(response)
-
-    def getTeams(self):
-        # Nom des équipes.
-        response = self.send(f'tna\n')
-        # update teams
-        self.updateTeams(response)
     
-    def getPlayerPosition(self, player):
-        # Position d’un joueur.
-        response = self.send(f'ppo {player.playerId}\n')
-        # update player or not
-        player.updatePos(response)
-
-    def playerLevel(self, player):
-        # Niveau d’un joueur.
-        response = self.send(f'piv {player.playerId}\n')
-        #update visu if needed
-        player.updateLvl(response)
-
-    def playerInventory(self, player):
-        # Inventaire d’un joueur.
-        response = self.send(f'pin {player.playerId}\n')
-        # update visu if needed
-        player.updateInventory(response)
-
-    def getTimeUnit(self):
-        # Demande de l’unité de temps courante sur le serveur.
-        # response = "sgt T\n"
-        response = self.send(f'sgt\n')
-        # update visu and animation time
-        self.updateTimeUnit(response)
-
-    def modifyTimeUnit(self, timeUnit):
-        # Modification de l’unité de temps sur le serveur.
-        # response = "sgt T\n"
-        response = self.send(f'sst {timeUnit}\n')
-        # update visu and animation time
-        self.updateTimeUnit(response)
-
-##################################################################################
-# message from server
-##################################################################################
-
-    def newPlayerConnexion(self, playerId, x, y, o, level, teamName):
-        # Connexion d’un nouveau joueur.
-        # message = "pnw #n X Y O L N\n"
-        # add newPlayer to players
-        newPlayer = Player(self, playerId, teamName, x, y, o, level)
-        self.players.append(newPlayer)
-
-    def expulse(self, playerId):
-        # Un joueur expulse.
-        # message = "pex #n\n"
-        kicker = self.getPlayer(playerId)
-        # call kick animation on kicker    
-        pass
-
-    def playerBroadcast(self, playerId, message):
-        # Un joueur fait un broadcast.
-        # message = "pbc #n M\n"
-        broadcaster = self.getPlayer(playerId)
-        # call broadcast animation with the message
-        pass
-
-    def launchIncantation(self, x, y, launcherId, playerIds):
-        # Premier joueur lance l’incantation pour tous les suivants sur la case.
-        # message = "pic X Y L #n #n …\n"
-        pass
-
-    def EndIncantation(self, x, y, result):
-        # Fin de l’incantation sur la case donnée avec le résultat R (0 ou 1).
-        # message = "pie X Y R\n"
-        pass
-
-    def layEgg(self, playerId):
-        # Le joueur pond un œuf.
-        # message = "pfk #n\n"
-        player = self.getPlayer(playerId)
-        # call animation to lay an egg
-        pass
-
-    def throwResource(self, playerId, resourceId):
-        # Le joueur jette une ressource.
-        # message = "pdr #n i\n"
-        player = self.getPlayer(playerId)
-        player.throwResource(resourceId)
-
-    def getResource(self, playerId, resourceId):
-        # Le joueur prend une ressource.
-        # message = "pgt #n i\n"
-        player = self.getPlayer(playerId)
-        player.collectResource(resourceId)
-
-    def playerDeath(self, playerId):
-        # Le joueur est mort de faim.
-        # message = "pdi #n\n"
-        player = self.getPlayer(playerId)
-        player.die()
-
-    def eggLaid(self, eggId, playerId, x, y):
-        # L’œuf a été pondu sur la case par le joueur.
-        # message = "enw #e #n X Y\n"
-        player = self.getPlayer(playerId)
-        self.eggs.append(Egg(eggId, playerId, x, y))
-        # add egg to sprite
-
-
-    def eggHatch(self, eggId):
-        # L’œuf éclot.
-        # message = "eht #e\n"
-        egg = self.getEgg(eggId)
-        # call hatching animation
-        self.eggs.remove(egg)
-
-    def eggConnect(self, eggId):
-        # Un joueur s’est connecté pour l’œuf.
-        # message = "ebo #e\n"
-        egg = self.getEgg(eggId)
-        egg.connected = True
-
-    def eggStarvation(self, eggId):
-        # L’œuf éclos est mort de faim.
-        # message = "edi #e\n"
-        egg = self.getEgg(eggId)
-        # call egg rotting animation
-        self.eggs.remove(egg)
-        pass
-
-    def endGame(self, team_name):
-        # Fin du jeu. L’équipe donnée remporte la partie.
-        # message = "seg N\n"
-        # call winning animation with the team name.
-        # Quit Pygame
-        pygame.quit()
-        raise SystemExit        
-
-    def serverMsg(self, message):
-        # Message du serveur.
-        # message = "smg M\n"
-        pass
-
-    def unknownCmd(self):
-        # Commande inconnue.
-        # message = "suc\n"
-        pass
-
-    def badParameters():
-        # Mauvais paramètres pour la commande.
-        # message = "sbp\n"
-        pass
-
-##################################################################################
-# events
-##################################################################################
-
     def connect(self):
-        # Connexion du moniteur
         # message :
         #
         # "BIENVENUE\n"
@@ -298,132 +119,178 @@ class GameBoard:
         # …
         # "enw #e #n X Y\n"
         # …
-        response = self.send(f'GRAPHIC\n')
-        self.initializeGame(response)
-        pass
+        self.send(f'GRAPHIC\n')
 
-    def playerConnection(self):
-        # Connexion d’un joueur
+    def getMapSize(self):
+        # Ask the size of the map
+        self.send(f'msz\n')
+
+    def getCell(self, x, y):
+        # Ask the content of a cell
+        self.send(f'bct {x} {y}\n')
+
+    def getMap(self):
+        # Ask content of all the map
+        self.send(f'mct\n')
+
+    def getTeams(self):
+        # Ask name of the teams
+        self.send(f'tna\n')
+    
+    def getPlayerPosition(self, player):
+        # Ask a player position
+        self.send(f'ppo {player.playerId}\n')
+
+    def playerLevel(self, player):
+        # Ask player level
+        self.send(f'piv {player.playerId}\n')
+
+    def playerInventory(self, player):
+        # Ask the player's inventory
+        self.send(f'pin {player.playerId}\n')
+
+    def getTimeUnit(self):
+        # Ask current time unit.
+        # response = "sgt T\n"
+        self.send(f'sgt\n')
+
+    def modifyTimeUnit(self, timeUnit):
+        # Ask to modify time unit.
+        # response = "sgt T\n"
+        self.send(f'sst {timeUnit}\n')
+
+##################################################################################
+# message from server
+##################################################################################
+
+    def receiveMapSize(self, x, y):
+        # "msz X Y\n"
+        # update map info
+        self.width = x
+        self.height = y
+    
+    def updateCell(self, x, y, resources):
+        # "bct X Y q q q q q q q\n"
+        self.cells[y][x].update(resources)
+
+    def addTeam(self, teamName):
+        # "tna N\n"
+        team = Team(teamName, self.nbTeams)
+        self.teams.push(team)
+        self.nbTeams += 1
+
+    def newPlayerConnexion(self, playerId, x, y, o, level, teamName):
         # message = "pnw #n X Y O L N\n"
+        newPlayer = Player(self, playerId, teamName, x, y, o, level)
+        self.players.append(newPlayer)
+
+    def updatePlayerPosition(self, playerId, x, y, o):
+        # "ppo #n X Y O\n"
+        player = self.getPlayer(playerId)
+        player.updatePos(x, y, o)
+
+    def updatePlayerLevel(self, playerId, level):
+        # "plv #n L\"
+        player = self.getPlayer(playerId)
+        player.updateLvl(level)
         
-        pass
-
-    def eggPlayerConnection(self):
-        # Connexion d’un joueur grâce a un œuf
-        # message = "ebo #e\n"
-        #           "pnw #n X Y O L N\n"
-        pass
-
-    def walk(self, playerId, x, y, o):
-        # Avance
-        # message = "ppo #n X Y O\n"
-        player = self.getPlayer(playerId)
-        player.walk() 
-        pass
-
-    def right(self, playerId, x, y, o):
-        # Droite
-        # message = "ppo #n X Y O\n"
-        player = self.getPlayer(playerId)
-        player.turnRight() 
-        pass
-
-    def left(self, playerId, x, y, o):
-        # Gauche
-        # message = "ppo #n X Y O\n"
-        player = self.getPlayer(playerId)
-        player.turnLeft() 
-        pass
-
-    def watch(self, playerId):
-        # Voir
-        player = self.getPlayer(playerId)
-        player.watch()
-
-    def inventory(self, playerId):
-        # Inventaire
-        player = self.getPlayer(playerId)
-        player.seeInventory()
-
-    def take(self, playerId, resourceId):
-        # Prend
-        # message :
-        # "pgt #n i\n"
-        player = self.getPlayer(playerId)
-        player.collectResources(resourceId)
+    def updateInventory(self, playerId, x, y, resources):
         # "pin #n X Y q q q q q q q\n"
-        player.seeInventory()
-        # "bct X Y q q q q q q q\n"
-        # self.updateMap ? not sure it is needed
-
-    def put(self, playerId, resourceId):
-        # Pose
-        # message :
-        # "pdr #n i\n"
         player = self.getPlayer(playerId)
-        player.throwResource(resourceId)
-        # "pin #n X Y q q q q q q q\n"
-        player.seeInventory()
-        # "bct X Y q q q q q q q\n"
-        # self.updateMap ? not sure it is needed, the map will update when the player throw it.
+        player.updateInventory(resources)
 
-    def expulse(self):
-        # Expulse
-        # message :
-        # "pex #n\n"
-        # "ppo #n X Y O\n"
-        # …
-        # "ppo #n X Y O\n"
-        pass
+    def expulse(self, playerId):
+        # message = "pex #n\n"
+        kicker = self.getPlayer(playerId)
+        kicker.kick()
 
-    def broadcast(self):
-        # Broadcast
+    def playerBroadcast(self, playerId, message):
+        # Un joueur fait un broadcast.
         # message = "pbc #n M\n"
-        pass
+        broadcaster = self.getPlayer(playerId)
+        broadcaster.broadcast(message)
 
-    def incantation(self):
+    def incantation(self, x, y, level, incantatorId, playerIds):
         # Incantation
         # message = "pic X Y L #n #n …\n"
-        pass
+        incantator = self.getPlayer(incantatorId)
+        incantator.incante()
+        incantator.levelUping(level)
+        players = [self.getPlayer(playerId) for playerId in playerIds]
+        for player in players:
+            player.levelUping(level)
 
-    def incantationEnd(self, ):
+    def incantationEnd(self, x, y, r):
         # Fin de l'incantation
         # message :
         # "pie X Y R\n"
-        # "plv #n L\n"
-        # …
-        # "plv #n L\n"
-        # "bct X Y q q q q q q q\n"
-        # …
-        # "bct X Y q q q q q q q\n"
-        pass
+        if r:
+            self.incantationEndingSuccess(x, y)
+        else:
+            self.incantationEndingFailure(x, y)
 
-    def fork(self, playerId):
-        # Fork
+    def layEgg(self, playerId):
         # message = "pfk #n\n"
-        pass
+        player = self.getPlayer(playerId)
+        player.reproduce()
 
-    def forkEnd(self, eggId, playerId, x, y):
-        # Fin du fork
-        # message = "enw #e #n X Y\n"
-        pass
+    def throwResource(self, playerId, resourceId):
+        # message = "pdr #n i\n"
+        player = self.getPlayer(playerId)
+        player.throwResource(resourceId)
 
-    def eggHatched(self, eggId):
-        # Eclosion de l'oeuf
-        # message = "eht #e\n"
-        pass
+    def getResource(self, playerId, resourceId):
+        # message = "pgt #n i\n"
+        player = self.getPlayer(playerId)
+        player.collectResource(resourceId)
 
-    def eggRotted(self, eggId):
-        # Oeuf moisi (mort)
-        # message = "edi #e\n"
-        pass
-
-    def death(self, playerId):
-        # Mort d'un joueur
+    def playerDeath(self, playerId):
         # message = "pdi #n\n"
+        player = self.getPlayer(playerId)
+        player.die()
+        self.players.remove(player.getPlayer(playerId))
+
+    def eggLaid(self, eggId, playerId, x, y):
+        # message = "enw #e #n X Y\n"
+        self.eggs.append(Egg(eggId, playerId, x, y))
+        # add egg apparition animation
+
+    def eggHatch(self, eggId):
+        # message = "eht #e\n"
+        egg = self.getEgg(eggId)
+        # call hatching animation
+        self.eggs.remove(egg)
+
+    def eggConnect(self, eggId):
+        # message = "ebo #e\n"
+        egg = self.getEgg(eggId)
+        egg.connected = True
+
+    def eggStarvation(self, eggId):
+        # message = "edi #e\n"
+        egg = self.getEgg(eggId)
+        # call egg rotting animation
+        self.eggs.remove(egg)
+        
+    def updateTimeUnit(self, t):
+        # "sgt T\n"
+        self.timeUnit = t
+
+    def endGame(self, team_name):
+        # message = "seg N\n"
+        # call winning animation with the team name.
+        # Quit Pygame
+        pygame.quit()
+        raise SystemExit        
+
+    def serverMsg(self, message):
+        # message = "smg M\n"
         pass
 
-    def end(self, winningTeam):
-        # Fin du jeu
-        # message = "seg N\n"
+    def unknownCmd(self):
+        # message = "suc\n"
+        pass
+
+    def badParameters():
+        # message = "sbp\n"
         pass
