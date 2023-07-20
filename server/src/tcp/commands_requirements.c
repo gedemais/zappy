@@ -106,17 +106,19 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
-		for (int j = 0; j < env->world.teams.nb_cells; j++)
+		for (int j = 0; j < t->players.nb_cells; j++)
 		{
 			pl = dyacc(&t->players, j);
-			if (dynarray_push(&group, &pl, false))
-			{
-				dynarray_free(&group);
-				return (ERR_MALLOC_FAILED);
-			}
 			coords = (bool)(pl->tile_x == p->tile_x && pl->tile_y == p->tile_y);
 			if (coords && pl->level == p->level)
+			{
+				if (dynarray_push(&group, &pl, false))
+				{
+					dynarray_free(&group);
+					return (ERR_MALLOC_FAILED);
+				}
 				nb_players++;
+			}
 		}
 	}
 
@@ -129,11 +131,15 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 			player = *((t_player**)dyacc(&group, i));
 			player->elevation = 300;
 			if ((code = send_response(env, player, "elevation en cours\n")))
+			{
+				dynarray_free(&group);
 				return (code);
+			}
 		}
 		*ret = true;
 		return (ERR_NONE);
 	}
+	dynarray_free(&group);
 	return (ERR_NONE);
 }
 
