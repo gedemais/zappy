@@ -101,13 +101,15 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 		{
 			p->team = i;
 			p->auth_step++;
+			fprintf(stderr, "[TEAM_SLOT_VERIFICATION] Checking team |%s| for a free connection slot (%d)\n", t->name, t->max_client - t->connected);
 			if (t->max_client - t->connected > 0)
 				return (auth_granting(env, p));
 			else
 			{
-				printf("NO MORE SLOTS AVAILABLE\n");
+				close(*p->connection);
+				*p->connection = -1;
 				remove_pending_player(env, p);
-				return (ERR_NONE);
+				return (send_response(env, p, "No more connection slot available in this team.\n"));
 			}
 		}
 	}

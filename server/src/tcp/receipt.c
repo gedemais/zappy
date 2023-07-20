@@ -2,9 +2,10 @@
 
 uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in *new_addr, socklen_t *addrlen)
 {
-	int					new_fd;
-	uint8_t				code;
-	struct timeval		t;
+	t_player		*p;
+	int				new_fd;
+	uint8_t			code;
+	struct timeval	t;
 
 	if (FD_ISSET(env->tcp.server_fd, read_fd_set)) // If a new event occured on the server
 	{
@@ -23,9 +24,15 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 					fflush(stdout);
 					//sleep(1);
 
-					add_player(env, &env->world.pending, &env->buffers.connections[i]); // We add a new player in the pending players list
+					// We add a new player in the pending players list
+					if ((code = add_player(env, &env->world.pending, &env->buffers.connections[i])))
+						return (code);
 
-					if ((code = auth_send_welcome(env, (t_player*)dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1))))
+					// Get last pending player (new one)
+					p = dyacc(&env->world.pending.players, env->world.pending.players.nb_cells - 1);
+
+					// Send welcome to him
+					if ((code = auth_send_welcome(env, p)))
 						return (code);
 
 					break;
