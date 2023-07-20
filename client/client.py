@@ -9,11 +9,11 @@ from utils.queue import Queue
 #on utilise une queue pour stocker les réponses / messages du servers
 #ces deux queues sont traitées dans le bot afin de gérer la reception et l'envois des cmds emisent par brain
 class	Client:
-	def __init__(self, host, port, team_name, s):
+	def __init__(self, host, port, team_name):
+		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.host = host
 		self.port = port
 		self.team_name = team_name
-		self.s = s
 		self.wx, self.wy = 0, 0
 		self.qreceive = Queue()
 		self.qtransceive = Queue()
@@ -21,22 +21,15 @@ class	Client:
 
 	#connect to server and return world size
 	def connect(self):
+		self.s.connect((self.host, self.port))
+		response = self.s.recv(1024).decode("utf-8")
+		print(response.strip()) # BIENVENUE
+		self.s.send(bytes(self.team_name.encode("utf-8")))
+		response = self.s.recv(1024).decode("utf-8")
+		print(response.strip())
 		#world size
 		wsize = [0, 0]
-		self.s.connect((self.host, self.port))
-		#todo protéger les appels servers
-		if self.s == None:
-			return wsize[0], wsize[1]
-		reply = self.s.recv(1024).decode("utf-8")
-		if reply == None:
-			return wsize[0], wsize[1]
-		print(reply.strip()) # BIENVENUE
-		self.s.send(bytes(self.team_name.encode("utf-8")))
-		reply = self.s.recv(1024).decode("utf-8")
-		if reply == None:
-			return wsize[0], wsize[1]
-		print(reply.strip())
-		split = reply.split('\n')
+		split = response.split('\n')
 		#split[0] "int" - split[1] "wx, wy"
 		if len(split) == 3:
 			wsize = split[1].split(' ')
@@ -46,8 +39,7 @@ class	Client:
 	#receive data from server
 	def	receive(self, cmd):
 		self.qreceive.reset()
-		#WIP mb better with none blockant socket
-		self.s.settimeout(0.1)
+		self.s.settimeout(0.2)
 		while True:
 			try:
 				data = self.s.recv(1024)

@@ -100,6 +100,7 @@ struct	s_env
 // Core
 uint8_t		tick(t_env *env);
 uint8_t		update_commands(t_env *env);
+void		log_function(char *s);
 
 // Memory free
 void		free_env(t_env *env);
@@ -123,7 +124,6 @@ uint8_t		waiting_response(t_env *env, t_player *player);
 
 // Graphical TCP connection
 uint8_t		handle_graphical_connection(t_env *env, t_player *p);
-uint8_t		update_graphical(t_env *env);
 uint8_t		graphical_request(t_env *env);
 
 uint8_t		send_graphical_data(t_env *env);
@@ -154,6 +154,8 @@ uint8_t		gevent_player_connected_for_egg(t_env *env);
 uint8_t		gevent_egg_rotted(t_env *env);
 uint8_t		gevent_game_ended(t_env *env);
 uint8_t		gevent_broadcast(t_env *env);
+uint8_t		gevent_incantation_launch(t_env *env);
+uint8_t		gevent_incantation_ended(t_env *env);
 
 // Graphical tools
 uint8_t		cat_spaced_number(t_env *env, int n, bool newline);
@@ -170,11 +172,14 @@ uint8_t		kill_player(t_env *env, t_player *p, bool disconnected);
 uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);
 void		teams_log(t_env *env, bool log);
+uint8_t		send_response(t_env *env, t_player *p, char *s);
 uint8_t		response(t_env *env, t_player *p);
 uint8_t		gresponse(t_env *env);
 
 /* * * * * Commands procedures * * * * */
 uint8_t		check_requirements(t_env *env, char **tokens, t_player *player, int cmd, bool *ret);
+
+uint8_t		cmd_incantation(t_env *env, t_player *p, bool send_response);
 
 // Moving
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response);
@@ -269,7 +274,7 @@ static const t_cmd	commands[CMD_MAX] = {
 							[CMD_PUTDOWN] = {.cycles = 7, .cmd_func = &cmd_put},
 							[CMD_KICK] = {.cycles = 7, .cmd_func = &cmd_kick},
 							[CMD_BROADCAST] = {.cycles = 7, .cmd_func = &cmd_broadcast},
-							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = NULL},
+							[CMD_INCANTATION] = {.cycles = 300, .cmd_func = cmd_incantation},
 							[CMD_FORK] = {.cycles = 42, .cmd_func = cmd_fork},
 							[CMD_CONNECT_NBR] = {.cycles = 0, .cmd_func = cmd_connect_nbr}
 };

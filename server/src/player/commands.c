@@ -19,6 +19,9 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 			{
 				tx = x;
 				ty = y;
+
+			//	env->world.map[y][x].content[LOOT_PLAYER] = 1;
+
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
 				if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
@@ -232,8 +235,6 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 	return (ERR_NONE);
 }
 
-
-
 uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 {
 	t_team		*team;
@@ -244,10 +245,7 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	if (team->max_client >= 6)
 	{
 		if (send_response)
-		{
-			strcat(env->buffers.response, "ko\n");
-			response(env, p);
-		}
+			return (send_ko(env, p));
 		return (ERR_NONE);
 	}
 
@@ -257,15 +255,20 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	team->max_client++;
 
 	if (send_response)
-	{
-		strcat(env->buffers.response, "ok\n");
-		response(env, p);
-	}
+		return (send_ok(env, p));
 
 	return (ERR_NONE);
 }
 
 uint8_t	cmd_incantation(t_env *env, t_player *p, bool send_response)
 {
-	return (send_response ? send_ok(env, p) : ERR_NONE);
+	uint8_t	code;
+
+	env->gplayer = *p;
+
+	(void)send_response;
+	if ((code = gevent_incantation_ended(env)))
+		return (code);
+
+	return (ERR_NONE);
 }

@@ -9,6 +9,7 @@ zappy_server
 zappy_graphical_client
 __pycache__
 log
+server/log
 graphical_client/__pycache__
 graphical_client/.DS_STORE
 *.pyc
