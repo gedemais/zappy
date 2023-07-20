@@ -19,6 +19,9 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 			{
 				tx = x;
 				ty = y;
+
+				env->world.map[y][x].content[LOOT_PLAYER] = 1;
+
 				clamp(&tx, 0, env->settings.map_width);
 				clamp(&ty, 0, env->settings.map_height);
 				if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))

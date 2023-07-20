@@ -24,8 +24,6 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 	response(env, p);
 }
 
-//{ahd akljsh akjshdf jkashdf alkjdf akljdshf akjsdh, akljdshf akjlsdfh jkalhsdf ahsldkjf jaklsdhf, jhadsfgk jkhasdf lakdjs, askdj jaklhdfs kljasdhf alksjd}
-
 void	compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i)
 {
 	i += 1;
