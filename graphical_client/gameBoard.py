@@ -11,7 +11,7 @@ class Cell:
         self.position = (x, y)
         self.players = []  # List of player ids present in this cell
         self.resources = [
-            0, # 0 'nourriture'
+            0, # 0 'food'
             0, # 1 'linemate'
             0, # 2 'deraumere'
             0, # 3 'sibur'
@@ -104,8 +104,6 @@ class GameBoard:
         pass
     
     def connect(self):
-        # message :
-        #
         # "BIENVENUE\n"
         # "msz X Y\n"
         # "sgt T\n"
@@ -180,7 +178,7 @@ class GameBoard:
         self.nbTeams += 1
 
     def newPlayerConnexion(self, playerId, x, y, o, level, teamName):
-        # message = "pnw #n X Y O L N\n"
+        # "pnw #n X Y O L N\n"
         newPlayer = Player(self, playerId, teamName, x, y, o, level)
         self.players.append(newPlayer)
 
@@ -200,19 +198,17 @@ class GameBoard:
         player.updateInventory(resources)
 
     def expulse(self, playerId):
-        # message = "pex #n\n"
+        # "pex #n\n"
         kicker = self.getPlayer(playerId)
         kicker.kick()
 
     def playerBroadcast(self, playerId, message):
-        # Un joueur fait un broadcast.
-        # message = "pbc #n M\n"
+        # "pbc #n M\n"
         broadcaster = self.getPlayer(playerId)
         broadcaster.broadcast(message)
 
     def incantation(self, x, y, level, incantatorId, playerIds):
-        # Incantation
-        # message = "pic X Y L #n #n …\n"
+        # "pic X Y L #n #n …\n"
         incantator = self.getPlayer(incantatorId)
         incantator.incante()
         incantator.levelUping(level)
@@ -221,8 +217,6 @@ class GameBoard:
             player.levelUping(level)
 
     def incantationEnd(self, x, y, r):
-        # Fin de l'incantation
-        # message :
         # "pie X Y R\n"
         if r:
             self.incantationEndingSuccess(x, y)
@@ -230,44 +224,44 @@ class GameBoard:
             self.incantationEndingFailure(x, y)
 
     def layEgg(self, playerId):
-        # message = "pfk #n\n"
+        # "pfk #n\n"
         player = self.getPlayer(playerId)
         player.reproduce()
 
     def throwResource(self, playerId, resourceId):
-        # message = "pdr #n i\n"
+        # "pdr #n i\n"
         player = self.getPlayer(playerId)
         player.throwResource(resourceId)
 
     def getResource(self, playerId, resourceId):
-        # message = "pgt #n i\n"
+        # "pgt #n i\n"
         player = self.getPlayer(playerId)
         player.collectResource(resourceId)
 
     def playerDeath(self, playerId):
-        # message = "pdi #n\n"
+        # "pdi #n\n"
         player = self.getPlayer(playerId)
         player.die()
         self.players.remove(player.getPlayer(playerId))
 
     def eggLaid(self, eggId, playerId, x, y):
-        # message = "enw #e #n X Y\n"
+        # "enw #e #n X Y\n"
         self.eggs.append(Egg(eggId, playerId, x, y))
         # add egg apparition animation
 
     def eggHatch(self, eggId):
-        # message = "eht #e\n"
+        # "eht #e\n"
         egg = self.getEgg(eggId)
         # call hatching animation
         self.eggs.remove(egg)
 
     def eggConnect(self, eggId):
-        # message = "ebo #e\n"
+        # "ebo #e\n"
         egg = self.getEgg(eggId)
         egg.connected = True
 
     def eggStarvation(self, eggId):
-        # message = "edi #e\n"
+        # "edi #e\n"
         egg = self.getEgg(eggId)
         # call egg rotting animation
         self.eggs.remove(egg)
@@ -277,20 +271,20 @@ class GameBoard:
         self.timeUnit = t
 
     def endGame(self, team_name):
-        # message = "seg N\n"
+        # "seg N\n"
         # call winning animation with the team name.
         # Quit Pygame
         pygame.quit()
         raise SystemExit        
 
     def serverMsg(self, message):
-        # message = "smg M\n"
+        # "smg M\n"
         pass
 
     def unknownCmd(self):
-        # message = "suc\n"
+        # "suc\n"
         pass
 
     def badParameters():
-        # message = "sbp\n"
+        # "sbp\n"
         pass
