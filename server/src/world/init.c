@@ -32,20 +32,38 @@ static uint8_t	fill_resources(t_env *env)
 
 void	print_map(t_env *env)
 {
+	char		*teams_colors[4] = {
+		"\033[1;41m",
+		"\033[1;42m",
+		"\033[1;43m",
+		"\033[1;44m"
+	}; // TO_REMOVE
+	
+	char		*directions[4] = {"^ ", "> ", "v ", "< "};
 	uint8_t		*t;
 	t_player	*p;
-	char		buffer[8192];
+	char		buffer[65536];
 	bool		player;
 	uint16_t	index = 0;
 
 	fflush(stdout);
-	memset(buffer, 0, 8192);
+	memset(buffer, 0, 65536);
 	for (uint32_t y = 0; y < env->settings.map_height; y++)
 	{
 		for (uint32_t x = 0; x < env->settings.map_width; x++)
 		{
 			player = env->world.map[y][x].content[LOOT_PLAYER] > 0;
-			strcat(&buffer[index], player ? "\033[1;42mX\033[0m " : "o ");
+			if (player && (p = get_player_from_tile(env, x, y)))
+			{
+				strcat(&buffer[index], teams_colors[p->team]);
+				index += 1;
+				strcat(&buffer[index], directions[p->direction.d]);
+				index += 2;
+				strcat(&buffer[index], "\033[0m");
+				index += 1;
+			}
+			else
+				strcat(&buffer[index], "o ");
 			index += 2;
 		}
 		strcat(&buffer[index], "\n");

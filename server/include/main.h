@@ -219,6 +219,7 @@ uint8_t		hatch_egg(t_env *env, t_player *p);
 uint8_t		check_connected_egg(t_env *env, uint16_t team);
 
 // Tools
+t_player	*get_player_from_tile(t_env *env, int x, int y);
 t_player	*get_pending_client(t_env *env, int client_fd);
 t_player	*get_team_client(t_env *env, int client_fd);
 uint8_t		remove_player_from_tile(t_env *env, int x, int y);
