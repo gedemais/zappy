@@ -187,9 +187,12 @@ uint8_t		cmd_left(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_right(t_env *env, t_player *p, bool send_response);
 
 // See command
+
+uint8_t	view_x(t_env *env, t_player *p);
+uint8_t	view_y(t_env *env, t_player *p);
+
 uint8_t		cmd_see(t_env *env, t_player *p, bool send_response);
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
-void		compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i);
 void		send_see_response(t_env *env, t_dynarray *view, t_player *p);
 void		free_view(t_dynarray *view);
 

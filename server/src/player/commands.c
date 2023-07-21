@@ -2,35 +2,20 @@
 
 uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 {
-	t_view_ranges	ranges;
-	int16_t			tx, ty;
+	uint8_t		code;
 
 	(void)send_response;
 	if (dynarray_push(&env->buffers.view, &env->world.map[p->tile_y][p->tile_x], false))
-	{
-		dynarray_clear(&env->buffers.view);
 		return (ERR_MALLOC_FAILED);
-	}
-	for (uint8_t i = 0; i < p->level; i++)
-	{
-		compute_view_ranges(env, &ranges, p, i);
-		for (int16_t x = min(ranges.start_x, ranges.end_x); x <= max(ranges.start_x, ranges.end_x); x++)
-			for (int16_t y = min(ranges.start_y, ranges.end_y); y <= max(ranges.start_y, ranges.end_y); y++)
-			{
-				tx = x;
-				ty = y;
 
-			//	env->world.map[y][x].content[LOOT_PLAYER] = 1;
+	env->world.map[y][x].content[LOOT_PLAYER] = 1;
+	if ((p->direction.d == DIR_NORTH || p->direction.d == DIR_SOUTH)
+		&& (code = view_y(env, p)) != ERR_NONE)
+		return (code);
+	else if ((p->direction.d == DIR_EAST || p->direction.d == DIR_WEST)
+			&& (code = view_x(env, p)) != ERR_NONE)
+		return (code);
 
-				clamp(&tx, 0, env->settings.map_width);
-				clamp(&ty, 0, env->settings.map_height);
-				if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
-				{
-					dynarray_clear(&env->buffers.view);
-					return (ERR_MALLOC_FAILED);
-				}
-			}
-	}
 	send_see_response(env, &env->buffers.view, p);
 	dynarray_clear(&env->buffers.view);
 	return (ERR_NONE);
