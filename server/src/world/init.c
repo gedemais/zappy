@@ -62,6 +62,15 @@ void	print_map(t_env *env)
 				strcat(&buffer[index], "\033[0m");
 				index += 1;
 			}
+			else if (env->world.map[y][x].content[LOOT_VIEWED] > 0)
+			{
+				strcat(&buffer[index], teams_colors[p->team]);
+				index += 1;
+				strcat(&buffer[index], "o ");
+				index += 2;
+				strcat(&buffer[index], "\033[0m");
+				index += 1;
+			}
 			else
 				strcat(&buffer[index], "o ");
 			index += 2;
