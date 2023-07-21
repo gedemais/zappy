@@ -24,16 +24,154 @@ class Cell:
         self.resources = resources
 
 class GameBoard:
-    def __init__(self, width, height):
+    def __init__(self):
         self.timeUnit = 0
-        self.width = width
-        self.height = height
+        self.width = 0
+        self.height = 0
         # self.hub_space = 280
-        self.cells = [[Cell(x, y) for x in range(width)] for y in range(height)]
+        self.cells = 0
         self.nbTeams = 0
         self.teams = []
         self.players = []
         self.eggs = []
+        self.writer = None
+        # Create the command-to-function mapping
+        self.command_functions = {
+            'BIENVENUE': self.initializeGame, # launch game
+            'msz': self.receiveMapSize, # Taille de la carte.
+            'bct': self.updateCell, # Contenu d’une case de la carte.
+            'tna': self.addTeam, # Nom des équipes.
+            'pnw': self.newPlayerConnexion, # Connexion d’un nouveau joueur
+            'ppo': self.updatePlayerPosition, # Position d’un joueur.
+            'plv': self.updatePlayerLevel, # Niveau d’un joueur.
+            'pin': self.updateInventory, # Inventaire d’un joueur.
+            'pex': self.expulse, # Un joueur expulse
+            'pbc': self.playerBroadcast, # Un joueur fait un broadcast
+            'pic': self.incantation, # Premier joueur lance l’incantation pour tous les suivants sur la case.
+            'pie': self.incantationEnd, # Fin de l’incantation sur la case donnée avec le résultat R (0 ou 1).
+            'pfk': self.layEgg, # Le joueur pond un œuf.
+            'pdr': self.throwResource, # Le joueur jette une ressource.
+            'pgt': self.getResource, # Le joueur prend une ressource.
+            'pdi': self.playerDeath, # Le joueur est mort de faim.
+            'enw': self.eggLaid, # L’œuf a été pondu sur la case par le joueur.
+            'eht': self.eggHatch, # L’œuf éclot.
+            'ebo': self.eggConnect, # Un joueur s’est connecté pour l’œuf.
+            'edi': self.eggStarvation, # L’œuf éclos est mort de faim.
+            'sgt': self.updateTimeUnit, # Demande de l’unité de temps courante sur le serveur.
+            'seg': self.endGame, # Fin du jeu. L’équipe donnée remporte la partie.
+            'smg': self.serverMsg, # Message du serveur.
+            'suc': self.unknownCmd, # Commande inconnue.
+            'sbp': self.badParameters # Mauvais paramètres pour la commande. 
+        }
+        
+    def launchGame():
+
+        pygame.init()
+
+        # Ouverture de la fenêtre Pygame
+        window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), RESIZABLE) 
+        # #Icone
+        # icone = pygame.image.load(image_icone)
+        # pygame.display.set_icon(icone)
+        # #Titre
+        # pygame.display.set_caption(titre_fenetre)
+        
+        pygame.display.set_caption("Zappy")
+        clock = pygame.time.Clock()
+
+        # Chargement et collage du fond
+        fond = pygame.image.load("spritesUsed/grassFlower2.jpeg").convert()
+        fond = pygame.transform.scale(fond, (window.get_width(), window.get_height()))
+        window.blit(fond, (0, 0))
+
+        gameBoard = GameBoard()
+        # player = RabbitPlayer(gameBoard, 0, 0, 50, 50)
+        # players = pygame.sprite.Group(player)
+        # resources = pygame.sprite.Group()
+        # addResources(resources)
+        
+        # Process input commands
+        commands = [
+            # 'msz 10 15\n',
+            # 'bct 5 7 1 2 3 4 5 6 7 8\n',
+            # Add commands received here...
+        ]
+
+        # To refacto
+        # Main game loop
+        running = True
+        while running:
+            # Limit the frame rate
+            # Ex: 30 frame by second
+            clock.tick(FPS)
+
+        # Event handling
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                # elif event.type == COLLECT_RESOURCE_EVENT:
+                #     collisions = pygame.sprite.spritecollide(player, resources, True)
+                #     for collision in collisions:
+                #         if collision.collecting:
+                #             player.resources += collision.value
+                #             collision.collecting = False
+                #             collision.kill()
+                # elif event.type == pygame.KEYDOWN:
+                #     keys = pygame.key.get_pressed()
+                #     player.handleKeys(keys, resources)
+
+        # Game logic goes here
+
+            # Only for debug purpose
+            # player.vx, player.vy = 0, 0
+
+            # if random.random() < 0.01:  # 1% chance each frame
+            #     resources.add(Resource(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT), 10))  # Spawn a high-value resource
+            # if random.random() < 0.1:  # 10% chance each frame
+            #     resources.add(Resource(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT), 1))  # Spawn a low-value resource
+            # end
+
+            # players.update()
+            # resources.update()
+
+        # Draw everything
+            fond = pygame.transform.scale(fond, (window.get_width(), window.get_height()))
+            window.blit(fond, (0, 0))
+            # draw(window, all_sprites, resources)
+            gameBoard.render(window)
+            pygame.display.update()
+
+        # Quit Pygame
+        pygame.quit()
+        raise SystemExit
+
+    
+    # Function to send commands to the server
+    async def send_commands(self, writer, command):
+        writer.write(command.encode())
+        await writer.drain()
+        
+    def process_input(self, command):
+        parts = command.strip().split(' ')
+        cmd_name = parts[0]
+        cmd_args = parts[1:]
+
+        if cmd_name in self.command_functions:
+            try:
+                self.command_functions[cmd_name](*cmd_args)
+            except TypeError:
+                self.badParameters()
+        else:
+            self.unknownCommand()
+            
+    def unknownCommand():
+        print('Command not found\n')
+
+    def badParameters():
+        print('Bad input\n')
+        
+    def calculateCell(self):
+        self.cells = [[Cell(x, y) for x in range(self.width)] for y in range(self.height)]
         
     def handleKeys(self, keys):
         # Handle exit button
@@ -53,14 +191,13 @@ class GameBoard:
         ))[0]
         
         return egg
-
-    def applyCmd(self, cmdLine):
-        # apply a command from the server
-        pass
-
-    def send(self, cmd):
-        # send a command to the server
-        pass
+    
+    def draw(window, all_sprites, resources):
+        # Draw everything
+        all_sprites.draw(window)
+        resources.draw(window)
+        # Rafraîchissement de l'écran
+        pygame.display.flip()
 
     def render(self, surface):
         cell_width =  (surface.get_width() - 100) / self.width
@@ -96,14 +233,10 @@ class GameBoard:
         surface.blit(area, (50, 50))
 
 ##################################################################################
-# command for the server
+# command for server
 ##################################################################################
 
-    def initializeGame(self, response):
-        # "BIENVENUE\n"
-        pass
-    
-    def connect(self):
+    def initializeGame(self, writer):
         # "BIENVENUE\n"
         # "msz X Y\n"
         # "sgt T\n"
@@ -117,7 +250,8 @@ class GameBoard:
         # …
         # "enw #e #n X Y\n"
         # …
-        self.send(f'GRAPHIC\n')
+        init = 'GRAPHIC\n'
+        self.send_commands(writer, init)
 
     def getMapSize(self):
         # Ask the size of the map
@@ -269,6 +403,7 @@ class GameBoard:
     def updateTimeUnit(self, t):
         # "sgt T\n"
         self.timeUnit = t
+        print(f"New time unit : {self.timeunit}\n")
 
     def endGame(self, team_name):
         # "seg N\n"
@@ -279,12 +414,12 @@ class GameBoard:
 
     def serverMsg(self, message):
         # "smg M\n"
-        pass
+        print(f"{message}\n")
 
     def unknownCmd(self):
         # "suc\n"
-        pass
+        print("Unknown Command\n")
 
     def badParameters():
         # "sbp\n"
-        pass
+        print("Bad parameters\n")
