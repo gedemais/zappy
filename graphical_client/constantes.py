@@ -1,8 +1,13 @@
 import pygame
+from enum import Enum
 
 # Set up the display
-WINDOW_WIDTH = 1024
+WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
+
+MAP_WIDTH = 10
+MAP_HEIGHT = 10
+
 FPS = 60
 
 # Set up colors
@@ -10,8 +15,15 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BROWN = (146, 109, 39)
 
-# Define a new event for collecting resources
+# Event for collecting resources
 COLLECT_RESOURCE_EVENT = pygame.USEREVENT + 1
+
+# Enum for player orientation
+class Orientation(Enum):
+    N = 1
+    E = 2
+    S = 3
+    O = 4
 
 # Define level_up recipes
 recipes = [

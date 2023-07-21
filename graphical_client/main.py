@@ -1,4 +1,6 @@
-import random
+# import random
+import asyncio
+import socket
 import pygame
 from pygame.locals import *
 
@@ -7,87 +9,48 @@ from players import *
 from ressource import Resource 
 from constantes import *
 
-pygame.init()
+host = socket.gethostname()
+port = 8080 # The same port as used by the server
+g = GameBoard()
 
-window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("El Collector")
+async def handle_client(reader, writer):
+    while True:
+        data = await reader.read(1024)
+        if not data:
+            break
 
-def addResources(resources):
-    # Add resources to the resources group
-    # Example: resources.add(Resource(100, 100))
+        commands = data.decode().split('\n')
+        for command in commands:
+            if command:
+                g.process_input(command)
 
-    # Only for debug purpose
-    resources.add(Resource(200, 100))
-    resources.add(Resource(100, 300))
-    resources.add(Resource(450, 200))
-    resources.add(Resource(550, 550))
-    resources.add(Resource(300, 300))    
+        writer.write(b"Data received and processed.\n")
+        await writer.drain()
 
-# def updateResourcesCollected(player, resources):
-#     # Check for resource collection
-#     collected_resources = pygame.sprite.spritecollide(player, resources, True)
-#     for resource in collected_resources:
-#         # Increase player's resource count
+    writer.close()
 
-#         resource.kill()
-#         pass
+async def main():
+    try:
+        # Replace 'server_host' and 'server_port' with the server's host and port
+        reader, g.writer = await asyncio.open_connection(host, port)
 
-def draw(window, all_sprites, resources):
-    # Draw everything
-    window.fill(BROWN)
-    all_sprites.draw(window)
-    resources.draw(window)
-    pygame.display.flip()
+        # Start handling input from the server and sending commands
+        input_task = asyncio.create_task(handle_client(reader))
 
-def main():
-    clock = pygame.time.Clock()
+        # Wait for both tasks to complete
+        await input_task
 
-
-    game_board = GameBoard(WINDOW_WIDTH, WINDOW_HEIGHT)
-    player = RabbitPlayer(game_board, 0, 0, 50, 50)
-    all_sprites = pygame.sprite.Group(player)
-    resources = pygame.sprite.Group()
-    addResources(resources)
-
-    # Main game loop
-    running = True
-    while running:
-        # Limit the frame rate
-        clock.tick(FPS)
-
-        # Event handling
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                running = False
-            elif event.type == COLLECT_RESOURCE_EVENT:
-                collisions = pygame.sprite.spritecollide(player, resources, True)
-                for collision in collisions:
-                    if collision.collecting:
-                        player.resources += collision.value
-                        collision.collecting = False
-                        collision.kill()
-            elif event.type == pygame.KEYDOWN:
-                keys = pygame.key.get_pressed()
-                player.handleKeys(keys, resources)
-
-        # Game logic goes here
-
-        # Only for debug purpose
-        player.vx, player.vy = 0, 0
-
-        if random.random() < 0.01:  # 1% chance each frame
-            resources.add(Resource(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT), 10))  # Spawn a high-value resource
-        if random.random() < 0.1:  # 10% chance each frame
-            resources.add(Resource(random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT), 1))  # Spawn a low-value resource
-        # end
-
-        all_sprites.update()
-
-        # Draw everything
-        draw(window, all_sprites, resources)
-
-    # Quit Pygame
-    pygame.quit()
-
+    except ConnectionError:
+        print("Connection to the server failed.")
+                
+    # another way of initializing a connection
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # s.connect((host, port))
+    # reply = s.recv(1024).decode('utf-8')
+    # print(reply) # BIENVENUE
+    # s.send(bytes(init.encode('utf-8')))
+    # reply = s.recv(1024).decode('utf-8')
+    # print(reply)
+        
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
