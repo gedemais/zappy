@@ -1,5 +1,53 @@
 #include "main.h"
 
+uint8_t	view_y(t_env *env, t_player *p)
+{
+	int16_t	x, tx, y, ty;
+	bool	north;
+
+	north = (bool)(p->direction.d == DIR_NORTH);
+	for (int l = 1; l <= p->level; l++)
+	{
+		y = north ? -l : l;
+		for (int x = -l; x <= l; x++)
+		{
+			tx = p->tile_x + (north ? x : -x);
+			ty = p->tile_y + y;
+
+			clamp(&tx, 0, env->settings.map_width);
+			clamp(&ty, 0, env->settings.map_height);
+
+			if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
+				return (ERR_MALLOC_FAILED);
+		}
+	}
+	return (ERR_NONE);
+}
+
+uint8_t	view_x(t_env *env, t_player *p)
+{
+	int16_t	x, tx, y, ty;
+	bool	east;
+
+	east = (bool)(p->direction.d == DIR_EAST);
+	for (int l = 1; l <= p->level; l++)
+	{
+		x = east ? l : -l;
+		for (int y = -l; y <= l; y++)
+		{
+			tx = p->tile_x + x;
+			ty = p->tile_y + (east ? y : -y);
+
+			clamp(&tx, 0, env->settings.map_width);
+			clamp(&ty, 0, env->settings.map_height);
+
+			if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
+				return (ERR_MALLOC_FAILED);
+		}
+	}
+	return (ERR_NONE);
+}
+
 void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 {
 	t_tile	*tile;
@@ -22,22 +70,4 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 	}
 	strcat(env->buffers.response, "}\n");
 	response(env, p);
-}
-
-void	compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i)
-{
-	i += 1;
-	ranges->middle_x = p->tile_x + moves[p->direction.d][0] * i;
-	ranges->middle_y = p->tile_y + moves[p->direction.d][1] * i;
-
-	clamp(&ranges->middle_x, 0, env->settings.map_width);
-	clamp(&ranges->middle_y, 0, env->settings.map_height);
-
-	p->direction.d -= 1;
-	ranges->start_x = ranges->middle_x + moves[p->direction.d][0] * i;
-	ranges->start_y = ranges->middle_y + moves[p->direction.d][1] * i;
-	p->direction.d += 2;
-	ranges->end_x = ranges->middle_x + moves[p->direction.d][0] * i;
-	ranges->end_y = ranges->middle_y + moves[p->direction.d][1] * i;
-	p->direction.d -= 1;
 }
