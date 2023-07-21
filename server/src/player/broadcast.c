@@ -1,37 +1,11 @@
 #include "main.h"
 
-static char		is_diagonal(t_player *sender, t_player *receiver)
-{
-	int		sender_slope, receiver_slope;
-	char	dir = BDIR_MAX;
-
-	sender_slope = abs(sender->tile_x - sender->tile_y);
-	receiver_slope = abs(receiver->tile_x - receiver->tile_y);
-
-	if (sender_slope != receiver_slope)
-		return (BDIR_MAX);
-
-	if (sender->tile_x < receiver->tile_x && sender->tile_y < receiver->tile_y)
-		dir = BDIR_NORTH_WEST;
-	else if (sender->tile_x < receiver->tile_x && sender->tile_y > receiver->tile_y)
-		dir = BDIR_SOUTH_WEST;
-	else if (sender->tile_x > receiver->tile_x && sender->tile_y > receiver->tile_y)
-		dir = BDIR_SOUTH_EAST;
-	else
-		dir = BDIR_NORTH_EAST;
-
-	return (dir);
-}
-
 static char		get_direction(t_player *sender, t_player *receiver)
 {
 	char	dir = BDIR_MAX;
 	float	rx = sender->tile_x - receiver->tile_x;
 	float	ry = sender->tile_y - receiver->tile_y;
 	float	m;
-
-	if ((dir = is_diagonal(sender, receiver)) < BDIR_MAX) // Diagonales
-		return (dir);
 
 	m = ry / rx;
 	if (m < -1.0f || m > 1.0f)
@@ -81,7 +55,7 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 		assert(false);
 	}
 
-	dir -= (unsigned char)receiver->direction.d;
+	dir -= (unsigned char)receiver->direction.d * 2;
 
 	dir += (dir < 0) ? BDIR_MAX : 0;
 	dir += (dir >= BDIR_MAX) ? -BDIR_MAX : 0;

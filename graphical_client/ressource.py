@@ -7,9 +7,11 @@ class Resource(pygame.sprite.Sprite):
 
         # Define resource's position
         self.position = (x, y)
-        # self.rect = self.image.get_rect()
-        # self.rect.x = x
-        # self.rect.y = y
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        
+        self.quantity = 0
 
         # Set timer for resource disappearance
         self.timer = pygame.time.get_ticks()

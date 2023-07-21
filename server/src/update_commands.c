@@ -19,6 +19,11 @@ static uint8_t	run_command(t_env *env, t_player *p, t_cmd *cmd)
 
 	free_cmd(cmd);
 	dynarray_pop(&p->cmd_queue, true);
+
+	PUTTIME()
+	fprintf(stderr, "[COMMAND SUCCESS] Command %d removed from command queue properly\n", cmd->id);
+	fflush(stdout);
+
 	return (ERR_NONE);
 }
 
@@ -47,7 +52,6 @@ uint8_t	update_commands(t_env *env)
 			p = dyacc(&team->players, j);
 			if (p->cmd_queue.nb_cells > 0 && (code = handle_command(env, p, dyacc(&p->cmd_queue, 0))))
 				return (code);
-				
 		}
 	}
 	return (ERR_NONE);

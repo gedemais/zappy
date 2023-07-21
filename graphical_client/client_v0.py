@@ -1,32 +1,23 @@
 import socket
-from time import sleep
+from gameBoard import GameBoard
 
 host = socket.gethostname()
 port = 8080                   # The same port as used by the server
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#s.settimeout()
-s.connect((host, port))
+init = 'GRAPHIC\n' 
 
-moves = ['avance\n', 'droite\n']
+class ServerComm(GameBoard):
+    def __init__(self):
+        super.__init__(self)
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.connect((host, port))
+        self.reply = self.s.recv(1024).decode('utf-8')
+        print(self.reply) # BIENVENUE
+        self.s.send(bytes(init.encode('utf-8')))
+        self.reply = self.s.recv(1024).decode('utf-8')
+        print(self.reply)
+            
+    def unknown_command():
+        print("Unknown command.")
 
-print('connected')
-reply = s.recv(1024).decode('utf-8')
-
-print(reply)
-
-print('sending team_name...')
-s.send(bytes('team_a'.encode('utf-8')))
-print('sent')
-
-reply = s.recv(1024).decode('utf-8')
-
-print(reply)
-
-i = 0
-while True:
-    s.send(bytes(moves[i % 2].encode('utf-8')))
-    reply = s.recv(1024).decode('utf-8')
-    print(reply)
-    i += 1
-
-s.close()
+    def bad_parameters():
+        print("Bad parameters for the command.")

@@ -187,9 +187,12 @@ uint8_t		cmd_left(t_env *env, t_player *p, bool send_response);
 uint8_t		cmd_right(t_env *env, t_player *p, bool send_response);
 
 // See command
+
+uint8_t	view_x(t_env *env, t_player *p);
+uint8_t	view_y(t_env *env, t_player *p);
+
 uint8_t		cmd_see(t_env *env, t_player *p, bool send_response);
 uint8_t		add_tile_to_view(t_dynarray *view, t_dynarray *tile_content);
-void		compute_view_ranges(t_env *env, t_view_ranges *ranges, t_player *p, uint8_t i);
 void		send_see_response(t_env *env, t_dynarray *view, t_player *p);
 void		free_view(t_dynarray *view);
 
@@ -216,6 +219,7 @@ uint8_t		hatch_egg(t_env *env, t_player *p);
 uint8_t		check_connected_egg(t_env *env, uint16_t team);
 
 // Tools
+t_player	*get_player_from_tile(t_env *env, int x, int y);
 t_player	*get_pending_client(t_env *env, int client_fd);
 t_player	*get_team_client(t_env *env, int client_fd);
 uint8_t		remove_player_from_tile(t_env *env, int x, int y);

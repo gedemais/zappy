@@ -31,13 +31,13 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 
 uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 {
-	p->direction.d--;
+	p->direction.d++;
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 {
-	p->direction.d++;
+	p->direction.d--;
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
