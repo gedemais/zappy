@@ -1,11 +1,34 @@
 #include "main.h"
 
+static char		diagonals(t_player *sender, t_player *receiver)
+{
+	char	dir = BDIR_MAX;
+
+	if (receiver->tile_x > sender->tile_x && receiver->tile_y > sender->tile_y)
+		dir = BDIR_NORTH_WEST;
+	else if (receiver->tile_x > sender->tile_x && receiver->tile_y < sender->tile_y)
+		dir = BDIR_SOUTH_WEST;
+	else if (receiver->tile_x < sender->tile_x && receiver->tile_y > sender->tile_y)
+		dir = BDIR_NORTH_EAST;
+	else if (receiver->tile_x < sender->tile_x && receiver->tile_y < sender->tile_y)
+		dir = BDIR_SOUTH_EAST;
+	return (dir);
+}
+
 static char		get_direction(t_player *sender, t_player *receiver)
 {
 	char	dir = BDIR_MAX;
 	float	rx = sender->tile_x - receiver->tile_x;
 	float	ry = sender->tile_y - receiver->tile_y;
 	float	m;
+
+	if (fabs(rx) == fabs(ry))
+	{
+		fprintf(stderr, "[DIAGONAL BROADCAST DETECTED] rx = %f | ry = %f\n", rx, ry);
+		fflush(stderr);
+		return (diagonals(sender, receiver));
+	}
+
 
 	m = ry / rx;
 	if (m < -1.0f || m > 1.0f)
@@ -57,9 +80,16 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 
 	dir -= (unsigned char)receiver->direction.d * 2;
 
+	if (abs(sender->tile_x - receiver->tile_x) < env->settings.map_width / 2
+		&& abs(sender->tile_y - receiver->tile_y) < env->settings.map_height / 2)
+		dir -= 4;
+	else
+		dir -= 0;
+
 	dir += (dir < 0) ? BDIR_MAX : 0;
 	dir += (dir >= BDIR_MAX) ? -BDIR_MAX : 0;
 
+	fprintf(stderr, "Direction = %d\n", (int)dir);
 	strcat(env->buffers.response, names[(int)dir]);
 	strcat(env->buffers.response, ",");
 }
