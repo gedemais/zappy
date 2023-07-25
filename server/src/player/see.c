@@ -17,6 +17,8 @@ uint8_t	view_y(t_env *env, t_player *p)
 			clamp(&tx, 0, env->settings.map_width);
 			clamp(&ty, 0, env->settings.map_height);
 
+			env->world.map[ty][tx].content[LOOT_VIEWED] = 1;
+
 			if (dynarray_push(&env->buffers.view, &env->world.map[ty][tx], false))
 				return (ERR_MALLOC_FAILED);
 		}

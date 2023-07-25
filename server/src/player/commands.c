@@ -8,7 +8,7 @@ uint8_t	cmd_see(t_env *env, t_player *p, bool send_response)
 	if (dynarray_push(&env->buffers.view, &env->world.map[p->tile_y][p->tile_x], false))
 		return (ERR_MALLOC_FAILED);
 
-	env->world.map[y][x].content[LOOT_PLAYER] = 1;
+	env->world.map[p->tile_y][p->tile_x].content[LOOT_VIEWED] = 1;
 	if ((p->direction.d == DIR_NORTH || p->direction.d == DIR_SOUTH)
 		&& (code = view_y(env, p)) != ERR_NONE)
 		return (code);
