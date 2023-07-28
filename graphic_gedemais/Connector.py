@@ -37,7 +37,7 @@ class   Connector():
     def receive(self):
         request = None
         try:
-            request = self.socket.recv(4096).decode('utf-8')
+            request = self.socket.recv(65536).decode('utf-8')
         except TimeoutError:
             pass
         return request

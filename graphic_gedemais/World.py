@@ -1,3 +1,4 @@
+from time import sleep
 
 class   World():
 
@@ -7,21 +8,28 @@ class   World():
 
 
     def parse_graphical_data(self, response):
+        print(response)
         self.lines = response.split('\n')
         self.line_index = 0
 
         if self.parse_map_size() != 0:
+            print('map size parsing failed !')
             exit(1)
         self.map = [[[] for x in range(self.map_width)] for y in range(self.map_height)]
         self.line_index += 1
 
         if self.parse_t() != 0:
+            print('t parsing failed !')
             exit(1)
         self.line_index += 1
 
+        print(len(self.lines))
+        sleep(3)
         for y in range(self.map_height):
             for x in range(self.map_width):
                 if self.parse_bct(x, y) != 0:
+                    print(x, y)
+                    print('block content parsing failed !')
                     exit(1)
                 print(self.map[y][x])
                 self.line_index += 1
@@ -57,10 +65,14 @@ class   World():
     def parse_bct(self, x, y):
         tokens = self.lines[self.line_index].split(' ')
         if len(tokens) != 10 or tokens[0] != 'bct':
+            print('invalid format')
             return -1
 
         try:
             if int(tokens[1]) != x or int(tokens[2]) != y:
+                print('invalid position')
+                print(tokens[1], tokens[1])
+                print(x, y)
                 return -1
 
             for i in range(3, 10):

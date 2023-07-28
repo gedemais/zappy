@@ -12,14 +12,13 @@ response = connector.authenticate()
 
 world = World(response)
 
-renderer = Renderer(world)
+renderer = Renderer(world, tile_size=50, loot_scale=0.75)
 
 # Main game loop
 while renderer.is_running:
 
-    connector.process()
     renderer.process_events()
-    renderer.render()
+    renderer.render(world)
 
 # Quit Pygame
 pygame.quit()
