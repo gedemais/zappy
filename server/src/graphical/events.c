@@ -2,8 +2,14 @@
 
 uint8_t	gevent_player_new(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	t_team	*team;
 	char	s[128];
+
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
 
 	team = dyacc(&env->world.teams, env->gplayer.team);
 	sprintf(s, "pnw #%d %d %d %d %d %s\n",	env->gplayer.pid,
@@ -19,7 +25,13 @@ uint8_t	gevent_player_new(t_env *env)
 
 uint8_t	gevent_player_expulse(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	char	s[128];
+
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
 
 	FLUSH_GRESPONSE
 	sprintf(s, "pex #%d\n", env->gplayer.pid);
@@ -30,6 +42,9 @@ uint8_t	gevent_player_expulse(t_env *env)
 
 uint8_t	gevent_player_broadcast(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pbc #%d %s\n", env->gplayer.pid, env->gstr);
 	return (gresponse(env));
@@ -37,6 +52,9 @@ uint8_t	gevent_player_broadcast(t_env *env)
 
 uint8_t	gevent_player_lays_egg(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pfk #%d\n", env->gplayer.pid);
 	return (gresponse(env));
@@ -44,6 +62,9 @@ uint8_t	gevent_player_lays_egg(t_env *env)
 
 uint8_t	gevent_player_put(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pdr #%d %d\n", env->gplayer.pid, env->gindex);
 	return (gresponse(env));
@@ -51,6 +72,9 @@ uint8_t	gevent_player_put(t_env *env)
 
 uint8_t	gevent_player_take(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pgt #%d %d\n", env->gplayer.pid, env->gindex);
 	return (gresponse(env));
@@ -58,6 +82,9 @@ uint8_t	gevent_player_take(t_env *env)
 
 uint8_t	gevent_player_died(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "pdi #%d\n", env->gplayer.pid);
 	return (gresponse(env));
@@ -65,13 +92,19 @@ uint8_t	gevent_player_died(t_env *env)
 
 uint8_t	gevent_player_layed_egg(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
-	sprintf(env->buffers.gresponse, "enw #%d #%d %d %d\n", env->gindex, env->gplayer.pid, env->gx, env->gy);
+	sprintf(env->buffers.gresponse, "enw #%d #%d %d %d\n", env->gindex, env->gpid, env->gx, env->gy);
 	return (gresponse(env));
 }
 
 uint8_t	gevent_egg_hatched(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "eht #%d\n", env->gindex);
 	return (gresponse(env));
@@ -79,6 +112,9 @@ uint8_t	gevent_egg_hatched(t_env *env)
 
 uint8_t	gevent_player_connected_for_egg(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "ebo #%d", env->gindex);
 	return (gresponse(env));
@@ -86,6 +122,9 @@ uint8_t	gevent_player_connected_for_egg(t_env *env)
 
 uint8_t	gevent_egg_rotted(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "edi #%d\n", env->gindex);
 	return (gresponse(env));
@@ -93,6 +132,9 @@ uint8_t	gevent_egg_rotted(t_env *env)
 
 uint8_t	gevent_game_ended(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	t_team	*team;
 
 	team = dyacc(&env->world.teams, env->gindex);
@@ -103,6 +145,9 @@ uint8_t	gevent_game_ended(t_env *env)
 
 uint8_t	gevent_broadcast(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "smg %s\n", env->buffers.response);
 	return (gresponse(env));
@@ -110,6 +155,9 @@ uint8_t	gevent_broadcast(t_env *env)
 
 uint8_t		gevent_incantation_launch(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	t_team			*t;
 	t_player		*p;
 	t_player		*pl;
@@ -142,6 +190,9 @@ uint8_t		gevent_incantation_launch(t_env *env)
 
 uint8_t	gevent_incantation_ended(t_env *env)
 {
+	if (env->graphical.team == 0)
+		return (ERR_NONE);
+
 	t_player	*p;
 
 	p = &env->gplayer;

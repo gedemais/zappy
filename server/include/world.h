@@ -2,9 +2,9 @@
 # define WORLD_H
 
 # define MAX_MAP_DIM_SIZE 200
-# define LOOT_DENSITY 5
+# define LOOT_DENSITY 8
 // Percentage of loot pieces destined to be food
-# define FOOD_DENSITY 20
+# define FOOD_DENSITY 25
 
 enum			e_cardinal_directions
 {

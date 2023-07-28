@@ -76,6 +76,9 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	new.hatch_time = 600;
 	new.id = rand() * rand() * rand();
 	new.id *= (new.id < 0) ? -1 : 1;
+	new.pid = p->pid;
+	new.x = p->tile_x;
+	new.y = p->tile_y;
 	if (env->world.eggs.byte_size == 0 && dynarray_init(&env->world.eggs, sizeof(t_egg), env->world.teams.nb_cells))
 		return (ERR_MALLOC_FAILED);
 

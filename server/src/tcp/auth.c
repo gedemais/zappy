@@ -88,8 +88,9 @@ static uint8_t	auth_get_team_name(t_env *env, t_player *p)
 	if (strcmp(env->buffers.request, "GRAPHICAL\n") == 0)
 	{
 		if ((code = handle_graphical_connection(env, p)) != ERR_NONE
-			|| (code = remove_pending_player(env, p)))
+			|| (code = remove_pending_player(env, p)) != ERR_NONE)
 			return (code);
+		return (ERR_NONE);
 	}
 
 	PUTTIME()

@@ -70,6 +70,8 @@ typedef struct s_direction // Useful for over / under flowing directions values
 typedef	struct	s_egg
 {
 	int32_t		id;
+	int32_t		pid;
+	uint16_t	x, y;
 	uint16_t	team;
 	uint16_t	hatch_time;
 }				t_egg;

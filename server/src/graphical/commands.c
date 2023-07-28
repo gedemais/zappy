@@ -78,14 +78,14 @@ uint8_t	gcmd_player_new(t_env *env)
 			env->gplayer.level,
 			team->name);
 
-	strcat(env->buffers.response, s);
+	strcat(env->buffers.gresponse, s);
 	return (ERR_NONE);
 }
 
 uint8_t	gcmd_map_content(t_env *env)
 {
 	for (unsigned int y = 0; y < env->settings.map_height; y++)
-		for (unsigned int x = 0; x < env->settings.map_height; x++)
+		for (unsigned int x = 0; x < env->settings.map_width; x++)
 		{
 			env->gx = x;
 			env->gy = y;
@@ -144,7 +144,7 @@ uint8_t	gcmd_set_new_t(t_env *env)
 	env->settings.tick_length = 1000000 / env->settings.t;
 
 	sprintf(s, "sgt %d\n", env->settings.t);
-	strcat(env->buffers.response, s);
+	strcat(env->buffers.gresponse, s);
 
 	return (ERR_NONE);
 }

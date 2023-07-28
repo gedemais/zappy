@@ -32,6 +32,8 @@ uint8_t	kill_player(t_env *env, t_player *p, bool disconnected)
 	struct timeval	killed;
 	uint8_t			code;
 
+	if (p == NULL)
+		return (ERR_NONE);
 	PUTTIME()
 	fprintf(stderr, "[PLAYER DEATH] message : Client %d died !\n", *p->connection);
 	if (disconnected == false)

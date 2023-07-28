@@ -1,27 +1,26 @@
 import pygame
+import socket
 from Renderer import Renderer
+from Connector import Connector
+from World import World
 
 
-# Window dimensions
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600
+host = socket.gethostname()
+port = 8080                   # The same port as used by the server
+connector = Connector(host, port)
+response = connector.authenticate()
 
-renderer = Renderer(WINDOW_WIDTH, WINDOW_HEIGHT)
+world = World(response)
+
+renderer = Renderer(world)
+
 
 # Main game loop
 while renderer.is_running:
 
+    connector.process()
     renderer.process_events()
-    # Clear the screen with a white background
-    renderer.window.fill((255, 255, 255))
-
-    # Draw your game objects here (e.g., using pygame.draw functions)
-
-    # Update the display
-    pygame.display.flip()
-
-    # Control the frame rate (e.g., 60 frames per second)
-    renderer.clock.tick(60)
+    renderer.render()
 
 # Quit Pygame
 pygame.quit()
