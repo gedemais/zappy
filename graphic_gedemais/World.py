@@ -1,14 +1,15 @@
 from time import sleep
+from Team import Team
+from Player import Player
 
 class   World():
 
     def __init__(self, response):
-        self.players = []
+        self.teams = {}
         self.parse_graphical_data(response)
 
 
     def parse_graphical_data(self, response):
-        print(response)
         self.lines = response.split('\n')
         self.line_index = 0
 
@@ -23,8 +24,6 @@ class   World():
             exit(1)
         self.line_index += 1
 
-        print(len(self.lines))
-        sleep(3)
         for y in range(self.map_height):
             for x in range(self.map_width):
                 if self.parse_bct(x, y) != 0:
@@ -34,7 +33,19 @@ class   World():
                 print(self.map[y][x])
                 self.line_index += 1
 
+        while self.parse_team_name() == 0:
+            self.line_index += 1
 
+        print(self.teams)
+
+        while self.parse_new_player() == 0:
+            self.line_index += 1
+
+        print(self.teams['foo'].players)
+
+
+
+############ Parsing utils
 
     def parse_map_size(self):
         tokens = self.lines[self.line_index].split(' ')
@@ -50,7 +61,6 @@ class   World():
         return 0
 
 
-
     def parse_t(self):
         tokens = self.lines[self.line_index].split(' ')
 
@@ -62,6 +72,7 @@ class   World():
             return -1
         return 0
 
+
     def parse_bct(self, x, y):
         tokens = self.lines[self.line_index].split(' ')
         if len(tokens) != 10 or tokens[0] != 'bct':
@@ -71,8 +82,6 @@ class   World():
         try:
             if int(tokens[1]) != x or int(tokens[2]) != y:
                 print('invalid position')
-                print(tokens[1], tokens[1])
-                print(x, y)
                 return -1
 
             for i in range(3, 10):
@@ -82,8 +91,38 @@ class   World():
 
         return 0
 
-    #def parse_new_player(self):
-        #tokens = self.lines[self.line_index].split(' ')
+
+    def parse_team_name(self):
+        tokens = self.lines[self.line_index].split(' ')
+        if len(tokens) != 2 or tokens[0] != 'tna':
+            print('invalid format')
+            return -1
+
+        self.teams[tokens[1]] = Team(tokens[1])
+        return 0
+
+
+    def parse_new_player(self):
+        tokens = self.lines[self.line_index].split(' ')
+        if len(tokens) != 7 or tokens[0] != 'pnw':
+            print('invalid format')
+            return -1
+
+        #try:
+        pid = int(tokens[1][1:])
+        x = int(tokens[2])
+        y = int(tokens[3])
+        o = int(tokens[4])
+        l = int(tokens[5])
+        team = tokens[-1]
+        self.teams[team].players.append(Player(x, y, o, l, pid))
+        #except:
+        #    print('player creation failed')
+        #    return -1
+
+
+
+
     #def parse_(self):
         #tokens = self.lines[self.line_index].split(' ')
     #def parse_(self):
@@ -106,5 +145,5 @@ class   World():
         #tokens = self.lines[self.line_index].split(' ')
     #def parse_(self):
         #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
+
+#################
