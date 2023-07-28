@@ -46,6 +46,25 @@ class   Renderer():
         self.generate_background()
 
 
+    def render_loot(self, x, y, tile_rect):
+        coords =    [
+                        (0, 0),
+                        (0, 1),
+                        (0, 2),
+
+                        (1, 0),
+                        (1, 2),
+                        
+                        (2, 0),
+                        (2, 1),
+                        (2, 2),
+                    ]
+
+        for i in range(7):
+            
+            
+
+
     def generate_background(self):
         self.background = pygame.Surface((self.win_width, self.win_height))
         self.background.fill((0, 0, 0))
@@ -56,9 +75,11 @@ class   Renderer():
                 self.bgd_tile_rect[2] = self.bgd_tile_rect[0] + self.tile_size + x
                 self.bgd_tile_rect[3] = self.bgd_tile_rect[1] + self.tile_size + y
                 self.background.blit(self.bgd_tile, self.bgd_tile_rect)
+                self.render_loot(x, y, self.bgd_tile_rect)
 
 
     def render(self):
+        self.generate_background()
         self.window.blit(self.background, self.background.get_rect())
         pygame.display.flip()
         self.clock.tick(self.fps)

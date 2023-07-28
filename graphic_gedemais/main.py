@@ -14,7 +14,6 @@ world = World(response)
 
 renderer = Renderer(world)
 
-
 # Main game loop
 while renderer.is_running:
 
