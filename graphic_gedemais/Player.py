@@ -7,4 +7,3 @@ class   Player():
         self.lvl = lvl
         self.pid = pid
         self.inventory = []
-

@@ -3,1037 +3,3036 @@
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.682236|Function receipt launched
-1690584002.683902|Function update_eggs launched
-1690584002.683906|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586615.560553|Function receipt launched
+1690586615.562217|Function update_eggs launched
+1690586615.562222|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
 ============= TICK 2 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.722395|Function receipt launched
-1690584002.724074|Function update_eggs launched
-1690584002.724085|Function update_commands launched
-Waiting 38268 microseconds before the start of the next cycle...
+1690586615.600639|Function receipt launched
+1690586615.602301|Function update_eggs launched
+1690586615.602305|Function update_commands launched
+Waiting 38317 microseconds before the start of the next cycle...
 ============= TICK 3 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.762500|Function receipt launched
-1690584002.764171|Function update_eggs launched
-1690584002.764176|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586615.640773|Function receipt launched
+1690586615.642443|Function update_eggs launched
+1690586615.642448|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
 ============= TICK 4 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.802623|Function receipt launched
-1690584002.804293|Function update_eggs launched
-1690584002.804299|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586615.680891|Function receipt launched
+1690586615.682562|Function update_eggs launched
+1690586615.682568|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
 ============= TICK 5 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.842734|Function receipt launched
-1690584002.844403|Function update_eggs launched
-1690584002.844408|Function update_commands launched
-Waiting 38298 microseconds before the start of the next cycle...
+1690586615.721004|Function receipt launched
+1690586615.722674|Function update_eggs launched
+1690586615.722680|Function update_commands launched
+Waiting 38289 microseconds before the start of the next cycle...
 ============= TICK 6 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.882848|Function receipt launched
-1690584002.884517|Function update_eggs launched
-1690584002.884522|Function update_commands launched
-Waiting 38297 microseconds before the start of the next cycle...
+1690586615.761116|Function receipt launched
+1690586615.762786|Function update_eggs launched
+1690586615.762792|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
 ============= TICK 7 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.922958|Function receipt launched
-1690584002.924628|Function update_eggs launched
-1690584002.924634|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586615.801233|Function receipt launched
+1690586615.802902|Function update_eggs launched
+1690586615.802908|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
 ============= TICK 8 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584002.963064|Function receipt launched
-1690584002.964700|Function update_eggs launched
-1690584002.964707|Function update_commands launched
-Waiting 38331 microseconds before the start of the next cycle...
+1690586615.841349|Function receipt launched
+1690586615.843019|Function update_eggs launched
+1690586615.843025|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
 ============= TICK 9 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.003186|Function receipt launched
-1690584003.004856|Function update_eggs launched
-1690584003.004862|Function update_commands launched
-Waiting 38295 microseconds before the start of the next cycle...
+1690586615.881465|Function receipt launched
+1690586615.883135|Function update_eggs launched
+1690586615.883141|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
 ============= TICK 10 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.043304|Function receipt launched
-1690584003.044973|Function update_eggs launched
-1690584003.044980|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586615.921585|Function receipt launched
+1690586615.923256|Function update_eggs launched
+1690586615.923261|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
 ============= TICK 11 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.083416|Function receipt launched
-1690584003.085087|Function update_eggs launched
-1690584003.085094|Function update_commands launched
+1690586615.961708|Function receipt launched
+1690586615.963379|Function update_eggs launched
+1690586615.963385|Function update_commands launched
 Waiting 38290 microseconds before the start of the next cycle...
 ============= TICK 12 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.123522|Function receipt launched
-1690584003.125192|Function update_eggs launched
-1690584003.125200|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586616.001816|Function receipt launched
+1690586616.003485|Function update_eggs launched
+1690586616.003491|Function update_commands launched
+Waiting 38282 microseconds before the start of the next cycle...
 ============= TICK 13 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.163620|Function receipt launched
-1690584003.165288|Function update_eggs launched
-1690584003.165296|Function update_commands launched
-Waiting 38300 microseconds before the start of the next cycle...
+1690586616.041936|Function receipt launched
+1690586616.043607|Function update_eggs launched
+1690586616.043612|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
 ============= TICK 14 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.203736|Function receipt launched
-1690584003.205405|Function update_eggs launched
-1690584003.205416|Function update_commands launched
-Waiting 38288 microseconds before the start of the next cycle...
+1690586616.082058|Function receipt launched
+1690586616.083728|Function update_eggs launched
+1690586616.083734|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
 ============= TICK 15 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.243857|Function receipt launched
-1690584003.245527|Function update_eggs launched
-1690584003.245535|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586616.122183|Function receipt launched
+1690586616.123853|Function update_eggs launched
+1690586616.123858|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
 ============= TICK 16 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.283984|Function receipt launched
-1690584003.285655|Function update_eggs launched
-1690584003.285663|Function update_commands launched
-Waiting 38291 microseconds before the start of the next cycle...
+1690586616.162309|Function receipt launched
+1690586616.164030|Function update_eggs launched
+1690586616.164039|Function update_commands launched
+Waiting 38237 microseconds before the start of the next cycle...
 ============= TICK 17 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.324093|Function receipt launched
-1690584003.325763|Function update_eggs launched
-1690584003.325772|Function update_commands launched
+1690586616.202430|Function receipt launched
+1690586616.204099|Function update_eggs launched
+1690586616.204104|Function update_commands launched
 Waiting 38294 microseconds before the start of the next cycle...
 ============= TICK 18 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.364212|Function receipt launched
-1690584003.365882|Function update_eggs launched
-1690584003.365890|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586616.242543|Function receipt launched
+1690586616.244214|Function update_eggs launched
+1690586616.244220|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
 ============= TICK 19 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.404333|Function receipt launched
-1690584003.406009|Function update_eggs launched
-1690584003.406021|Function update_commands launched
-Waiting 38284 microseconds before the start of the next cycle...
+1690586616.282672|Function receipt launched
+1690586616.284344|Function update_eggs launched
+1690586616.284351|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
 ============= TICK 20 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.444449|Function receipt launched
-1690584003.446119|Function update_eggs launched
-1690584003.446126|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586616.322800|Function receipt launched
+1690586616.324472|Function update_eggs launched
+1690586616.324480|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
 ============= TICK 21 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.484560|Function receipt launched
-1690584003.486230|Function update_eggs launched
-1690584003.486238|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586616.362944|Function receipt launched
+1690586616.364618|Function update_eggs launched
+1690586616.364626|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
 ============= TICK 22 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.524673|Function receipt launched
-1690584003.526342|Function update_eggs launched
-1690584003.526350|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586616.403051|Function receipt launched
+1690586616.404701|Function update_eggs launched
+1690586616.404713|Function update_commands launched
+Waiting 38307 microseconds before the start of the next cycle...
 ============= TICK 23 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.564779|Function receipt launched
-1690584003.566448|Function update_eggs launched
-1690584003.566454|Function update_commands launched
-Waiting 38297 microseconds before the start of the next cycle...
+1690586616.443178|Function receipt launched
+1690586616.444849|Function update_eggs launched
+1690586616.444856|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
 ============= TICK 24 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.604900|Function receipt launched
-1690584003.606571|Function update_eggs launched
-1690584003.606592|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586616.483291|Function receipt launched
+1690586616.484960|Function update_eggs launched
+1690586616.485031|Function update_commands launched
+Waiting 38232 microseconds before the start of the next cycle...
 ============= TICK 25 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.645014|Function receipt launched
-1690584003.646683|Function update_eggs launched
-1690584003.646690|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586616.523405|Function receipt launched
+1690586616.525075|Function update_eggs launched
+1690586616.525081|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
 ============= TICK 26 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.685130|Function receipt launched
-1690584003.686801|Function update_eggs launched
-1690584003.686807|Function update_commands launched
-Waiting 38297 microseconds before the start of the next cycle...
+1690586616.563522|Function receipt launched
+1690586616.565192|Function update_eggs launched
+1690586616.565201|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
 ============= TICK 27 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.725245|Function receipt launched
-1690584003.726915|Function update_eggs launched
-1690584003.726924|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586616.603629|Function receipt launched
+1690586616.605297|Function update_eggs launched
+1690586616.605304|Function update_commands launched
+Waiting 38298 microseconds before the start of the next cycle...
 ============= TICK 28 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.765371|Function receipt launched
-1690584003.767043|Function update_eggs launched
-1690584003.767049|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586616.643743|Function receipt launched
+1690586616.645411|Function update_eggs launched
+1690586616.645417|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
 ============= TICK 29 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.805506|Function receipt launched
-1690584003.807209|Function update_eggs launched
-1690584003.807216|Function update_commands launched
-Waiting 38261 microseconds before the start of the next cycle...
+1690586616.683852|Function receipt launched
+1690586616.685521|Function update_eggs launched
+1690586616.685527|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
 ============= TICK 30 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.845608|Function receipt launched
-1690584003.847277|Function update_eggs launched
-1690584003.847282|Function update_commands launched
-Waiting 38301 microseconds before the start of the next cycle...
+1690586616.723956|Function receipt launched
+1690586616.725624|Function update_eggs launched
+1690586616.725631|Function update_commands launched
+Waiting 38299 microseconds before the start of the next cycle...
 ============= TICK 31 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.885710|Function receipt launched
-1690584003.887379|Function update_eggs launched
-1690584003.887384|Function update_commands launched
-Waiting 38301 microseconds before the start of the next cycle...
+1690586616.764076|Function receipt launched
+1690586616.765745|Function update_eggs launched
+1690586616.765752|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
 ============= TICK 32 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.925827|Function receipt launched
-1690584003.927498|Function update_eggs launched
-1690584003.927506|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586616.804184|Function receipt launched
+1690586616.805853|Function update_eggs launched
+1690586616.805860|Function update_commands launched
+Waiting 38298 microseconds before the start of the next cycle...
 ============= TICK 33 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584003.965935|Function receipt launched
-1690584003.967605|Function update_eggs launched
-1690584003.967611|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586616.844335|Function receipt launched
+1690586616.846002|Function update_eggs launched
+1690586616.846008|Function update_commands launched
+Waiting 38301 microseconds before the start of the next cycle...
 ============= TICK 34 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.006062|Function receipt launched
-1690584004.007736|Function update_eggs launched
-1690584004.007744|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586616.884446|Function receipt launched
+1690586616.886115|Function update_eggs launched
+1690586616.886121|Function update_commands launched
+Waiting 38299 microseconds before the start of the next cycle...
 ============= TICK 35 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.046170|Function receipt launched
-1690584004.047841|Function update_eggs launched
-1690584004.047850|Function update_commands launched
-Waiting 38294 microseconds before the start of the next cycle...
+1690586616.924556|Function receipt launched
+1690586616.926225|Function update_eggs launched
+1690586616.926231|Function update_commands launched
+Waiting 38299 microseconds before the start of the next cycle...
 ============= TICK 36 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.086307|Function receipt launched
-1690584004.087981|Function update_eggs launched
-1690584004.087990|Function update_commands launched
-Waiting 38273 microseconds before the start of the next cycle...
+1690586616.964671|Function receipt launched
+1690586616.966339|Function update_eggs launched
+1690586616.966345|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
 ============= TICK 37 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.126407|Function receipt launched
-1690584004.128079|Function update_eggs launched
-1690584004.128088|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586617.004803|Function receipt launched
+1690586617.006475|Function update_eggs launched
+1690586617.006481|Function update_commands launched
+Waiting 38287 microseconds before the start of the next cycle...
 ============= TICK 38 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.166524|Function receipt launched
-1690584004.168199|Function update_eggs launched
-1690584004.168209|Function update_commands launched
-Waiting 38287 microseconds before the start of the next cycle...
+1690586617.044898|Function receipt launched
+1690586617.046588|Function update_eggs launched
+1690586617.046605|Function update_commands launched
+Waiting 38265 microseconds before the start of the next cycle...
 ============= TICK 39 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.206650|Function receipt launched
-1690584004.208323|Function update_eggs launched
-1690584004.208331|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586617.085048|Function receipt launched
+1690586617.086739|Function update_eggs launched
+1690586617.086754|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
 ============= TICK 40 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.246769|Function receipt launched
-1690584004.248441|Function update_eggs launched
-1690584004.248449|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586617.125199|Function receipt launched
+1690586617.126889|Function update_eggs launched
+1690586617.126904|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
 ============= TICK 41 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.286886|Function receipt launched
-1690584004.288559|Function update_eggs launched
-1690584004.288567|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586617.165289|Function receipt launched
+1690586617.166976|Function update_eggs launched
+1690586617.166991|Function update_commands launched
+Waiting 38273 microseconds before the start of the next cycle...
 ============= TICK 42 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.326995|Function receipt launched
-1690584004.328666|Function update_eggs launched
-1690584004.328673|Function update_commands launched
-Waiting 38295 microseconds before the start of the next cycle...
+1690586617.205437|Function receipt launched
+1690586617.207127|Function update_eggs launched
+1690586617.207142|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
 ============= TICK 43 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.367115|Function receipt launched
-1690584004.368785|Function update_eggs launched
-1690584004.368792|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586617.245557|Function receipt launched
+1690586617.247246|Function update_eggs launched
+1690586617.247261|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
 ============= TICK 44 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.407222|Function receipt launched
-1690584004.408892|Function update_eggs launched
-1690584004.408900|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586617.285690|Function receipt launched
+1690586617.287380|Function update_eggs launched
+1690586617.287394|Function update_commands launched
+Waiting 38265 microseconds before the start of the next cycle...
 ============= TICK 45 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.447334|Function receipt launched
-1690584004.449005|Function update_eggs launched
-1690584004.449014|Function update_commands launched
-Waiting 38292 microseconds before the start of the next cycle...
+1690586617.325816|Function receipt launched
+1690586617.327507|Function update_eggs launched
+1690586617.327521|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
 ============= TICK 46 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.487454|Function receipt launched
-1690584004.489125|Function update_eggs launched
-1690584004.489135|Function update_commands launched
-Waiting 38291 microseconds before the start of the next cycle...
+1690586617.365943|Function receipt launched
+1690586617.367634|Function update_eggs launched
+1690586617.367648|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
 ============= TICK 47 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.527566|Function receipt launched
-1690584004.529237|Function update_eggs launched
-1690584004.529246|Function update_commands launched
-Waiting 38292 microseconds before the start of the next cycle...
+1690586617.406090|Function receipt launched
+1690586617.407780|Function update_eggs launched
+1690586617.407794|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
 ============= TICK 48 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.567690|Function receipt launched
-1690584004.569360|Function update_eggs launched
-1690584004.569369|Function update_commands launched
-Waiting 38282 microseconds before the start of the next cycle...
+1690586617.446194|Function receipt launched
+1690586617.447880|Function update_eggs launched
+1690586617.447894|Function update_commands launched
+Waiting 38267 microseconds before the start of the next cycle...
 ============= TICK 49 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.607783|Function receipt launched
-1690584004.609452|Function update_eggs launched
-1690584004.609461|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586617.486333|Function receipt launched
+1690586617.488023|Function update_eggs launched
+1690586617.488037|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
 ============= TICK 50 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.647898|Function receipt launched
-1690584004.649568|Function update_eggs launched
-1690584004.649577|Function update_commands launched
-Waiting 38293 microseconds before the start of the next cycle...
+1690586617.526475|Function receipt launched
+1690586617.528166|Function update_eggs launched
+1690586617.528181|Function update_commands launched
+Waiting 38260 microseconds before the start of the next cycle...
 ============= TICK 51 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.688001|Function receipt launched
-1690584004.689671|Function update_eggs launched
-1690584004.689679|Function update_commands launched
-Waiting 38296 microseconds before the start of the next cycle...
+1690586617.566571|Function receipt launched
+1690586617.568257|Function update_eggs launched
+1690586617.568272|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
 ============= TICK 52 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.728105|Function receipt launched
-1690584004.729775|Function update_eggs launched
-1690584004.729785|Function update_commands launched
-Waiting 38295 microseconds before the start of the next cycle...
+1690586617.606720|Function receipt launched
+1690586617.608411|Function update_eggs launched
+1690586617.608425|Function update_commands launched
+Waiting 38260 microseconds before the start of the next cycle...
 ============= TICK 53 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.768214|Function receipt launched
-1690584004.769883|Function update_eggs launched
-1690584004.769892|Function update_commands launched
-Waiting 38295 microseconds before the start of the next cycle...
+1690586617.646844|Function receipt launched
+1690586617.648520|Function update_eggs launched
+1690586617.648535|Function update_commands launched
+Waiting 38277 microseconds before the start of the next cycle...
 ============= TICK 54 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.808343|Function receipt launched
-1690584004.810015|Function update_eggs launched
-1690584004.810023|Function update_commands launched
-Waiting 38290 microseconds before the start of the next cycle...
+1690586617.686941|Function receipt launched
+1690586617.688628|Function update_eggs launched
+1690586617.688644|Function update_commands launched
+Waiting 38272 microseconds before the start of the next cycle...
 ============= TICK 55 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.848454|Function receipt launched
-1690584004.850123|Function update_eggs launched
-1690584004.850132|Function update_commands launched
-Waiting 38295 microseconds before the start of the next cycle...
+1690586617.727091|Function receipt launched
+1690586617.728766|Function update_eggs launched
+1690586617.728782|Function update_commands launched
+Waiting 38274 microseconds before the start of the next cycle...
 ============= TICK 56 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.888593|Function receipt launched
-1690584004.888618|[CLIENT LOGIN] Client 4 logged in
-1690584004.888633|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
-1690584004.888677|Function update_eggs launched
-1690584004.888693|Function update_commands launched
-Waiting 39868 microseconds before the start of the next cycle...
+1690586617.767236|Function receipt launched
+1690586617.768910|Function update_eggs launched
+1690586617.768926|Function update_commands launched
+Waiting 38275 microseconds before the start of the next cycle...
 ============= TICK 57 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586617.807375|Function receipt launched
+1690586617.809051|Function update_eggs launched
+1690586617.809067|Function update_commands launched
+Waiting 38276 microseconds before the start of the next cycle...
+============= TICK 58 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586617.847468|Function receipt launched
+1690586617.849137|Function update_eggs launched
+1690586617.849153|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 59 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586617.887618|Function receipt launched
+1690586617.889294|Function update_eggs launched
+1690586617.889309|Function update_commands launched
+Waiting 38275 microseconds before the start of the next cycle...
+============= TICK 60 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586617.927771|Function receipt launched
+1690586617.929446|Function update_eggs launched
+1690586617.929462|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 61 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586617.967869|Function receipt launched
+1690586617.969541|Function update_eggs launched
+1690586617.969556|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
+============= TICK 62 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586618.007990|Function receipt launched
+1690586618.008012|[CLIENT LOGIN] Client 4 logged in
+1690586618.008021|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
+1690586618.008064|Function update_eggs launched
+1690586618.008070|Function update_commands launched
+Waiting 39897 microseconds before the start of the next cycle...
+============= TICK 63 =============
 ======== TEAMS LOG ========
 1 pending players
 ***** Team foo (0 / 1) *****
 ===========================
-1690584004.928730|Function receipt launched
-1690584004.928750|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
-1690584004.928761|[CLIENT_SENT_TEAM_NAME] Pending client 514245304 sent |foo| as a team name
+1690586618.048116|Function receipt launched
+1690586618.048133|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
+1690586618.048143|[CLIENT_SENT_TEAM_NAME] Pending client 809722376 sent |foo| as a team name
 [TEAM_SLOT_VERIFICATION] Checking team |foo| for a free connection slot (1)
-1690584004.928804|[RESPONSE] Server sent this message to client 4 : {1
+1690586618.048192|[RESPONSE] Server sent this message to client 4 : {1
 20 20}
 [CLIENT AUTH] Client 4 authenticated properly as a player of team {foo}
-1690584004.928933|Function update_eggs launched
-1690584004.928939|Function update_commands launched
-Waiting 39762 microseconds before the start of the next cycle...
-============= TICK 58 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 100 | satiety : 0 | commands : 0 | connection : 4
-===========================
-1690584004.968984|[GAME_STARTED] Game started with 1 teams of 1 players !
-1690584004.968991|Function receipt launched
-1690584004.970702|Function update_players launched
-1690584004.970720|Function update_eggs launched
-1690584004.970725|Function update_commands launched
-Waiting 38162 microseconds before the start of the next cycle...
-============= TICK 59 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 125 | commands : 0 | connection : 4
-===========================
-1690584005.009231|Function receipt launched
-1690584005.010938|Function update_players launched
-1690584005.010950|Function update_eggs launched
-1690584005.010955|Function update_commands launched
-Waiting 38150 microseconds before the start of the next cycle...
-============= TICK 60 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 124 | commands : 0 | connection : 4
-===========================
-1690584005.049360|Function receipt launched
-1690584005.051034|Function update_players launched
-1690584005.051046|Function update_eggs launched
-1690584005.051051|Function update_commands launched
-Waiting 38267 microseconds before the start of the next cycle...
-============= TICK 61 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 123 | commands : 0 | connection : 4
-===========================
-1690584005.089500|Function receipt launched
-1690584005.091172|Function update_players launched
-1690584005.091180|Function update_eggs launched
-1690584005.091186|Function update_commands launched
-Waiting 38273 microseconds before the start of the next cycle...
-============= TICK 62 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 122 | commands : 0 | connection : 4
-===========================
-1690584005.129621|Function receipt launched
-1690584005.131294|Function update_players launched
-1690584005.131302|Function update_eggs launched
-1690584005.131307|Function update_commands launched
-Waiting 38276 microseconds before the start of the next cycle...
-============= TICK 63 =============
-======== TEAMS LOG ========
-0 pending players
-***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 121 | commands : 0 | connection : 4
-===========================
-1690584005.169736|Function receipt launched
-1690584005.171408|Function update_players launched
-1690584005.171415|Function update_eggs launched
-1690584005.171420|Function update_commands launched
-Waiting 38280 microseconds before the start of the next cycle...
+1690586618.048321|Function update_eggs launched
+1690586618.048329|Function update_commands launched
+Waiting 39760 microseconds before the start of the next cycle...
 ============= TICK 64 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 120 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 100 | satiety : 0 | commands : 0 | connection : 4
 ===========================
-1690584005.209857|Function receipt launched
-1690584005.211530|Function update_players launched
-1690584005.211538|Function update_eggs launched
-1690584005.211543|Function update_commands launched
-Waiting 38276 microseconds before the start of the next cycle...
+1690586618.088247|[GAME_STARTED] Game started with 1 teams of 1 players !
+1690586618.088253|Function receipt launched
+1690586618.089923|Function update_players launched
+1690586618.089931|Function update_eggs launched
+1690586618.089936|Function update_commands launched
+Waiting 38274 microseconds before the start of the next cycle...
 ============= TICK 65 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 119 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 125 | commands : 0 | connection : 4
 ===========================
-1690584005.249975|Function receipt launched
-1690584005.251645|Function update_players launched
-1690584005.251652|Function update_eggs launched
-1690584005.251657|Function update_commands launched
-Waiting 38280 microseconds before the start of the next cycle...
+1690586618.128317|Function receipt launched
+1690586618.129978|Function update_players launched
+1690586618.129981|Function update_eggs launched
+1690586618.129984|Function update_commands launched
+Waiting 38315 microseconds before the start of the next cycle...
 ============= TICK 66 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 118 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 124 | commands : 0 | connection : 4
 ===========================
-1690584005.290096|Function receipt launched
-1690584005.291766|Function update_players launched
-1690584005.291773|Function update_eggs launched
-1690584005.291778|Function update_commands launched
-Waiting 38269 microseconds before the start of the next cycle...
+1690586618.168444|Function receipt launched
+1690586618.170115|Function update_players launched
+1690586618.170125|Function update_eggs launched
+1690586618.170130|Function update_commands launched
+Waiting 38278 microseconds before the start of the next cycle...
 ============= TICK 67 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 117 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 123 | commands : 0 | connection : 4
 ===========================
-1690584005.330189|Function receipt launched
-1690584005.331858|Function update_players launched
-1690584005.331865|Function update_eggs launched
-1690584005.331869|Function update_commands launched
-Waiting 38286 microseconds before the start of the next cycle...
+1690586618.208566|Function receipt launched
+1690586618.210235|Function update_players launched
+1690586618.210242|Function update_eggs launched
+1690586618.210246|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 68 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 116 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 122 | commands : 0 | connection : 4
 ===========================
-1690584005.370314|Function receipt launched
-1690584005.371984|Function update_players launched
-1690584005.371990|Function update_eggs launched
-1690584005.371995|Function update_commands launched
-Waiting 38283 microseconds before the start of the next cycle...
+1690586618.248736|Function receipt launched
+1690586618.250409|Function update_players launched
+1690586618.250417|Function update_eggs launched
+1690586618.250422|Function update_commands launched
+Waiting 38241 microseconds before the start of the next cycle...
 ============= TICK 69 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 115 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 121 | commands : 0 | connection : 4
 ===========================
-1690584005.410434|Function receipt launched
-1690584005.412104|Function update_players launched
-1690584005.412111|Function update_eggs launched
-1690584005.412116|Function update_commands launched
-Waiting 38282 microseconds before the start of the next cycle...
+1690586618.288814|Function receipt launched
+1690586618.290483|Function update_players launched
+1690586618.290488|Function update_eggs launched
+1690586618.290493|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 70 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 114 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 120 | commands : 0 | connection : 4
 ===========================
-1690584005.450553|Function receipt launched
-1690584005.452223|Function update_players launched
-1690584005.452229|Function update_eggs launched
-1690584005.452234|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586618.328935|Function receipt launched
+1690586618.330604|Function update_players launched
+1690586618.330610|Function update_eggs launched
+1690586618.330614|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
 ============= TICK 71 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 113 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 119 | commands : 0 | connection : 4
 ===========================
-1690584005.490693|Function receipt launched
-1690584005.492365|Function update_players launched
-1690584005.492372|Function update_eggs launched
-1690584005.492377|Function update_commands launched
-Waiting 38277 microseconds before the start of the next cycle...
+1690586618.369015|Function receipt launched
+1690586618.370685|Function update_players launched
+1690586618.370693|Function update_eggs launched
+1690586618.370699|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
 ============= TICK 72 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 112 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 118 | commands : 0 | connection : 4
 ===========================
-1690584005.530815|Function receipt launched
-1690584005.532485|Function update_players launched
-1690584005.532492|Function update_eggs launched
-1690584005.532497|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586618.409142|Function receipt launched
+1690586618.410810|Function update_players launched
+1690586618.410816|Function update_eggs launched
+1690586618.410821|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 73 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 111 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 117 | commands : 0 | connection : 4
 ===========================
-1690584005.570927|Function receipt launched
-1690584005.572597|Function update_players launched
-1690584005.572603|Function update_eggs launched
-1690584005.572608|Function update_commands launched
-Waiting 38283 microseconds before the start of the next cycle...
+1690586618.449260|Function receipt launched
+1690586618.450931|Function update_players launched
+1690586618.450939|Function update_eggs launched
+1690586618.450944|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
 ============= TICK 74 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 110 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 116 | commands : 0 | connection : 4
 ===========================
-1690584005.611055|Function receipt launched
-1690584005.612702|Function update_players launched
-1690584005.612711|Function update_eggs launched
-1690584005.612716|Function update_commands launched
-Waiting 38291 microseconds before the start of the next cycle...
+1690586618.489334|Function receipt launched
+1690586618.490995|Function update_players launched
+1690586618.490999|Function update_eggs launched
+1690586618.491002|Function update_commands launched
+Waiting 38312 microseconds before the start of the next cycle...
 ============= TICK 75 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 109 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 115 | commands : 0 | connection : 4
 ===========================
-1690584005.651159|Function receipt launched
-1690584005.652828|Function update_players launched
-1690584005.652836|Function update_eggs launched
-1690584005.652841|Function update_commands launched
-Waiting 38280 microseconds before the start of the next cycle...
+1690586618.529470|Function receipt launched
+1690586618.531139|Function update_players launched
+1690586618.531145|Function update_eggs launched
+1690586618.531150|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
 ============= TICK 76 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 108 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 114 | commands : 0 | connection : 4
 ===========================
-1690584005.691288|Function receipt launched
-1690584005.692958|Function update_players launched
-1690584005.692966|Function update_eggs launched
-1690584005.692971|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586618.569601|Function receipt launched
+1690586618.571270|Function update_players launched
+1690586618.571276|Function update_eggs launched
+1690586618.571281|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 77 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 107 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 113 | commands : 0 | connection : 4
 ===========================
-1690584005.731419|Function receipt launched
-1690584005.733091|Function update_players launched
-1690584005.733101|Function update_eggs launched
-1690584005.733106|Function update_commands launched
-Waiting 38275 microseconds before the start of the next cycle...
+1690586618.609678|Function receipt launched
+1690586618.611338|Function update_players launched
+1690586618.611341|Function update_eggs launched
+1690586618.611344|Function update_commands launched
+Waiting 38313 microseconds before the start of the next cycle...
 ============= TICK 78 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 106 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 112 | commands : 0 | connection : 4
 ===========================
-1690584005.771542|Function receipt launched
-1690584005.773212|Function update_players launched
-1690584005.773220|Function update_eggs launched
-1690584005.773225|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586618.649808|Function receipt launched
+1690586618.651479|Function update_players launched
+1690586618.651487|Function update_eggs launched
+1690586618.651492|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
 ============= TICK 79 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 105 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 111 | commands : 0 | connection : 4
 ===========================
-1690584005.811668|Function receipt launched
-1690584005.813339|Function update_players launched
-1690584005.813348|Function update_eggs launched
-1690584005.813353|Function update_commands launched
-Waiting 38277 microseconds before the start of the next cycle...
+1690586618.689933|Function receipt launched
+1690586618.691601|Function update_players launched
+1690586618.691607|Function update_eggs launched
+1690586618.691612|Function update_commands launched
+Waiting 38283 microseconds before the start of the next cycle...
 ============= TICK 80 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 104 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 110 | commands : 0 | connection : 4
 ===========================
-1690584005.851791|Function receipt launched
-1690584005.853462|Function update_players launched
-1690584005.853470|Function update_eggs launched
-1690584005.853475|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586618.730050|Function receipt launched
+1690586618.731719|Function update_players launched
+1690586618.731725|Function update_eggs launched
+1690586618.731730|Function update_commands launched
+Waiting 38283 microseconds before the start of the next cycle...
 ============= TICK 81 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 103 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 109 | commands : 0 | connection : 4
 ===========================
-1690584005.891918|Function receipt launched
-1690584005.893589|Function update_players launched
-1690584005.893597|Function update_eggs launched
-1690584005.893602|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586618.770166|Function receipt launched
+1690586618.771834|Function update_players launched
+1690586618.771840|Function update_eggs launched
+1690586618.771844|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
 ============= TICK 82 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 102 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 108 | commands : 0 | connection : 4
 ===========================
-1690584005.932067|Function receipt launched
-1690584005.933741|Function update_players launched
-1690584005.933753|Function update_eggs launched
-1690584005.933759|Function update_commands launched
-Waiting 38253 microseconds before the start of the next cycle...
+1690586618.810292|Function receipt launched
+1690586618.811961|Function update_players launched
+1690586618.811967|Function update_eggs launched
+1690586618.811972|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
 ============= TICK 83 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 101 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 107 | commands : 0 | connection : 4
 ===========================
-1690584005.972167|Function receipt launched
-1690584005.973837|Function update_players launched
-1690584005.973845|Function update_eggs launched
-1690584005.973850|Function update_commands launched
-Waiting 38280 microseconds before the start of the next cycle...
+1690586618.850414|Function receipt launched
+1690586618.852086|Function update_players launched
+1690586618.852094|Function update_eggs launched
+1690586618.852099|Function update_commands launched
+Waiting 38274 microseconds before the start of the next cycle...
 ============= TICK 84 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 100 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 106 | commands : 0 | connection : 4
 ===========================
-1690584006.012298|Function receipt launched
-1690584006.013970|Function update_players launched
-1690584006.013978|Function update_eggs launched
-1690584006.013983|Function update_commands launched
-Waiting 38276 microseconds before the start of the next cycle...
+1690586618.890540|Function receipt launched
+1690586618.892209|Function update_players launched
+1690586618.892214|Function update_eggs launched
+1690586618.892219|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
 ============= TICK 85 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 99 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 105 | commands : 0 | connection : 4
 ===========================
-1690584006.052421|Function receipt launched
-1690584006.054092|Function update_players launched
-1690584006.054100|Function update_eggs launched
-1690584006.054105|Function update_commands launched
-Waiting 38277 microseconds before the start of the next cycle...
+1690586618.930658|Function receipt launched
+1690586618.932327|Function update_players launched
+1690586618.932333|Function update_eggs launched
+1690586618.932338|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 86 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 98 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 104 | commands : 0 | connection : 4
 ===========================
-1690584006.092541|Function receipt launched
-1690584006.094212|Function update_players launched
-1690584006.094220|Function update_eggs launched
-1690584006.094225|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586618.970737|Function receipt launched
+1690586618.972398|Function update_players launched
+1690586618.972401|Function update_eggs launched
+1690586618.972403|Function update_commands launched
+Waiting 38312 microseconds before the start of the next cycle...
 ============= TICK 87 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 97 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 103 | commands : 0 | connection : 4
 ===========================
-1690584006.132649|Function receipt launched
-1690584006.134319|Function update_players launched
-1690584006.134328|Function update_eggs launched
-1690584006.134333|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586619.010860|Function receipt launched
+1690586619.012529|Function update_players launched
+1690586619.012534|Function update_eggs launched
+1690586619.012539|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
 ============= TICK 88 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 96 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 102 | commands : 0 | connection : 4
 ===========================
-1690584006.172787|Function receipt launched
-1690584006.174459|Function update_players launched
-1690584006.174466|Function update_eggs launched
-1690584006.174471|Function update_commands launched
+1690586619.050986|Function receipt launched
+1690586619.052657|Function update_players launched
+1690586619.052666|Function update_eggs launched
+1690586619.052671|Function update_commands launched
 Waiting 38280 microseconds before the start of the next cycle...
 ============= TICK 89 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 95 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 101 | commands : 0 | connection : 4
 ===========================
-1690584006.212933|Function receipt launched
-1690584006.214605|Function update_players launched
-1690584006.214612|Function update_eggs launched
-1690584006.214618|Function update_commands launched
-Waiting 38274 microseconds before the start of the next cycle...
+1690586619.091118|Function receipt launched
+1690586619.092788|Function update_players launched
+1690586619.092796|Function update_eggs launched
+1690586619.092801|Function update_commands launched
+Waiting 38278 microseconds before the start of the next cycle...
 ============= TICK 90 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 94 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 100 | commands : 0 | connection : 4
 ===========================
-1690584006.253082|Function receipt launched
-1690584006.254754|Function update_players launched
-1690584006.254762|Function update_eggs launched
-1690584006.254767|Function update_commands launched
-Waiting 38261 microseconds before the start of the next cycle...
+1690586619.131227|Function receipt launched
+1690586619.132896|Function update_players launched
+1690586619.132902|Function update_eggs launched
+1690586619.132907|Function update_commands launched
+Waiting 38283 microseconds before the start of the next cycle...
 ============= TICK 91 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 93 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 99 | commands : 0 | connection : 4
 ===========================
-1690584006.293190|Function receipt launched
-1690584006.294859|Function update_players launched
-1690584006.294866|Function update_eggs launched
-1690584006.294871|Function update_commands launched
+1690586619.171348|Function receipt launched
+1690586619.173017|Function update_players launched
+1690586619.173024|Function update_eggs launched
+1690586619.173029|Function update_commands launched
 Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 92 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 92 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 98 | commands : 0 | connection : 4
 ===========================
-1690584006.333320|Function receipt launched
-1690584006.334992|Function update_players launched
-1690584006.334999|Function update_eggs launched
-1690584006.335004|Function update_commands launched
-Waiting 38278 microseconds before the start of the next cycle...
+1690586619.211483|Function receipt launched
+1690586619.213152|Function update_players launched
+1690586619.213158|Function update_eggs launched
+1690586619.213163|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
 ============= TICK 93 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 91 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 97 | commands : 0 | connection : 4
 ===========================
-1690584006.373459|Function receipt launched
-1690584006.375130|Function update_players launched
-1690584006.375137|Function update_eggs launched
-1690584006.375142|Function update_commands launched
-Waiting 38276 microseconds before the start of the next cycle...
+1690586619.251622|Function receipt launched
+1690586619.253296|Function update_players launched
+1690586619.253313|Function update_eggs launched
+1690586619.253318|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
 ============= TICK 94 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 90 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 96 | commands : 0 | connection : 4
 ===========================
-1690584006.413598|Function receipt launched
-1690584006.415269|Function update_players launched
-1690584006.415276|Function update_eggs launched
-1690584006.415281|Function update_commands launched
-Waiting 38275 microseconds before the start of the next cycle...
+1690586619.291759|Function receipt launched
+1690586619.293434|Function update_players launched
+1690586619.293450|Function update_eggs launched
+1690586619.293455|Function update_commands launched
+Waiting 38265 microseconds before the start of the next cycle...
 ============= TICK 95 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 89 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 95 | commands : 0 | connection : 4
 ===========================
-1690584006.453715|Function receipt launched
-1690584006.455385|Function update_players launched
-1690584006.455391|Function update_eggs launched
-1690584006.455396|Function update_commands launched
-Waiting 38282 microseconds before the start of the next cycle...
+1690586619.331904|Function receipt launched
+1690586619.333575|Function update_players launched
+1690586619.333583|Function update_eggs launched
+1690586619.333588|Function update_commands launched
+Waiting 38275 microseconds before the start of the next cycle...
 ============= TICK 96 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 88 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 94 | commands : 0 | connection : 4
 ===========================
-1690584006.493850|Function receipt launched
-1690584006.495520|Function update_players launched
-1690584006.495525|Function update_eggs launched
-1690584006.495530|Function update_commands launched
-Waiting 38279 microseconds before the start of the next cycle...
+1690586619.372041|Function receipt launched
+1690586619.373707|Function update_players launched
+1690586619.373713|Function update_eggs launched
+1690586619.373716|Function update_commands launched
+Waiting 38289 microseconds before the start of the next cycle...
 ============= TICK 97 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 87 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 93 | commands : 0 | connection : 4
 ===========================
-1690584006.533985|Function receipt launched
-1690584006.535655|Function update_players launched
-1690584006.535660|Function update_eggs launched
-1690584006.535665|Function update_commands launched
-Waiting 38281 microseconds before the start of the next cycle...
+1690586619.412179|Function receipt launched
+1690586619.413850|Function update_players launched
+1690586619.413857|Function update_eggs launched
+1690586619.413862|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
 ============= TICK 98 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 86 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 92 | commands : 0 | connection : 4
 ===========================
-1690584006.574118|Function receipt launched
-1690584006.575788|Function update_players launched
-1690584006.575794|Function update_eggs launched
-1690584006.575799|Function update_commands launched
-Waiting 38269 microseconds before the start of the next cycle...
+1690586619.452324|Function receipt launched
+1690586619.453997|Function update_players launched
+1690586619.454008|Function update_eggs launched
+1690586619.454013|Function update_commands launched
+Waiting 38272 microseconds before the start of the next cycle...
 ============= TICK 99 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 85 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 91 | commands : 0 | connection : 4
 ===========================
-1690584006.614252|Function receipt launched
-1690584006.615927|Function update_players launched
-1690584006.615937|Function update_eggs launched
-1690584006.615944|Function update_commands launched
-Waiting 38266 microseconds before the start of the next cycle...
+1690586619.492466|Function receipt launched
+1690586619.494132|Function update_players launched
+1690586619.494138|Function update_eggs launched
+1690586619.494141|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
 ============= TICK 100 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 84 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 90 | commands : 0 | connection : 4
 ===========================
-1690584006.654386|Function receipt launched
-1690584006.656052|Function update_players launched
-1690584006.656057|Function update_eggs launched
-1690584006.656061|Function update_commands launched
-Waiting 38292 microseconds before the start of the next cycle...
+1690586619.532625|Function receipt launched
+1690586619.534297|Function update_players launched
+1690586619.534304|Function update_eggs launched
+1690586619.534308|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
 ============= TICK 101 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 83 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 89 | commands : 0 | connection : 4
 ===========================
-1690584006.694650|Function receipt launched
-1690584006.696315|Function update_players launched
-1690584006.696320|Function update_eggs launched
-1690584006.696325|Function update_commands launched
-Waiting 38268 microseconds before the start of the next cycle...
+1690586619.572784|Function receipt launched
+1690586619.574454|Function update_players launched
+1690586619.574461|Function update_eggs launched
+1690586619.574465|Function update_commands launched
+Waiting 38278 microseconds before the start of the next cycle...
 ============= TICK 102 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 82 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 88 | commands : 0 | connection : 4
 ===========================
-1690584006.734776|Function receipt launched
-1690584006.736441|Function update_players launched
-1690584006.736447|Function update_eggs launched
-1690584006.736450|Function update_commands launched
-Waiting 38287 microseconds before the start of the next cycle...
+1690586619.612860|Function receipt launched
+1690586619.614521|Function update_players launched
+1690586619.614524|Function update_eggs launched
+1690586619.614527|Function update_commands launched
+Waiting 38313 microseconds before the start of the next cycle...
 ============= TICK 103 =============
 ======== TEAMS LOG ========
 0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 81 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 87 | commands : 0 | connection : 4
 ===========================
-1690584006.774880|Function receipt launched
-1690584006.774901|[CLIENT LOGIN] Client 5 logged in
-1690584006.774913|[RESPONSE] Server sent this message to client 5 : {BIENVENUE}
-1690584006.774948|Function update_players launched
-1690584006.774954|Function update_eggs launched
-1690584006.774958|Function update_commands launched
-Waiting 39889 microseconds before the start of the next cycle...
+1690586619.653014|Function receipt launched
+1690586619.654704|Function update_players launched
+1690586619.654719|Function update_eggs launched
+1690586619.654725|Function update_commands launched
+Waiting 38250 microseconds before the start of the next cycle...
 ============= TICK 104 =============
 ======== TEAMS LOG ========
-1 pending players
+0 pending players
 ***** Team foo (1 / 1) *****
-Player 0 | level 1 | orientation : 0 | x : 10 | y : 4 | food : 99 | satiety : 80 | commands : 0 | connection : 4
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 86 | commands : 0 | connection : 4
 ===========================
-1690584006.815028|Function receipt launched
-1690584006.815046|[MESSAGE RECEPTION] Client 5 sent a message : {GRAPHICAL
-}
+1690586619.693158|Function receipt launched
+1690586619.694849|Function update_players launched
+1690586619.694864|Function update_eggs launched
+1690586619.694869|Function update_commands launched
+Waiting 38249 microseconds before the start of the next cycle...
+============= TICK 105 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 15 | y : 11 | food : 99 | satiety : 85 | commands : 0 | connection : 4
+===========================
+1690586619.733263|Function receipt launched
+1690586619.733277|[CLIENT LOGOUT] Client 4 logged out by itself
+1690586619.733280|[PLAYER DEATH] message : Client 4 died !
+1690586619.733343|[CLIENT REMOVED] Client connected to slot 4 was removed from team {foo}.
+0
+1690586619.733354|Function update_players launched
+1690586619.733357|Function update_eggs launched
+1690586619.733360|Function update_commands launched
+Waiting 39879 microseconds before the start of the next cycle...
+============= TICK 106 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.773370|Function receipt launched
+1690586619.775033|Function update_players launched
+1690586619.775036|Function update_eggs launched
+1690586619.775039|Function update_commands launched
+Waiting 38312 microseconds before the start of the next cycle...
+============= TICK 107 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.813483|Function receipt launched
+1690586619.815146|Function update_players launched
+1690586619.815149|Function update_eggs launched
+1690586619.815152|Function update_commands launched
+Waiting 38312 microseconds before the start of the next cycle...
+============= TICK 108 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.853631|Function receipt launched
+1690586619.855304|Function update_players launched
+1690586619.855313|Function update_eggs launched
+1690586619.855319|Function update_commands launched
+Waiting 38282 microseconds before the start of the next cycle...
+============= TICK 109 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.893757|Function receipt launched
+1690586619.895427|Function update_players launched
+1690586619.895433|Function update_eggs launched
+1690586619.895438|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
+============= TICK 110 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.933870|Function receipt launched
+1690586619.935538|Function update_players launched
+1690586619.935544|Function update_eggs launched
+1690586619.935549|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
+============= TICK 111 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586619.973948|Function receipt launched
+1690586619.975609|Function update_players launched
+1690586619.975612|Function update_eggs launched
+1690586619.975615|Function update_commands launched
+Waiting 38317 microseconds before the start of the next cycle...
+============= TICK 112 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.014062|Function receipt launched
+1690586620.015730|Function update_players launched
+1690586620.015736|Function update_eggs launched
+1690586620.015740|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 113 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.054174|Function receipt launched
+1690586620.055847|Function update_players launched
+1690586620.055855|Function update_eggs launched
+1690586620.055860|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
+============= TICK 114 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.094274|Function receipt launched
+1690586620.095949|Function update_players launched
+1690586620.095959|Function update_eggs launched
+1690586620.095962|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
+============= TICK 115 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.134418|Function receipt launched
+1690586620.136107|Function update_players launched
+1690586620.136122|Function update_eggs launched
+1690586620.136127|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 116 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.174551|Function receipt launched
+1690586620.176240|Function update_players launched
+1690586620.176255|Function update_eggs launched
+1690586620.176261|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 117 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.214676|Function receipt launched
+1690586620.216366|Function update_players launched
+1690586620.216381|Function update_eggs launched
+1690586620.216387|Function update_commands launched
+Waiting 38258 microseconds before the start of the next cycle...
+============= TICK 118 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.254832|Function receipt launched
+1690586620.256521|Function update_players launched
+1690586620.256537|Function update_eggs launched
+1690586620.256542|Function update_commands launched
+Waiting 38243 microseconds before the start of the next cycle...
+============= TICK 119 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.294945|Function receipt launched
+1690586620.296635|Function update_players launched
+1690586620.296650|Function update_eggs launched
+1690586620.296655|Function update_commands launched
+Waiting 38260 microseconds before the start of the next cycle...
+============= TICK 120 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.335085|Function receipt launched
+1690586620.336718|Function update_players launched
+1690586620.336734|Function update_eggs launched
+1690586620.336739|Function update_commands launched
+Waiting 38318 microseconds before the start of the next cycle...
+============= TICK 121 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.375222|Function receipt launched
+1690586620.376896|Function update_players launched
+1690586620.376913|Function update_eggs launched
+1690586620.376918|Function update_commands launched
+Waiting 38275 microseconds before the start of the next cycle...
+============= TICK 122 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.415361|Function receipt launched
+1690586620.417036|Function update_players launched
+1690586620.417052|Function update_eggs launched
+1690586620.417058|Function update_commands launched
+Waiting 38276 microseconds before the start of the next cycle...
+============= TICK 123 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.455506|Function receipt launched
+1690586620.457190|Function update_players launched
+1690586620.457208|Function update_eggs launched
+1690586620.457214|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 124 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.495626|Function receipt launched
+1690586620.497297|Function update_players launched
+1690586620.497304|Function update_eggs launched
+1690586620.497309|Function update_commands launched
+Waiting 38287 microseconds before the start of the next cycle...
+============= TICK 125 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.535725|Function receipt launched
+1690586620.537392|Function update_players launched
+1690586620.537398|Function update_eggs launched
+1690586620.537403|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 126 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.575829|Function receipt launched
+1690586620.577497|Function update_players launched
+1690586620.577503|Function update_eggs launched
+1690586620.577508|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 127 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.615940|Function receipt launched
+1690586620.617609|Function update_players launched
+1690586620.617616|Function update_eggs launched
+1690586620.617621|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 128 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.656083|Function receipt launched
+1690586620.656114|[CLIENT LOGIN] Client 4 logged in
+1690586620.656129|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
+1690586620.656171|Function update_players launched
+1690586620.656178|Function update_eggs launched
+1690586620.656183|Function update_commands launched
+Waiting 39866 microseconds before the start of the next cycle...
+============= TICK 129 =============
+======== TEAMS LOG ========
+1 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586620.696237|Function receipt launched
+1690586620.696261|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
+1690586620.696272|[CLIENT_SENT_TEAM_NAME] Pending client 256151274 sent |foo| as a team name
+[TEAM_SLOT_VERIFICATION] Checking team |foo| for a free connection slot (1)
+1690586620.696300|[RESPONSE] Server sent this message to client 4 : {1
+20 20}
+[CLIENT AUTH] Client 4 authenticated properly as a player of team {foo}
+1690586620.696356|Function update_players launched
+1690586620.696365|Function update_eggs launched
+1690586620.696373|Function update_commands launched
+Waiting 39815 microseconds before the start of the next cycle...
+============= TICK 130 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 125 | commands : 0 | connection : 4
+===========================
+1690586620.736380|Function receipt launched
+1690586620.738057|Function update_players launched
+1690586620.738067|Function update_eggs launched
+1690586620.738072|Function update_commands launched
+Waiting 38252 microseconds before the start of the next cycle...
+============= TICK 131 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 124 | commands : 0 | connection : 4
+===========================
+1690586620.776507|Function receipt launched
+1690586620.778182|Function update_players launched
+1690586620.778191|Function update_eggs launched
+1690586620.778196|Function update_commands launched
+Waiting 38259 microseconds before the start of the next cycle...
+============= TICK 132 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 123 | commands : 0 | connection : 4
+===========================
+1690586620.816659|Function receipt launched
+1690586620.818336|Function update_players launched
+1690586620.818345|Function update_eggs launched
+1690586620.818350|Function update_commands launched
+Waiting 38254 microseconds before the start of the next cycle...
+============= TICK 133 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 122 | commands : 0 | connection : 4
+===========================
+1690586620.856796|Function receipt launched
+1690586620.858473|Function update_players launched
+1690586620.858480|Function update_eggs launched
+1690586620.858485|Function update_commands launched
+Waiting 38256 microseconds before the start of the next cycle...
+============= TICK 134 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 121 | commands : 0 | connection : 4
+===========================
+1690586620.896931|Function receipt launched
+1690586620.898610|Function update_players launched
+1690586620.898618|Function update_eggs launched
+1690586620.898624|Function update_commands launched
+Waiting 38250 microseconds before the start of the next cycle...
+============= TICK 135 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 120 | commands : 0 | connection : 4
+===========================
+1690586620.937051|Function receipt launched
+1690586620.938727|Function update_players launched
+1690586620.938734|Function update_eggs launched
+1690586620.938752|Function update_commands launched
+Waiting 38248 microseconds before the start of the next cycle...
+============= TICK 136 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 119 | commands : 0 | connection : 4
+===========================
+1690586620.977187|Function receipt launched
+1690586620.978865|Function update_players launched
+1690586620.978873|Function update_eggs launched
+1690586620.978878|Function update_commands launched
+Waiting 38251 microseconds before the start of the next cycle...
+============= TICK 137 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 118 | commands : 0 | connection : 4
+===========================
+1690586621.017314|Function receipt launched
+1690586621.018991|Function update_players launched
+1690586621.018998|Function update_eggs launched
+1690586621.019003|Function update_commands launched
+Waiting 38258 microseconds before the start of the next cycle...
+============= TICK 138 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 117 | commands : 0 | connection : 4
+===========================
+1690586621.057437|Function receipt launched
+1690586621.059113|Function update_players launched
+1690586621.059120|Function update_eggs launched
+1690586621.059124|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 139 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 116 | commands : 0 | connection : 4
+===========================
+1690586621.097568|Function receipt launched
+1690586621.099243|Function update_players launched
+1690586621.099250|Function update_eggs launched
+1690586621.099255|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 140 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 115 | commands : 0 | connection : 4
+===========================
+1690586621.137697|Function receipt launched
+1690586621.139374|Function update_players launched
+1690586621.139381|Function update_eggs launched
+1690586621.139386|Function update_commands launched
+Waiting 38259 microseconds before the start of the next cycle...
+============= TICK 141 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 114 | commands : 0 | connection : 4
+===========================
+1690586621.177817|Function receipt launched
+1690586621.179493|Function update_players launched
+1690586621.179499|Function update_eggs launched
+1690586621.179504|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 142 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 113 | commands : 0 | connection : 4
+===========================
+1690586621.217933|Function receipt launched
+1690586621.219608|Function update_players launched
+1690586621.219615|Function update_eggs launched
+1690586621.219619|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 143 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 112 | commands : 0 | connection : 4
+===========================
+1690586621.258068|Function receipt launched
+1690586621.259744|Function update_players launched
+1690586621.259763|Function update_eggs launched
+1690586621.259768|Function update_commands launched
+Waiting 38246 microseconds before the start of the next cycle...
+============= TICK 144 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 111 | commands : 0 | connection : 4
+===========================
+1690586621.298190|Function receipt launched
+1690586621.299866|Function update_players launched
+1690586621.299873|Function update_eggs launched
+1690586621.299878|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 145 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 110 | commands : 0 | connection : 4
+===========================
+1690586621.338318|Function receipt launched
+1690586621.339995|Function update_players launched
+1690586621.340002|Function update_eggs launched
+1690586621.340007|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 146 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 109 | commands : 0 | connection : 4
+===========================
+1690586621.378442|Function receipt launched
+1690586621.380118|Function update_players launched
+1690586621.380125|Function update_eggs launched
+1690586621.380130|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 147 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 108 | commands : 0 | connection : 4
+===========================
+1690586621.418568|Function receipt launched
+1690586621.420244|Function update_players launched
+1690586621.420251|Function update_eggs launched
+1690586621.420256|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 148 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 107 | commands : 0 | connection : 4
+===========================
+1690586621.458692|Function receipt launched
+1690586621.460368|Function update_players launched
+1690586621.460376|Function update_eggs launched
+1690586621.460380|Function update_commands launched
+Waiting 38260 microseconds before the start of the next cycle...
+============= TICK 149 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 106 | commands : 0 | connection : 4
+===========================
+1690586621.498829|Function receipt launched
+1690586621.500505|Function update_players launched
+1690586621.500512|Function update_eggs launched
+1690586621.500517|Function update_commands launched
+Waiting 38257 microseconds before the start of the next cycle...
+============= TICK 150 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 105 | commands : 0 | connection : 4
+===========================
+1690586621.538946|Function receipt launched
+1690586621.540621|Function update_players launched
+1690586621.540628|Function update_eggs launched
+1690586621.540633|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 151 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 104 | commands : 0 | connection : 4
+===========================
+1690586621.579067|Function receipt launched
+1690586621.580698|Function update_players launched
+1690586621.580720|Function update_eggs launched
+1690586621.580725|Function update_commands launched
+Waiting 38290 microseconds before the start of the next cycle...
+============= TICK 152 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 103 | commands : 0 | connection : 4
+===========================
+1690586621.619188|Function receipt launched
+1690586621.620864|Function update_players launched
+1690586621.620872|Function update_eggs launched
+1690586621.620877|Function update_commands launched
+Waiting 38259 microseconds before the start of the next cycle...
+============= TICK 153 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 102 | commands : 0 | connection : 4
+===========================
+1690586621.659329|Function receipt launched
+1690586621.661006|Function update_players launched
+1690586621.661014|Function update_eggs launched
+1690586621.661020|Function update_commands launched
+Waiting 38254 microseconds before the start of the next cycle...
+============= TICK 154 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 101 | commands : 0 | connection : 4
+===========================
+1690586621.699448|Function receipt launched
+1690586621.701122|Function update_players launched
+1690586621.701131|Function update_eggs launched
+1690586621.701135|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 155 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 100 | commands : 0 | connection : 4
+===========================
+1690586621.739603|Function receipt launched
+1690586621.741279|Function update_players launched
+1690586621.741287|Function update_eggs launched
+1690586621.741292|Function update_commands launched
+Waiting 38257 microseconds before the start of the next cycle...
+============= TICK 156 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 99 | commands : 0 | connection : 4
+===========================
+1690586621.779742|Function receipt launched
+1690586621.781419|Function update_players launched
+1690586621.781428|Function update_eggs launched
+1690586621.781433|Function update_commands launched
+Waiting 38252 microseconds before the start of the next cycle...
+============= TICK 157 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 98 | commands : 0 | connection : 4
+===========================
+1690586621.819866|Function receipt launched
+1690586621.821542|Function update_players launched
+1690586621.821551|Function update_eggs launched
+1690586621.821555|Function update_commands launched
+Waiting 38258 microseconds before the start of the next cycle...
+============= TICK 158 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 2 | y : 18 | food : 99 | satiety : 97 | commands : 0 | connection : 4
+===========================
+1690586621.859960|Function receipt launched
+1690586621.859973|[CLIENT LOGOUT] Client 4 logged out by itself
+1690586621.859977|[PLAYER DEATH] message : Client 4 died !
+1690586621.860037|[CLIENT REMOVED] Client connected to slot 4 was removed from team {foo}.
+0
+1690586621.860048|Function update_players launched
+1690586621.860051|Function update_eggs launched
+1690586621.860054|Function update_commands launched
+Waiting 39879 microseconds before the start of the next cycle...
+============= TICK 159 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586621.900131|Function receipt launched
+1690586621.901808|Function update_players launched
+1690586621.901816|Function update_eggs launched
+1690586621.901821|Function update_commands launched
+Waiting 38255 microseconds before the start of the next cycle...
+============= TICK 160 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586621.940257|Function receipt launched
+1690586621.941933|Function update_players launched
+1690586621.941941|Function update_eggs launched
+1690586621.941946|Function update_commands launched
+Waiting 38270 microseconds before the start of the next cycle...
+============= TICK 161 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586621.980372|Function receipt launched
+1690586621.982041|Function update_players launched
+1690586621.982048|Function update_eggs launched
+1690586621.982053|Function update_commands launched
+Waiting 38289 microseconds before the start of the next cycle...
+============= TICK 162 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.020477|Function receipt launched
+1690586622.022146|Function update_players launched
+1690586622.022152|Function update_eggs launched
+1690586622.022157|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 163 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.060579|Function receipt launched
+1690586622.062247|Function update_players launched
+1690586622.062254|Function update_eggs launched
+1690586622.062258|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 164 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.100680|Function receipt launched
+1690586622.102357|Function update_players launched
+1690586622.102362|Function update_eggs launched
+1690586622.102367|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
+============= TICK 165 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.140784|Function receipt launched
+1690586622.142453|Function update_players launched
+1690586622.142458|Function update_eggs launched
+1690586622.142463|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 166 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.180887|Function receipt launched
+1690586622.182556|Function update_players launched
+1690586622.182561|Function update_eggs launched
+1690586622.182566|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 167 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.220996|Function receipt launched
+1690586622.222664|Function update_players launched
+1690586622.222670|Function update_eggs launched
+1690586622.222675|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 168 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.261122|Function receipt launched
+1690586622.262792|Function update_players launched
+1690586622.262798|Function update_eggs launched
+1690586622.262803|Function update_commands launched
+Waiting 38288 microseconds before the start of the next cycle...
+============= TICK 169 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.301239|Function receipt launched
+1690586622.302908|Function update_players launched
+1690586622.302928|Function update_eggs launched
+1690586622.302933|Function update_commands launched
+Waiting 38276 microseconds before the start of the next cycle...
+============= TICK 170 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.341346|Function receipt launched
+1690586622.343015|Function update_players launched
+1690586622.343020|Function update_eggs launched
+1690586622.343025|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 171 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.381481|Function receipt launched
+1690586622.383169|Function update_players launched
+1690586622.383183|Function update_eggs launched
+1690586622.383188|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 172 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.421597|Function receipt launched
+1690586622.423287|Function update_players launched
+1690586622.423302|Function update_eggs launched
+1690586622.423307|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 173 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.461731|Function receipt launched
+1690586622.463421|Function update_players launched
+1690586622.463436|Function update_eggs launched
+1690586622.463441|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 174 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.501867|Function receipt launched
+1690586622.503537|Function update_players launched
+1690586622.503543|Function update_eggs launched
+1690586622.503548|Function update_commands launched
+Waiting 38289 microseconds before the start of the next cycle...
+============= TICK 175 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.542008|Function receipt launched
+1690586622.542034|[CLIENT LOGIN] Client 4 logged in
+1690586622.542048|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
+1690586622.542107|Function update_players launched
+1690586622.542113|Function update_eggs launched
+1690586622.542118|Function update_commands launched
+Waiting 39858 microseconds before the start of the next cycle...
+============= TICK 176 =============
+======== TEAMS LOG ========
+1 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586622.582142|Function receipt launched
+1690586622.582161|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
+1690586622.582169|[CLIENT_SENT_TEAM_NAME] Pending client 289651776 sent |foo| as a team name
+[TEAM_SLOT_VERIFICATION] Checking team |foo| for a free connection slot (1)
+1690586622.582190|[RESPONSE] Server sent this message to client 4 : {1
+20 20}
+[CLIENT AUTH] Client 4 authenticated properly as a player of team {foo}
+1690586622.582241|Function update_players launched
+1690586622.582247|Function update_eggs launched
+1690586622.582252|Function update_commands launched
+Waiting 39861 microseconds before the start of the next cycle...
+============= TICK 177 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 125 | commands : 0 | connection : 4
+===========================
+1690586622.622278|Function receipt launched
+1690586622.623969|Function update_players launched
+1690586622.623985|Function update_eggs launched
+1690586622.623991|Function update_commands launched
+Waiting 38247 microseconds before the start of the next cycle...
+============= TICK 178 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 124 | commands : 0 | connection : 4
+===========================
+1690586622.662419|Function receipt launched
+1690586622.664110|Function update_players launched
+1690586622.664125|Function update_eggs launched
+1690586622.664130|Function update_commands launched
+Waiting 38238 microseconds before the start of the next cycle...
+============= TICK 179 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 123 | commands : 0 | connection : 4
+===========================
+1690586622.702534|Function receipt launched
+1690586622.704222|Function update_players launched
+1690586622.704236|Function update_eggs launched
+1690586622.704242|Function update_commands launched
+Waiting 38255 microseconds before the start of the next cycle...
+============= TICK 180 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 122 | commands : 0 | connection : 4
+===========================
+1690586622.742662|Function receipt launched
+1690586622.744332|Function update_players launched
+1690586622.744338|Function update_eggs launched
+1690586622.744343|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 181 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 121 | commands : 0 | connection : 4
+===========================
+1690586622.782801|Function receipt launched
+1690586622.784474|Function update_players launched
+1690586622.784490|Function update_eggs launched
+1690586622.784495|Function update_commands launched
+Waiting 38267 microseconds before the start of the next cycle...
+============= TICK 182 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 120 | commands : 0 | connection : 4
+===========================
+1690586622.822940|Function receipt launched
+1690586622.824631|Function update_players launched
+1690586622.824646|Function update_eggs launched
+1690586622.824651|Function update_commands launched
+Waiting 38250 microseconds before the start of the next cycle...
+============= TICK 183 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 119 | commands : 0 | connection : 4
+===========================
+1690586622.863082|Function receipt launched
+1690586622.864716|Function update_players launched
+1690586622.864732|Function update_eggs launched
+1690586622.864737|Function update_commands launched
+Waiting 38305 microseconds before the start of the next cycle...
+============= TICK 184 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 118 | commands : 0 | connection : 4
+===========================
+1690586622.903199|Function receipt launched
+1690586622.904865|Function update_players launched
+1690586622.904870|Function update_eggs launched
+1690586622.904873|Function update_commands launched
+Waiting 38288 microseconds before the start of the next cycle...
+============= TICK 185 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 117 | commands : 0 | connection : 4
+===========================
+1690586622.943336|Function receipt launched
+1690586622.945011|Function update_players launched
+1690586622.945028|Function update_eggs launched
+1690586622.945033|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
+============= TICK 186 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 116 | commands : 0 | connection : 4
+===========================
+1690586622.983493|Function receipt launched
+1690586622.985168|Function update_players launched
+1690586622.985183|Function update_eggs launched
+1690586622.985188|Function update_commands launched
+Waiting 38251 microseconds before the start of the next cycle...
+============= TICK 187 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 115 | commands : 0 | connection : 4
+===========================
+1690586623.023567|Function receipt launched
+1690586623.025233|Function update_players launched
+1690586623.025243|Function update_eggs launched
+1690586623.025246|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 188 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 114 | commands : 0 | connection : 4
+===========================
+1690586623.063699|Function receipt launched
+1690586623.065369|Function update_players launched
+1690586623.065376|Function update_eggs launched
+1690586623.065381|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
+============= TICK 189 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 113 | commands : 0 | connection : 4
+===========================
+1690586623.103833|Function receipt launched
+1690586623.105508|Function update_players launched
+1690586623.105523|Function update_eggs launched
+1690586623.105529|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
+============= TICK 190 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 112 | commands : 0 | connection : 4
+===========================
+1690586623.143926|Function receipt launched
+1690586623.145602|Function update_players launched
+1690586623.145612|Function update_eggs launched
+1690586623.145615|Function update_commands launched
+Waiting 38288 microseconds before the start of the next cycle...
+============= TICK 191 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 111 | commands : 0 | connection : 4
+===========================
+1690586623.184085|Function receipt launched
+1690586623.185756|Function update_players launched
+1690586623.185763|Function update_eggs launched
+1690586623.185768|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
+============= TICK 192 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 110 | commands : 0 | connection : 4
+===========================
+1690586623.224161|Function receipt launched
+1690586623.225822|Function update_players launched
+1690586623.225827|Function update_eggs launched
+1690586623.225830|Function update_commands launched
+Waiting 38308 microseconds before the start of the next cycle...
+============= TICK 193 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 109 | commands : 0 | connection : 4
+===========================
+1690586623.264275|Function receipt launched
+1690586623.265938|Function update_players launched
+1690586623.265942|Function update_eggs launched
+1690586623.265945|Function update_commands launched
+Waiting 38305 microseconds before the start of the next cycle...
+============= TICK 194 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 4 | y : 18 | food : 99 | satiety : 108 | commands : 0 | connection : 4
+===========================
+1690586623.304442|Function receipt launched
+1690586623.304459|[CLIENT LOGOUT] Client 4 logged out by itself
+1690586623.304464|[PLAYER DEATH] message : Client 4 died !
+1690586623.304530|[CLIENT REMOVED] Client connected to slot 4 was removed from team {foo}.
+0
+1690586623.304545|Function update_players launched
+1690586623.304550|Function update_eggs launched
+1690586623.304555|Function update_commands launched
+Waiting 39838 microseconds before the start of the next cycle...
+============= TICK 195 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.344528|Function receipt launched
+1690586623.346203|Function update_players launched
+1690586623.346211|Function update_eggs launched
+1690586623.346214|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 196 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.384636|Function receipt launched
+1690586623.386299|Function update_players launched
+1690586623.386303|Function update_eggs launched
+1690586623.386305|Function update_commands launched
+Waiting 38314 microseconds before the start of the next cycle...
+============= TICK 197 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.424777|Function receipt launched
+1690586623.426467|Function update_players launched
+1690586623.426482|Function update_eggs launched
+1690586623.426487|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 198 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.464907|Function receipt launched
+1690586623.466597|Function update_players launched
+1690586623.466612|Function update_eggs launched
+1690586623.466617|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 199 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.504998|Function receipt launched
+1690586623.506676|Function update_players launched
+1690586623.506687|Function update_eggs launched
+1690586623.506690|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 200 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.545134|Function receipt launched
+1690586623.546823|Function update_players launched
+1690586623.546838|Function update_eggs launched
+1690586623.546844|Function update_commands launched
+Waiting 38253 microseconds before the start of the next cycle...
+============= TICK 201 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.585238|Function receipt launched
+1690586623.586928|Function update_players launched
+1690586623.586943|Function update_eggs launched
+1690586623.586949|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 202 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.625328|Function receipt launched
+1690586623.627004|Function update_players launched
+1690586623.627013|Function update_eggs launched
+1690586623.627016|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 203 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.665463|Function receipt launched
+1690586623.667166|Function update_players launched
+1690586623.667181|Function update_eggs launched
+1690586623.667186|Function update_commands launched
+Waiting 38250 microseconds before the start of the next cycle...
+============= TICK 204 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.705596|Function receipt launched
+1690586623.707284|Function update_players launched
+1690586623.707298|Function update_eggs launched
+1690586623.707303|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
+============= TICK 205 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.745721|Function receipt launched
+1690586623.747411|Function update_players launched
+1690586623.747426|Function update_eggs launched
+1690586623.747431|Function update_commands launched
+Waiting 38264 microseconds before the start of the next cycle...
+============= TICK 206 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.785841|Function receipt launched
+1690586623.787531|Function update_players launched
+1690586623.787546|Function update_eggs launched
+1690586623.787551|Function update_commands launched
+Waiting 38262 microseconds before the start of the next cycle...
+============= TICK 207 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.825977|Function receipt launched
+1690586623.827667|Function update_players launched
+1690586623.827682|Function update_eggs launched
+1690586623.827688|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 208 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.866106|Function receipt launched
+1690586623.867795|Function update_players launched
+1690586623.867811|Function update_eggs launched
+1690586623.867816|Function update_commands launched
+Waiting 38261 microseconds before the start of the next cycle...
+============= TICK 209 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.906195|Function receipt launched
+1690586623.907871|Function update_players launched
+1690586623.907880|Function update_eggs launched
+1690586623.907883|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 210 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.946333|Function receipt launched
+1690586623.948022|Function update_players launched
+1690586623.948037|Function update_eggs launched
+1690586623.948043|Function update_commands launched
+Waiting 38263 microseconds before the start of the next cycle...
+============= TICK 211 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586623.986465|Function receipt launched
+1690586623.988155|Function update_players launched
+1690586623.988170|Function update_eggs launched
+1690586623.988176|Function update_commands launched
+Waiting 38259 microseconds before the start of the next cycle...
+============= TICK 212 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.026561|Function receipt launched
+1690586624.026578|[CLIENT LOGIN] Client 4 logged in
+1690586624.026587|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
+1690586624.026626|Function update_players launched
+1690586624.026631|Function update_eggs launched
+1690586624.026634|Function update_commands launched
+Waiting 39909 microseconds before the start of the next cycle...
+============= TICK 213 =============
+======== TEAMS LOG ========
+1 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.066651|Function receipt launched
+1690586624.066669|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
+1690586624.066674|[CLIENT_SENT_TEAM_NAME] Pending client 1623964027 sent |foo| as a team name
+[TEAM_SLOT_VERIFICATION] Checking team |foo| for a free connection slot (1)
+1690586624.066690|[RESPONSE] Server sent this message to client 4 : {1
+20 20}
+[CLIENT AUTH] Client 4 authenticated properly as a player of team {foo}
+1690586624.066716|Function update_players launched
+1690586624.066721|Function update_eggs launched
+1690586624.066726|Function update_commands launched
+Waiting 39907 microseconds before the start of the next cycle...
+============= TICK 214 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 125 | commands : 0 | connection : 4
+===========================
+1690586624.106784|Function receipt launched
+1690586624.108454|Function update_players launched
+1690586624.108460|Function update_eggs launched
+1690586624.108465|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 215 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 124 | commands : 0 | connection : 4
+===========================
+1690586624.146900|Function receipt launched
+1690586624.148569|Function update_players launched
+1690586624.148575|Function update_eggs launched
+1690586624.148580|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 216 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 123 | commands : 0 | connection : 4
+===========================
+1690586624.187008|Function receipt launched
+1690586624.188694|Function update_players launched
+1690586624.188712|Function update_eggs launched
+1690586624.188718|Function update_commands launched
+Waiting 38253 microseconds before the start of the next cycle...
+============= TICK 217 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 122 | commands : 0 | connection : 4
+===========================
+1690586624.227119|Function receipt launched
+1690586624.228789|Function update_players launched
+1690586624.228799|Function update_eggs launched
+1690586624.228804|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 218 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 121 | commands : 0 | connection : 4
+===========================
+1690586624.267194|Function receipt launched
+1690586624.268856|Function update_players launched
+1690586624.268861|Function update_eggs launched
+1690586624.268864|Function update_commands launched
+Waiting 38308 microseconds before the start of the next cycle...
+============= TICK 219 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 120 | commands : 0 | connection : 4
+===========================
+1690586624.307318|Function receipt launched
+1690586624.308983|Function update_players launched
+1690586624.308987|Function update_eggs launched
+1690586624.308990|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 220 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 119 | commands : 0 | connection : 4
+===========================
+1690586624.347439|Function receipt launched
+1690586624.349109|Function update_players launched
+1690586624.349117|Function update_eggs launched
+1690586624.349135|Function update_commands launched
+Waiting 38266 microseconds before the start of the next cycle...
+============= TICK 221 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 118 | commands : 0 | connection : 4
+===========================
+1690586624.387549|Function receipt launched
+1690586624.389218|Function update_players launched
+1690586624.389225|Function update_eggs launched
+1690586624.389230|Function update_commands launched
+Waiting 38282 microseconds before the start of the next cycle...
+============= TICK 222 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 117 | commands : 0 | connection : 4
+===========================
+1690586624.427664|Function receipt launched
+1690586624.429335|Function update_players launched
+1690586624.429342|Function update_eggs launched
+1690586624.429347|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 223 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 116 | commands : 0 | connection : 4
+===========================
+1690586624.467776|Function receipt launched
+1690586624.469446|Function update_players launched
+1690586624.469453|Function update_eggs launched
+1690586624.469458|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 224 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 115 | commands : 0 | connection : 4
+===========================
+1690586624.507888|Function receipt launched
+1690586624.509557|Function update_players launched
+1690586624.509564|Function update_eggs launched
+1690586624.509569|Function update_commands launched
+Waiting 38282 microseconds before the start of the next cycle...
+============= TICK 225 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 114 | commands : 0 | connection : 4
+===========================
+1690586624.548008|Function receipt launched
+1690586624.549680|Function update_players launched
+1690586624.549688|Function update_eggs launched
+1690586624.549693|Function update_commands launched
+Waiting 38276 microseconds before the start of the next cycle...
+============= TICK 226 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 113 | commands : 0 | connection : 4
+===========================
+1690586624.588120|Function receipt launched
+1690586624.589790|Function update_players launched
+1690586624.589799|Function update_eggs launched
+1690586624.589804|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 227 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 112 | commands : 0 | connection : 4
+===========================
+1690586624.628237|Function receipt launched
+1690586624.629907|Function update_players launched
+1690586624.629914|Function update_eggs launched
+1690586624.629919|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 228 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 111 | commands : 0 | connection : 4
+===========================
+1690586624.668314|Function receipt launched
+1690586624.669976|Function update_players launched
+1690586624.669979|Function update_eggs launched
+1690586624.669987|Function update_commands launched
+Waiting 38305 microseconds before the start of the next cycle...
+============= TICK 229 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 110 | commands : 0 | connection : 4
+===========================
+1690586624.708456|Function receipt launched
+1690586624.710126|Function update_players launched
+1690586624.710134|Function update_eggs launched
+1690586624.710139|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 230 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 109 | commands : 0 | connection : 4
+===========================
+1690586624.748570|Function receipt launched
+1690586624.750240|Function update_players launched
+1690586624.750248|Function update_eggs launched
+1690586624.750253|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
+============= TICK 231 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 108 | commands : 0 | connection : 4
+===========================
+1690586624.788657|Function receipt launched
+1690586624.790319|Function update_players launched
+1690586624.790323|Function update_eggs launched
+1690586624.790326|Function update_commands launched
+Waiting 38307 microseconds before the start of the next cycle...
+============= TICK 232 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 7 | food : 99 | satiety : 107 | commands : 0 | connection : 4
+===========================
+1690586624.828771|Function receipt launched
+1690586624.828784|[CLIENT LOGOUT] Client 4 logged out by itself
+1690586624.828788|[PLAYER DEATH] message : Client 4 died !
+1690586624.828843|[CLIENT REMOVED] Client connected to slot 4 was removed from team {foo}.
+0
+1690586624.828854|Function update_players launched
+1690586624.828858|Function update_eggs launched
+1690586624.828861|Function update_commands launched
+Waiting 39884 microseconds before the start of the next cycle...
+============= TICK 233 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.868850|Function receipt launched
+1690586624.870511|Function update_players launched
+1690586624.870514|Function update_eggs launched
+1690586624.870516|Function update_commands launched
+Waiting 38320 microseconds before the start of the next cycle...
+============= TICK 234 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.908939|Function receipt launched
+1690586624.910600|Function update_players launched
+1690586624.910603|Function update_eggs launched
+1690586624.910606|Function update_commands launched
+Waiting 38318 microseconds before the start of the next cycle...
+============= TICK 235 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.949070|Function receipt launched
+1690586624.950740|Function update_players launched
+1690586624.950745|Function update_eggs launched
+1690586624.950750|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 236 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586624.989179|Function receipt launched
+1690586624.990847|Function update_players launched
+1690586624.990853|Function update_eggs launched
+1690586624.990858|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 237 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.029264|Function receipt launched
+1690586625.030925|Function update_players launched
+1690586625.030928|Function update_eggs launched
+1690586625.030931|Function update_commands launched
+Waiting 38308 microseconds before the start of the next cycle...
+============= TICK 238 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.069364|Function receipt launched
+1690586625.071033|Function update_players launched
+1690586625.071038|Function update_eggs launched
+1690586625.071043|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 239 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.109469|Function receipt launched
+1690586625.111138|Function update_players launched
+1690586625.111143|Function update_eggs launched
+1690586625.111148|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 240 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.149575|Function receipt launched
+1690586625.151243|Function update_players launched
+1690586625.151249|Function update_eggs launched
+1690586625.151254|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
+============= TICK 241 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.189679|Function receipt launched
+1690586625.191347|Function update_players launched
+1690586625.191352|Function update_eggs launched
+1690586625.191357|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
+============= TICK 242 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.229788|Function receipt launched
+1690586625.231458|Function update_players launched
+1690586625.231464|Function update_eggs launched
+1690586625.231469|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 243 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.269861|Function receipt launched
+1690586625.271521|Function update_players launched
+1690586625.271524|Function update_eggs launched
+1690586625.271526|Function update_commands launched
+Waiting 38319 microseconds before the start of the next cycle...
+============= TICK 244 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.309974|Function receipt launched
+1690586625.311642|Function update_players launched
+1690586625.311648|Function update_eggs launched
+1690586625.311653|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 245 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.350076|Function receipt launched
+1690586625.351745|Function update_players launched
+1690586625.351750|Function update_eggs launched
+1690586625.351755|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 246 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.390187|Function receipt launched
+1690586625.391856|Function update_players launched
+1690586625.391861|Function update_eggs launched
+1690586625.391866|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
+============= TICK 247 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.430298|Function receipt launched
+1690586625.431982|Function update_players launched
+1690586625.431988|Function update_eggs launched
+1690586625.431993|Function update_commands launched
+Waiting 38278 microseconds before the start of the next cycle...
+============= TICK 248 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.470404|Function receipt launched
+1690586625.472074|Function update_players launched
+1690586625.472082|Function update_eggs launched
+1690586625.472086|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 249 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.510481|Function receipt launched
+1690586625.512150|Function update_players launched
+1690586625.512160|Function update_eggs launched
+1690586625.512166|Function update_commands launched
+Waiting 38298 microseconds before the start of the next cycle...
+============= TICK 250 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.550631|Function receipt launched
+1690586625.552302|Function update_players launched
+1690586625.552309|Function update_eggs launched
+1690586625.552314|Function update_commands launched
+Waiting 38286 microseconds before the start of the next cycle...
+============= TICK 251 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.590730|Function receipt launched
+1690586625.592402|Function update_players launched
+1690586625.592413|Function update_eggs launched
+1690586625.592419|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
+============= TICK 252 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.630833|Function receipt launched
+1690586625.632502|Function update_players launched
+1690586625.632509|Function update_eggs launched
+1690586625.632514|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 253 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.670946|Function receipt launched
+1690586625.672619|Function update_players launched
+1690586625.672630|Function update_eggs launched
+1690586625.672635|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 254 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.711049|Function receipt launched
+1690586625.712696|Function update_players launched
+1690586625.712702|Function update_eggs launched
+1690586625.712707|Function update_commands launched
+Waiting 38315 microseconds before the start of the next cycle...
+============= TICK 255 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.751174|Function receipt launched
+1690586625.751200|[CLIENT LOGIN] Client 4 logged in
+1690586625.751214|[RESPONSE] Server sent this message to client 4 : {BIENVENUE}
+1690586625.751278|Function update_players launched
+1690586625.751284|Function update_eggs launched
+1690586625.751290|Function update_commands launched
+Waiting 39853 microseconds before the start of the next cycle...
+============= TICK 256 =============
+======== TEAMS LOG ========
+1 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586625.791302|Function receipt launched
+1690586625.791321|[MESSAGE RECEPTION] Client 4 sent a message : {foo}
+1690586625.791329|[CLIENT_SENT_TEAM_NAME] Pending client 1508542358 sent |foo| as a team name
+[TEAM_SLOT_VERIFICATION] Checking team |foo| for a free connection slot (1)
+1690586625.791351|[RESPONSE] Server sent this message to client 4 : {1
+20 20}
+[CLIENT AUTH] Client 4 authenticated properly as a player of team {foo}
+1690586625.791413|Function update_players launched
+1690586625.791420|Function update_eggs launched
+1690586625.791425|Function update_commands launched
+Waiting 39846 microseconds before the start of the next cycle...
+============= TICK 257 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 125 | commands : 0 | connection : 4
+===========================
+1690586625.831416|Function receipt launched
+1690586625.833085|Function update_players launched
+1690586625.833093|Function update_eggs launched
+1690586625.833098|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 258 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 124 | commands : 0 | connection : 4
+===========================
+1690586625.871537|Function receipt launched
+1690586625.873207|Function update_players launched
+1690586625.873215|Function update_eggs launched
+1690586625.873220|Function update_commands launched
+Waiting 38280 microseconds before the start of the next cycle...
+============= TICK 259 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 123 | commands : 0 | connection : 4
+===========================
+1690586625.911608|Function receipt launched
+1690586625.913268|Function update_players launched
+1690586625.913272|Function update_eggs launched
+1690586625.913274|Function update_commands launched
+Waiting 38315 microseconds before the start of the next cycle...
+============= TICK 260 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 122 | commands : 0 | connection : 4
+===========================
+1690586625.951743|Function receipt launched
+1690586625.953412|Function update_players launched
+1690586625.953420|Function update_eggs launched
+1690586625.953425|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 261 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 121 | commands : 0 | connection : 4
+===========================
+1690586625.991855|Function receipt launched
+1690586625.993524|Function update_players launched
+1690586625.993531|Function update_eggs launched
+1690586625.993536|Function update_commands launched
+Waiting 38282 microseconds before the start of the next cycle...
+============= TICK 262 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 120 | commands : 0 | connection : 4
+===========================
+1690586626.031919|Function receipt launched
+1690586626.033579|Function update_players launched
+1690586626.033583|Function update_eggs launched
+1690586626.033585|Function update_commands launched
+Waiting 38314 microseconds before the start of the next cycle...
+============= TICK 263 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 119 | commands : 0 | connection : 4
+===========================
+1690586626.072051|Function receipt launched
+1690586626.073721|Function update_players launched
+1690586626.073728|Function update_eggs launched
+1690586626.073733|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 264 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 118 | commands : 0 | connection : 4
+===========================
+1690586626.112444|Function receipt launched
+1690586626.114114|Function update_players launched
+1690586626.114121|Function update_eggs launched
+1690586626.114125|Function update_commands launched
+Waiting 38002 microseconds before the start of the next cycle...
+============= TICK 265 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 117 | commands : 0 | connection : 4
+===========================
+1690586626.152233|Function receipt launched
+1690586626.153900|Function update_players launched
+1690586626.153909|Function update_eggs launched
+1690586626.153914|Function update_commands launched
+Waiting 38296 microseconds before the start of the next cycle...
+============= TICK 266 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 116 | commands : 0 | connection : 4
+===========================
+1690586626.192364|Function receipt launched
+1690586626.194034|Function update_players launched
+1690586626.194041|Function update_eggs launched
+1690586626.194046|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 267 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 115 | commands : 0 | connection : 4
+===========================
+1690586626.232489|Function receipt launched
+1690586626.234160|Function update_players launched
+1690586626.234168|Function update_eggs launched
+1690586626.234173|Function update_commands launched
+Waiting 38279 microseconds before the start of the next cycle...
+============= TICK 268 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 114 | commands : 0 | connection : 4
+===========================
+1690586626.272603|Function receipt launched
+1690586626.274273|Function update_players launched
+1690586626.274280|Function update_eggs launched
+1690586626.274285|Function update_commands launched
+Waiting 38281 microseconds before the start of the next cycle...
+============= TICK 269 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (1 / 1) *****
+Player 0 | level 1 | orientation : 0 | x : 11 | y : 12 | food : 99 | satiety : 113 | commands : 0 | connection : 4
+===========================
+1690586626.312739|Function receipt launched
+1690586626.312758|[CLIENT LOGOUT] Client 4 logged out by itself
+1690586626.312763|[PLAYER DEATH] message : Client 4 died !
+1690586626.312828|[CLIENT REMOVED] Client connected to slot 4 was removed from team {foo}.
+0
+1690586626.312844|Function update_players launched
+1690586626.312849|Function update_eggs launched
+1690586626.312854|Function update_commands launched
+Waiting 39844 microseconds before the start of the next cycle...
+============= TICK 270 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.352819|Function receipt launched
+1690586626.354482|Function update_players launched
+1690586626.354485|Function update_eggs launched
+1690586626.354488|Function update_commands launched
+Waiting 38313 microseconds before the start of the next cycle...
+============= TICK 271 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.392958|Function receipt launched
+1690586626.394629|Function update_players launched
+1690586626.394635|Function update_eggs launched
+1690586626.394640|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
+============= TICK 272 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.433073|Function receipt launched
+1690586626.434743|Function update_players launched
+1690586626.434765|Function update_eggs launched
+1690586626.434770|Function update_commands launched
+Waiting 38275 microseconds before the start of the next cycle...
+============= TICK 273 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.473189|Function receipt launched
+1690586626.474859|Function update_players launched
+1690586626.474865|Function update_eggs launched
+1690586626.474870|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 274 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.513302|Function receipt launched
+1690586626.514971|Function update_players launched
+1690586626.514977|Function update_eggs launched
+1690586626.514982|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 275 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.553407|Function receipt launched
+1690586626.555079|Function update_players launched
+1690586626.555087|Function update_eggs launched
+1690586626.555092|Function update_commands launched
+Waiting 38287 microseconds before the start of the next cycle...
+============= TICK 276 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.593520|Function receipt launched
+1690586626.595193|Function update_players launched
+1690586626.595203|Function update_eggs launched
+1690586626.595209|Function update_commands launched
+Waiting 38285 microseconds before the start of the next cycle...
+============= TICK 277 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.633631|Function receipt launched
+1690586626.635299|Function update_players launched
+1690586626.635305|Function update_eggs launched
+1690586626.635310|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 278 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.673745|Function receipt launched
+1690586626.675414|Function update_players launched
+1690586626.675419|Function update_eggs launched
+1690586626.675424|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 279 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.713863|Function receipt launched
+1690586626.715533|Function update_players launched
+1690586626.715539|Function update_eggs launched
+1690586626.715544|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 280 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.753972|Function receipt launched
+1690586626.755640|Function update_players launched
+1690586626.755646|Function update_eggs launched
+1690586626.755651|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 281 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.794080|Function receipt launched
+1690586626.795750|Function update_players launched
+1690586626.795756|Function update_eggs launched
+1690586626.795761|Function update_commands launched
+Waiting 38293 microseconds before the start of the next cycle...
+============= TICK 282 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.834181|Function receipt launched
+1690586626.835849|Function update_players launched
+1690586626.835854|Function update_eggs launched
+1690586626.835859|Function update_commands launched
+Waiting 38284 microseconds before the start of the next cycle...
+============= TICK 283 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.874285|Function receipt launched
+1690586626.875953|Function update_players launched
+1690586626.875958|Function update_eggs launched
+1690586626.875963|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
+============= TICK 284 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.914386|Function receipt launched
+1690586626.916055|Function update_players launched
+1690586626.916060|Function update_eggs launched
+1690586626.916065|Function update_commands launched
+Waiting 38297 microseconds before the start of the next cycle...
+============= TICK 285 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.954500|Function receipt launched
+1690586626.956169|Function update_players launched
+1690586626.956175|Function update_eggs launched
+1690586626.956179|Function update_commands launched
+Waiting 38294 microseconds before the start of the next cycle...
+============= TICK 286 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586626.994603|Function receipt launched
+1690586626.996271|Function update_players launched
+1690586626.996277|Function update_eggs launched
+1690586626.996282|Function update_commands launched
+Waiting 38295 microseconds before the start of the next cycle...
+============= TICK 287 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.034718|Function receipt launched
+1690586627.036388|Function update_players launched
+1690586627.036394|Function update_eggs launched
+1690586627.036399|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 288 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.074840|Function receipt launched
+1690586627.076510|Function update_players launched
+1690586627.076516|Function update_eggs launched
+1690586627.076521|Function update_commands launched
+Waiting 38291 microseconds before the start of the next cycle...
+============= TICK 289 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.114989|Function receipt launched
+1690586627.116667|Function update_players launched
+1690586627.116678|Function update_eggs launched
+1690586627.116705|Function update_commands launched
+Waiting 38247 microseconds before the start of the next cycle...
+============= TICK 290 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.155094|Function receipt launched
+1690586627.156763|Function update_players launched
+1690586627.156770|Function update_eggs launched
+1690586627.156775|Function update_commands launched
+Waiting 38292 microseconds before the start of the next cycle...
+============= TICK 291 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.195207|Function receipt launched
+1690586627.196877|Function update_players launched
+1690586627.196884|Function update_eggs launched
+1690586627.196889|Function update_commands launched
+Waiting 38288 microseconds before the start of the next cycle...
+============= TICK 292 =============
+======== TEAMS LOG ========
+0 pending players
+***** Team foo (0 / 1) *****
+===========================
+1690586627.235323|Function receipt launched
+1690586627.236991|Function update_players launched
+1690586627.236998|Function update_eggs launched
+1690586627.237003|Function update_commands launched

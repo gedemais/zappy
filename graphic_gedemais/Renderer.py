@@ -58,14 +58,22 @@ class   Renderer():
         minerals = pygame.image.load('./sprites/minerals.png')
         food = pygame.image.load('./sprites/minerals.png')
         self.loot_images = [
-                    food.subsurface((100, 0, 140, 140)),
-                    minerals.subsurface((0, 0, 28, 28)),
-                    minerals.subsurface((115, 0, 28, 28)),
-                    minerals.subsurface((230, 0, 28, 28)),
-                    minerals.subsurface((0, 230, 28, 28)),
-                    minerals.subsurface((115, 115, 28, 28)),
-                    minerals.subsurface((230, 115, 28, 28)),
+                food.subsurface((100, 0, 140, 140)),
+                minerals.subsurface((0, 0, 28, 28)),
+                minerals.subsurface((115, 0, 28, 28)),
+                minerals.subsurface((230, 0, 28, 28)),
+                minerals.subsurface((0, 230, 28, 28)),
+                minerals.subsurface((115, 115, 28, 28)),
+                minerals.subsurface((230, 115, 28, 28)),
                 ]
+
+        self.player_animations = {
+                'walking_north' : (64, 576, 512, 64),
+                'walking_south' : (64, 704, 512, 64),
+                'walking_east' : (64, 832, 512, 64),
+                'walking_west' : (64, 640, 512, 64)
+                }
+
 
     def render_loot(self, world, x, y):
         coords =    [
@@ -106,6 +114,15 @@ class   Renderer():
                 self.background.blit(self.bgd_tile, self.bgd_tile_rect)
 
 
+    def render_players(self, world):
+
+        for team in world.teams.keys():
+            t = world.teams[team]
+            for player in t.players:
+                self.window.blit(t.players_sprites[player.o], (player.x * self.tile_size, player.y * self.tile_size))
+
+
+
     def render(self, world):
         self.loot_tile_size = self.tile_size / 3
         self.images = self.loot_images
@@ -119,6 +136,8 @@ class   Renderer():
         for y in range(self.map_height):
             for x in range(self.map_width):
                 self.render_loot(world, x, y)
+
+        self.render_players(world)
 
         pygame.display.flip()
         self.clock.tick(self.fps)

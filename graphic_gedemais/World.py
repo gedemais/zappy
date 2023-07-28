@@ -41,8 +41,6 @@ class   World():
         while self.parse_new_player() == 0:
             self.line_index += 1
 
-        print(self.teams['foo'].players)
-
 
 
 ############ Parsing utils
@@ -108,17 +106,17 @@ class   World():
             print('invalid format')
             return -1
 
-        #try:
-        pid = int(tokens[1][1:])
-        x = int(tokens[2])
-        y = int(tokens[3])
-        o = int(tokens[4])
-        l = int(tokens[5])
-        team = tokens[-1]
-        self.teams[team].players.append(Player(x, y, o, l, pid))
-        #except:
-        #    print('player creation failed')
-        #    return -1
+        try:
+            pid = int(tokens[1][1:])
+            x = int(tokens[2])
+            y = int(tokens[3])
+            o = int(tokens[4])
+            l = int(tokens[5])
+            team = tokens[-1]
+            self.teams[team].players.append(Player(x, y, o, l, pid))
+        except:
+            print('player creation failed')
+            return -1
 
 
 
