@@ -23,6 +23,6 @@ uint8_t	gresponse(t_env *env)
 	fflush(stdout);
 	if (env->graphical.connection)
 		write(*env->graphical.connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
-	sleep(10);
+	sleep(3);
 	return (ERR_NONE);
 }

@@ -19,6 +19,7 @@ while renderer.is_running:
 
     renderer.process_events()
     renderer.render(world)
+    connector.process(world)
 
 # Quit Pygame
 pygame.quit()

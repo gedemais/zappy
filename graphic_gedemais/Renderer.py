@@ -67,6 +67,15 @@ class   Renderer():
                 minerals.subsurface((230, 115, 28, 28)),
                 ]
 
+        # Have to build a mechanism to avoid choosing the same spritesheet for all teams
+        animations = pygame.image.load('./sprites/rabbitSpriteSheet.png')
+        self.players_sprites = [
+                    pygame.transform.scale(animations.subsurface((0, 512, 64, 64)), (self.tile_size, self.tile_size)),
+                    pygame.transform.scale(animations.subsurface((0, 704, 64, 64)), (self.tile_size, self.tile_size)),
+                    pygame.transform.scale(animations.subsurface((0, 640, 64, 64)), (self.tile_size, self.tile_size)),
+                    pygame.transform.scale(animations.subsurface((0, 576, 64, 64)), (self.tile_size, self.tile_size))
+                ]
+
         self.player_animations = {
                 'walking_north' : (64, 576, 512, 64),
                 'walking_south' : (64, 704, 512, 64),
@@ -118,8 +127,8 @@ class   Renderer():
 
         for team in world.teams.keys():
             t = world.teams[team]
-            for player in t.players:
-                self.window.blit(t.players_sprites[player.o], (player.x * self.tile_size, player.y * self.tile_size))
+            for player in t.players.items():
+                self.window.blit(self.players_sprites[player.o], (player.x * self.tile_size + player.x, player.y * self.tile_size + player.y))
 
 
 

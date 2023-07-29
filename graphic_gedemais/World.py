@@ -107,16 +107,16 @@ class   World():
             return -1
 
         try:
-            pid = int(tokens[1][1:])
             x = int(tokens[2])
             y = int(tokens[3])
             o = int(tokens[4])
             l = int(tokens[5])
-            team = tokens[-1]
-            self.teams[team].players.append(Player(x, y, o, l, pid))
+            self.teams[team].players[tokens[1]] = Player(x, y, o, l)
         except:
             print('player creation failed')
             return -1
+
+        return 0
 
 
 

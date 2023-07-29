@@ -131,9 +131,8 @@ uint8_t			update_players(t_env *env)
 static void		fill_player(t_env *env, t_player *new, int *connection)
 {
 	int	d = rand() % DIR_MAX;
-	
-	d = DIR_NORTH;
 
+	//d = DIR_NORTH;
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
