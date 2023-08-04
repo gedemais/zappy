@@ -3,6 +3,7 @@
 uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 {
 	t_tile	*tile;
+	uint8_t	code;
 
 	for (int dir = 0; dir < DIR_MAX; dir++)
 		if (p->direction.d == dir)
@@ -23,21 +24,41 @@ uint8_t		cmd_advance(t_env *env, t_player *p, bool send_response)
 
 			tile->content[LOOT_PLAYER]++;
 
+			env->gplayer = *p;
+			if ((code = gcmd_player_position(env)) != ERR_NONE
+				|| (code = gresponse(env)) != ERR_NONE)
+				return (code);
+
 			return (send_response ? send_ok(env, p) : ERR_NONE);
 		}
 	
+
 	return (ERR_NONE);
 }
 
 uint8_t	cmd_left(t_env *env, t_player *p, bool send_response)
 {
+	uint8_t	code;
+
 	p->direction.d++;
+	env->gplayer = *p;
+	if ((code = gcmd_player_position(env)) != ERR_NONE
+		|| (code = gresponse(env)) != ERR_NONE)
+		return (code);
+
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
 uint8_t	cmd_right(t_env *env, t_player *p, bool send_response)
 {
+	uint8_t	code;
+
 	p->direction.d--;
+	env->gplayer = *p;
+	if ((code = gcmd_player_position(env)) != ERR_NONE
+		|| (code = gresponse(env)) != ERR_NONE)
+		return (code);
+
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 

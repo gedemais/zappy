@@ -6,7 +6,7 @@ port = 8080                   # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host, port))
 
-moves = ['avance\n',  'prend linemate\n', 'avance\n', 'prend linemate\n', 'avance\n', 'prend linemate\n', 'avance\n', 'prend linemate\n', 'voir\n', 'inventaire\n', 'incantation\n']
+moves = ['avance\n', 'droite\n']
 
 cmd_index = 0
 

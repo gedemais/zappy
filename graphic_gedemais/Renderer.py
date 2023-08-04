@@ -125,9 +125,10 @@ class   Renderer():
 
     def render_players(self, world):
 
-        for team in world.teams.keys():
-            t = world.teams[team]
-            for player in t.players.items():
+        for team in world.teams.items():
+            team = team[1]
+            for player in team.players.items():
+                player = player[1]
                 self.window.blit(self.players_sprites[player.o], (player.x * self.tile_size + player.x, player.y * self.tile_size + player.y))
 
 

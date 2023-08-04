@@ -12,7 +12,7 @@ response = connector.authenticate()
 
 world = World(response)
 
-renderer = Renderer(world, tile_size=50, loot_scale=0.75)
+renderer = Renderer(world, tile_size=80, loot_scale=0.75)
 
 # Main game loop
 while renderer.is_running:

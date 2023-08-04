@@ -6,3 +6,6 @@ class   Player():
         self.o = o
         self.lvl = lvl
         self.inventory = []
+        self.states_queue = []
+        self.state = self.o
+        self.step = 0

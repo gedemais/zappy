@@ -30,13 +30,10 @@ class   World():
                     print(x, y)
                     print('block content parsing failed !')
                     exit(1)
-                print(self.map[y][x])
                 self.line_index += 1
 
         while self.parse_team_name() == 0:
             self.line_index += 1
-
-        print(self.teams)
 
         while self.parse_new_player() == 0:
             self.line_index += 1
@@ -53,7 +50,6 @@ class   World():
         try:
             self.map_width = int(tokens[1])
             self.map_height = int(tokens[2])
-            print(self.map_width, self.map_height)
         except:
             return -1
         return 0
@@ -111,6 +107,7 @@ class   World():
             y = int(tokens[3])
             o = int(tokens[4])
             l = int(tokens[5])
+            team = tokens[6]
             self.teams[team].players[tokens[1]] = Player(x, y, o, l)
         except:
             print('player creation failed')
@@ -118,30 +115,3 @@ class   World():
 
         return 0
 
-
-
-
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-    #def parse_(self):
-        #tokens = self.lines[self.line_index].split(' ')
-
-#################

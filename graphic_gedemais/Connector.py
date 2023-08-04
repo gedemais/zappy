@@ -9,6 +9,7 @@ class   Connector():
         # Socket connection
         self.socket.connect((host, port))
         # Timeout setting to avoid recv from receiving all the time
+        self.timeout = timeout
         self.socket.settimeout(1.0 / timeout)
 
         self.event_functions = {
@@ -38,9 +39,11 @@ class   Connector():
     def authenticate(self):
         self.send('GRAPHICAL\n')
 
+        self.socket.settimeout(10.0)
         response = None
         while response == None:
             response = self.receive()
+
         print(response)
 
         if response != 'BIENVENUE\n':
@@ -50,6 +53,8 @@ class   Connector():
         response = None
         while response == None:
             response = self.receive()
+
+        self.socket.settimeout(1.0 / self.timeout)
 
         return response
 
@@ -62,10 +67,9 @@ class   Connector():
 
         lines = response.split('\n')
         for line in lines:
-            print('----------')
-            print(line)
-            print('----------')
             tokens = line.split(' ')
+            if len(tokens) < 2:
+                break
             self.event_functions[tokens[0]](world, tokens)
             
 
@@ -89,11 +93,12 @@ class   Connector():
 
     def ppo(self, world, tokens):
         for team in world.teams.items():
+            team = team[1]
             if tokens[1] in team.players.keys():
-                print('ppo successful')
                 team.players[tokens[1]].x = int(tokens[2])
                 team.players[tokens[1]].y = int(tokens[3])
                 team.players[tokens[1]].o = int(tokens[4])
+                print('ppo successful')
 
 
     def ebo(self, world, tokens):
