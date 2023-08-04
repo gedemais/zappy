@@ -9,7 +9,7 @@ class   Connector():
         # Socket connection
         self.socket.connect((host, port))
         # Timeout setting to avoid recv from receiving all the time
-        self.socket.settimeout(1.0 / timeout)
+        #self.socket.settimeout(1.0 / timeout)
 
         self.event_functions = {
                 'pnw' : self.pnw,
