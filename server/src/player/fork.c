@@ -50,13 +50,13 @@ uint8_t	check_connected_egg(t_env *env, uint16_t team)
 		}
 	}
 
-	env->gindex = id;
-	gevent_player_connected_for_egg(env);
-
-	if (index >= 0 && dynarray_extract(eggs, index))
-		return (ERR_MALLOC_FAILED);
-
-	gevent_egg_hatched(env);
+	if (index >= 0)
+	{
+		env->gindex = id;
+		gevent_player_connected_for_egg(env);
+		dynarray_extract(eggs, index);
+		return (gevent_egg_hatched(env));
+	}
 
 	return (ERR_NONE);
 }

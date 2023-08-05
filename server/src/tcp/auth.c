@@ -32,9 +32,7 @@ static uint8_t	build_granting_response(t_env *env, char *response, t_team *team,
 	free(y);
 
 	env->gplayer = *p;
-	gevent_player_new(env);
-
-	return (ERR_NONE);
+	return (gevent_player_new(env));
 }
 
 static uint8_t	remove_pending_player(t_env *env, t_player *p)
@@ -70,7 +68,7 @@ static uint8_t	auth_granting(t_env *env, t_player *p)
 	response(env, p);
 	p->auth_step++;
 
-	if ((code = add_player(env, team, p->connection)))
+	if ((code = add_player(env, team, p->connection, p)))
 		return (ERR_NONE);
 
 	fprintf(stderr, "[CLIENT AUTH] Client %d authenticated properly as a player of team {%s}\n", *p->connection, team->name);

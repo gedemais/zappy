@@ -201,28 +201,37 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 }
 
 // Add a new payer to a specific team
-uint8_t			add_player(t_env *env, t_team *team, int *connection)
+uint8_t			add_player(t_env *env, t_team *team, int *connection, t_player *pending)
 {
 	t_player	new;
 	uint8_t		d = rand() % DIR_MAX; // Player's random spawn direction definition
 	uint8_t		code;
 
+	fprintf(stderr, "THERE1\n");
 	// If this team does not count any player
 	if (team->players.byte_size == 0
 		&& dynarray_init(&team->players, sizeof(t_player), 6)) // Init the array of players
 		return (ERR_MALLOC_FAILED);
 
-	// Generate player metadata
-	fill_player(env, &new, connection);
+	fprintf(stderr, "THERE2\n");
+	if (team == &env->world.pending)
+		// Generate player metadata
+		fill_player(env, &new, connection);
+	else if (pending != NULL)
+		new = *pending;
 
+	fprintf(stderr, "THERE3\n");
 	// Add the newly created player to team
 	if (dynarray_push(&team->players, &new, false))
 		return (ERR_MALLOC_FAILED);
 
+	fprintf(stderr, "THERE4 %d %d\n", new.tile_y, new.tile_x);
 	// Add the newly created player as a loot object in its spawn tile
 	env->world.map[new.tile_y][new.tile_x].content[LOOT_PLAYER]++;
+	fprintf(stderr, "THERE5\n");
 	team->connected++;
 
+	fprintf(stderr, "THERE6\n");
 	if ((code = check_connected_egg(env, new.team)))
 		return (code);
 

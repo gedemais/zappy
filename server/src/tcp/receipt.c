@@ -25,7 +25,7 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 					//sleep(1);
 
 					// We add a new player in the pending players list
-					if ((code = add_player(env, &env->world.pending, &env->buffers.connections[i])))
+					if ((code = add_player(env, &env->world.pending, &env->buffers.connections[i], NULL)))
 						return (code);
 
 					// Get last pending player (new one)

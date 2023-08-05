@@ -167,7 +167,7 @@ uint8_t		spawn_loot_pieces(t_env *env, uint32_t count);
 void		print_map(t_env *env);
 
 // Players
-uint8_t		add_player(t_env *env, t_team *team, int *connection);
+uint8_t		add_player(t_env *env, t_team *team, int *connection, t_player *pending);
 uint8_t		kill_player(t_env *env, t_player *p, bool disconnected);
 uint8_t		remove_player(t_env *env, int connection_fd);
 uint8_t		update_players(t_env *env);

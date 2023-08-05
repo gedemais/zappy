@@ -10,7 +10,7 @@ class   Connector():
         self.socket.connect((host, port))
         # Timeout setting to avoid recv from receiving all the time
         self.timeout = timeout
-        self.socket.settimeout(1.0 / timeout)
+#        self.socket.settimeout(1.0 / timeout)
 
         self.event_functions = {
                 'pnw' : self.pnw,
@@ -70,14 +70,15 @@ class   Connector():
             tokens = line.split(' ')
             if len(tokens) < 2:
                 break
+            print(tokens)
             self.event_functions[tokens[0]](world, tokens)
-            
+
 
     def receive(self):
         request = None
         try:
             request = self.socket.recv(65536).decode('utf-8')
-        except TimeoutError:
+        except socket.timeout:
             pass
         return request
 
@@ -88,7 +89,9 @@ class   Connector():
     ########### Server signals ############
 
     def pnw(self, world, tokens):
-        pass
+        world.lines = [" ".join(tokens)]
+        world.line_index = 0
+        return world.parse_new_player()
 
 
     def ppo(self, world, tokens):
