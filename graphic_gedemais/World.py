@@ -99,7 +99,7 @@ class   World():
     def parse_new_player(self):
         tokens = self.lines[self.line_index].split(' ')
         if len(tokens) != 7 or tokens[0] != 'pnw':
-            print('invalid format')
+            print('invalid format for pnw')
             return -1
 
         try:

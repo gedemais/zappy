@@ -161,7 +161,22 @@ class   Connector():
 
 
     def pdi(self, world, tokens):
-        pass
+        found = False
+        print('player died !')
+        if len(tokens) != 2:
+            print('invalid format for pdi')
+            return -1
+
+        for team in world.teams.items():
+            team = team[1]
+            if tokens[1] in team.players.keys():
+                del team.players[tokens[1]]
+                found = True
+    
+        if found == False:
+            print('dead player {} not found'.format(tokens[1]))
+            return -1
+        return 0
 
 
     def sgt(self, world, tokens):

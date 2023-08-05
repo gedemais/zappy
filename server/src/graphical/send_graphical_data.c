@@ -7,7 +7,6 @@ uint8_t	send_graphical_data(t_env *env)
 	t_player	*pl;
 	uint8_t		code;
 
-	env->graphical.team = 1;
 	FLUSH_GRESPONSE
 
 	if ((code = gcmd_map_size(env)) != ERR_NONE

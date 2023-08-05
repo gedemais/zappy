@@ -23,4 +23,3 @@ while renderer.is_running:
 
 # Quit Pygame
 pygame.quit()
-

@@ -82,7 +82,8 @@ uint8_t	gevent_player_take(t_env *env)
 
 uint8_t	gevent_player_died(t_env *env)
 {
-	if (env->graphical.team == 0)
+	if (env->graphical.team == 0
+		|| env->graphical.connection == env->gplayer.connection)
 		return (ERR_NONE);
 
 	FLUSH_GRESPONSE

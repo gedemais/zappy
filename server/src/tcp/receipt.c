@@ -15,7 +15,6 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 			for (uint32_t i = 0; i < 1024; i++) // Looking for a connection slot
 				if (env->buffers.connections[i] < 0) // If the slot is available
 				{
-
 					env->buffers.connections[i] = new_fd; // We save the connection for later
 
 					PUTTIME()
@@ -78,9 +77,15 @@ uint8_t	receipt(t_env *env)
 	for (uint32_t i = 0; i < 1024; i++)
 		if (connections[i] >= 0)
 		{
-			FD_SET(connections[i], &read_fd_set);
-			sets++;
+			if (i < 10)
+			{
+				fprintf(stderr, "slot %d : fd %d\n", i, connections[i]);
+				FD_SET(connections[i], &read_fd_set);
+				sets++;
+			}
+			fprintf(stderr, "----------------\n");
 		}
+		fflush(stderr);
 
 	if ((ret = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
@@ -100,7 +105,21 @@ uint8_t	receipt(t_env *env)
 						fprintf(stderr, "[CLIENT LOGOUT] Client %d logged out by itself\n", connections[i]);
 
 						// Remove player from his team
-						if ((code = kill_player(env, get_team_client(env, connections[i]), true)))
+						t_player	*p = get_team_client(env, connections[i]);
+
+						if (!p && env->graphical.team == 1)
+						{
+							close(*env->graphical.connection);
+							*env->graphical.connection = -1;
+							memset(&env->graphical, 0, sizeof(t_player));
+							return (ERR_NONE);
+						}
+
+						memcpy(&env->gplayer, p, sizeof(t_player));
+						if ((code = gevent_player_died(env)) != ERR_NONE)
+							return (code);
+
+						if ((code = kill_player(env, &env->gplayer, true)) != ERR_NONE)
 							return (code);
 
 						continue;
@@ -120,7 +139,19 @@ uint8_t	receipt(t_env *env)
 		}
 	}
 	else
+	{
+		for (uint32_t i = 0; i < 1024; i++)
+		{
+			if (connections[i] >= 0 || i < 10)
+			{
+				fprintf(stderr, "slot %d : fd %d\n", i, connections[i]);
+				fflush(stderr);
+				sleep(1);
+			}
+		}
+
 		return (ERR_SELECT_FAILED);
+	}
 
 	return (ERR_NONE);
 }
