@@ -12,6 +12,7 @@ static uint8_t	take_req(t_env *env, char **tokens, t_player *p, bool *ret)
 
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
 	uint8_t	loot = 255;
+	uint8_t	code;
 
 	if (tokens[1] == NULL)
 		return (ERR_NONE);
@@ -24,6 +25,21 @@ static uint8_t	take_req(t_env *env, char **tokens, t_player *p, bool *ret)
 		*ret = true;
 
 	log_requirement("take", *ret);
+
+	if (*ret == false)
+		return (ERR_NONE);
+
+	env->gplayer = *p;
+	env->gindex = loot;
+	env->gx = p->tile_x;
+	env->gy = p->tile_y;
+
+	env->world.map[env->gy][env->gx].content[loot]--; // Taking it (magick trick)
+	if ((code = gevent_player_take(env)) != ERR_NONE
+		|| (code = gcmd_player_inventory(env)) != ERR_NONE
+		|| (code = gcmd_block_content(env)) != ERR_NONE)
+		return (code);
+	env->world.map[env->gy][env->gx].content[loot]++; // Placing it back (logic)
 	return (ERR_NONE);
 }
 
@@ -31,6 +47,7 @@ static uint8_t	put_req(t_env *env, char **tokens, t_player *p, bool *ret)
 {
 	t_tile	*tile = &env->world.map[p->tile_y][p->tile_x];
 	uint8_t	loot = 255;
+	uint8_t	code;
 
 	if (tokens[1] == NULL)
 		return (ERR_NONE);
@@ -45,6 +62,17 @@ static uint8_t	put_req(t_env *env, char **tokens, t_player *p, bool *ret)
 		*ret = true;
 
 	log_requirement("put", *ret);
+
+	if (*ret == false)
+		return (ERR_NONE);
+
+	env->world.map[env->gy][env->gx].content[loot]++; // Placing it (magick trick again)
+	if ((code = gevent_player_take(env)) != ERR_NONE
+		|| (code = gcmd_player_inventory(env)) != ERR_NONE
+		|| (code = gcmd_block_content(env)) != ERR_NONE)
+		return (code);
+	env->world.map[env->gy][env->gx].content[loot]--; // Taking it back before actually taking it 7 cycles later (logic af)
+
 	return (ERR_NONE);
 }
 

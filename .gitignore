@@ -3,13 +3,13 @@
 tags
 .vscode
 server/server
-server/log
+./server/log
+./log
 zappy_client
 zappy_server
 zappy_graphical_client
-__pycache__
+*/__pycache__
 log
-server/log
 graphical_client/__pycache__
 graphical_client/.DS_STORE
 *.pyc
