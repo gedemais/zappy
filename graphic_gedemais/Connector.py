@@ -7,21 +7,22 @@ class   Connector():
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # Socket connection
-        self.socket.connect((host, port))
+        print(host, port)
+        self.socket.connect((socket.gethostbyname('localhost'), port))
         # Timeout setting to avoid recv from receiving all the time
         self.timeout = timeout
 #        self.socket.settimeout(1.0 / timeout)
 
         self.event_functions = {
-                'pnw' : self.pnw,
-                'ppo' : self.ppo,
-                'ebo' : self.ebo,
-                'pgt' : self.pgt,
+                'pnw' : self.pnw, #
+                'ppo' : self.ppo, #
+                'ebo' : self.ebo, #
+                'pgt' : self.pgt, #
                 'pin' : self.pin,
                 'bct' : self.bct,
-                'pdr' : self.pdr,
-                'pex' : self.pex,
-                'pbc' : self.pbc,
+                'pdr' : self.pdr, #
+                'pex' : self.pex, #
+                'pbc' : self.pbc, #
                 'pic' : self.pic,
                 'pie' : self.pie,
                 'plv' : self.plv,
@@ -29,7 +30,7 @@ class   Connector():
                 'enw' : self.enw,
                 'eht' : self.eht,
                 'edi' : self.edi,
-                'pdi' : self.pdi,
+                'pdi' : self.pdi, #
                 'sgt' : self.sgt,
                 'sst' : self.sst,
                 'seg' : self.seg
@@ -86,50 +87,103 @@ class   Connector():
     def send(self, message):
         self.socket.send(bytes(message.encode('utf-8')))
 
+
+    def get_player_by_id(self, world, pid):
+        for team in world.teams.items():
+            team = team[1]
+            if tokens[1] in team.players.keys():
+                return team.players[tokens[1]]
+
+        return None
+
+
     ########### Server signals ############
 
     def pnw(self, world, tokens):
+        if len(tokens) != 7:
+            print('invalid format for pnw')
+            return -1
         world.lines = [" ".join(tokens)]
         world.line_index = 0
         return world.parse_new_player()
 
 
     def ppo(self, world, tokens):
-        for team in world.teams.items():
-            team = team[1]
-            if tokens[1] in team.players.keys():
-                team.players[tokens[1]].x = int(tokens[2])
-                team.players[tokens[1]].y = int(tokens[3])
-                team.players[tokens[1]].o = int(tokens[4])
-                print('ppo successful')
+
+        if len(tokens) != 5:
+            print('invalid format for ppo')
+            return -1
+
+            player = self.get_player_by_id(world, tokens[1])
+            player.x = int(tokens[2])
+            player.y = int(tokens[3])
+            player.o = int(tokens[4])
 
 
     def ebo(self, world, tokens):
-        pass
-
-
-    def pgt(self, world, tokens):
+        print('egg EX-CLOSIOOOOOOOONNN!!!!')
         pass
 
 
     def pin(self, world, tokens):
-        pass
+
+        if len(tokens) != 11:
+            print('invalid format for pin')
+            return -1
+
+        player = self.get_player_by_id(world, tokens[1])
+        for i in range(4, 11):
+            player.inventory[i] = int(tokens[i])
 
 
     def bct(self, world, tokens):
-        pass
+        if len(tokens) != 10:
+            print('invalid format for bct')
+            return -1
+
+        world.lines = [' '.join(tokens)]
+        world.line_index = 0
+        return world.parse_bct(int(tokens[1]), int(tokens[2]))
+
+
+    def pgt(self, world, tokens):
+        if len(tokens) != 3:
+            print('invalid format for pgt')
+            return -1
+
+        player = get_player_by_id(world, tokens[1])
+        loot = int(tokens[2])
+        player.inventory[loot] += 1
+        world.map[player.y][player.x][loot] -= 1
 
 
     def pdr(self, world, tokens):
-        pass
+        if len(tokens) != 3:
+            print('invalid format for pgt')
+            return -1
+
+        player = get_player_by_id(world, tokens[1])
+        loot = int(tokens[2])
+        player.inventory[loot] -= 1
+        world.map[player.y][player.x][loot] += 1
 
 
     def pex(self, world, tokens):
-        pass
+        if len(tokens) != 2:
+            return -1
+
+        player = self.get_player_by_id(world, tokens[1])
+        print('{} kicked !'.format(tokens[0]))
 
 
     def pbc(self, world, tokens):
-        pass
+        if len(tokens) < 3:
+            print('invalid format for pbc')
+            return -1
+
+        player = get_player_by_id(world, tokens[1])
+        print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[2])))
+        
 
 
     def pic(self, world, tokens):
@@ -167,12 +221,10 @@ class   Connector():
             print('invalid format for pdi')
             return -1
 
-        for team in world.teams.items():
-            team = team[1]
-            if tokens[1] in team.players.keys():
-                del team.players[tokens[1]]
-                found = True
-    
+        player = self.get_player_by_id(world, tokens[1])
+        del team.players[tokens[1]]
+        found = True
+
         if found == False:
             print('dead player {} not found'.format(tokens[1]))
             return -1

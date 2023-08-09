@@ -76,8 +76,6 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 		p->inventory[(int)loot]++;
 	}
 
-	env->gplayer = *p;
-	gevent_player_take(env);
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
 
@@ -158,10 +156,8 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 		strcat(env->buffers.response, kicked ? "ok\n" : "ko\n");
 		response(env, p);
 	}
-	env->gplayer = *p;
-	gevent_player_expulse(env);
 
-	return (ERR_NONE);
+	return (gevent_player_expulse(env));
 }
 
 
