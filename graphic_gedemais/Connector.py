@@ -18,15 +18,15 @@ class   Connector():
                 'ppo' : self.ppo, #
                 'ebo' : self.ebo, #
                 'pgt' : self.pgt, #
-                'pin' : self.pin,
-                'bct' : self.bct,
+                'pin' : self.pin, #
+                'bct' : self.bct, #
                 'pdr' : self.pdr, #
                 'pex' : self.pex, #
                 'pbc' : self.pbc, #
                 'pic' : self.pic,
                 'pie' : self.pie,
-                'plv' : self.plv,
-                'pfk' : self.pfk,
+                'plv' : self.plv, #
+                'pfk' : self.pfk, #
                 'enw' : self.enw,
                 'eht' : self.eht,
                 'edi' : self.edi,
@@ -183,7 +183,6 @@ class   Connector():
 
         player = get_player_by_id(world, tokens[1])
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[2])))
-        
 
 
     def pic(self, world, tokens):
@@ -195,11 +194,14 @@ class   Connector():
 
 
     def plv(self, world, tokens):
+        if len(tokens) != 3:
         pass
 
 
     def pfk(self, world, tokens):
-        pass
+        player = get_player_by_id(world, tokens[1])
+
+        
 
 
     def enw(self, world, tokens):
