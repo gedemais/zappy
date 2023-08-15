@@ -108,7 +108,7 @@ class   World():
             o = int(tokens[4])
             l = int(tokens[5])
             team = tokens[6]
-            self.teams[team].players[tokens[1]] = Player(x, y, o, l)
+            self.teams[team].players[tokens[1]] = Player(x, y, o, l, team)
         except:
             print('player creation failed')
             return -1

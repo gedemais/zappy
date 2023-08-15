@@ -109,6 +109,7 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 	char		*s;
 	bool		kicked = false;
 	int			direction;
+	uint8_t		code;
 
 	for (int t = 0; t < env->world.teams.nb_cells; t++)
 	{
@@ -127,8 +128,16 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 
 					dir = pl->direction;
 					pl->direction = p->direction;
-					cmd_advance(env, pl, false);
+					if ((code = gevent_player_expulse(env)) != ERR_NONE
+						|| (code = cmd_advance(env, pl, false)) != ERR_NONE)
+						return (code);
+
 					pl->direction = dir;
+
+					env->gplayer = *pl;
+					if ((code = gcmd_player_position(env)) != ERR_NONE
+						|| (code = gresponse(env)) != ERR_NONE)
+						return (code);
 
 					dir.d -= p->direction.d; // Get kick direction in the kicked player referential
 					direction = dir.d; // Int conversion
@@ -157,7 +166,7 @@ uint8_t	cmd_kick(t_env *env, t_player *p, bool send_response)
 		response(env, p);
 	}
 
-	return (gevent_player_expulse(env));
+	return (ERR_NONE);
 }
 
 

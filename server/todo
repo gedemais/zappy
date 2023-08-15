@@ -14,6 +14,8 @@ l'equipe du joueur mort.
 
 fix le leak de split dans place_command in queue
 
+fork renvoie toujours ko
+
 incantation
 
 les commandes ne sont plus prises en compte lors de l'envoi d'une ligne vide par le client

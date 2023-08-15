@@ -111,7 +111,6 @@ class   Connector():
 
     def ppo(self, world, tokens):
 
-        print('LALA LALALALA')
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
@@ -170,23 +169,11 @@ class   Connector():
 
 
     def pex(self, world, tokens):
-        moves = (
-                (0, -1),
-                (1, 0),
-                (0, 1),
-                (-1, 0)
-                )
         if len(tokens) != 2:
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
-        for team in world.teams.items():
-            team = team[1]
-            for p in team.players:
-                if p.x == player.x and p.y == player.y:
-                    p.x -= moves[player.o][0]
-                    p.y -= moves[player.o][1]
-
+        # player.state = kicking
         print('{} kicked !'.format(tokens[0]))
 
 
@@ -218,14 +205,14 @@ class   Connector():
 
     def pfk(self, world, tokens):
         player = get_player_by_id(world, tokens[1])
-        # self.state = hatching
+        # player.state = hatching
 
 
     def enw(self, world, tokens):
         player = get_player_by_id(world, tokens[2])
         x = int(tokens[3])
         y = int(tokens[4])
-        player.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+        world.teams.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
 
 
     def eht(self, world, tokens):
