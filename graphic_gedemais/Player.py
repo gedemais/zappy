@@ -9,3 +9,4 @@ class   Player():
         self.states_queue = []
         self.state = self.o
         self.step = 0
+        self.eggs = {}

@@ -1,4 +1,5 @@
 import socket
+from Egg import Egg
 
 class   Connector():
 
@@ -91,8 +92,8 @@ class   Connector():
     def get_player_by_id(self, world, pid):
         for team in world.teams.items():
             team = team[1]
-            if tokens[1] in team.players.keys():
-                return team.players[tokens[1]]
+            if pid in team.players.keys():
+                return team.players[pid]
 
         return None
 
@@ -110,23 +111,23 @@ class   Connector():
 
     def ppo(self, world, tokens):
 
+        print('LALA LALALALA')
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
 
-            player = self.get_player_by_id(world, tokens[1])
-            player.x = int(tokens[2])
-            player.y = int(tokens[3])
-            player.o = int(tokens[4])
+        player = self.get_player_by_id(world, tokens[1])
+        player.x = int(tokens[2])
+        player.y = int(tokens[3])
+        player.o = int(tokens[4])
 
 
     def ebo(self, world, tokens):
-        print('egg EX-CLOSIOOOOOOOONNN!!!!')
+        print('EGG-CLOSIOOOOOOOONNN!!!!')
         pass
 
 
     def pin(self, world, tokens):
-
         if len(tokens) != 11:
             print('invalid format for pin')
             return -1
@@ -169,10 +170,23 @@ class   Connector():
 
 
     def pex(self, world, tokens):
+        moves = (
+                (0, -1),
+                (1, 0),
+                (0, 1),
+                (-1, 0)
+                )
         if len(tokens) != 2:
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        for team in world.teams.items():
+            team = team[1]
+            for p in team.players:
+                if p.x == player.x and p.y == player.y:
+                    p.x -= moves[player.o][0]
+                    p.y -= moves[player.o][1]
+
         print('{} kicked !'.format(tokens[0]))
 
 
@@ -182,7 +196,7 @@ class   Connector():
             return -1
 
         player = get_player_by_id(world, tokens[1])
-        print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[2])))
+        print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
 
 
     def pic(self, world, tokens):
@@ -195,17 +209,23 @@ class   Connector():
 
     def plv(self, world, tokens):
         if len(tokens) != 3:
-        pass
+            print('invalid format for plv')
+            return -1
+
+        player = get_player_by_id(world, tokens[1])
+        player.lvl = int(tokens[2])
 
 
     def pfk(self, world, tokens):
         player = get_player_by_id(world, tokens[1])
-
-        
+        # self.state = hatching
 
 
     def enw(self, world, tokens):
-        pass
+        player = get_player_by_id(world, tokens[2])
+        x = int(tokens[3])
+        y = int(tokens[4])
+        player.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
 
 
     def eht(self, world, tokens):

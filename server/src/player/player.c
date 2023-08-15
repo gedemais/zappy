@@ -54,6 +54,7 @@ static uint8_t	update_level(t_env *env, t_player *p)
 {
 	char	r[128];
 	char	*lvl;
+	uint8_t	code;
 
 	if (p->elevation > 0)
 		p->elevation--;
@@ -73,7 +74,11 @@ static uint8_t	update_level(t_env *env, t_player *p)
 		free(lvl);
 		strcat(r, "\n");
 
-		return (send_response(env, p, r));
+		if ((code = send_response(env, p, r))
+			|| (code = gcmd_player_level(env)))
+			return (code);
+
+		return (gresponse(env));
 	}
 	return (ERR_NONE);
 }
