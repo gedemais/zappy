@@ -80,16 +80,16 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 
 	dir -= (unsigned char)receiver->direction.d * 2;
 
-	if (abs(sender->tile_x - receiver->tile_x) < env->settings.map_width / 2
-		&& abs(sender->tile_y - receiver->tile_y) < env->settings.map_height / 2)
+	if (abs(sender->tile_x - receiver->tile_x) < env->settings.map_width / 2.0f
+		&& abs(sender->tile_y - receiver->tile_y) < env->settings.map_height / 2.0f)
 		dir -= 4;
-	else
-		dir -= 0;
 
-	dir += (dir < 0) ? BDIR_MAX : 0;
-	dir += (dir >= BDIR_MAX) ? -BDIR_MAX : 0;
+	while (dir < 0)
+		dir += BDIR_MAX;
 
-	fprintf(stderr, "Direction = %d\n", (int)dir);
+	while (dir >= BDIR_MAX)
+		dir -= BDIR_MAX;
+
 	strcat(env->buffers.response, names[(int)dir]);
 	strcat(env->buffers.response, ",");
 }

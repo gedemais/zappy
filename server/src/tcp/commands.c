@@ -78,7 +78,8 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			fprintf(stderr, "|||%s|||\n", tokens[0]);
 			ft_arrfree(tokens);
 			ft_arrfree(lines);
-			return (ERR_CMD_NOT_FOUND);
+			return (ERR_NONE);
+			//return (ERR_CMD_NOT_FOUND);
 		}
 	}
 

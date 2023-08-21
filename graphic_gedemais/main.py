@@ -12,6 +12,8 @@ response = connector.authenticate()
 
 world = World(response)
 
+connector.tick = world.t
+
 renderer = Renderer(world, tile_size=50, loot_scale=0.75)
 
 cycle = 0

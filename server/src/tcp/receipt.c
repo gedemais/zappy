@@ -77,15 +77,9 @@ uint8_t	receipt(t_env *env)
 	for (uint32_t i = 0; i < 1024; i++)
 		if (connections[i] >= 0)
 		{
-			if (i < 10)
-			{
-				fprintf(stderr, "slot %d : fd %d\n", i, connections[i]);
-				FD_SET(connections[i], &read_fd_set);
-				sets++;
-			}
-			fprintf(stderr, "----------------\n");
+			FD_SET(connections[i], &read_fd_set);
+			sets++;
 		}
-		fflush(stderr);
 
 	if ((ret = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{

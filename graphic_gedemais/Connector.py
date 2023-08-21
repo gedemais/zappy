@@ -3,7 +3,7 @@ from Egg import Egg
 
 class   Connector():
 
-    def __init__(self, host, port, timeout=60):
+    def __init__(self, host, port, tick=60):
         # Socket initialization
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -11,10 +11,12 @@ class   Connector():
         print(host, port)
         self.socket.connect((socket.gethostbyname('localhost'), port))
         # Timeout setting to avoid recv from receiving all the time
-        self.timeout = timeout
+        self.tick = tick
 #        self.socket.settimeout(1.0 / timeout)
 
         self.event_functions = {
+                #  : placeholder implemented
+                ## : graphical procedure implemented
                 'pnw' : self.pnw, #
                 'ppo' : self.ppo, #
                 'ebo' : self.ebo, #
@@ -28,12 +30,11 @@ class   Connector():
                 'pie' : self.pie,
                 'plv' : self.plv, #
                 'pfk' : self.pfk, #
-                'enw' : self.enw,
-                'eht' : self.eht,
-                'edi' : self.edi,
+                'enw' : self.enw, #
+                'eht' : self.eht, #
+                'edi' : self.edi, #
                 'pdi' : self.pdi, #
                 'sgt' : self.sgt,
-                'sst' : self.sst,
                 'seg' : self.seg
         }
 
@@ -56,7 +57,7 @@ class   Connector():
         while response == None:
             response = self.receive()
 
-        self.socket.settimeout(1.0 / self.timeout)
+        self.socket.settimeout(1.0 / self.tick)
 
         return response
 
@@ -110,11 +111,9 @@ class   Connector():
 
 
     def ppo(self, world, tokens):
-
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
-
         player = self.get_player_by_id(world, tokens[1])
         player.x = int(tokens[2])
         player.y = int(tokens[3])
@@ -130,7 +129,6 @@ class   Connector():
         if len(tokens) != 11:
             print('invalid format for pin')
             return -1
-
         player = self.get_player_by_id(world, tokens[1])
         for i in range(4, 11):
             player.inventory[i] = int(tokens[i])
@@ -140,7 +138,6 @@ class   Connector():
         if len(tokens) != 10:
             print('invalid format for bct')
             return -1
-
         world.lines = [' '.join(tokens)]
         world.line_index = 0
         return world.parse_bct(int(tokens[1]), int(tokens[2]))
@@ -150,7 +147,6 @@ class   Connector():
         if len(tokens) != 3:
             print('invalid format for pgt')
             return -1
-
         player = get_player_by_id(world, tokens[1])
         loot = int(tokens[2])
         player.inventory[loot] += 1
@@ -182,7 +178,7 @@ class   Connector():
             print('invalid format for pbc')
             return -1
 
-        player = get_player_by_id(world, tokens[1])
+        player = self.get_player_by_id(world, tokens[1])
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
 
 
@@ -216,10 +212,12 @@ class   Connector():
 
 
     def eht(self, world, tokens):
+        print('egg {} hatched !'.format(tokens[2]))
         pass
 
 
     def edi(self, world, tokens):
+        print('egg {} rotted !'.format(tokens[2]))
         pass
 
 
@@ -241,12 +239,12 @@ class   Connector():
 
 
     def sgt(self, world, tokens):
-        pass
-
-
-    def sst(self, world, tokens):
-        pass
+        if len(tokens) != 2:
+            print('invalid format for sgt')
+            return -1
+        self.tick = int(tokens[1])
 
 
     def seg(self, world, tokens):
+        print('GAME OVER')
         pass

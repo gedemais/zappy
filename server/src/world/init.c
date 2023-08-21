@@ -64,7 +64,7 @@ void	print_map(t_env *env)
 			}
 			else if (env->world.map[y][x].content[LOOT_VIEWED] > 0)
 			{
-				strcat(&buffer[index], teams_colors[p->team]);
+				strcat(&buffer[index], teams_colors[0]);
 				index += 1;
 				strcat(&buffer[index], "o ");
 				index += 2;
