@@ -3,7 +3,7 @@ import numpy as np
 
 class   Renderer():
 
-    def __init__(self, world, tile_size=50, loot_scale=1.0):
+    def __init__(self, world, tile_size=50, loot_scale=0.75):
     # Initialize Pygame
         pygame.init()
         self.is_running = True
