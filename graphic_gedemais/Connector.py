@@ -229,6 +229,7 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        team = world.teams[player.team]
         del team.players[tokens[1]]
         found = True
 
