@@ -121,11 +121,13 @@ uint8_t			update_players(t_env *env)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
-				return (code);
 
 			if ((code = update_level(env, p)))
 				return (code);
+
+			if (p->alive == true && (code = update_food(env, p)) != ERR_NONE)
+				return (code);
+
 		}
 	}
 
@@ -141,7 +143,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
-	new->inventory[LOOT_FOOD] = 100; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
 
 	// PID generation
 	new->pid = rand() * rand() * rand();
@@ -187,7 +189,7 @@ uint8_t	remove_player(t_env *env, int connection_fd)
 				if (dynarray_extract(pending ? &env->world.pending.players : &team->players, p))
 					return (ERR_MALLOC_FAILED);
 
-				fprintf(stderr, "%d\n", team->players.nb_cells);
+				fprintf(stderr, "%d players left in team %s\n", team->players.nb_cells, team->name);
 
 				dynarray_pop(&env->world.teams, false);
 
