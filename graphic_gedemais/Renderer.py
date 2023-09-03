@@ -69,6 +69,7 @@ class   Renderer():
         # Have to build a mechanism to avoid choosing the same spritesheet for all teams
         animations = pygame.image.load('./sprites/rabbitSpriteSheet.png')
 
+        # IDLE animations
         self.player_animations = {
                     'idle_north' : [pygame.transform.scale(animations.subsurface((0, 512, 64, 64)), (self.tile_size, self.tile_size))],
                     'idle_west' : [pygame.transform.scale(animations.subsurface((0, 576, 64, 64)), (self.tile_size, self.tile_size))],
@@ -76,17 +77,24 @@ class   Renderer():
                     'idle_east' : [pygame.transform.scale(animations.subsurface((0, 704, 64, 64)), (self.tile_size, self.tile_size))]
                 }
 
+        # Walking animations
         self.player_animations['walking_north'] = []
         self.player_animations['walking_west'] = []
         self.player_animations['walking_south'] = []
         self.player_animations['walking_east'] = []
 
-        for i in range(1, 8):
+        for i in range(1, 9):
             x = i * 64
             self.player_animations['walking_north'].append(pygame.transform.scale(animations.subsurface((x, 512, 64, 64)), (self.tile_size, self.tile_size))),
             self.player_animations['walking_west'].append(pygame.transform.scale(animations.subsurface((x, 576, 64, 64)), (self.tile_size, self.tile_size))),
             self.player_animations['walking_south'].append(pygame.transform.scale(animations.subsurface((x, 640, 64, 64)), (self.tile_size, self.tile_size))),
             self.player_animations['walking_east'].append(pygame.transform.scale(animations.subsurface((x, 704, 64, 64)), (self.tile_size, self.tile_size)))
+
+        self.player_animations['kick_north'] = []
+        self.player_animations['kick_west'] = []
+        self.player_animations['kick_south'] = []
+        self.player_animations['kick_east'] = []
+
 
 
 
@@ -157,6 +165,9 @@ class   Renderer():
                     off_x = -self.tile_size / len(animation) * player.step
                 elif player.state == S.WALKING_EAST:
                     off_x = self.tile_size / len(animation) * player.step
+
+                off_x *= 1.5
+                off_y *= 1.5
 
                 self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 

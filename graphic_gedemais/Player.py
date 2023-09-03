@@ -8,7 +8,13 @@ class   S(Enum):
     WALKING_EAST = 2,
     WALKING_SOUTH = 3,
     WALKING_WEST = 4,
-    MAX = 5
+    TAKING = 5,
+    PUTTING = 6,
+    PUSHING = 7,
+    BROADCASTING = 8,
+    INCANTATING = 9,
+    LAYING_EGG = 10,
+    MAX = 11
 
 
 class   Player():
