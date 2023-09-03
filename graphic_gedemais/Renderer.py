@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+from Player import S
 
 class   Renderer():
 
@@ -40,14 +41,6 @@ class   Renderer():
                 self.is_running = False
 
 
-    def greyscale(self, surface):
-        arr = pygame.surfarray.pixels3d(surface)
-        mean_arr = np.dot(arr[:,:,:], [0.216, 0.587, 0.144])
-        mean_arr3d = mean_arr[..., np.newaxis]
-        new_arr = np.repeat(mean_arr3d[:, :, :], 3, axis=2)
-        return pygame.surfarray.make_surface(new_arr)
-
-
     def load_resources(self):
         # Background resource loading
         self.bgd_tile = pygame.image.load('./sprites/grassFlower.jpeg')
@@ -55,6 +48,7 @@ class   Renderer():
         self.bgd_tile_rect = self.bgd_tile.get_rect()
         self.generate_background()
 
+        eggs = pygame.image.load('./sprites/eggs.jpg')
         minerals = pygame.image.load('./sprites/minerals.png')
         food = pygame.image.load('./sprites/minerals.png')
         self.loot_images = [
@@ -67,21 +61,33 @@ class   Renderer():
                 minerals.subsurface((230, 115, 28, 28)),
                 ]
 
-        # Have to build a mechanism to avoid choosing the same spritesheet for all teams
-        animations = pygame.image.load('./sprites/rabbitSpriteSheet.png')
-        self.players_sprites = [
-                    pygame.transform.scale(animations.subsurface((0, 512, 64, 64)), (self.tile_size, self.tile_size)),
-                    pygame.transform.scale(animations.subsurface((0, 704, 64, 64)), (self.tile_size, self.tile_size)),
-                    pygame.transform.scale(animations.subsurface((0, 640, 64, 64)), (self.tile_size, self.tile_size)),
-                    pygame.transform.scale(animations.subsurface((0, 576, 64, 64)), (self.tile_size, self.tile_size))
+        self.eggs_images = [
+                eggs.subsurface((50, 0, 250, 200)),
                 ]
 
+
+        # Have to build a mechanism to avoid choosing the same spritesheet for all teams
+        animations = pygame.image.load('./sprites/rabbitSpriteSheet.png')
+
         self.player_animations = {
-                'walking_north' : (64, 576, 512, 64),
-                'walking_south' : (64, 704, 512, 64),
-                'walking_east' : (64, 832, 512, 64),
-                'walking_west' : (64, 640, 512, 64)
+                    'idle_north' : [pygame.transform.scale(animations.subsurface((0, 512, 64, 64)), (self.tile_size, self.tile_size))],
+                    'idle_west' : [pygame.transform.scale(animations.subsurface((0, 576, 64, 64)), (self.tile_size, self.tile_size))],
+                    'idle_south' : [pygame.transform.scale(animations.subsurface((0, 640, 64, 64)), (self.tile_size, self.tile_size))],
+                    'idle_east' : [pygame.transform.scale(animations.subsurface((0, 704, 64, 64)), (self.tile_size, self.tile_size))]
                 }
+
+        self.player_animations['walking_north'] = []
+        self.player_animations['walking_west'] = []
+        self.player_animations['walking_south'] = []
+        self.player_animations['walking_east'] = []
+
+        for i in range(9):
+            x = i * 64
+            self.player_animations['walking_north'].append(pygame.transform.scale(animations.subsurface((x, 512, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['walking_west'].append(pygame.transform.scale(animations.subsurface((x, 576, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['walking_south'].append(pygame.transform.scale(animations.subsurface((x, 640, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['walking_east'].append(pygame.transform.scale(animations.subsurface((x, 704, 64, 64)), (self.tile_size, self.tile_size)))
+
 
 
     def render_loot(self, world, x, y):
@@ -123,14 +129,42 @@ class   Renderer():
                 self.background.blit(self.bgd_tile, self.bgd_tile_rect)
 
 
+    def get_animation(self, player):
+        keys = ['north', 'east', 'south', 'west']
+        if player.state == S.IDLE:
+            return self.player_animations['idle_' + keys[player.o]]
+
+        elif player.state.value[0] >= S.WALKING_NORTH.value[0]:
+            if player.state.value[0] <= S.WALKING_WEST.value[0]:
+                return self.player_animations['walking_' + keys[player.o]]
+
+
     def render_players(self, world):
 
         for team in world.teams.items():
             team = team[1]
             for player in team.players.items():
                 player = player[1]
-                self.window.blit(self.players_sprites[player.o], (player.x * self.tile_size + player.x, player.y * self.tile_size + player.y))
+                animation = self.get_animation(player)
 
+                off_x, off_y = 0, 0
+
+                if player.state == S.WALKING_NORTH:
+                    off_y = -self.tile_size / len(animation) * player.step
+                if player.state == S.WALKING_SOUTH:
+                    off_y = self.tile_size / len(animation) * player.step
+                if player.state == S.WALKING_WEST:
+                    off_x = -self.tile_size / len(animation) * player.step
+                elif player.state == S.WALKING_WEST:
+                    off_x = self.tile_size / len(animation) * player.step
+
+                self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
+
+                player.step += 1
+
+                if player.step == len(animation):
+                    player.state = S.IDLE
+                    player.step = 0
 
 
     def render(self, world):
@@ -146,6 +180,7 @@ class   Renderer():
         for y in range(self.map_height):
             for x in range(self.map_width):
                 self.render_loot(world, x, y)
+                #self.render_egg(world, x, y)
 
         self.render_players(world)
 

@@ -1,5 +1,6 @@
 import socket
 from Egg import Egg
+from Player import S
 
 class   Connector():
 
@@ -17,8 +18,8 @@ class   Connector():
         self.event_functions = {
                 #  : placeholder implemented
                 ## : graphical procedure implemented
-                'pnw' : self.pnw, #
-                'ppo' : self.ppo, #
+                'pnw' : self.pnw, ##
+                'ppo' : self.ppo, ##
                 'ebo' : self.ebo, #
                 'pgt' : self.pgt, #
                 'pin' : self.pin, #
@@ -33,10 +34,35 @@ class   Connector():
                 'enw' : self.enw, #
                 'eht' : self.eht, #
                 'edi' : self.edi, #
-                'pdi' : self.pdi, #
+                'pdi' : self.pdi, ##
                 'sgt' : self.sgt,
                 'seg' : self.seg
         }
+
+        self.commands_functions = {
+                'pnw' : None, ##
+                'ppo' : self._ppo_, ##
+                'ebo' : None, #
+                'pgt' : None, #
+                'pin' : None, #
+                'bct' : None, #
+                'pdr' : None, #
+                'pex' : None, #
+                'pbc' : None, #
+                'pic' : None,
+                'pie' : None,
+                'plv' : None, #
+                'pfk' : None, #
+                'enw' : None, #
+                'eht' : None, #
+                'edi' : None, #
+                'pdi' : None, ##
+                'sgt' : None,
+                'seg' : None
+        
+                }
+
+        self.commands_queue = []
 
 
     def authenticate(self):
@@ -73,8 +99,15 @@ class   Connector():
             tokens = line.split(' ')
             if len(tokens) < 2:
                 break
-            print(tokens)
             self.event_functions[tokens[0]](world, tokens)
+
+        for command in self.commands_queue:
+            command['ticks'] -= 1
+            if command['ticks'] == 0:
+                command['id'](*command['params'])
+
+        self.commands_queue = [cmd for cmd in self.commands_queue if cmd['ticks'] > 0]
+
 
 
     def receive(self):
@@ -110,20 +143,50 @@ class   Connector():
         return world.parse_new_player()
 
 
-    def ppo(self, world, tokens):
-        if len(tokens) != 5:
-            print('invalid format for ppo')
-            return -1
+
+    def _ppo_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
         player.x = int(tokens[2])
         player.y = int(tokens[3])
         player.o = int(tokens[4])
 
 
+    def ppo(self, world, tokens):
+        if len(tokens) != 5:
+            print('invalid format for ppo')
+            return -1
+
+        player = self.get_player_by_id(world, tokens[1])
+
+        # Determine player position -> if it moved, set walking state to animate
+
+        new_x, new_y = int(tokens[2]), int(tokens[3])
+
+        if player.x < new_x:
+            player.state = S.WALKING_EAST
+        elif player.x > new_x:
+            player.state = S.WALKING_WEST
+        elif player.y < new_y:
+            player.state = S.WALKING_NORTH
+        elif player.y > new_y:
+            player.state = S.WALKING_SOUTH
+        else:
+            return
+
+        self.commands_queue.append({'id': self._ppo_,  'params': (world, tokens), 'ticks': 7})
+
+
+
+    def _ebo_(self, world, tokens):
+        pass
+
     def ebo(self, world, tokens):
         print('EGG-CLOSIOOOOOOOONNN!!!!')
         pass
 
+
+    def _pin_(self, world, tokens):
+        pass
 
     def pin(self, world, tokens):
         if len(tokens) != 11:
@@ -134,6 +197,9 @@ class   Connector():
             player.inventory[i] = int(tokens[i])
 
 
+    def _bct_(self, world, tokens):
+        pass
+
     def bct(self, world, tokens):
         if len(tokens) != 10:
             print('invalid format for bct')
@@ -142,6 +208,9 @@ class   Connector():
         world.line_index = 0
         return world.parse_bct(int(tokens[1]), int(tokens[2]))
 
+
+    def _pgt_(self, world, tokens):
+        pass
 
     def pgt(self, world, tokens):
         if len(tokens) != 3:
@@ -152,6 +221,9 @@ class   Connector():
         player.inventory[loot] += 1
         world.map[player.y][player.x][loot] -= 1
 
+
+    def _pdr_(self, world, tokens):
+        pass
 
     def pdr(self, world, tokens):
         if len(tokens) != 3:
@@ -164,6 +236,9 @@ class   Connector():
         world.map[player.y][player.x][loot] += 1
 
 
+    def _pex_(self, world, tokens):
+        pass
+
     def pex(self, world, tokens):
         if len(tokens) != 2:
             return -1
@@ -172,6 +247,9 @@ class   Connector():
         # player.state = kicking
         print('{} kicked !'.format(tokens[0]))
 
+
+    def _pbc_(self, world, tokens):
+        pass
 
     def pbc(self, world, tokens):
         if len(tokens) < 3:
@@ -182,13 +260,22 @@ class   Connector():
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
 
 
+    def _pic_(self, world, tokens):
+        pass
+
     def pic(self, world, tokens):
         pass
 
 
+    def _pie_(self, world, tokens):
+        pass
+
     def pie(self, world, tokens):
         pass
 
+
+    def _plv_(self, world, tokens):
+        pass
 
     def plv(self, world, tokens):
         if len(tokens) != 3:
@@ -199,10 +286,16 @@ class   Connector():
         player.lvl = int(tokens[2])
 
 
+    def _pfk_(self, world, tokens):
+        pass
+
     def pfk(self, world, tokens):
         player = get_player_by_id(world, tokens[1])
         # player.state = hatching
 
+
+    def _enw_(self, world, tokens):
+        pass
 
     def enw(self, world, tokens):
         player = get_player_by_id(world, tokens[2])
@@ -211,15 +304,24 @@ class   Connector():
         world.teams.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
 
 
+    def _eht_(self, world, tokens):
+        pass
+
     def eht(self, world, tokens):
         print('egg {} hatched !'.format(tokens[2]))
         pass
 
 
+    def _edi_(self, world, tokens):
+        pass
+
     def edi(self, world, tokens):
         print('egg {} rotted !'.format(tokens[2]))
         pass
 
+
+    def _pdi_(self, world, tokens):
+        pass
 
     def pdi(self, world, tokens):
         found = False
@@ -239,12 +341,18 @@ class   Connector():
         return 0
 
 
+    def _sgt_(self, world, tokens):
+        pass
+
     def sgt(self, world, tokens):
         if len(tokens) != 2:
             print('invalid format for sgt')
             return -1
         self.tick = int(tokens[1])
 
+
+    def _seg_(self, world, tokens):
+        pass
 
     def seg(self, world, tokens):
         print('GAME OVER')
