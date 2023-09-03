@@ -14,7 +14,7 @@ world = World(response)
 
 connector.tick = world.t
 
-renderer = Renderer(world, tile_size=50)
+renderer = Renderer(world, tile_size=100)
 
 cycle = 0
 

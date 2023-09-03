@@ -91,17 +91,16 @@ class   Connector():
     def process(self, world):
 
         response = self.receive()
-        if response == None:
-            return
-
-        lines = response.split('\n')
-        for line in lines:
-            tokens = line.split(' ')
-            if len(tokens) < 2:
-                break
-            self.event_functions[tokens[0]](world, tokens)
+        if response != None:
+            lines = response.split('\n')
+            for line in lines:
+                tokens = line.split(' ')
+                if len(tokens) < 2:
+                    break
+                self.event_functions[tokens[0]](world, tokens)
 
         for command in self.commands_queue:
+            print(command)
             command['ticks'] -= 1
             if command['ticks'] == 0:
                 command['id'](*command['params'])
@@ -145,13 +144,18 @@ class   Connector():
 
 
     def _ppo_(self, world, tokens):
+        print('_ppo_')
         player = self.get_player_by_id(world, tokens[1])
         player.x = int(tokens[2])
         player.y = int(tokens[3])
         player.o = int(tokens[4])
 
+        player.state = S.IDLE
+        player.step = 0
+
 
     def ppo(self, world, tokens):
+        print('ppo')
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
@@ -170,8 +174,6 @@ class   Connector():
             player.state = S.WALKING_NORTH
         elif player.y > new_y:
             player.state = S.WALKING_SOUTH
-        else:
-            return
 
         self.commands_queue.append({'id': self._ppo_,  'params': (world, tokens), 'ticks': 7})
 

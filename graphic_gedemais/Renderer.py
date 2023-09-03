@@ -81,7 +81,7 @@ class   Renderer():
         self.player_animations['walking_south'] = []
         self.player_animations['walking_east'] = []
 
-        for i in range(9):
+        for i in range(1, 8):
             x = i * 64
             self.player_animations['walking_north'].append(pygame.transform.scale(animations.subsurface((x, 512, 64, 64)), (self.tile_size, self.tile_size))),
             self.player_animations['walking_west'].append(pygame.transform.scale(animations.subsurface((x, 576, 64, 64)), (self.tile_size, self.tile_size))),
@@ -150,12 +150,12 @@ class   Renderer():
                 off_x, off_y = 0, 0
 
                 if player.state == S.WALKING_NORTH:
-                    off_y = -self.tile_size / len(animation) * player.step
-                if player.state == S.WALKING_SOUTH:
                     off_y = self.tile_size / len(animation) * player.step
+                if player.state == S.WALKING_SOUTH:
+                    off_y = -self.tile_size / len(animation) * player.step
                 if player.state == S.WALKING_WEST:
                     off_x = -self.tile_size / len(animation) * player.step
-                elif player.state == S.WALKING_WEST:
+                elif player.state == S.WALKING_EAST:
                     off_x = self.tile_size / len(animation) * player.step
 
                 self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
