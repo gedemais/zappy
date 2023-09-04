@@ -90,10 +90,17 @@ class   Renderer():
             self.player_animations['walking_south'].append(pygame.transform.scale(animations.subsurface((x, 640, 64, 64)), (self.tile_size, self.tile_size))),
             self.player_animations['walking_east'].append(pygame.transform.scale(animations.subsurface((x, 704, 64, 64)), (self.tile_size, self.tile_size)))
 
-        self.player_animations['kick_north'] = []
-        self.player_animations['kick_west'] = []
-        self.player_animations['kick_south'] = []
-        self.player_animations['kick_east'] = []
+        self.player_animations['pushing_north'] = []
+        self.player_animations['pushing_west'] = []
+        self.player_animations['pushing_south'] = []
+        self.player_animations['pushing_east'] = []
+
+        for i in range(8):
+            x = i * 64
+            self.player_animations['pushing_north'].append(pygame.transform.scale(animations.subsurface((x, 256, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['pushing_west'].append(pygame.transform.scale(animations.subsurface((x, 320, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['pushing_south'].append(pygame.transform.scale(animations.subsurface((x, 384, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations['pushing_east'].append(pygame.transform.scale(animations.subsurface((x, 448, 64, 64)), (self.tile_size, self.tile_size)))
 
 
 
@@ -139,12 +146,19 @@ class   Renderer():
 
     def get_animation(self, player):
         keys = ['north', 'east', 'south', 'west']
+
+        print('state :', player.state)
         if player.state == S.IDLE:
             return self.player_animations['idle_' + keys[player.o]]
 
-        elif player.state.value[0] >= S.WALKING_NORTH.value[0]:
+        if player.state.value[0] >= S.WALKING_NORTH.value[0]:
             if player.state.value[0] <= S.WALKING_WEST.value[0]:
                 return self.player_animations['walking_' + keys[player.o]]
+
+        if player.state == S.PUSHING:
+            return self.player_animations['pushing_' + keys[player.o]]
+
+        print('ANIMATION NOT FOUND')
 
 
     def render_players(self, world):

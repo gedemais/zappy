@@ -142,7 +142,6 @@ class   Connector():
         return world.parse_new_player()
 
 
-
     def _ppo_(self, world, tokens):
         print('_ppo_')
         player = self.get_player_by_id(world, tokens[1])
@@ -239,15 +238,16 @@ class   Connector():
 
 
     def _pex_(self, world, tokens):
-        pass
+        player.state = S.IDLE
+        player.step = 0
 
     def pex(self, world, tokens):
         if len(tokens) != 2:
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
-        # player.state = kicking
-        print('{} kicked !'.format(tokens[0]))
+        player.state = S.PUSHING
+        player.step = 0
 
 
     def _pbc_(self, world, tokens):
