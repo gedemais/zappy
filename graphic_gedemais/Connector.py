@@ -150,7 +150,7 @@ class   Connector():
         player.o = int(tokens[4])
 
         player.state = S.IDLE
-        player.step = 0
+        player.step = 1
 
 
     def ppo(self, world, tokens):
@@ -166,13 +166,13 @@ class   Connector():
         new_x, new_y = int(tokens[2]), int(tokens[3])
 
         if player.x < new_x:
-            player.state = S.WALKING_EAST
+            player.states_queue.append(S.WALKING_EAST)
         elif player.x > new_x:
-            player.state = S.WALKING_WEST
+            player.states_queue.append(S.WALKING_WEST)
         elif player.y < new_y:
-            player.state = S.WALKING_NORTH
+            player.states_queue.append(S.WALKING_NORTH)
         elif player.y > new_y:
-            player.state = S.WALKING_SOUTH
+            player.states_queue.append(S.WALKING_SOUTH)
 
         self.commands_queue.append({'id': self._ppo_,  'params': (world, tokens), 'ticks': 7})
 
@@ -195,7 +195,7 @@ class   Connector():
             return -1
         player = self.get_player_by_id(world, tokens[1])
         for i in range(4, 11):
-            player.inventory[i] = int(tokens[i])
+            player.inventory[i - 4] = int(tokens[i])
 
 
     def _bct_(self, world, tokens):
@@ -211,47 +211,54 @@ class   Connector():
 
 
     def _pgt_(self, world, tokens):
-        pass
+        player = self.get_player_by_id(world, tokens[1])
+        loot = int(tokens[2])
+        player.inventory[loot] += 1
+        world.map[player.y][player.x][loot] -= 1
 
     def pgt(self, world, tokens):
         if len(tokens) != 3:
             print('invalid format for pgt')
             return -1
-        player = get_player_by_id(world, tokens[1])
-        loot = int(tokens[2])
-        player.inventory[loot] += 1
-        world.map[player.y][player.x][loot] -= 1
+
+        player = self.get_player_by_id(world, tokens[1])
+        player.states_queue.append(S.TAKING)
+
+        self.commands_queue.append({'id': self._pgt_,  'params': (world, tokens), 'ticks': 7})
 
 
     def _pdr_(self, world, tokens):
-        pass
+        player = self.get_player_by_id(world, tokens[1])
+        loot = int(tokens[2])
+        player.inventory[loot] -= 1
+        world.map[player.y][player.x][loot] += 1
 
     def pdr(self, world, tokens):
         if len(tokens) != 3:
             print('invalid format for pgt')
             return -1
 
-        player = get_player_by_id(world, tokens[1])
-        loot = int(tokens[2])
-        player.inventory[loot] -= 1
-        world.map[player.y][player.x][loot] += 1
+        player = self.get_player_by_id(world, tokens[1])
+        player.states_queue.append(S.PUTTING)
+
+        self.commands_queue.append({'id': self._pdr_,  'params': (world, tokens), 'ticks': 7})
 
 
     def _pex_(self, world, tokens):
-        player.state = S.IDLE
-        player.step = 0
+        pass
 
     def pex(self, world, tokens):
         if len(tokens) != 2:
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
-        player.state = S.PUSHING
-        player.step = 0
+        player.states_queue.append(S.PUSHING)
 
 
     def _pbc_(self, world, tokens):
-        pass
+        player = self.get_player_by_id(world, tokens[1])
+        player.state = S.IDLE
+        player.step = 1
 
     def pbc(self, world, tokens):
         if len(tokens) < 3:
@@ -260,8 +267,8 @@ class   Connector():
 
         player = self.get_player_by_id(world, tokens[1])
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
-        player.state = S.BROADCASTING
-        player.step = 0
+        player.states_queue.append(S.BROADCASTING)
+        self.commands_queue.append({'id': self._pbc_,  'params': (world, tokens), 'ticks': 7})
 
 
     def _pic_(self, world, tokens):
@@ -286,7 +293,7 @@ class   Connector():
             print('invalid format for plv')
             return -1
 
-        player = get_player_by_id(world, tokens[1])
+        player = self.get_player_by_id(world, tokens[1])
         player.lvl = int(tokens[2])
 
 
@@ -294,7 +301,7 @@ class   Connector():
         pass
 
     def pfk(self, world, tokens):
-        player = get_player_by_id(world, tokens[1])
+        player = self.get_player_by_id(world, tokens[1])
         # player.state = hatching
 
 
@@ -302,7 +309,7 @@ class   Connector():
         pass
 
     def enw(self, world, tokens):
-        player = get_player_by_id(world, tokens[2])
+        player = self.get_player_by_id(world, tokens[2])
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick

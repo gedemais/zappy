@@ -23,7 +23,7 @@ class   Player():
         self.y = y
         self.o = o
         self.lvl = lvl
-        self.inventory = []
+        self.inventory = [0, 0, 0, 0, 0, 0, 0, 0]
         self.states_queue = []
         self.state = S.IDLE
         self.step = 0
