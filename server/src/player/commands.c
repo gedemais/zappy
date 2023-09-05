@@ -98,7 +98,6 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 	tile->content[loot]++;
 
 	env->gplayer = *p;
-	gevent_player_put(env);
 
 	return (send_response ? send_ok(env, p) : ERR_NONE);
 }
