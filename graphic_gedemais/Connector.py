@@ -260,6 +260,8 @@ class   Connector():
 
         player = self.get_player_by_id(world, tokens[1])
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
+        player.state = S.BROADCASTING
+        player.step = 0
 
 
     def _pic_(self, world, tokens):

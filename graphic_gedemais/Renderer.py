@@ -49,8 +49,11 @@ class   Renderer():
         self.generate_background()
 
         eggs = pygame.image.load('./sprites/eggs.jpg')
+        broadcast_animation = pygame.image.load('./sprites/broadcast.png')
+        broadcast_animation.set_colorkey((0, 0, 0))
         minerals = pygame.image.load('./sprites/minerals.png')
         food = pygame.image.load('./sprites/minerals.png')
+
         self.loot_images = [
                 food.subsurface((100, 0, 140, 140)),
                 minerals.subsurface((0, 0, 28, 28)),
@@ -103,6 +106,12 @@ class   Renderer():
             self.player_animations['pushing_east'].append(pygame.transform.scale(animations.subsurface((x, 448, 64, 64)), (self.tile_size, self.tile_size)))
 
 
+        self.broadcast_animation = []
+        print(broadcast_animation)
+        for i in range(7):
+            x = i * 64
+            self.broadcast_animation.append(pygame.transform.scale(broadcast_animation.subsurface((x, 0, 64, 64)), (self.tile_size / 2, self.tile_size / 2)))
+
 
 
     def render_loot(self, world, x, y):
@@ -148,7 +157,7 @@ class   Renderer():
         keys = ['north', 'east', 'south', 'west']
 
         print('state :', player.state)
-        if player.state == S.IDLE:
+        if player.state == S.IDLE or player.state == S.BROADCASTING:
             return self.player_animations['idle_' + keys[player.o]]
 
         if player.state.value[0] >= S.WALKING_NORTH.value[0]:
@@ -183,7 +192,17 @@ class   Renderer():
                 off_x *= 1.5
                 off_y *= 1.5
 
-                self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
+                if player.state == S.BROADCASTING:
+                    sprite = animation[0]
+                else:
+                    sprite = animation[player.step]
+
+                self.window.blit(sprite, (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
+
+                if player.state == S.BROADCASTING:
+                    animation = self.broadcast_animation
+                    off_x += self.tile_size / 2
+                    self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 
                 player.step += 1
 
