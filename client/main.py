@@ -23,8 +23,7 @@ def	main():
 	server_messages = []
 
 	if wx > 0 and wy > 0:
-		bernard = IA(wx, wy)
-		bernard.maboye()
+		bernard = IA(team_name, wx, wy)
 		ts = int(time.time() * 1000)
 		while client.bot.alive == True:
 			t = int(time.time() * 1000) - ts

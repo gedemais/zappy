@@ -1,5 +1,5 @@
 from utils.command import C
-from action.callback import compute_action, is_blind
+from action.utils import compute_action, is_blind
 from action.incant import incant_possible, incant_put
 from action.view import view_index
 

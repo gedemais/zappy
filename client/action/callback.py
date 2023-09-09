@@ -1,38 +1,8 @@
-from utils.command import C, Command
-from action.view import view_index, outofview
+import subprocess
 
+from utils.command import C
+from action.utils import compute_action, send_broadcast
 
-# append l'action demandée dans une queue de Command
-# repeat	: le nombre de fois ou elle sera executée
-# element	: string ou array lié(e) à la commande
-#	pour chaque element de l'array une commande sera executée avec buf = array[i]
-#	ça permet d'envoyer une list de ressources à poser/prendre
-def		compute_action(bernard, id, repeat = 1, element = None):
-	for i in range(repeat):
-		command = Command(id = id)
-		command.buf = element
-		bernard.actions.append(command)
-
-def		is_blind(bernard):
-	blind = False
-
-	if bernard.view == None or bernard.inventory == None \
-			or len(bernard.view) == 0 or len(bernard.inventory) == 0:
-		print("I'm blind :'(")
-		compute_action(bernard, C.VOIR, 1)
-		compute_action(bernard, C.INVENTAIRE, 1)
-		blind = True
-	#update view if out of view array
-	elif outofview(bernard, bernard.x, bernard.y) == True:
-		print("I'm lost in the dark")
-		compute_action(bernard, C.VOIR, 1)
-		blind = True
-	#update inventory (each 5s)
-	if bernard.t - bernard.last_inventory > 5000:
-		print("I need to check my stuff !")
-		compute_action(bernard, C.INVENTAIRE, 1)
-		blind = True
-	return blind
 
 class	Callback:
 	def	__init__(self):
@@ -80,15 +50,21 @@ class	Callback:
 	def	avance(bernard, command):
 		pass
 
-	def	connect_nbr():
-		pass
+	def	connect_nbr(bernard, command):
+		split = command.response.split(", ")
+		one = split[0].strip()
+		two = split[1].strip()
+		bernard.team_slot = int(one)
+		bernard.team_total = int(two)
 
 	def incantation(bernard, command):
 		bernard.lvl += 1
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
-	def	fork():
-		pass
+	def	fork(bernard, command):
+		script_path = "./client.py"
+		subprocess.Popen(["python", script_path])
+		send_broadcast(bernard, "I just hatched an egg !")
 
 	def	expulse():
 		pass

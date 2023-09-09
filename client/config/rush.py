@@ -1,4 +1,4 @@
-from action.callback import is_blind
+from action.utils import is_blind
 from action.incant import incant_possible, incant_total
 from config.incantation import Incantation
 from config.collect import Collect

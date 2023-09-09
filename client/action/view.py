@@ -57,23 +57,6 @@ def	view_distance(a ,b):
 
 	return math.sqrt(deltax + deltay)
 
-# def	rotate_pos(dir, x, y):
-# 	nx, ny = x, y
-
-# 	if dir == 0:
-# 		nx = x
-# 		ny = abs(y)
-# 	elif dir == 180 or dir == -180:
-# 		nx = -x
-# 		ny = abs(y)
-# 	elif dir == 90:
-# 		nx = -y
-# 		ny = abs(x)
-# 	elif dir == -90:
-# 		nx = y
-# 		ny = abs(x)
-# 	return nx, ny
-
 #return the index of bernard in view with x, y
 def	view_index(x, y):
 	index = 0
@@ -104,36 +87,6 @@ def	view_pos(index):
 		x += 1
 		if index == view_index(x, y):
 			break
-
-	# if dir == 0:
-	# 	y = lvl - 1
-	# 	x = -lvl
-	# 	for i in range(start + 1, end):
-	# 		x += 1
-	# 		if index == view_index(dir, x, y):
-	# 			break
-	# elif dir == 180 or dir == -180:
-	# 	y = -(lvl - 1)
-	# 	x = -lvl
-	# 	for i in range(start + 1, end):
-	# 		x += 1
-	# 		if index == view_index(dir, x, y):
-	# 			break
-	# elif dir == 90:
-	# 	x = lvl - 1
-	# 	y = -lvl
-	# 	for i in range(start + 1, end):
-	# 		y += 1
-	# 		if index == view_index(dir, x, y):
-	# 			break
-	# elif dir == -90:
-	# 	x = -(lvl - 1)
-	# 	y = -lvl
-	# 	for i in range(start + 1, end):
-	# 		y += 1
-	# 		if index == view_index(dir, x, y):
-	# 			break
-
 	return x, y
 
 #return true if x, y are out of bernard.view

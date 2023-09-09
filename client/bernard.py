@@ -1,5 +1,3 @@
-from transitions import Machine
-
 from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
@@ -21,6 +19,7 @@ class	IA:
 	foodmin = 5
 	foodmax = 10
 	leader = None
+	team_slot = None
 	inventory = []
 	last_broadcast = 0
 	last_inventory = 0
@@ -42,12 +41,10 @@ class	IA:
 	#queue des actions qui vont être call
 	actions = []
 
-	def __init__(self, wx, wy):
+	def __init__(self, team_name, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
-		self.machine = Machine(model=self, states=["IDLE", "MABOYE"], initial="IDLE")
-		self.machine.add_transition("maboye", "IDLE", "MABOYE")
-		self.machine.add_transition("stop", "MABOYE", "IDLE")
+		self.team_name = team_name
 		#world size
 		self.wx, self.wy = wx, wy
 
@@ -69,13 +66,19 @@ class	IA:
 		commands = []
 
 		self.callback()
-		if self.state == "MABOYE":
-			Maboye.run(self)
-		elif self.state == "IDLE":
-			pass
+		Maboye.run(self)
 		self.call(commands)
 		return commands
-	
+
+	def	check_team_id(self, server_message):
+		split = server_message.split(',')
+		message = split[1].strip()
+		if "team_name " in message:
+			split = message.split(' ')
+			if self.team_name == split[1]:
+				return True
+		return False
+
 	def	handle_server_messages(self, server_messages):
 		if len(server_messages) > 0:
 			print("MESSAGE RECEIVED ---------")
@@ -85,7 +88,8 @@ class	IA:
 					Message.start(self, message)
 				elif "message" in message:
 					#server send a broadcast
-					Message.message(self, message)
+					if self.check_team_id(message) == True:
+						Message.message(self, message)
 				elif "deplacement" in message:
 					#server send a kick
 					Message.kick(self, message)
