@@ -52,10 +52,10 @@ class   Renderer():
         broadcast_animation = pygame.image.load('./sprites/broadcast.png')
         broadcast_animation.set_colorkey((0, 0, 0))
         minerals = pygame.image.load('./sprites/minerals.png')
-        food = pygame.image.load('./sprites/minerals.png')
+        food = pygame.image.load('./sprites/apple.png')
 
         self.loot_images = [
-                food.subsurface((100, 0, 140, 140)),
+                food,
                 minerals.subsurface((0, 0, 28, 28)),
                 minerals.subsurface((115, 0, 28, 28)),
                 minerals.subsurface((230, 0, 28, 28)),
@@ -160,7 +160,7 @@ class   Renderer():
                         (2, 2),
                     ]
 
-        for i in range(1, 7):
+        for i in range(7):
             if world.map[y][x][i] > 0:
                 loot_x = x * self.tile_size + coords[i][0] * self.loot_tile_size + x
                 loot_y = y * self.tile_size + coords[i][1] * self.loot_tile_size + y
