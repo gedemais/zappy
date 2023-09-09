@@ -91,8 +91,8 @@ def		task_assign(bernard):
 	else:
 		tasks[T.COLLECT].state = S.NONE
 	#prevoir de la bouffe
-	bernard.foodmin = 30
-	bernard.foodmax = 40
+	bernard.foodmin = 15
+	bernard.foodmax = 20
 	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
 	#il faut rejoindre les autres joueurs
 	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
