@@ -12,22 +12,10 @@ incrementant la variable max_client de l'equipe qui a pondu l'oeuf. La mort
 d'un joueur entraine une decrementation du nombre de connection autorisees dans
 l'equipe du joueur mort.
 
-Deco / reco du client graphique : segfault
-Connection du client graphique : sigabort sur null dans print_map()
-
-fix le leak de split dans place_command in queue
-
-fork renvoie toujours ko
-
-incantation
-
 les commandes ne sont plus prises en compte lors de l'envoi d'une ligne vide par le client
 
-kill_player segfault
 
 log eggs, broadcasts, incantations
-
-Split player/commands.c dans les fichiers deja crees (fork, etc)
 
  =============
 0 pending players

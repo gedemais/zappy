@@ -25,9 +25,6 @@ while True:
     cmd = input()
     s.send(bytes(cmd.encode('utf-8')))
     reply = s.recv(1024).decode('utf-8')
-    if cmd == "fork" and reply == "ok\n":
-        print('lesgoooooo')
-        os.system("python3 tcp_test/client_manual.py")
     print(reply)
 
 s.close()

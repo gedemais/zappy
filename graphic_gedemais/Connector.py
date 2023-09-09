@@ -272,10 +272,19 @@ class   Connector():
 
 
     def _pic_(self, world, tokens):
-        pass
+        player = self.get_player_by_id(world, tokens[4])
+        player.state = S.IDLE
+        player.step = 1
 
     def pic(self, world, tokens):
-        pass
+        if len(tokens) < 5:
+            print('invalid format for pic')
+            return -1
+
+        player = self.get_player_by_id(world, tokens[4])
+        print('player {} incantating !'.format(tokens[1], ' '.join(tokens[1:])))
+        player.states_queue.append(S.INCANTATING)
+        self.commands_queue.append({'id': self._pic_,  'params': (world, tokens), 'ticks': 300})
 
 
     def _pie_(self, world, tokens):
@@ -298,21 +307,31 @@ class   Connector():
 
 
     def _pfk_(self, world, tokens):
-        pass
+        player = self.get_player_by_id(world, tokens[1])
+        player.state = S.IDLE
+        player.step = 1
 
     def pfk(self, world, tokens):
+        if len(tokens) != 2:
+            print('invalid format for pfk')
+            return -1
+
         player = self.get_player_by_id(world, tokens[1])
-        # player.state = hatching
+        print('player {} laying egg !'.format(tokens[1], ' '.join(tokens[1:])))
+        player.states_queue.append(S.LAYING_EGG)
+        self.commands_queue.append({'id': self._pfk_,  'params': (world, tokens), 'ticks': 42})
 
 
     def _enw_(self, world, tokens):
         pass
 
     def enw(self, world, tokens):
+        print(tokens)
         player = self.get_player_by_id(world, tokens[2])
         x = int(tokens[3])
         y = int(tokens[4])
-        world.teams.eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+        world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+        print('THERE' * 500)
 
 
     def _eht_(self, world, tokens):

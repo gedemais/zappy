@@ -67,8 +67,6 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	t_egg		new;
 	t_dynarray	*tile_content;
 
-	env->gplayer = *p;
-	gevent_player_lays_egg(env);
 	// Addition of the loot object on the map
 	env->world.map[p->tile_y][p->tile_x].content[LOOT_HATCHING_EGG]++;
 
@@ -87,6 +85,7 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 		return (ERR_MALLOC_FAILED);
 
 	env->gindex = new.id;
+	env->gplayer = *p;
 	gevent_player_layed_egg(env);
 
 	return (ERR_NONE);
