@@ -62,7 +62,7 @@ class	Callback:
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
-		script_path = "./client.py"
+		script_path = "./client.py --host {bernard.host} --port {bernard.port} --team_name {bernard.team_name}"
 		subprocess.Popen(["python", script_path])
 		send_broadcast(bernard, "I just hatched an egg !")
 

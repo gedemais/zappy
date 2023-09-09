@@ -41,9 +41,11 @@ class	IA:
 	#queue des actions qui vont être call
 	actions = []
 
-	def __init__(self, team_name, wx, wy):
+	def __init__(self, host, port, team_name, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
+		self.host = host
+		self.port = port
 		self.team_name = team_name
 		#world size
 		self.wx, self.wy = wx, wy
