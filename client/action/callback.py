@@ -51,6 +51,7 @@ class	Callback:
 		pass
 
 	def	connect_nbr(bernard, command):
+		print(command.data())
 		split = command.response.split(", ")
 		one = split[0].strip()
 		two = split[1].strip()
