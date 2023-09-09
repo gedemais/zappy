@@ -5,13 +5,13 @@ static char		diagonals(t_player *sender, t_player *receiver)
 	char	dir = BDIR_MAX;
 
 	if (receiver->tile_x > sender->tile_x && receiver->tile_y > sender->tile_y)
-		dir = BDIR_SOUTH_EAST;
-	else if (receiver->tile_x > sender->tile_x && receiver->tile_y < sender->tile_y)
-			dir = BDIR_NORTH_EAST;
-	else if (receiver->tile_x < sender->tile_x && receiver->tile_y > sender->tile_y)
-		dir = BDIR_SOUTH_WEST;
-	else if (receiver->tile_x < sender->tile_x && receiver->tile_y < sender->tile_y)
 		dir = BDIR_NORTH_WEST;
+	else if (receiver->tile_x > sender->tile_x && receiver->tile_y < sender->tile_y)
+		dir = BDIR_SOUTH_WEST;
+	else if (receiver->tile_x < sender->tile_x && receiver->tile_y > sender->tile_y)
+			dir = BDIR_NORTH_EAST;
+	else if (receiver->tile_x < sender->tile_x && receiver->tile_y < sender->tile_y)
+		dir = BDIR_SOUTH_EAST;
 	return (dir);
 }
 
