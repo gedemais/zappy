@@ -218,6 +218,9 @@ uint8_t	cmd_connect_nbr(t_env *env, t_player *p, bool send_response)
 		free(used);
 
 		strcat(env->buffers.response, "\n");
+		printf("%s", env->buffers.response);
+		fflush(stdout);
+		sleep(10);
 
 		response(env, p);
 	}
