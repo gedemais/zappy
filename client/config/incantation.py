@@ -27,6 +27,5 @@ class	Incantation:
 		if incant_possible(bernard, True) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
-			print(bernard.view[view_index(bernard.x, bernard.y)])
 			compute_action(bernard, C.INCANTATION)
 			compute_action(bernard, C.VOIR)
