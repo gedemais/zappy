@@ -47,11 +47,6 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 					send_ko(env, player);
 					break ;
 				}
-				else
-				{
-					FLUSH_RESPONSE
-					send_ok(env, player);
-				}
 
 				if (player->cmd_queue.nb_cells >= MAX_QUEUED_CMD)
 					break ;
