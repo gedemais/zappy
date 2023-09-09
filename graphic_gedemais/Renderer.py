@@ -121,6 +121,29 @@ class   Renderer():
             x = i * 64
             self.broadcast_animation.append(pygame.transform.scale(broadcast_animation.subsurface((x, 0, 64, 64)), (self.tile_size / 2, self.tile_size / 2)))
 
+        incantating_animation = []
+        for i in range(7):
+            x = i * 64
+            incantating_animation.append(pygame.transform.scale(animations.subsurface((x, 128, 64, 64)), (self.tile_size, self.tile_size)))
+
+        self.player_animations['incantation'] = []
+        sprite = 0
+        for i in range(300):
+            self.player_animations['incantation'].append(incantating_animation[sprite])
+            if i % 50 == 0:
+                sprite += 1
+
+        self.player_animations['laying'] = []
+        for i in range(4):
+            x = i * 64
+            self.player_animations['laying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+
+        self.player_animations['laying'].append(self.player_animations['laying'][2])
+        self.player_animations['laying'].append(self.player_animations['laying'][1])
+        self.player_animations['laying'].append(self.player_animations['laying'][0])
+
+        for i in range(5):
+            self.player_animations['laying'] += self.player_animations['laying']
 
 
     def render_loot(self, world, x, y):
@@ -178,6 +201,12 @@ class   Renderer():
 
         if player.state == S.TAKING or player.state == S.PUTTING:
             return self.player_animations['takeput']
+
+        if player.state == S.INCANTATING:
+            return self.player_animations['incantation']
+
+        if player.state == S.LAYING_EGG:
+            return self.player_animations['laying']
 
         print('ANIMATION NOT FOUND')
         assert(False)

@@ -230,7 +230,7 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 	t_team		*team;
 	uint8_t		code;
 
-	FLUSH_RESPONSE
+	(void)send_response;
 	team = dyacc(&env->world.teams, p->team);
 	if (team->max_client >= 6)
 	{
@@ -243,9 +243,6 @@ uint8_t	cmd_fork(t_env *env, t_player *p, bool send_response)
 		return (code);
 
 	team->max_client++;
-
-	if (send_response)
-		return (send_ok(env, p));
 
 	return (ERR_NONE);
 }

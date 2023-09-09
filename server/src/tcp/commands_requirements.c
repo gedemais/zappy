@@ -118,8 +118,11 @@ static uint8_t	fork_req(t_env *env, char **tokens, t_player *p, bool *ret)
 
 	team = dyacc(&env->world.teams, p->team);
 
-	if (team->max_client - team->connected > 0)
+	if (6 - team->connected > 0)
 		*ret = true;
+
+	env->gplayer = *p;
+	gevent_player_lays_egg(env);
 
 	log_requirement("fork", *ret);
 	return (ERR_NONE);
