@@ -26,22 +26,22 @@ class	Message:
 		kick_origin = int(split[1].strip())
 		x, y = bernard.x, bernard.y
 
-		#si 1 faut allez derriere
+		#si 0 faut allez derriere
 		if kick_origin == 0:
 			originx, originy = bernard.x, bernard.y + 1
 			bernard.y -= 1
 			bernard.sy -= 1
-		#si 3 faut allez a droite
+		#si 1 faut allez a droite
 		elif kick_origin == 1:
 			originx, originy = bernard.x - 1, bernard.y
 			bernard.x += 1
 			bernard.sx += 1
-		#si 5 faut allez devant
+		#si 2 faut allez devant
 		elif kick_origin == 2:
 			originx, originy = bernard.x, bernard.y - 1
 			bernard.y += 1
 			bernard.sy += 1
-		#si 7 faut allez a gauche
+		#si 3 faut allez a gauche
 		elif kick_origin == 3:
 			originx, originy = bernard.x + 1, bernard.y
 			bernard.x -= 1

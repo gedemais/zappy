@@ -84,19 +84,17 @@ def		task_assign(bernard):
 	for item in it:
 		if "player" not in item and it[item] > 0:
 			miss = True
-	#prevoir de la bouffe
-	bernard.foodmin = 35
-	bernard.foodmax = 40
 	#si il manque des ressources alors on va les collect
 	if miss == True:
 		tasks[T.COLLECT].state = S.NEED
 		return
 	else:
 		tasks[T.COLLECT].state = S.NONE
+	#prevoir de la bouffe
+	bernard.foodmin = 30
+	bernard.foodmax = 40
 	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
-	#il faut rejoindre les autres joueurs (manger sur le trajet)
-	bernard.foodmin = 5
-	bernard.foodmax = 10
+	#il faut rejoindre les autres joueurs
 	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
 		tasks[T.MEET].state = S.NEED 
 		return
@@ -104,6 +102,8 @@ def		task_assign(bernard):
 		tasks[T.MEET].state = S.NONE
 	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
 	tasks[T.RUSH].state = S.NEED
+	bernard.foodmin = 5
+	bernard.foodmax = 10
 
 class	Maboye:
 	def	__init__(self):

@@ -93,7 +93,7 @@ class	IA:
 				elif "deplacement" in message:
 					#server send a kick
 					Message.kick(self, message)
-				print("--------------------------")
+			print("--------------------------")
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
 	def	receive(self, cmd):

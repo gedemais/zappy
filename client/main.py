@@ -4,15 +4,18 @@ from client import Client
 from bernard import IA
 
 
-host = "localhost"
-port = 8080
-team_name = "foo"
-
 def	parse_arguments(arguments):
-	pass
+	if len(arguments) != 3:
+		print("python3 main.py host port team_name")
+		return None
+	host = arguments[0]
+	port = arguments[1]
+	team_name = arguments[2]
+	return host, int(port), team_name
 
 def	main():
-	parse_arguments(sys.argv)
+	#localhost 8080 foo
+	host, port, team_name = parse_arguments(sys.argv[1:])
 
 	client = Client(host, port, team_name)
 	#connect return world's dimension
