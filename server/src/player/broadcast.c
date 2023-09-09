@@ -12,8 +12,6 @@ static char		diagonals(t_player *sender, t_player *receiver)
 		dir = BDIR_SOUTH_WEST;
 	else if (receiver->tile_x < sender->tile_x && receiver->tile_y < sender->tile_y)
 		dir = BDIR_NORTH_WEST;
-
-	dir += 4;
 	return (dir);
 }
 
@@ -37,9 +35,9 @@ static char		get_direction(t_player *sender, t_player *receiver)
 //	printf("%f / %f = %f\n", ry, rx, m);
 	if (m < -1.0f || m > 1.0f)
 	{
-		if (receiver->tile_y < sender->tile_y) // NORTH
+		if (receiver->tile_y > sender->tile_y) // NORTH
 			dir = BDIR_NORTH;
-		else if (sender->tile_y < receiver->tile_y) // SOUTH
+		else if (sender->tile_y > receiver->tile_y) // SOUTH
 			dir = BDIR_SOUTH;
 	}
 	else if (m >= -1.0f && m <= 1.0f)
@@ -49,13 +47,6 @@ static char		get_direction(t_player *sender, t_player *receiver)
 		else if (sender->tile_x < receiver->tile_x) // WEST
 			dir = BDIR_WEST;
 	}
-
-	if (receiver->direction.d == DIR_EAST)
-		dir -= BDIR_EAST;
-	else if (receiver->direction.d == DIR_SOUTH)
-		dir -= BDIR_SOUTH;
-	else if (receiver->direction.d == DIR_WEST)
-		dir -= BDIR_WEST;
 
 	//printf("dir : %d\n", dir);
 	return (dir);
@@ -90,15 +81,22 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 	}
 
 
+	if (receiver->direction.d == DIR_EAST)
+		dir -= BDIR_EAST;
+	else if (receiver->direction.d == DIR_SOUTH)
+		dir -= BDIR_SOUTH;
+	else if (receiver->direction.d == DIR_WEST)
+		dir -= BDIR_WEST;
+
 	//printf("dir : %d\n", dir);
 //	if (abs(sender->tile_x - receiver->tile_x) < env->settings.map_width / 2.0f
 //		&& abs(sender->tile_y - receiver->tile_y) < env->settings.map_height / 2.0f)
 //		dir -= 4;
 
-	while (dir < 0)
+	if (dir < 0)
 		dir += BDIR_MAX;
 
-	while (dir >= BDIR_MAX)
+	if (dir >= BDIR_MAX)
 		dir -= BDIR_MAX;
 
 	//printf("dir : %d\n", dir);
