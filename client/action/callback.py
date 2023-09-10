@@ -62,8 +62,9 @@ class	Callback:
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
-		os.system("python3 main.py --host {} --port {} --team_name {}".format(bernard.host, bernard.port, bernard.team_name))
+		os.system("python3 main.py --host {} --port {} --team_name {} &".format(bernard.host, bernard.port, bernard.team_name))
 		send_broadcast(bernard, "I just hatched an egg !")
+		bernard.team_total += 1
 
 	def	expulse():
 		pass
