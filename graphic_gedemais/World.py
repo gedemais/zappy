@@ -6,6 +6,7 @@ class   World():
 
     def __init__(self, response):
         self.teams = {}
+        self.team_index = 0
         self.parse_graphical_data(response)
 
 
@@ -108,7 +109,10 @@ class   World():
             o = int(tokens[4])
             l = int(tokens[5])
             team = tokens[6]
-            self.teams[team].players[tokens[1]] = Player(x, y, o, l, team)
+            team_index = self.team_index
+            self.team_index += 1
+            # Protect against overflow
+            self.teams[team].players[tokens[1]] = Player(x, y, o, l, team, team_index)
         except:
             print('player creation failed')
             return -1

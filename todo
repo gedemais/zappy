@@ -12,11 +12,6 @@ Server :
 
 Graphical Client :
 
-Animations :
-	Animation voir (optionnel)
-	Fix le probleme de synchro du kick (optionnel, car on utilisera jamais le kick)
-	Tout synchroniser
-
 HUD:
 	Log broadcasts, incantations starts, level ups, kick
 	Un menu deroulant par equipe qui montre joueurs, inventaires, niveaux, bouffe

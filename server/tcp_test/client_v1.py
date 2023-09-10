@@ -14,7 +14,7 @@ reply = s.recv(1024).decode('utf-8')
 print(reply)
 
 print('sending team_name...')
-s.send(bytes('foo'.encode('utf-8')))
+s.send(bytes('foo2'.encode('utf-8')))
 print('sent')
 
 reply = s.recv(1024).decode('utf-8')
