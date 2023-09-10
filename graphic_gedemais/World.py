@@ -1,13 +1,22 @@
 from time import sleep
 from Team import Team
 from Player import Player
+from Egg import Egg
 
 class   World():
 
     def __init__(self, response):
         self.teams = {}
+        self.team_index = 0
         self.parse_graphical_data(response)
 
+    def get_player_by_id(self, pid):
+        for team in self.teams.items():
+            team = team[1]
+            if pid in team.players.keys():
+                return team.players[pid]
+
+        return None
 
     def parse_graphical_data(self, response):
         self.lines = response.split('\n')
@@ -36,6 +45,11 @@ class   World():
             self.line_index += 1
 
         while self.parse_new_player() == 0:
+            print(self.lines[self.line_index])
+            self.line_index += 1
+
+        while self.parse_new_egg() == 0:
+            print(self.lines[self.line_index])
             self.line_index += 1
 
 
@@ -98,20 +112,32 @@ class   World():
 
     def parse_new_player(self):
         tokens = self.lines[self.line_index].split(' ')
+        print(tokens)
         if len(tokens) != 7 or tokens[0] != 'pnw':
             print('invalid format for pnw')
             return -1
 
-        try:
-            x = int(tokens[2])
-            y = int(tokens[3])
-            o = int(tokens[4])
-            l = int(tokens[5])
-            team = tokens[6]
-            self.teams[team].players[tokens[1]] = Player(x, y, o, l, team)
-        except:
-            print('player creation failed')
-            return -1
-
+        x = int(tokens[2])
+        y = int(tokens[3])
+        o = int(tokens[4])
+        l = int(tokens[5])
+        team = tokens[6]
+        team_index = self.team_index
+        self.team_index += 1
+        # Protect against overflow
+        self.teams[team].players[tokens[1]] = Player(x, y, o, l, team, team_index)
         return 0
 
+    def parse_new_egg(self):
+        tokens = self.lines[self.line_index].split(' ')
+        print(tokens)
+        if len(tokens) != 5 or tokens[0] != 'enw':
+            print('invalid format for enw')
+            return -1
+
+        player = self.get_player_by_id(tokens[2])
+        x = int(tokens[3])
+        y = int(tokens[4])
+        self.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+
+        return 0

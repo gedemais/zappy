@@ -140,7 +140,7 @@ uint8_t	receipt(t_env *env)
 			{
 				fprintf(stderr, "slot %d : fd %d\n", i, connections[i]);
 				fflush(stderr);
-				sleep(1);
+				//sleep(1);
 			}
 		}
 

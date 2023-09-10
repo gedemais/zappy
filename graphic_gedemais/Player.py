@@ -19,7 +19,7 @@ class   S(Enum):
 
 
 class   Player():
-    def __init__(self, x, y, o, lvl, team):
+    def __init__(self, x, y, o, lvl, team, team_index):
         self.x = x
         self.y = y
         self.o = o
@@ -29,4 +29,5 @@ class   Player():
         self.state = S.IDLE
         self.step = 0
         self.team = team
+        self.team_index = team_index
         self.eggs = {}

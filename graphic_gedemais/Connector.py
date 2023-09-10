@@ -281,7 +281,7 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[4])
-        print('player {} incantating !'.format(tokens[1], ' '.join(tokens[1:])))
+        print('player {} incantating !'.format(tokens[4]))
         player.states_queue.append(S.INCANTATING)
         self.commands_queue.append({'id': self._pic_,  'params': (world, tokens), 'ticks': 300})
 
@@ -340,6 +340,7 @@ class   Connector():
         for t in world.teams.items():
             for egg in t[1].eggs.items():
                 if tokens[1] == egg[0]:
+                    print('THERE'*500)
                     del t[1].eggs[tokens[1]]
                     break
 
