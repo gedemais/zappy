@@ -182,7 +182,6 @@ class   Connector():
         pass
 
     def ebo(self, world, tokens):
-        print('EGG-CLOSIOOOOOOOONNN!!!!')
         pass
 
 
@@ -337,8 +336,12 @@ class   Connector():
         pass
 
     def eht(self, world, tokens):
-        print('egg {} hatched !'.format(tokens[2]))
-        pass
+        print('egg {} hatched !'.format(tokens[1]))
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                if tokens[1] == egg[0]:
+                    del t[1].eggs[tokens[1]]
+                    break
 
 
     def _edi_(self, world, tokens):
@@ -346,7 +349,6 @@ class   Connector():
 
     def edi(self, world, tokens):
         print('egg {} rotted !'.format(tokens[1]))
-        to_delete = []
         for t in world.teams.items():
             for egg in t[1].eggs.items():
                 if tokens[1] == egg[0]:

@@ -184,7 +184,6 @@ class   Renderer():
             for egg in t[1].eggs.items():
                 x = egg[1].x
                 y = egg[1].y
-                print(x, y)
                 rect = [0, 0, 0, 0]
                 off_x = self.tile_size / 4
                 off_y = self.tile_size / 4

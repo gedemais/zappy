@@ -29,31 +29,41 @@ uint8_t	update_eggs(t_env *env)
 	return (ERR_NONE);
 }
 
-uint8_t	check_connected_egg(t_env *env, uint16_t team)
+uint8_t	check_connected_egg(t_env *env, t_player *p)
 {
 	t_dynarray	*eggs;
 	t_egg		*egg;
 	t_egg		*oldest_egg;
-	int			index = -1;
+	int			index = 0;
 	int32_t		id = 0;
+	bool		found = false;
 
 	eggs = &env->world.eggs;
 	oldest_egg = dyacc(eggs, 0);
 	for (int i = 0; i < eggs->nb_cells; i++)
 	{
 		egg = dyacc(eggs, i);
-		if (egg->team == team && egg->hatch_time < oldest_egg->hatch_time)
+		if (egg->team == p->team)
 		{
-			oldest_egg = egg;
-			index = i;
-			id = egg->id;
+			found = true;
+			if (egg->hatch_time < oldest_egg->hatch_time)
+			{
+				oldest_egg = egg;
+				index = i;
+				id = egg->id;
+			}
 		}
 	}
+
+	if (!found)
+		return (ERR_NONE);
 
 	if (index >= 0)
 	{
 		env->gindex = id;
 		gevent_player_connected_for_egg(env);
+		p->tile_x = oldest_egg->x;
+		p->tile_y = oldest_egg->y;
 		dynarray_extract(eggs, index);
 		return (gevent_egg_hatched(env));
 	}

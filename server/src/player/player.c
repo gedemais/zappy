@@ -234,8 +234,5 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection, t_player *pendin
 	env->world.map[new.tile_y][new.tile_x].content[LOOT_PLAYER]++;
 	team->connected++;
 
-	if ((code = check_connected_egg(env, new.team)))
-		return (code);
-
 	return (ERR_NONE);
 }
