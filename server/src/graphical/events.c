@@ -166,7 +166,7 @@ uint8_t		gevent_incantation_launch(t_env *env)
 
 	p = &env->gplayer;
 	FLUSH_GRESPONSE
-	sprintf(env->buffers.gresponse, "pic %d %d %d #%d", p->tile_x, p->tile_y, p->level, p->pid);
+	sprintf(env->buffers.gresponse, "pic %d %d %d #%d ", p->tile_x, p->tile_y, p->level, p->pid);
 
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{

@@ -7,6 +7,7 @@ class   World():
 
     def __init__(self, response):
         self.teams = {}
+        self.team_names = []
         self.team_index = 0
         self.parse_graphical_data(response)
 
@@ -122,8 +123,11 @@ class   World():
         o = int(tokens[4])
         l = int(tokens[5])
         team = tokens[6]
-        team_index = self.team_index
-        self.team_index += 1
+
+        if team not in self.team_names:
+            self.team_names.append(team)
+
+        team_index = self.team_names.index(team)
         # Protect against overflow
         self.teams[team].players[tokens[1]] = Player(x, y, o, l, team, team_index)
         return 0
