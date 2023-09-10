@@ -1,5 +1,5 @@
 from utils.command import C
-from action.callback import compute_action, is_blind
+from action.utils import compute_action, is_blind
 from action.incant import incant_possible, incant_put
 from action.view import view_index
 
@@ -27,6 +27,5 @@ class	Incantation:
 		if incant_possible(bernard, True) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
-			print(bernard.view[view_index(bernard.x, bernard.y)])
 			compute_action(bernard, C.INCANTATION)
 			compute_action(bernard, C.VOIR)

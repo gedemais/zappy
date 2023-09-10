@@ -1,5 +1,3 @@
-from transitions import Machine
-
 from utils.command import C, S, Command
 from utils.brain import Brain
 from action.callback import Callback
@@ -21,6 +19,8 @@ class	IA:
 	foodmin = 5
 	foodmax = 10
 	leader = None
+	leader_order = None
+	team_slot = None
 	inventory = []
 	last_broadcast = 0
 	last_inventory = 0
@@ -42,18 +42,19 @@ class	IA:
 	#queue des actions qui vont être call
 	actions = []
 
-	def __init__(self, wx, wy):
+	def __init__(self, host, port, team_name, wx, wy):
 		self.name = "bernard"
 		self.brain = Brain()
-		self.machine = Machine(model=self, states=["IDLE", "MABOYE"], initial="IDLE")
-		self.machine.add_transition("maboye", "IDLE", "MABOYE")
-		self.machine.add_transition("stop", "MABOYE", "IDLE")
+		self.host = host
+		self.port = port
+		self.team_name = team_name
 		#world size
 		self.wx, self.wy = wx, wy
 
 	def	interact(self, t, server_messages):
 		self.t = t
 
+		self.leader_order = None
 		#on regarde si on a reçu des messages de la part du serveur
 		if len(server_messages) > 0:
 			self.handle_server_messages(server_messages)
@@ -69,13 +70,19 @@ class	IA:
 		commands = []
 
 		self.callback()
-		if self.state == "MABOYE":
-			Maboye.run(self)
-		elif self.state == "IDLE":
-			pass
+		Maboye.run(self)
 		self.call(commands)
 		return commands
-	
+
+	def	check_team_id(self, server_message):
+		split = server_message.split(',')
+		message = split[1].strip()
+		if "team_name " in message:
+			split = message.split(' ')
+			if self.team_name == split[1]:
+				return True
+		return False
+
 	def	handle_server_messages(self, server_messages):
 		if len(server_messages) > 0:
 			print("MESSAGE RECEIVED ---------")
@@ -85,11 +92,12 @@ class	IA:
 					Message.start(self, message)
 				elif "message" in message:
 					#server send a broadcast
-					Message.message(self, message)
+					if self.check_team_id(message) == True:
+						Message.message(self, message)
 				elif "deplacement" in message:
 					#server send a kick
 					Message.kick(self, message)
-				print("--------------------------")
+			print("--------------------------")
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
 	def	receive(self, cmd):
@@ -99,6 +107,7 @@ class	IA:
 					self.needs[command.id].callback(self, command)
 				else:
 					print("{} {} : KO".format(command.id, command.buf))
+					self.ko = True
 				command.state = S.NONE
 	
 	#fonction pour append la command
@@ -122,6 +131,7 @@ class	IA:
 		return False
 	
 	def	callback(self):
+		self.ko = False
 		#si un need est pending et que la cmd est received (dans brain.memory)
 		for command in self.actions:
 			if self.await_response(command) == True:

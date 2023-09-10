@@ -1,5 +1,5 @@
 from utils.command import C
-from action.callback import compute_action, is_blind
+from action.utils import compute_action, is_blind
 from action.view import view_find, view_distance, view_index
 from action.move import goto_index
 
@@ -47,8 +47,6 @@ def		farm_ressources(bernard, needs):
 	#process un goto sur chaque pos en actualisant la pos de benard dans un tmp
 	#pb: list de commands trop longue ?
 	need = find_closest_need(bernard, needs)
-	for v in bernard.view:
-		print(v)
 	if need["item"] is not None:
 		find = True
 		print("going for {} at {}".format(need["item"], need["index"]))

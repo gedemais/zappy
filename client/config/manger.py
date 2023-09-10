@@ -1,5 +1,5 @@
 from utils.command import C
-from action.callback import compute_action, is_blind
+from action.utils import compute_action, is_blind
 from action.view import view_pos, view_find
 from action.move import goto_index
 

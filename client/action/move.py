@@ -1,4 +1,4 @@
-from action.callback import compute_action
+from action.utils import compute_action
 from action.view import view_pos, view_index
 from utils.command import C
 

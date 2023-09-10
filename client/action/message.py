@@ -1,3 +1,7 @@
+from action.utils import compute_action
+from utils.command import C
+
+
 class	Message:
 	def	__init__(self):
 		pass
@@ -10,37 +14,43 @@ class	Message:
 		dir = int(split[1].strip())
 		print("from: {} - message: {}".format(dir, message))
 		if "Come to your leader !" in message:
+			if bernard.leader == -1:
+				bernard.leader = None
+				return
 			bernard.leader = dir
+			print("joining leader at {}".format(dir))
+		elif "I need food my minions !" in message and dir == 0:
+			bernard.leader_order = 1
+			print("need to give food to the master")
+		elif "I just hatched an egg !" in message:
+			bernard.team_total += 1
 
 	#format: deplacement <K>
-	# 1 is front
-	# 2 1 8
-	# 3 X 7
-	# 4 5 6
-	#the kick message reset bernard's breain
+	# 0 : front, 1 : right, 2 : back, 3 : left
+	#the kick message reset bernard's brain
 	def	kick(bernard, message):
 		print("bot has been kick")
 		split = message.split(' ')
 		kick_origin = int(split[1].strip())
 		x, y = bernard.x, bernard.y
 
-		#si 1 faut allez derriere
-		if kick_origin == 1:
+		#si 0 faut allez derriere
+		if kick_origin == 0:
 			originx, originy = bernard.x, bernard.y + 1
 			bernard.y -= 1
 			bernard.sy -= 1
-		#si 3 faut allez a droite
-		elif kick_origin == 3:
+		#si 1 faut allez a droite
+		elif kick_origin == 1:
 			originx, originy = bernard.x - 1, bernard.y
 			bernard.x += 1
 			bernard.sx += 1
-		#si 5 faut allez devant
-		elif kick_origin == 5:
+		#si 2 faut allez devant
+		elif kick_origin == 2:
 			originx, originy = bernard.x, bernard.y - 1
 			bernard.y += 1
 			bernard.sy += 1
-		#si 7 faut allez a gauche
-		elif kick_origin == 7:
+		#si 3 faut allez a gauche
+		elif kick_origin == 3:
 			originx, originy = bernard.x + 1, bernard.y
 			bernard.x -= 1
 			bernard.sx -= 1
