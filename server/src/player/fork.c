@@ -67,9 +67,9 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		env->gindex = oldest_egg->id;
 		gevent_player_connected_for_egg(env);
 
-		printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
-		fflush(stdout);
-		sleep(5);
+		//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
+		//fflush(stdout);
+		//sleep(5);
 		dynarray_extract(eggs, index);
 		return (gevent_egg_hatched(env));
 	}

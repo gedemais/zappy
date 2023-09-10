@@ -6,6 +6,7 @@ uint8_t	send_graphical_data(t_env *env)
 	t_egg		*egg;
 	t_player	*pl;
 	uint8_t		code;
+	char		buffer[128];
 
 	FLUSH_GRESPONSE
 
@@ -29,11 +30,13 @@ uint8_t	send_graphical_data(t_env *env)
 	for (int e = 0; e < env->world.eggs.nb_cells; e++)
 	{
 		egg = dyacc(&env->world.eggs, e);
-		env->gindex = e;
+		env->gindex = egg->id;
 		env->gx = egg->x;
 		env->gy = egg->y;
 		env->gpid = egg->pid;
-		gevent_player_layed_egg(env);
+		bzero(buffer, 128);
+		sprintf(buffer, "enw #%d #%d %d %d\n", egg->id, egg->pid, egg->x, egg->y);
+		strcat(env->buffers.gresponse, buffer);
 	}
 
 	return (gresponse(env));
