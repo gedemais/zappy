@@ -36,7 +36,7 @@
 # define RESPONSE_SIZE pow(2, 20)
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define FLUSH_GRESPONSE memset(env->buffers.gresponse, 0, strlen(env->buffers.gresponse));
-# define REQUEST_BUFF_SIZE 4096
+# define REQUEST_BUFF_SIZE 8192
 
 # define MAX_T 300
 

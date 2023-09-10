@@ -16,14 +16,17 @@ class	IA:
 	# bernard
 	lvl = 1
 	rushlvl = 2
+	rushfinal = False
+	hatched = False
 	foodmin = 5
 	foodmax = 10
 	leader = None
-	leader_order = None
-	team_slot = None
+	team_slot = 0
+	team_total = 0
 	inventory = []
 	last_broadcast = 0
 	last_inventory = 0
+	last_hatch = 0
 	#permet de savoir quand un call a été effectué
 	needs = {
 		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Callback.connect_nbr ),
@@ -61,6 +64,8 @@ class	IA:
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
 			commands = self.update()
+			for cmd in commands:
+				print(cmd.data())
 			self.brain.input(commands)
 		#on process le brain
 		#le brain va return False until les commands input ont toutes été traitées par le serveur

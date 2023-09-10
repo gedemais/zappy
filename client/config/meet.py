@@ -19,11 +19,6 @@ class	Meet:
 	def	__init__(self):
 		pass
 
-	#format: deplacement <K>
-	# 1 is front
-	# 2 1 8
-	# 3 X 7
-	# 4 5 6
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
@@ -33,17 +28,13 @@ class	Meet:
 			bernard.leader = -1
 			send_broadcast(bernard, "Come to your leader !")
 		#establishing rally point
-		if bernard.leader == -1 and bernard.t - bernard.last_broadcast > 100:
+		if bernard.leader == -1: # and bernard.t - bernard.last_broadcast > 100:
 			send_broadcast(bernard, "Come to your leader !")
 			print("Calling team mates to rush lvl 8 !")
-			#leader food state
-			if bernard.inventory["nourriture"] < bernard.foodmax:
-				send_broadcast(bernard, "I need food my minions !")
-				print("Asking team mates for foods !")
 		if bernard.leader == -1:
 			#refreshing vision
 			compute_action(bernard, C.VOIR, 1)
-			if bernard.inventory["nourriture"] < bernard.foodmax:
+			if bernard.inventory["nourriture"] < 20:
 				collect_food(bernard, 2)
 			return
 
@@ -54,37 +45,38 @@ class	Meet:
 		if dir == 0:
 			compute_action(bernard, C.VOIR, 1)
 			if bernard.inventory["nourriture"] < 20:
-				collect_food(bernard, 1)
+				collect_food(bernard, 2)
+			elif bernard.inventory["nourriture"] > 25\
+					and "player" in bernard.view[0] and bernard.view[0]["player"] > 1:
+				value = bernard.inventory["nourriture"] - 20
+				p = 40
+				nb_food = 1 + int((value * p) / 100)
+				compute_action(bernard, C.POSE, nb_food, "nourriture")
+				print("giving {} food to leader".format(nb_food))
 			return
-		
-		#collecting foods
-		collect_food(bernard, 1)
 
+		# 1 is front
+		# 2 1 8
+		# 3 X 7
+		# 4 5 6
 		if dir == 1 or dir == 2 or dir == 8:
 			#go front
 			compute_action(bernard, C.AVANCE, 1)
 			bernard.y += 1
-			print("going front")
 		elif dir == 7:
 			#go right
 			compute_action(bernard, C.DROITE, 1)
 			compute_action(bernard, C.AVANCE, 1)
-			print("going right")
-			#rotation so view update
-			compute_action(bernard, C.VOIR, 1)
+			bernard.x += 1
 		if dir == 5 or dir == 4 or dir == 6:
 			#go back
 			compute_action(bernard, C.GAUCHE, 2)
 			compute_action(bernard, C.AVANCE, 1)
-			print("going back")
-			#rotation so view update
-			compute_action(bernard, C.VOIR, 1)
+			bernard.y -= 1
 		elif dir == 3:
 			#go left
 			compute_action(bernard, C.GAUCHE, 1)
 			compute_action(bernard, C.AVANCE, 1)
-			print("going left")
-			#rotation so view update
-			compute_action(bernard, C.VOIR, 1)
+			bernard.x -= 1
 
 		bernard.leader = 0

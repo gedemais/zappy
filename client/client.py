@@ -43,10 +43,10 @@ class	Client:
 	def	receive(self, cmd):
 		self.qreceive.reset()
 		server_messages = []
-		self.s.settimeout(0.2)
+		self.s.settimeout(0.1)
 		while True:
 			try:
-				data = self.s.recv(1024)
+				data = self.s.recv(8192)
 			except socket.timeout:
 				break
 			if not data:

@@ -1,5 +1,5 @@
 from utils.command import C
-from action.utils import compute_action, is_blind
+from action.utils import compute_action, is_blind, send_broadcast
 from action.view import view_pos, view_find
 from action.move import goto_index
 
@@ -11,6 +11,10 @@ class	Manger:
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
+		if bernard.leader == -1 or bernard.rushfinal == True:
+			send_broadcast(bernard, "The king is dead, long live the king !")
+			bernard.leader = None
+			bernard.rushfinal = False
 		print("I'm hungry >< !")
 		#y a t-il de la nourriture proche ?
 		targetindex = view_find(bernard, "nourriture")

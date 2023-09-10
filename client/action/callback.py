@@ -1,4 +1,4 @@
-import os
+import os, time
 
 from utils.command import C
 from action.utils import compute_action, send_broadcast
@@ -62,9 +62,11 @@ class	Callback:
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
+		time.sleep(4)
 		os.system("python3 main.py --host {} --port {} --team_name {} &".format(bernard.host, bernard.port, bernard.team_name))
-		send_broadcast(bernard, "I just hatched an egg !")
 		bernard.team_total += 1
+		bernard.hatched = True
+		bernard.last_hatch = bernard.t
 
 	def	expulse():
 		pass

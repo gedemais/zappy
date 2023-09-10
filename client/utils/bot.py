@@ -42,7 +42,7 @@ class	Bot:
 			self.transceive(cmd, str(self.cmds[cmd.id].command))
 
 	def	parse_response(self, cmd):
-		response = cmd.response
+		response = cmd.response.strip()
 		#parsing inventaire and voir
 		if response[0] == '{' and response[-1] == '}':
 			cmd.response = []

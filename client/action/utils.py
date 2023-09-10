@@ -1,3 +1,5 @@
+import random
+
 from utils.command import C, Command
 from action.view import outofview
 
@@ -8,6 +10,8 @@ from action.view import outofview
 #	pour chaque element de l'array une commande sera executée avec buf = array[i]
 #	ça permet d'envoyer une list de ressources à poser/prendre
 def		compute_action(bernard, id, repeat = 1, element = None):
+	if repeat > 5:
+		repeat = 5
 	for i in range(repeat):
 		command = Command(id = id)
 		command.buf = element
@@ -16,9 +20,15 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 def		is_blind(bernard):
 	blind = False
 
-	if bernard.ko == True and bernard.leader != -1:
+	if bernard.ko == True and bernard.leader != -1\
+			and "player" in bernard.view[0] and bernard.view[0]["player"] == 0:
 		print("Someone is around !")
 		compute_action(bernard, C.VOIR, 1)
+		r = random.randint(0, 1)
+		if r == 0:
+			compute_action(bernard, C.DROITE, 1)
+		else:
+			compute_action(bernard, C.GAUCHE, 1)
 		blind = True
 		return
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\

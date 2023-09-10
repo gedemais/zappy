@@ -53,6 +53,8 @@ def		incant_possible(bernard, case = False):
 			offset = viewcase[element]
 		if bernard.inventory[element] + offset < loots_to_incant[element]:
 			return False
+		if "player" in viewcase and viewcase["player"] + 1 < require[bernard.lvl - 1]["player"]:
+			return False
 	return True
 
 #return un array qui contient le nb de loot à poser à terre pour lancer le lvl up

@@ -19,11 +19,10 @@ class	Message:
 				return
 			bernard.leader = dir
 			print("joining leader at {}".format(dir))
-		elif "I need food my minions !" in message and dir == 0:
-			bernard.leader_order = 1
-			print("need to give food to the master")
 		elif "I just hatched an egg !" in message:
 			bernard.team_total += 1
+		elif "The king is dead, long live the king !" in message:
+			bernard.leader = None
 
 	#format: deplacement <K>
 	# 0 : front, 1 : right, 2 : back, 3 : left
