@@ -155,6 +155,7 @@ class   Connector():
 
     def ppo(self, world, tokens):
         print('ppo')
+        print(tokens)
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
@@ -280,6 +281,7 @@ class   Connector():
             print('invalid format for pic')
             return -1
 
+        print(tokens)
         player = self.get_player_by_id(world, tokens[4])
         print('player {} incantating !'.format(tokens[4]))
         player.states_queue.append(S.INCANTATING)
