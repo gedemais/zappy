@@ -4,7 +4,7 @@ from Player import S
 
 class   Renderer():
 
-    def __init__(self, world, tile_size=50, loot_scale=0.75):
+    def __init__(self, world, tile_size=50, loot_scale=0.75, hud_size=0.2):
     # Initialize Pygame
         pygame.init()
         self.is_running = True
@@ -13,9 +13,11 @@ class   Renderer():
         # Map dimensions
         self.map_width = world.map_width
         self.map_height = world.map_height
+        self.hud_size = hud_size
 
         # Window dimensions
         self.win_width = self.map_width * tile_size + self.map_width
+        self.win_width += self.win_width * self.hud_size
         self.win_height = self.map_height * tile_size + self.map_height
         self.tile_size = tile_size
         self.loot_scale = loot_scale
