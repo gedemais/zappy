@@ -145,6 +145,17 @@ class   Renderer():
         for i in range(5):
             self.player_animations['laying'] += self.player_animations['laying']
 
+        self.player_animations['dying'] = []
+        for i in range(7):
+            x = i * 64
+            self.player_animations['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+
+        x = 5 * 64
+        for i in range(35):
+            self.player_animations['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+
+
+        
 
     def render_loot(self, world, x, y):
         coords =    [
@@ -187,13 +198,19 @@ class   Renderer():
 
     def get_animation(self, player):
         keys = ['north', 'east', 'south', 'west']
+        walking_states =   [
+                        S.WALKING_NORTH,
+                        S.WALKING_EAST,
+                        S.WALKING_SOUTH,
+                        S.WALKING_WEST
+                    ]
 
         #print('state :', player.state)
         if player.state == S.IDLE or player.state == S.BROADCASTING:
             return self.player_animations['idle_' + keys[player.o]]
 
-        if player.state.value[0] >= S.WALKING_NORTH.value[0]:
-            if player.state.value[0] <= S.WALKING_WEST.value[0]:
+
+        if player.state in walking_states:
                 return self.player_animations['walking_' + keys[player.o]]
 
         if player.state == S.PUSHING:
@@ -207,6 +224,9 @@ class   Renderer():
 
         if player.state == S.LAYING_EGG:
             return self.player_animations['laying']
+
+        if player.state == S.DYING:
+            return self.player_animations['dying']
 
         print('ANIMATION NOT FOUND')
         assert(False)

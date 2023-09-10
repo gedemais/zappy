@@ -351,15 +351,7 @@ class   Connector():
 
 
     def _pdi_(self, world, tokens):
-        pass
-
-    def pdi(self, world, tokens):
         found = False
-        print('player died !')
-        if len(tokens) != 2:
-            print('invalid format for pdi')
-            return -1
-
         player = self.get_player_by_id(world, tokens[1])
         team = world.teams[player.team]
         del team.players[tokens[1]]
@@ -369,6 +361,18 @@ class   Connector():
             print('dead player {} not found'.format(tokens[1]))
             return -1
         return 0
+
+    def pdi(self, world, tokens):
+        print('player died !')
+        if len(tokens) != 2:
+            print('invalid format for pdi')
+            return -1
+        player = self.get_player_by_id(world, tokens[1])
+        player.states_queue.append(S.DYING)
+        self.commands_queue.append({'id': self._pdi_,  'params': (world, tokens), 'ticks': 42})
+
+
+
 
 
     def _sgt_(self, world, tokens):
