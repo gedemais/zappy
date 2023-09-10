@@ -53,6 +53,9 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		}
 	}
 
+	env->gplayer = *p;
+	gevent_player_new(env);
+
 	if (!found)
 		return (ERR_NONE);
 
@@ -60,9 +63,6 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 	{
 		p->tile_x = oldest_egg->x;
 		p->tile_y = oldest_egg->y;
-
-		env->gplayer = *p;
-		gevent_player_new(env);
 
 		env->gindex = oldest_egg->id;
 		gevent_player_connected_for_egg(env);
