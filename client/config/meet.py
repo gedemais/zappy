@@ -43,7 +43,8 @@ class	Meet:
 		if bernard.leader == -1:
 			#refreshing vision
 			compute_action(bernard, C.VOIR, 1)
-			collect_food(bernard, 5)
+			if bernard.inventory["nourriture"] < bernard.foodmax:
+				collect_food(bernard, 2)
 			return
 
 		dir = bernard.leader
@@ -52,7 +53,7 @@ class	Meet:
 
 		if dir == 0:
 			compute_action(bernard, C.VOIR, 1)
-			if bernard.inventory["nourriture"] < bernard.foodmin + 5:
+			if bernard.inventory["nourriture"] < 20:
 				collect_food(bernard, 1)
 			return
 		

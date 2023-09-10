@@ -16,7 +16,7 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 def		is_blind(bernard):
 	blind = False
 
-	if bernard.ko == True:
+	if bernard.ko == True and bernard.leader != -1:
 		print("Someone is around !")
 		compute_action(bernard, C.VOIR, 1)
 		blind = True

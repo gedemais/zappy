@@ -67,7 +67,7 @@ def		task_assign(bernard):
 	# rush lvl 2
 	if bernard.lvl < 2:
 		tasks[T.RUSH].state = S.NEED
-		bernard.rushlvl = 3
+		bernard.rushlvl = 4
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
@@ -114,10 +114,8 @@ def		leader_orders(bernard):
 		if value > 0:
 			p = 20 
 			nb_food = int((value * p) / 100)
-			if nb_food > 3:
-				nb_food = 3
-				compute_action(bernard, C.POSE, nb_food, "nourriture")
-				print("giving {} food to leader".format(nb_food))
+			compute_action(bernard, C.POSE, nb_food, "nourriture")
+			print("giving {} food to leader".format(nb_food))
 
 class	Maboye:
 	def	__init__(self):
