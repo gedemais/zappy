@@ -14,7 +14,8 @@ class   S(Enum):
     BROADCASTING = 8,
     INCANTATING = 9,
     LAYING_EGG = 10,
-    MAX = 11
+    DYING = 11
+    MAX = 12
 
 
 class   Player():

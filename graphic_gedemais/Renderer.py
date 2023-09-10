@@ -48,24 +48,21 @@ class   Renderer():
         self.bgd_tile_rect = self.bgd_tile.get_rect()
         self.generate_background()
 
-        eggs = pygame.image.load('./sprites/eggs.jpg')
+        eggs = pygame.image.load('./sprites/eggs.png')
+        self.egg = pygame.transform.scale(eggs, (self.tile_size / 2, self.tile_size / 2))
         broadcast_animation = pygame.image.load('./sprites/broadcast.png')
         broadcast_animation.set_colorkey((0, 0, 0))
         minerals = pygame.image.load('./sprites/minerals.png')
-        food = pygame.image.load('./sprites/minerals.png')
+        food = pygame.image.load('./sprites/apple.png')
 
         self.loot_images = [
-                food.subsurface((100, 0, 140, 140)),
+                food,
                 minerals.subsurface((0, 0, 28, 28)),
                 minerals.subsurface((115, 0, 28, 28)),
                 minerals.subsurface((230, 0, 28, 28)),
                 minerals.subsurface((0, 230, 28, 28)),
                 minerals.subsurface((115, 115, 28, 28)),
                 minerals.subsurface((230, 115, 28, 28)),
-                ]
-
-        self.eggs_images = [
-                eggs.subsurface((50, 0, 250, 200)),
                 ]
 
 
@@ -145,6 +142,16 @@ class   Renderer():
         for i in range(5):
             self.player_animations['laying'] += self.player_animations['laying']
 
+        self.player_animations['dying'] = []
+        for i in range(7):
+            x = i * 64
+            self.player_animations['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+
+        x = 5 * 64
+        for i in range(35):
+            self.player_animations['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+
+
 
     def render_loot(self, world, x, y):
         coords =    [
@@ -160,7 +167,7 @@ class   Renderer():
                         (2, 2),
                     ]
 
-        for i in range(1, 7):
+        for i in range(7):
             if world.map[y][x][i] > 0:
                 loot_x = x * self.tile_size + coords[i][0] * self.loot_tile_size + x
                 loot_y = y * self.tile_size + coords[i][1] * self.loot_tile_size + y
@@ -172,6 +179,19 @@ class   Renderer():
 
                 self.window.blit(self.images[i], (loot_x, loot_y, scale, scale))
 
+    def render_eggs(self, world):
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                x = egg[1].x
+                y = egg[1].y
+                rect = [0, 0, 0, 0]
+                off_x = self.tile_size / 4
+                off_y = self.tile_size / 4
+                rect[0] = x * self.tile_size + x + off_x
+                rect[1] = y * self.tile_size + y + off_y
+                rect[2] = self.bgd_tile_rect[0] + self.tile_size + x + off_x
+                rect[3] = self.bgd_tile_rect[1] + self.tile_size + y + off_y
+                self.window.blit(self.egg, rect)
 
     def generate_background(self):
         self.background = pygame.Surface((self.win_width, self.win_height))
@@ -187,13 +207,19 @@ class   Renderer():
 
     def get_animation(self, player):
         keys = ['north', 'east', 'south', 'west']
+        walking_states =   [
+                        S.WALKING_NORTH,
+                        S.WALKING_EAST,
+                        S.WALKING_SOUTH,
+                        S.WALKING_WEST
+                    ]
 
         #print('state :', player.state)
         if player.state == S.IDLE or player.state == S.BROADCASTING:
             return self.player_animations['idle_' + keys[player.o]]
 
-        if player.state.value[0] >= S.WALKING_NORTH.value[0]:
-            if player.state.value[0] <= S.WALKING_WEST.value[0]:
+
+        if player.state in walking_states:
                 return self.player_animations['walking_' + keys[player.o]]
 
         if player.state == S.PUSHING:
@@ -207,6 +233,9 @@ class   Renderer():
 
         if player.state == S.LAYING_EGG:
             return self.player_animations['laying']
+
+        if player.state == S.DYING:
+            return self.player_animations['dying']
 
         print('ANIMATION NOT FOUND')
         assert(False)
@@ -276,8 +305,8 @@ class   Renderer():
         for y in range(self.map_height):
             for x in range(self.map_width):
                 self.render_loot(world, x, y)
-                #self.render_egg(world, x, y)
 
+        self.render_eggs(world)
         self.render_players(world)
 
         pygame.display.flip()

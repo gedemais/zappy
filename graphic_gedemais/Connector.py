@@ -182,7 +182,6 @@ class   Connector():
         pass
 
     def ebo(self, world, tokens):
-        print('EGG-CLOSIOOOOOOOONNN!!!!')
         pass
 
 
@@ -331,35 +330,35 @@ class   Connector():
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
-        print('THERE' * 500)
 
 
     def _eht_(self, world, tokens):
         pass
 
     def eht(self, world, tokens):
-        print('egg {} hatched !'.format(tokens[2]))
-        pass
+        print('egg {} hatched !'.format(tokens[1]))
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                if tokens[1] == egg[0]:
+                    del t[1].eggs[tokens[1]]
+                    break
 
 
     def _edi_(self, world, tokens):
         pass
 
     def edi(self, world, tokens):
-        print('egg {} rotted !'.format(tokens[2]))
-        pass
+        print('egg {} rotted !'.format(tokens[1]))
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                if tokens[1] == egg[0]:
+                    del t[1].eggs[tokens[1]]
+                    break
+        
 
 
     def _pdi_(self, world, tokens):
-        pass
-
-    def pdi(self, world, tokens):
         found = False
-        print('player died !')
-        if len(tokens) != 2:
-            print('invalid format for pdi')
-            return -1
-
         player = self.get_player_by_id(world, tokens[1])
         team = world.teams[player.team]
         del team.players[tokens[1]]
@@ -369,6 +368,18 @@ class   Connector():
             print('dead player {} not found'.format(tokens[1]))
             return -1
         return 0
+
+    def pdi(self, world, tokens):
+        print('player died !')
+        if len(tokens) != 2:
+            print('invalid format for pdi')
+            return -1
+        player = self.get_player_by_id(world, tokens[1])
+        player.states_queue.append(S.DYING)
+        self.commands_queue.append({'id': self._pdi_,  'params': (world, tokens), 'ticks': 42})
+
+
+
 
 
     def _sgt_(self, world, tokens):

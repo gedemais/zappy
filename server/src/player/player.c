@@ -143,11 +143,12 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
-	new->inventory[LOOT_FOOD] = 100; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
 
 	// PID generation
 	new->pid = rand() * rand() * rand();
 	new->pid *= (new->pid < 0) ? -1 : 1;
+
 	// Player's random coordinates definition
 	new->tile_x = rand() % env->settings.map_width;
 	new->tile_y = rand() % env->settings.map_height;
@@ -232,9 +233,6 @@ uint8_t			add_player(t_env *env, t_team *team, int *connection, t_player *pendin
 	// Add the newly created player as a loot object in its spawn tile
 	env->world.map[new.tile_y][new.tile_x].content[LOOT_PLAYER]++;
 	team->connected++;
-
-	if ((code = check_connected_egg(env, new.team)))
-		return (code);
 
 	return (ERR_NONE);
 }
