@@ -19,6 +19,7 @@ class	IA:
 	foodmin = 5
 	foodmax = 10
 	leader = None
+	leader_order = None
 	team_slot = None
 	inventory = []
 	last_broadcast = 0
@@ -53,6 +54,7 @@ class	IA:
 	def	interact(self, t, server_messages):
 		self.t = t
 
+		self.leader_order = None
 		#on regarde si on a reçu des messages de la part du serveur
 		if len(server_messages) > 0:
 			self.handle_server_messages(server_messages)
@@ -105,6 +107,7 @@ class	IA:
 					self.needs[command.id].callback(self, command)
 				else:
 					print("{} {} : KO".format(command.id, command.buf))
+					self.ko = True
 				command.state = S.NONE
 	
 	#fonction pour append la command
@@ -128,6 +131,7 @@ class	IA:
 		return False
 	
 	def	callback(self):
+		self.ko = False
 		#si un need est pending et que la cmd est received (dans brain.memory)
 		for command in self.actions:
 			if self.await_response(command) == True:

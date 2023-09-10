@@ -6,6 +6,8 @@ def	view_check_neighbors(bernard, x, y, item):
 	if outofview(bernard, x, y) == True:
 		return None
 	index = view_index(x, y)
+	if index > len(bernard.view):
+		return None
 	#si deja visitée on sort
 	if "visited" in bernard.view[index] and bernard.view[index]["visited"] == True:
 		return None

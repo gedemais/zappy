@@ -16,6 +16,11 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 def		is_blind(bernard):
 	blind = False
 
+	if bernard.ko == True:
+		print("Someone is around !")
+		compute_action(bernard, C.VOIR, 1)
+		blind = True
+		return
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\
 			or len(bernard.view) == 0 or len(bernard.inventory) == 0:
 		print("I'm blind :'(")
@@ -31,7 +36,9 @@ def		is_blind(bernard):
 	#update inventory (each 5s)
 	if bernard.t - bernard.last_inventory > 5000:
 		print("I need to check my stuff !")
+		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
+		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
 	return blind
 

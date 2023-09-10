@@ -177,7 +177,7 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 		}
 	}
 
-	if (nb_players == lvl_up_requirements[p->level - 1][LOOT_MAX]) // Ba faut respecter la regle hein
+	if (nb_players >= lvl_up_requirements[p->level - 1][LOOT_MAX]) // Ba faut respecter la regle hein
 	{
 		t_player	*player;
 

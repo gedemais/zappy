@@ -1,3 +1,7 @@
+from action.utils import compute_action
+from utils.command import C
+
+
 class	Message:
 	def	__init__(self):
 		pass
@@ -14,6 +18,10 @@ class	Message:
 				bernard.leader = None
 				return
 			bernard.leader = dir
+			print("joining leader at {}".format(dir))
+		elif "I need food my minions !" in message and dir == 0:
+			bernard.leader_order = 1
+			print("need to give food to the master")
 		elif "I just hatched an egg !" in message:
 			bernard.team_total += 1
 

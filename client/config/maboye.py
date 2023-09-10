@@ -1,7 +1,7 @@
 from enum import Enum
 
-from utils.command import S, Command
-from action.utils import is_blind
+from utils.command import C, S, Command
+from action.utils import is_blind, compute_action
 from action.incant import incant_total
 from config.collect import Collect
 from config.manger import Manger
@@ -48,7 +48,7 @@ def		task_manager(bernard):
 	if tasks[T.COLLECT].state == S.NEED:
 		#on collect tout ce qu'il manque pour up lvl 8
 		print("T.COLLECT")
-		Collect.run(bernard, incant_total(bernard, 8))
+		Collect.run(bernard, incant_total(bernard, bernard.rushlvl))
 		return
 	if tasks[T.MEET].state == S.NEED:
 		#on rejoins les autres joueurs de la team
@@ -67,11 +67,10 @@ def		task_assign(bernard):
 	# rush lvl 2
 	if bernard.lvl < 2:
 		tasks[T.RUSH].state = S.NEED
-		bernard.rushlvl = 2
+		bernard.rushlvl = 3
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
-		bernard.rushlvl = 8
 	#on verifie recrute le max de joueur possible
 	# if bernard.team_total < 6:
 	# 	tasks[T.HATCH].state = S.NEED
@@ -79,6 +78,7 @@ def		task_assign(bernard):
 	# else:
 	# 	tasks[T.HATCH].state = S.NONE
 	#on verifie si il manque des ressources pour passer lvl 8
+	# bernard.rushlvl = 8
 	miss = False
 	it = incant_total(bernard, bernard.rushlvl)
 	for item in it:
@@ -86,24 +86,38 @@ def		task_assign(bernard):
 			miss = True
 	#si il manque des ressources alors on va les collect
 	if miss == True:
+		#prevoir de la bouffe
+		bernard.foodmin = 30
+		bernard.foodmax = 35
+		if bernard.inventory["nourriture"] < bernard.foodmin:
+			tasks[T.MANGER].state = S.NEED
+			return
 		tasks[T.COLLECT].state = S.NEED
 		return
 	else:
 		tasks[T.COLLECT].state = S.NONE
-	#prevoir de la bouffe
-	bernard.foodmin = 15
-	bernard.foodmax = 20
 	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
 	#il faut rejoindre les autres joueurs
 	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
-		tasks[T.MEET].state = S.NEED 
+		bernard.foodmin = 5
+		tasks[T.MEET].state = S.NEED
 		return
 	else:
 		tasks[T.MEET].state = S.NONE
 	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
 	tasks[T.RUSH].state = S.NEED
-	bernard.foodmin = 5
-	bernard.foodmax = 10
+
+def		leader_orders(bernard):
+	print("leader orders", bernard.leader_order)
+	if bernard.leader_order == 1:
+		value = bernard.inventory["nourriture"] - 5
+		if value > 0:
+			p = 20 
+			nb_food = int((value * p) / 100)
+			if nb_food > 3:
+				nb_food = 3
+				compute_action(bernard, C.POSE, nb_food, "nourriture")
+				print("giving {} food to leader".format(nb_food))
 
 class	Maboye:
 	def	__init__(self):
@@ -121,6 +135,8 @@ class	Maboye:
 			view_index(bernard.x, bernard.y),\
 			bernard.view_size,\
 		))
+		#WIP
+		leader_orders(bernard)
 		#WIP
 		task_assign(bernard)
 		#WIP
