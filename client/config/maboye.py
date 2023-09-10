@@ -71,12 +71,12 @@ def		task_assign(bernard):
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
-	#on verifie recrute le max de joueur possible
-	# if bernard.team_total < 6:
-	# 	tasks[T.HATCH].state = S.NEED
-	# 	return
-	# else:
-	# 	tasks[T.HATCH].state = S.NONE
+	# on verifie recrute le max de joueur possible
+	if bernard.team_total < 6:
+		tasks[T.HATCH].state = S.NEED
+		return
+	else:
+		tasks[T.HATCH].state = S.NONE
 	#on verifie si il manque des ressources pour passer lvl 8
 	# bernard.rushlvl = 8
 	miss = False

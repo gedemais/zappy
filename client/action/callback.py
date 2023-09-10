@@ -1,4 +1,4 @@
-import subprocess
+import os
 
 from utils.command import C
 from action.utils import compute_action, send_broadcast
@@ -62,8 +62,7 @@ class	Callback:
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
-		script_path = "./client.py --host {bernard.host} --port {bernard.port} --team_name {bernard.team_name}"
-		subprocess.Popen(["python", script_path])
+		os.system("python3 main.py --host {} --port {} --team_name {}".format(bernard.host, bernard.port, bernard.team_name))
 		send_broadcast(bernard, "I just hatched an egg !")
 
 	def	expulse():
