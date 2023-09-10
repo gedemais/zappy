@@ -166,13 +166,15 @@ uint8_t		gevent_incantation_launch(t_env *env)
 
 	p = &env->gplayer;
 	FLUSH_GRESPONSE
-	sprintf(env->buffers.gresponse, "pic %d %d %d ", p->tile_x, p->tile_y, p->level);
+	sprintf(env->buffers.gresponse, "pic %d %d %d #%d", p->tile_x, p->tile_y, p->level, p->pid);
 
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
 		for (int j = 0; j < env->world.teams.nb_cells; j++)
 		{
+			if (p == pl)
+				continue;
 			pl = dyacc(&t->players, j);
 			bool coords = (bool)(pl->tile_x == p->tile_x && pl->tile_y == p->tile_y);
 			if (coords && pl->level == p->level)
