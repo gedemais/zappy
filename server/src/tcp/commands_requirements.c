@@ -119,10 +119,12 @@ static uint8_t	fork_req(t_env *env, char **tokens, t_player *p, bool *ret)
 	team = dyacc(&env->world.teams, p->team);
 
 	if (6 - team->connected > 0)
+	{
 		*ret = true;
-
-	env->gplayer = *p;
-	gevent_player_lays_egg(env);
+		env->gplayer = *p;
+		gevent_player_lays_egg(env);
+		send_ok(env, p);
+	}
 
 	log_requirement("fork", *ret);
 	return (ERR_NONE);
@@ -175,7 +177,7 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 		}
 	}
 
-	if (nb_players >= lvl_up_requirements[p->level - 1][LOOT_MAX])
+	if (nb_players == lvl_up_requirements[p->level - 1][LOOT_MAX]) // Ba faut respecter la regle hein
 	{
 		t_player	*player;
 

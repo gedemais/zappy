@@ -97,7 +97,7 @@ uint8_t	gevent_player_layed_egg(t_env *env)
 		return (ERR_NONE);
 
 	FLUSH_GRESPONSE
-	sprintf(env->buffers.gresponse, "enw #%d #%d %d %d\n", env->gindex, env->gpid, env->gx, env->gy);
+	sprintf(env->buffers.gresponse, "enw #%d #%d %d %d\n", env->gindex, env->gplayer.pid, env->gplayer.tile_x, env->gplayer.tile_y);
 	return (gresponse(env));
 }
 

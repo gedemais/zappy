@@ -48,7 +48,8 @@ class   Renderer():
         self.bgd_tile_rect = self.bgd_tile.get_rect()
         self.generate_background()
 
-        eggs = pygame.image.load('./sprites/eggs.jpg')
+        eggs = pygame.image.load('./sprites/eggs.png')
+        self.egg = pygame.transform.scale(eggs, (self.tile_size / 2, self.tile_size / 2))
         broadcast_animation = pygame.image.load('./sprites/broadcast.png')
         broadcast_animation.set_colorkey((0, 0, 0))
         minerals = pygame.image.load('./sprites/minerals.png')
@@ -62,10 +63,6 @@ class   Renderer():
                 minerals.subsurface((0, 230, 28, 28)),
                 minerals.subsurface((115, 115, 28, 28)),
                 minerals.subsurface((230, 115, 28, 28)),
-                ]
-
-        self.eggs_images = [
-                eggs.subsurface((50, 0, 250, 200)),
                 ]
 
 
@@ -155,7 +152,6 @@ class   Renderer():
             self.player_animations['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
 
 
-        
 
     def render_loot(self, world, x, y):
         coords =    [
@@ -183,6 +179,20 @@ class   Renderer():
 
                 self.window.blit(self.images[i], (loot_x, loot_y, scale, scale))
 
+    def render_eggs(self, world):
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                x = egg[1].x
+                y = egg[1].y
+                print(x, y)
+                rect = [0, 0, 0, 0]
+                off_x = self.tile_size / 4
+                off_y = self.tile_size / 4
+                rect[0] = x * self.tile_size + x + off_x
+                rect[1] = y * self.tile_size + y + off_y
+                rect[2] = self.bgd_tile_rect[0] + self.tile_size + x + off_x
+                rect[3] = self.bgd_tile_rect[1] + self.tile_size + y + off_y
+                self.window.blit(self.egg, rect)
 
     def generate_background(self):
         self.background = pygame.Surface((self.win_width, self.win_height))
@@ -296,8 +306,8 @@ class   Renderer():
         for y in range(self.map_height):
             for x in range(self.map_width):
                 self.render_loot(world, x, y)
-                #self.render_egg(world, x, y)
 
+        self.render_eggs(world)
         self.render_players(world)
 
         pygame.display.flip()

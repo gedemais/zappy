@@ -1,11 +1,9 @@
 Server :
 	Fix le leak de split dans place_command in queue
-	fork renvoie toujours ko (?)
 	tests incantation
 	kill_player segfault (?)
 	Check all allocations for leaks
 	Check free procedures
-	Test broadcast directions
 	Run tests with fsanitize + valgrind (also check for incoherent number of pending players):
 		- Incantation
 		- Fork
@@ -15,10 +13,9 @@ Server :
 Graphical Client :
 
 Animations :
-	Animation Death
 	Animation voir (optionnel)
-	Tout synchroniser
 	Fix le probleme de synchro du kick (optionnel, car on utilisera jamais le kick)
+	Tout synchroniser
 
 HUD:
 	Log broadcasts, incantations starts, level ups, kick

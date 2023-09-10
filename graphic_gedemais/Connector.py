@@ -331,7 +331,6 @@ class   Connector():
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
-        print('THERE' * 500)
 
 
     def _eht_(self, world, tokens):
@@ -346,8 +345,14 @@ class   Connector():
         pass
 
     def edi(self, world, tokens):
-        print('egg {} rotted !'.format(tokens[2]))
-        pass
+        print('egg {} rotted !'.format(tokens[1]))
+        to_delete = []
+        for t in world.teams.items():
+            for egg in t[1].eggs.items():
+                if tokens[1] == egg[0]:
+                    del t[1].eggs[tokens[1]]
+                    break
+        
 
 
     def _pdi_(self, world, tokens):
