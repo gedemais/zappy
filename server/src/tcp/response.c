@@ -24,7 +24,6 @@ uint8_t	gresponse(t_env *env)
 	{
 		printf("%s\n", env->buffers.gresponse);
 		fflush(stdout);
-		sleep(1);
 		write(*env->graphical.connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
 	}
 
