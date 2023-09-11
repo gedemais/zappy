@@ -64,7 +64,7 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 		strcat(env->buffers.response, i > 0 ? ", " : "");
 		for (int j = 0; j <= LOOT_PLAYER; j++)
 		{
-			for (uint8_t k = 0; k < tile->content[j]; k++)
+			for (uint16_t k = 0; k < tile->content[j]; k++)
 			{
 				strcat(env->buffers.response, loot_titles[j]);
 

@@ -21,7 +21,12 @@ void	teams_log(t_env *env, bool log)
 		for (int player = 0; player < t->players.nb_cells; player++)
 		{
 			p = dyacc(&t->players, player);
-			fprintf(log ? stderr : stdout, "Player %d | level %d | orientation : %d | x : %d | y : %d | food : %d | satiety : %d | commands : %d | connection : %d\n", player, p->level, *(uint8_t*)&p->direction, p->tile_x, p->tile_y, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells, *p->connection);
+			fprintf(log ? stderr : stdout, "Player %d | level %d | food : %d | satiety : %d | commands : %d\n", player, p->level, p->inventory[LOOT_FOOD], p->satiety, p->cmd_queue.nb_cells);
+		}
+		for (int e = 0; e < env->world.eggs.nb_cells; e++)
+		{
+			egg = dyacc(&env->world.eggs, e);
+			fprintf(log ? stderr : stdout, "Egg %d | x : %d | y : %d | Hatch time : %d | Team : %d\n", egg->id, egg->x, egg->y, egg->hatch_time, egg->team);
 		}
 	}
 	fprintf(log ? stderr : stdout, "===========================\n");
@@ -161,7 +166,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
-	new->inventory[LOOT_FOOD] = 100; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
 
 	// PID generation
 	new->pid = rand() * rand() * rand();
