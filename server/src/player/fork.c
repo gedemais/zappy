@@ -65,13 +65,13 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		gevent_player_new(env);
 		printf("NEW_PLAYER : EGG NOT FOUND\n");
 		fflush(stdout);
-		sleep(3);
+		//sleep(3);
 		return (ERR_NONE);
 	}
 
 	printf("NEW_PLAYER : EGG FOUND\n");
 	fflush(stdout);
-	sleep(3);
+	//sleep(3);
 
 	p->tile_x = oldest_egg->x;
 	p->tile_y = oldest_egg->y;
