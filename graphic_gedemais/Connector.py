@@ -100,10 +100,10 @@ class   Connector():
                 tokens = line.split(' ')
                 if len(tokens) < 2:
                     break
+                print(tokens)
                 self.event_functions[tokens[0]](world, tokens)
 
         for command in self.commands_queue:
-            print(command)
             command['ticks'] -= 1
             if command['ticks'] == 0:
                 command['id'](*command['params'])
@@ -146,7 +146,6 @@ class   Connector():
 
 
     def _ppo_(self, world, tokens):
-        print('_ppo_')
         player = self.get_player_by_id(world, tokens[1])
         if player is None:
             return
@@ -159,8 +158,6 @@ class   Connector():
 
 
     def ppo(self, world, tokens):
-        print('ppo')
-        print(tokens)
         if len(tokens) != 5:
             print('invalid format for ppo')
             return -1
@@ -309,7 +306,6 @@ class   Connector():
             print('invalid format for pic')
             return -1
 
-        print(tokens)
         player = self.get_player_by_id(world, tokens[4])
         if player is None:
             return
@@ -363,13 +359,14 @@ class   Connector():
         pass
 
     def enw(self, world, tokens):
-        print(tokens)
         player = self.get_player_by_id(world, tokens[2])
         if player is None:
             return
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+        print(world.teams[player.team].eggs)
+        #sleep(3)
 
 
     def _eht_(self, world, tokens):
@@ -377,30 +374,37 @@ class   Connector():
 
     def eht(self, world, tokens):
         print('egg {} hatched !'.format(tokens[1]))
-        sleep(3)
+        #sleep(3)
         for t in world.teams.items():
+            print(t[1].eggs)
             for egg in t[1].eggs.items():
+                print(tokens[1], egg)
                 if tokens[1] == egg[0]:
                     del t[1].eggs[tokens[1]]
                     print('properly !')
-                    sleep(3)
+                    #sleep(3)
                     return 0
 
+        print('UNPROPERLY')
+        #sleep(3)
 
     def _edi_(self, world, tokens):
         pass
 
     def edi(self, world, tokens):
         print('egg {} rotted !'.format(tokens[1]))
-        sleep(3)
+        #sleep(3)
         for t in world.teams.items():
             for egg in t[1].eggs.items():
+                print(tokens[1], egg)
                 if tokens[1] == egg[0]:
                     del t[1].eggs[tokens[1]]
                     print('properly !')
-                    sleep(3)
+                    #sleep(3)
                     return 0
 
+        print('UNPROPERLY')
+        #sleep(3)
 
     def _pdi_(self, world, tokens):
         found = False

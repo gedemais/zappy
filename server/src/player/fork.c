@@ -69,33 +69,25 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		return (ERR_NONE);
 	}
 
-	if (index >= 0)
-	{
-		printf("NEW_PLAYER : EGG FOUND\n");
-
-		p->tile_x = oldest_egg->x;
-		p->tile_y = oldest_egg->y;
-
-		env->gplayer = *p;
-		gevent_player_new(env);
-
-		env->gindex = oldest_egg->id;
-		gevent_player_connected_for_egg(env);
-
-		fflush(stdout);
-		sleep(3);
-
-		//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
-		//fflush(stdout);
-		//sleep(5);
-		dynarray_extract(eggs, index);
-		return (gevent_egg_hatched(env));
-	}
-
+	printf("NEW_PLAYER : EGG FOUND\n");
 	fflush(stdout);
 	sleep(3);
 
-	return (ERR_NONE);
+	p->tile_x = oldest_egg->x;
+	p->tile_y = oldest_egg->y;
+
+	env->gplayer = *p;
+	gevent_player_new(env);
+
+	env->gindex = oldest_egg->id;
+	gevent_player_connected_for_egg(env);
+
+
+	//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
+	//fflush(stdout);
+	//sleep(5);
+	dynarray_extract(eggs, index);
+	return (gevent_egg_hatched(env));
 }
 
 uint8_t	hatch_egg(t_env *env, t_player *p)

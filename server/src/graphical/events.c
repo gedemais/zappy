@@ -109,6 +109,7 @@ uint8_t	gevent_egg_hatched(t_env *env)
 
 	printf("EGG HATCHED !\n");
 	fflush(stdout);
+	sleep(1);
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "eht #%d\n", env->gindex);
 	return (gresponse(env));
@@ -120,7 +121,7 @@ uint8_t	gevent_player_connected_for_egg(t_env *env)
 		return (ERR_NONE);
 
 	FLUSH_GRESPONSE
-	sprintf(env->buffers.gresponse, "ebo #%d", env->gindex);
+	sprintf(env->buffers.gresponse, "ebo #%d\n", env->gindex);
 	return (gresponse(env));
 }
 
