@@ -9,4 +9,7 @@ class	Hatch:
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
+		if bernard.team_total == 6:
+			return
+		print("My team is not full I need to reproduce !")
 		compute_action(bernard, C.FORK)

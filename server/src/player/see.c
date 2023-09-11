@@ -67,8 +67,6 @@ void	send_see_response(t_env *env, t_dynarray *view, t_player *p)
 			for (uint16_t k = 0; k < tile->content[j]; k++)
 			{
 				strcat(env->buffers.response, loot_titles[j]);
-				printf("tile_content[%d] : %d\n", j, tile->content[j]);
-				printf("len: %ld\n", strlen(env->buffers.response));
 				strcat(env->buffers.response, " ");
 			}
 		}

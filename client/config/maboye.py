@@ -64,7 +64,6 @@ def		task_assign(bernard):
 		return
 	elif bernard.inventory["nourriture"] >= bernard.foodmax:
 		tasks[T.MANGER].state = S.NONE
-	print("player on my case: {}".format(bernard.view[0]))
 	# rush lvl 2
 	if bernard.lvl < 2:
 		tasks[T.RUSH].state = S.NEED
@@ -72,9 +71,10 @@ def		task_assign(bernard):
 	else:
 		tasks[T.RUSH].state = S.NONE
 	# rush lvl 8
+	bernardindex = view_index(bernard.x, bernard.y)
 	if bernard.rushfinal == True:
-		bernardindex = view_index(bernard.x, bernard.y)
 		if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
+
 			tasks[T.RUSH].state = S.NEED
 			return
 		else:
@@ -88,6 +88,7 @@ def		task_assign(bernard):
 		return
 	else:
 		tasks[T.HATCH].state = S.NONE
+	#en attendant d'etre 6 on collect de la nourriture
 	if bernard.team_total < 6:
 		bernard.foodmin = bernard.inventory["nourriture"] + 5
 		bernard.foodmax = bernard.foodmin + 5
@@ -100,7 +101,7 @@ def		task_assign(bernard):
 		if "player" not in item and it[item] > 0:
 			miss = True
 	#si il manque des ressources alors on va les collect
-	#on prevoit de la bouffe
+	#et on prevoit un minimum de bouffe
 	if miss == True:
 		bernard.foodmin = 20
 		bernard.foodmax = 25
@@ -108,19 +109,21 @@ def		task_assign(bernard):
 		return
 	else:
 		tasks[T.COLLECT].state = S.NONE
+	#les premiers bots collectent plus de nourritures que les suivant
+	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
 		bernard.foodmin = 40
 		bernard.foodmax = 50
 	else:
-		bernard.foodmin = 10
+		bernard.foodmin = 5
 		bernard.foodmax = 25
-	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8, manger
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
+	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
 	#il faut rejoindre les autres joueurs
-	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
-		print("player on my case: {}".format(bernard.view[0]))
+	if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] < 6:
+		print("player on my case: {}".format(bernard.view[bernardindex]["player"]))
 		tasks[T.MEET].state = S.NEED
 		return
 	else:
@@ -137,22 +140,16 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		# for elt in bernard.view:
-		# 	print(elt)
-		print("[ bernard ] - lvl: {} - food: {} - leader: {} - fmin : {} - fmax {}".format(\
+		print("[ bernard ] - lvl: {} - food: {} - leader: {}".format(\
 			bernard.lvl,\
 			bernard.inventory["nourriture"],\
 			bernard.leader,\
-			bernard.foodmin,\
-			bernard.foodmax,\
 		))
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False
 		if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
 			bernard.leader = None
-		#WIP
 		task_assign(bernard)
-		#WIP
 		task_manager(bernard)
 		print("==================================")
