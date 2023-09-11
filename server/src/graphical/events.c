@@ -20,6 +20,7 @@ uint8_t	gevent_player_new(t_env *env)
 			team->name);
 
 	strcat(env->buffers.gresponse, s);
+	gcmd_player_inventory(env);
 	return (gresponse(env));
 }
 

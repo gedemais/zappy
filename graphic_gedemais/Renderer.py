@@ -4,7 +4,7 @@ from Player import S
 
 class   Renderer():
 
-    def __init__(self, world, tile_size=50, loot_scale=0.75, hud_scale=0.3):
+    def __init__(self, world, tile_size=50, loot_scale=0.75):
     # Initialize Pygame
         pygame.init()
         self.is_running = True
@@ -13,12 +13,9 @@ class   Renderer():
         # Map dimensions
         self.map_width = world.map_width
         self.map_height = world.map_height
-        self.hud_scale = hud_scale
 
         # Window dimensions
         self.win_width = self.map_width * tile_size + self.map_width
-        self.hud_size = self.win_width * self.hud_scale
-        self.win_width += self.hud_size
         self.win_height = self.map_height * tile_size + self.map_height
         self.tile_size = tile_size
         self.loot_scale = loot_scale
@@ -44,7 +41,7 @@ class   Renderer():
                 self.is_running = False
 
     def load_spritesheet(self, broadcast_animation, team_index):
-        spritesheet_paths = [
+        self.spritesheet_paths = [
                                 "chainSpriteSheet.png",
                                 "darkmaleSpriteSheet.png",
                                 "elvenSpriteSheet.png",
@@ -55,7 +52,7 @@ class   Renderer():
                                 "rabbitSpriteSheet.png"
                             ]
 
-        animations = pygame.image.load('./sprites/spritesheets/' + spritesheet_paths[team_index])
+        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index])
 
         # IDLE animations
         self.player_animations[team_index] = {

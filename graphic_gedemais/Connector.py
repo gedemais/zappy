@@ -342,9 +342,8 @@ class   Connector():
         for t in world.teams.items():
             for egg in t[1].eggs.items():
                 if tokens[1] == egg[0]:
-                    print('THERE'*500)
                     del t[1].eggs[tokens[1]]
-                    break
+                    return 0
 
 
     def _edi_(self, world, tokens):

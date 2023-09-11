@@ -79,7 +79,7 @@ uint8_t	gcmd_player_new(t_env *env)
 			team->name);
 
 	strcat(env->buffers.gresponse, s);
-	return (ERR_NONE);
+	return (gcmd_player_inventory(env));
 }
 
 uint8_t	gcmd_map_content(t_env *env)

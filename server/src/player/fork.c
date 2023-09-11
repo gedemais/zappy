@@ -44,7 +44,12 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		egg = dyacc(eggs, i);
 		if (egg->team == p->team)
 		{
-			found = true;
+			if (!found)
+			{
+				oldest_egg = egg;
+				index = i;
+				found = true;
+			}
 			if (egg->hatch_time < oldest_egg->hatch_time)
 			{
 				oldest_egg = egg;
