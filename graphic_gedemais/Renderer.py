@@ -273,13 +273,15 @@ class   Renderer():
                     if player.state != S.BROADCASTING or player.step == 7:
                         if len(player.states_queue) > 0:
                             player.state = player.states_queue[0]
+                            print(player.state)
                             player.states_queue.pop(0)
                         else:
                             player.state = S.IDLE
+                            print(player.state)
 
                         player.step = 0
 
-                print(player.state)
+                #print(player.state)
 
                 off_x, off_y = 0, 0
 
