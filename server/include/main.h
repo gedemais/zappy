@@ -159,6 +159,7 @@ uint8_t		gevent_incantation_ended(t_env *env);
 
 // Graphical tools
 uint8_t		cat_spaced_number(t_env *env, int n, bool newline);
+uint8_t		update_inventories(t_env *env);
 
 
 // World

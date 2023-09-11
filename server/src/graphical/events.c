@@ -20,6 +20,7 @@ uint8_t	gevent_player_new(t_env *env)
 			team->name);
 
 	strcat(env->buffers.gresponse, s);
+	gcmd_player_inventory(env);
 	return (gresponse(env));
 }
 
@@ -106,6 +107,9 @@ uint8_t	gevent_egg_hatched(t_env *env)
 	if (env->graphical.team == 0)
 		return (ERR_NONE);
 
+	printf("EGG HATCHED !\n");
+	fflush(stdout);
+	sleep(3);
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "eht #%d\n", env->gindex);
 	return (gresponse(env));

@@ -45,6 +45,8 @@ static void	check_game_end(t_env *env)
 	}
 }
 
+
+
 uint8_t	tick(t_env *env)
 {
 	static uint64_t	n = 0;
@@ -56,6 +58,10 @@ uint8_t	tick(t_env *env)
 
 	// LOGGING
 	n++;
+
+	if (n % env->settings.t == 0 && (code = update_inventories(env)))
+		return (code);
+
 #ifdef MACOS
 	fprintf(stderr, "============= TICK %llu =============\n", n);
 #endif

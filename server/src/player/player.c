@@ -83,6 +83,24 @@ static uint8_t	update_level(t_env *env, t_player *p)
 	return (ERR_NONE);
 }
 
+uint8_t	update_inventories(t_env *env)
+{
+	t_team		*team;
+	t_player	*p;
+
+	for (int i = 0; i < env->world.teams.nb_cells; i++)
+	{
+		team = dyacc(&env->world.teams, i);
+		for (int j = 0; j < team->players.nb_cells; j++)
+		{
+			p = dyacc(&team->players, j);
+			env->gplayer = *p;
+			gcmd_player_inventory(env);
+		}
+	}
+	return (gresponse(env));
+}
+
 static uint8_t	update_food(t_env *env, t_player *p)
 {
 	uint8_t	code;
@@ -143,7 +161,7 @@ static void		fill_player(t_env *env, t_player *new, int *connection)
 	// Wipe new player variable
 	memset(new, 0, sizeof(t_player));
 
-	new->inventory[LOOT_FOOD] = 10; // Food starting quantity
+	new->inventory[LOOT_FOOD] = 100; // Food starting quantity
 
 	// PID generation
 	new->pid = rand() * rand() * rand();

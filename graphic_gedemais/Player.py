@@ -31,3 +31,6 @@ class   Player():
         self.team = team
         self.team_index = team_index
         self.eggs = {}
+
+    def to_dict(self):
+        return {'level' : self.lvl, 'inventory' : self.inventory}

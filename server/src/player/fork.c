@@ -44,8 +44,13 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		egg = dyacc(eggs, i);
 		if (egg->team == p->team)
 		{
-			found = true;
-			if (egg->hatch_time < oldest_egg->hatch_time)
+			if (!found)
+			{
+				oldest_egg = egg;
+				index = i;
+				found = true;
+			}
+			else if (egg->hatch_time < oldest_egg->hatch_time)
 			{
 				oldest_egg = egg;
 				index = i;
@@ -53,16 +58,23 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		}
 	}
 
-	env->gplayer = *p;
-	gevent_player_new(env);
-
 	if (!found)
+	{
+		env->gplayer = *p;
+		gevent_player_new(env);
+		printf("EGG NOT FOUND\n");
+		fflush(stdout);
+		sleep(3);
 		return (ERR_NONE);
+	}
 
 	if (index >= 0)
 	{
 		p->tile_x = oldest_egg->x;
 		p->tile_y = oldest_egg->y;
+
+		env->gplayer = *p;
+		gevent_player_new(env);
 
 		env->gindex = oldest_egg->id;
 		gevent_player_connected_for_egg(env);
