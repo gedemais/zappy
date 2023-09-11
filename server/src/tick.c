@@ -28,7 +28,7 @@ static void	check_game_end(t_env *env)
 		for (int p = 0; p < team->players.nb_cells; i++)
 		{
 			player = dyacc(&team->players, i);
-			if (player->level < 8)
+			if (player && player->level < 8)
 			{
 				won = false;
 				break ;
