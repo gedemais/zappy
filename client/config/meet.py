@@ -45,15 +45,12 @@ class	Meet:
 		if bernard.leader is None:
 			bernard.leader = -1
 			send_broadcast(bernard, "Come to your leader !")
-		#establishing rally point
 		if bernard.leader == -1: # and bernard.t - bernard.last_broadcast > 100:
 			send_broadcast(bernard, "Come to your leader !")
 			print("Calling team mates to rush lvl 8 !")
 		if bernard.leader == -1:
-			#refreshing vision
 			compute_action(bernard, C.VOIR, 1)
-			if bernard.inventory["nourriture"] < 20:
-				collect_food(bernard, 2)
+			handle_food(bernard)
 			return
 
 		dir = bernard.leader

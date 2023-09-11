@@ -39,9 +39,9 @@ while renderer.is_running:
     connector.process(world)
     renderer.render(world)
 
-#    if cycle % world.t == 0:
-#        message = json.dumps([team[1].to_dict(renderer, world) for team in world.teams.items()])
-#        hud.send(bytes(message.encode('utf-8')))
+    # if cycle % world.t == 0:
+    #    message = json.dumps([team[1].to_dict(renderer, world) for team in world.teams.items()])
+    #    hud.send(bytes(message.encode('utf-8')))
 
     cycle += 1
 

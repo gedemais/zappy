@@ -73,13 +73,14 @@ def		task_assign(bernard):
 		tasks[T.RUSH].state = S.NONE
 	# rush lvl 8
 	if bernard.rushfinal == True:
-		if "player" in bernard.view[0] and bernard.view[0]["player"] == 6:
+		bernardindex = view_index(bernard.x, bernard.y)
+		if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
 			tasks[T.RUSH].state = S.NEED
+			return
 		else:
 			compute_action(bernard, C.VOIR, 1)
 			tasks[T.RUSH].state = S.NONE
 			bernard.rushfinal = False
-		return
 	# on recrute le max de joueur possible
 	if bernard.team_total < 6\
 			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
