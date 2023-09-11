@@ -95,6 +95,7 @@ struct	s_env
 	char		*gstr;
 	t_settings	settings;
 	bool		start;
+	uint32_t	consumed_food;
 };
 
 // Core

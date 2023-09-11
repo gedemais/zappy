@@ -45,7 +45,20 @@ static void	check_game_end(t_env *env)
 	}
 }
 
-
+static uint8_t	regenerate_food(t_env *env)
+{
+	int	x, y;
+	for (uint32_t i = 0; i < env->consumed_food; i++)
+	{
+		x = rand() % env->settings.map_width;
+		y = rand() % env->settings.map_height;
+		env->world.map[y][x].content[LOOT_FOOD]++;
+		if (env->graphical.team != 0)
+			gcmd_block_content(env);
+	}
+	env->consumed_food = 0;
+	return (gresponse(env));
+}
 
 uint8_t	tick(t_env *env)
 {
@@ -58,6 +71,10 @@ uint8_t	tick(t_env *env)
 
 	// LOGGING
 	n++;
+
+	if ((code = regenerate_food(env)))
+		return (code);
+
 
 	//if (n % env->settings.t == 0 && env->start
 	//	&& (code = update_inventories(env)))
