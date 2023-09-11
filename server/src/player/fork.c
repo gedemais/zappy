@@ -96,7 +96,6 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	t_egg		new;
 	t_dynarray	*tile_content;
 
-
 	// Addition of the loot object on the map
 	env->world.map[p->tile_y][p->tile_x].content[LOOT_HATCHING_EGG]++;
 

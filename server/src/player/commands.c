@@ -74,6 +74,8 @@ uint8_t	cmd_take(t_env *env, t_player *p, bool send_response)
 	{
 		tile->content[loot]--;
 		p->inventory[(int)loot]++;
+		if (loot == LOOT_FOOD)
+			env->consumed_food++;
 	}
 
 	return (send_response ? send_ok(env, p) : ERR_NONE);
@@ -96,6 +98,9 @@ uint8_t	cmd_put(t_env *env, t_player *p, bool send_response)
 
 	p->inventory[loot]--;
 	tile->content[loot]++;
+
+	if (loot == LOOT_FOOD)
+		env->consumed_food--;
 
 	env->gplayer = *p;
 
