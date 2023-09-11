@@ -306,6 +306,7 @@ class   Renderer():
                 if player.state == S.BROADCASTING:
                     animation = self.broadcast_animation
                     off_x += self.tile_size / 2
+                    player.step = player.step if player.step < len(animation) else 6
                     self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 
                 player.step += 1

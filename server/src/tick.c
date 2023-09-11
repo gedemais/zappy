@@ -24,16 +24,17 @@ static void	check_game_end(t_env *env)
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		team = dyacc(&env->world.teams, i);
-		won = (bool)team->players.nb_cells > 0;
-		for (int p = 0; p < team->players.nb_cells; i++)
-		{
-			player = dyacc(&team->players, p);
-			if (player->level < 8)
+		won = team->players.nb_cells == 6;
+		if (won)
+			for (int p = 0; p < team->players.nb_cells; p++)
 			{
-				won = false;
-				break ;
+				player = dyacc(&team->players, p);
+				if (player->level < 8)
+				{
+					won = false;
+					break ;
+				}
 			}
-		}
 
 		if (won == true)
 		{
