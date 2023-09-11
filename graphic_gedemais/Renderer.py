@@ -277,7 +277,6 @@ class   Renderer():
                             player.states_queue.pop(0)
                         else:
                             player.state = S.IDLE
-                            print(player.state)
 
                         player.step = 0
 
