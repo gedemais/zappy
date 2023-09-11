@@ -54,6 +54,7 @@ class	IA:
 		self.team_name = team_name
 		#world size
 		self.wx, self.wy = wx, wy
+		self.wr = (self.wx + self.wy) / 2
 
 	def	interact(self, t, server_messages):
 		self.t = t

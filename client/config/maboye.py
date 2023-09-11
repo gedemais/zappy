@@ -116,8 +116,8 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = 30
-		bernard.foodmax = 40
+		bernard.foodmin = bernard.wr * 2
+		bernard.foodmax = bernard.foodmin + 5
 	else:
 		bernard.foodmin = 10
 		bernard.foodmax = 15

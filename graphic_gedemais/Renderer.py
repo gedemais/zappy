@@ -42,10 +42,10 @@ class   Renderer():
 
     def load_spritesheet(self, broadcast_animation, team_index):
         self.spritesheet_paths = [
+                                "goldenarmorSpriteSheet.png",
                                 "elvenSpriteSheet.png",
                                 "chainSpriteSheet.png",
                                 "darkmaleSpriteSheet.png",
-                                "goldenarmorSpriteSheet.png",
                                 "leatherSpriteSheet.png",
                                 "plateSpriteSheet.png",
                                 "platefemaleSpriteSheet.png",

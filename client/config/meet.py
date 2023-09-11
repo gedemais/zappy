@@ -25,6 +25,8 @@ def		handle_food(bernard):
 			collect_food(bernard, viewcase, 5)
 		elif bernard.inventory["nourriture"] < 20:
 			collect_food(bernard, viewcase, 3)
+	if "nourriture" in viewcase and viewcase["nourriture"] > 50:
+		return
 	if bernard.inventory["nourriture"] > 25\
 			and "player" in viewcase and viewcase["player"] > 1:
 		value = bernard.inventory["nourriture"] - 20
