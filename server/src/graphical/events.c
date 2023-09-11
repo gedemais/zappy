@@ -175,7 +175,7 @@ uint8_t		gevent_incantation_launch(t_env *env)
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
 	{
 		t = dyacc(&env->world.teams, i);
-		for (int j = 0; j < env->world.teams.nb_cells; j++)
+		for (int j = 0; j < t->players.nb_cells; j++)
 		{
 			if (p == pl)
 				continue;
