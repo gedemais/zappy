@@ -54,5 +54,6 @@ uint8_t	update_commands(t_env *env)
 				return (code);
 		}
 	}
+	
 	return (ERR_NONE);
 }

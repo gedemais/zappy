@@ -1,6 +1,7 @@
 import socket
 from Egg import Egg
 from Player import S
+from time import sleep
 
 class   Connector():
 
@@ -82,6 +83,8 @@ class   Connector():
         response = None
         while response == None:
             response = self.receive()
+
+        print(len(response))
 
         self.socket.settimeout(1.0 / self.tick)
 
@@ -342,10 +345,13 @@ class   Connector():
 
     def eht(self, world, tokens):
         print('egg {} hatched !'.format(tokens[1]))
+        sleep(3)
         for t in world.teams.items():
             for egg in t[1].eggs.items():
                 if tokens[1] == egg[0]:
                     del t[1].eggs[tokens[1]]
+                    print('properly !')
+                    sleep(3)
                     return 0
 
 
@@ -354,12 +360,14 @@ class   Connector():
 
     def edi(self, world, tokens):
         print('egg {} rotted !'.format(tokens[1]))
+        sleep(3)
         for t in world.teams.items():
             for egg in t[1].eggs.items():
                 if tokens[1] == egg[0]:
                     del t[1].eggs[tokens[1]]
-                    break
-        
+                    print('properly !')
+                    sleep(3)
+                    return 0
 
 
     def _pdi_(self, world, tokens):

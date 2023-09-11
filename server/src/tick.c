@@ -59,7 +59,8 @@ uint8_t	tick(t_env *env)
 	// LOGGING
 	n++;
 
-	if (n % env->settings.t == 0 && (code = update_inventories(env)))
+	if (n % env->settings.t == 0 && env->start
+		&& (code = update_inventories(env)))
 		return (code);
 
 #ifdef MACOS
@@ -82,7 +83,8 @@ uint8_t	tick(t_env *env)
 
 	gettimeofday(&tick_end, NULL);
 	elapsed = tick_end.tv_usec - tick_start.tv_usec;
-	usleep(env->settings.tick_length - elapsed);
+	if (elapsed < env->settings.tick_length)
+		usleep(env->settings.tick_length - elapsed);
 	fprintf(stderr, "Waiting %d microseconds before the start of the next cycle...\n", env->settings.tick_length - elapsed);
 	return (ERR_NONE); //Leaks test
 }
