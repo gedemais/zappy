@@ -37,6 +37,7 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 	int			index = 0;
 	bool		found = false;
 
+	printf("NEW_PLAYER\n");
 	eggs = &env->world.eggs;
 	oldest_egg = dyacc(eggs, 0);
 	for (int i = 0; i < eggs->nb_cells; i++)
@@ -81,8 +82,8 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		env->gindex = oldest_egg->id;
 		gevent_player_connected_for_egg(env);
 
-		//fflush(stdout);
-		//sleep(3);
+		fflush(stdout);
+		sleep(3);
 
 		//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
 		//fflush(stdout);
@@ -90,6 +91,9 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 		dynarray_extract(eggs, index);
 		return (gevent_egg_hatched(env));
 	}
+
+	fflush(stdout);
+	sleep(3);
 
 	return (ERR_NONE);
 }
