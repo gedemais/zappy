@@ -62,7 +62,7 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 	{
 		env->gplayer = *p;
 		gevent_player_new(env);
-		printf("EGG NOT FOUND\n");
+		printf("NEW_PLAYER : EGG NOT FOUND\n");
 		fflush(stdout);
 		sleep(3);
 		return (ERR_NONE);
@@ -70,6 +70,8 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 
 	if (index >= 0)
 	{
+		printf("NEW_PLAYER : EGG FOUND\n");
+
 		p->tile_x = oldest_egg->x;
 		p->tile_y = oldest_egg->y;
 
@@ -78,6 +80,9 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 
 		env->gindex = oldest_egg->id;
 		gevent_player_connected_for_egg(env);
+
+		//fflush(stdout);
+		//sleep(3);
 
 		//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
 		//fflush(stdout);
