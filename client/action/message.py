@@ -1,7 +1,3 @@
-from action.utils import compute_action
-from utils.command import C
-
-
 class	Message:
 	def	__init__(self):
 		pass
@@ -19,6 +15,7 @@ class	Message:
 				return
 			bernard.leader = dir
 			print("joining leader at {}".format(dir))
+			bernard.leader_contact = bernard.t
 		elif "I just hatched an egg !" in message:
 			bernard.team_total += 1
 		elif "The king is dead long live the king !" in message:

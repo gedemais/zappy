@@ -21,6 +21,7 @@ class	IA:
 	foodmin = 5
 	foodmax = 10
 	leader = None
+	leader_contact = 0
 	team_slot = 0
 	team_total = 0
 	inventory = []

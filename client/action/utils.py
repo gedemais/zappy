@@ -10,8 +10,8 @@ from action.view import outofview
 #	pour chaque element de l'array une commande sera executée avec buf = array[i]
 #	ça permet d'envoyer une list de ressources à poser/prendre
 def		compute_action(bernard, id, repeat = 1, element = None):
-	if repeat > 5:
-		repeat = 5
+	if repeat > 6:
+		repeat = 6
 	for i in range(repeat):
 		command = Command(id = id)
 		command.buf = element

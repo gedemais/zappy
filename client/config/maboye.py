@@ -89,8 +89,8 @@ def		task_assign(bernard):
 	else:
 		tasks[T.HATCH].state = S.NONE
 	if bernard.team_total < 6:
-		bernard.foodmin = 20
-		bernard.foodmax = 25
+		bernard.foodmin = bernard.inventory["nourriture"] + 5
+		bernard.foodmax = bernard.foodmin + 5
 		return
 	#on verifie si il manque des ressources pour passer lvl 8
 	bernard.rushlvl = 8
@@ -149,6 +149,8 @@ class	Maboye:
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False
+		if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
+			bernard.leader = None
 		#WIP
 		task_assign(bernard)
 		#WIP

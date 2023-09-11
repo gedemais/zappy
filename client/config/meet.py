@@ -11,6 +11,8 @@ def		collect_food(bernard, nb_food_max):
 		nb_food = viewcase["nourriture"]
 		if nb_food > nb_food_max:
 			nb_food = nb_food_max
+		if nb_food > 6:
+			nb_food = 6
 		print("looting {} nourriture".format(nb_food))
 		compute_action(bernard, C.PREND, nb_food, "nourriture")
 		viewcase["nourriture"] -= nb_food
@@ -29,9 +31,10 @@ def		handle_food(bernard):
 		value = bernard.inventory["nourriture"] - 20
 		p = 40
 		nb_food = 1 + int((value * p) / 100)
+		if nb_food > 6:
+			nb_food = 6
 		compute_action(bernard, C.POSE, nb_food, "nourriture")
-		viewcase["nourriture"] += nb_food
-		print("giving {} food to leader".format(nb_food))
+		print("giving {} food to party".format(nb_food))
 
 class	Meet:
 	def	__init__(self):
