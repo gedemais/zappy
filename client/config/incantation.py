@@ -28,16 +28,21 @@ def		drop_requirement(bernard):
 			compute_action(bernard, C.POSE, needs_to_put[item], item)
 
 def		handle_food(bernard):
-	if bernard.inventory["nourriture"] < 15:
-		collect_food(bernard, 5)
-	elif bernard.inventory["nourriture"] < 20:
-		collect_food(bernard, 3)
+	bernardindex = view_index(bernard.x, bernard.y)
+	viewcase = bernard.view[bernardindex]
+
+	if "nourriture" in viewcase and viewcase["nourriture"] > 0:
+		if bernard.inventory["nourriture"] < 15:
+			collect_food(bernard, 5)
+		elif bernard.inventory["nourriture"] < 20:
+			collect_food(bernard, 3)
 	if bernard.inventory["nourriture"] > 25\
-			and "player" in bernard.view[0] and bernard.view[0]["player"] > 1:
+			and "player" in viewcase and viewcase["player"] > 1:
 		value = bernard.inventory["nourriture"] - 20
 		p = 40
 		nb_food = 1 + int((value * p) / 100)
 		compute_action(bernard, C.POSE, nb_food, "nourriture")
+		viewcase["nourriture"] += nb_food
 		print("giving {} food to leader".format(nb_food))
 
 class	Incantation:

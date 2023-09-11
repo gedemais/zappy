@@ -64,8 +64,6 @@ class	IA:
 		#si le brain n'est pas occuppé on prépare une nouvelle suite de commands à transceive
 		if self.brain.busy == False:
 			commands = self.update()
-			for cmd in commands:
-				print(cmd.data())
 			self.brain.input(commands)
 		#on process le brain
 		#le brain va return False until les commands input ont toutes été traitées par le serveur

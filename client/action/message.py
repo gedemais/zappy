@@ -21,7 +21,7 @@ class	Message:
 			print("joining leader at {}".format(dir))
 		elif "I just hatched an egg !" in message:
 			bernard.team_total += 1
-		elif "The king is dead, long live the king !" in message:
+		elif "The king is dead long live the king !" in message:
 			bernard.leader = None
 
 	#format: deplacement <K>

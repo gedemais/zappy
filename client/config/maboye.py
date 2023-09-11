@@ -64,13 +64,23 @@ def		task_assign(bernard):
 		return
 	elif bernard.inventory["nourriture"] >= bernard.foodmax:
 		tasks[T.MANGER].state = S.NONE
-	# rush to target lvl (2 - 8)
-	if bernard.lvl < 2 or bernard.rushfinal == True:
+	print("player on my case: {}".format(bernard.view[0]))
+	# rush lvl 2
+	if bernard.lvl < 2:
 		tasks[T.RUSH].state = S.NEED
 		return
 	else:
 		tasks[T.RUSH].state = S.NONE
-	# on verifie recrute le max de joueur possible
+	# rush lvl 8
+	if bernard.rushfinal == True:
+		if "player" in bernard.view[0] and bernard.view[0]["player"] == 6:
+			tasks[T.RUSH].state = S.NEED
+		else:
+			compute_action(bernard, C.VOIR, 1)
+			tasks[T.RUSH].state = S.NONE
+			bernard.rushfinal = False
+		return
+	# on recrute le max de joueur possible
 	if bernard.team_total < 6\
 			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
 		tasks[T.HATCH].state = S.NEED
@@ -89,6 +99,7 @@ def		task_assign(bernard):
 		if "player" not in item and it[item] > 0:
 			miss = True
 	#si il manque des ressources alors on va les collect
+	#on prevoit de la bouffe
 	if miss == True:
 		bernard.foodmin = 20
 		bernard.foodmax = 25
@@ -102,18 +113,18 @@ def		task_assign(bernard):
 	else:
 		bernard.foodmin = 10
 		bernard.foodmax = 25
-	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
+	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8, manger
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
 	#il faut rejoindre les autres joueurs
 	if "player" in bernard.view[0] and bernard.view[0]["player"] < 6:
+		print("player on my case: {}".format(bernard.view[0]))
 		tasks[T.MEET].state = S.NEED
 		return
 	else:
 		tasks[T.MEET].state = S.NONE
 	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
-	tasks[T.RUSH].state = S.NEED
 	bernard.rushfinal = True
 
 class	Maboye:
