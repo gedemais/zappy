@@ -74,7 +74,7 @@ def		task_assign(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	if bernard.rushfinal == True:
 		if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
-
+			bernard.foodmin = 1
 			tasks[T.RUSH].state = S.NEED
 			return
 		else:
@@ -90,7 +90,7 @@ def		task_assign(bernard):
 		tasks[T.HATCH].state = S.NONE
 	#en attendant d'etre 6 on collect de la nourriture
 	if bernard.team_total < 6:
-		bernard.foodmin = bernard.inventory["nourriture"] + 5
+		bernard.foodmin = bernard.inventory["nourriture"] + 1
 		bernard.foodmax = bernard.foodmin + 5
 		return
 	#on verifie si il manque des ressources pour passer lvl 8
@@ -112,11 +112,11 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = 40
-		bernard.foodmax = 50
+		bernard.foodmin = 35
+		bernard.foodmax = 45
 	else:
 		bernard.foodmin = 5
-		bernard.foodmax = 25
+		bernard.foodmax = 10
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
@@ -140,10 +140,14 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		print("[ bernard ] - lvl: {} - food: {} - leader: {}".format(\
+		print("[ bernard ] - lvl: {} - food: {} - leader: {} - tt: {} - ts: {} - fmin: {} - fmax: {}".format(\
 			bernard.lvl,\
 			bernard.inventory["nourriture"],\
 			bernard.leader,\
+			bernard.team_total,\
+			bernard.team_slot,\
+			bernard.foodmin,\
+			bernard.foodmax,\
 		))
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")

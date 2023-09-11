@@ -1,5 +1,5 @@
 from utils.command import C
-from action.utils import compute_action, is_blind, send_broadcast
+from action.utils import compute_action, is_blind, send_broadcast, view_rand
 from action.view import view_pos, view_find
 from action.move import goto_index
 
@@ -30,5 +30,5 @@ class	Manger:
 			#non : avancer
 			print("no food nearby. going forward !")
 			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
-			compute_action(bernard, C.DROITE, 1)
+			view_rand(bernard)
 			compute_action(bernard, C.VOIR, 1)

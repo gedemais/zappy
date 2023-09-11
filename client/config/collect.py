@@ -1,5 +1,5 @@
 from utils.command import C
-from action.utils import compute_action, is_blind
+from action.utils import compute_action, is_blind, view_rand
 from action.view import view_find, view_distance, view_index
 from action.move import goto_index
 
@@ -66,6 +66,6 @@ class	Collect:
 		if farm_ressources(bernard, needs) == False:
 			print("going forward !")
 			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
-			compute_action(bernard, C.DROITE)
+			view_rand(bernard)
 			print("scooting the area")
 			compute_action(bernard, C.VOIR)

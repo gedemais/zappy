@@ -17,18 +17,22 @@ def		compute_action(bernard, id, repeat = 1, element = None):
 		command.buf = element
 		bernard.actions.append(command)
 
+def		view_rand(bernard):
+	r = random.randint(0, 1)
+	if r == 0:
+		compute_action(bernard, C.DROITE, 1)
+	else:
+		compute_action(bernard, C.GAUCHE, 1)
+
 def		is_blind(bernard):
 	blind = False
 
 	if bernard.ko == True and bernard.leader != -1\
 			and "player" in bernard.view[0] and bernard.view[0]["player"] == 0:
 		print("Someone is around !")
+		view_rand(bernard)
 		compute_action(bernard, C.VOIR, 1)
-		r = random.randint(0, 1)
-		if r == 0:
-			compute_action(bernard, C.DROITE, 1)
-		else:
-			compute_action(bernard, C.GAUCHE, 1)
+		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
 		return
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\
@@ -42,6 +46,7 @@ def		is_blind(bernard):
 	elif outofview(bernard, bernard.x, bernard.y) == True:
 		print("I'm lost in the dark")
 		compute_action(bernard, C.VOIR, 1)
+		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
 	#update inventory (each 5s)
 	if bernard.t - bernard.last_inventory > 5000:
