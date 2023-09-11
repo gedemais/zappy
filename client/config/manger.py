@@ -1,6 +1,6 @@
 from utils.command import C
 from action.utils import compute_action, is_blind, send_broadcast, view_rand
-from action.view import view_pos, view_find
+from action.view import view_find
 from action.move import goto_index
 
 
@@ -24,8 +24,11 @@ class	Manger:
 				#oui : y aller et prendre
 				print("{} nourriture ! going to pos: {}".format(loot["nourriture"], targetindex))
 				goto_index(bernard, targetindex)
-				compute_action(bernard, C.PREND, loot["nourriture"], "nourriture")
-				loot["nourriture"] -= loot["nourriture"]
+				nb_loot = loot["nourriture"]
+				if nb_loot > 6:
+					nb_loot = 6
+				compute_action(bernard, C.PREND, nb_loot, "nourriture")
+				loot["nourriture"] -= nb_loot
 		else:
 			#non : avancer
 			print("no food nearby. going forward !")

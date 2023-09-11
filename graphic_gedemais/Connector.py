@@ -148,6 +148,8 @@ class   Connector():
     def _ppo_(self, world, tokens):
         print('_ppo_')
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.x = int(tokens[2])
         player.y = int(tokens[3])
         player.o = int(tokens[4])
@@ -164,10 +166,12 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
 
         # Determine player position -> if it moved, set walking state to animate
 
-        if player is None or player.x is None:
+        if player is None:
             return
 
         new_x, new_y = int(tokens[2]), int(tokens[3])
@@ -200,6 +204,8 @@ class   Connector():
             print('invalid format for pin')
             return -1
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         for i in range(4, 11):
             player.inventory[i - 4] = int(tokens[i])
 
@@ -218,6 +224,8 @@ class   Connector():
 
     def _pgt_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         loot = int(tokens[2])
         player.inventory[loot] += 1
         world.map[player.y][player.x][loot] -= 1
@@ -228,6 +236,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.states_queue.append(S.TAKING)
 
         self.commands_queue.append({'id': self._pgt_,  'params': (world, tokens), 'ticks': 7})
@@ -235,6 +245,8 @@ class   Connector():
 
     def _pdr_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         loot = int(tokens[2])
         player.inventory[loot] -= 1
         world.map[player.y][player.x][loot] += 1
@@ -245,6 +257,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.states_queue.append(S.PUTTING)
 
         self.commands_queue.append({'id': self._pdr_,  'params': (world, tokens), 'ticks': 7})
@@ -258,11 +272,15 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.states_queue.append(S.PUSHING)
 
 
     def _pbc_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.state = S.IDLE
         player.step = 1
 
@@ -272,6 +290,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
         player.states_queue.append(S.BROADCASTING)
         self.commands_queue.append({'id': self._pbc_,  'params': (world, tokens), 'ticks': 7})
@@ -279,6 +299,8 @@ class   Connector():
 
     def _pic_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[4])
+        if player is None:
+            return
         player.state = S.IDLE
         player.step = 1
 
@@ -289,6 +311,8 @@ class   Connector():
 
         print(tokens)
         player = self.get_player_by_id(world, tokens[4])
+        if player is None:
+            return
         print('player {} incantating !'.format(tokens[4]))
         player.states_queue.append(S.INCANTATING)
         self.commands_queue.append({'id': self._pic_,  'params': (world, tokens), 'ticks': 300})
@@ -310,11 +334,15 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.lvl = int(tokens[2])
 
 
     def _pfk_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.state = S.IDLE
         player.step = 1
 
@@ -324,6 +352,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         print('player {} laying egg !'.format(tokens[1], ' '.join(tokens[1:])))
         player.states_queue.append(S.LAYING_EGG)
         self.commands_queue.append({'id': self._pfk_,  'params': (world, tokens), 'ticks': 42})
@@ -335,6 +365,8 @@ class   Connector():
     def enw(self, world, tokens):
         print(tokens)
         player = self.get_player_by_id(world, tokens[2])
+        if player is None:
+            return
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
@@ -373,6 +405,8 @@ class   Connector():
     def _pdi_(self, world, tokens):
         found = False
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         team = world.teams[player.team]
         del team.players[tokens[1]]
         found = True
@@ -388,6 +422,8 @@ class   Connector():
             print('invalid format for pdi')
             return -1
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.states_queue.append(S.DYING)
         self.commands_queue.append({'id': self._pdi_,  'params': (world, tokens), 'ticks': 42})
 

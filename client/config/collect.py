@@ -11,14 +11,20 @@ def		farm_case(bernard, needs, need):
 	for item in needs:
 		if "player" not in item and needs[item] > 0:
 			if item in view[need["index"]] and view[need["index"]][item] > 0:
-				print("looting {} {}".format(view[need["index"]][item], item))
-				compute_action(bernard, C.PREND, view[need["index"]][item], item)
-				viewcase[item] -= viewcase[item]
+				nb_loot = view[need["index"]][item]
+				if nb_loot > 6:
+					nb_loot = 6
+				print("looting {} {}".format(nb_loot, item))
+				compute_action(bernard, C.PREND, nb_loot, item)
+				viewcase[item] -= nb_loot
 	#on ramasse un peu de nourriture si il y en a
 	if "nourriture" in view[need["index"]] and view[need["index"]]["nourriture"] > 0:
-		print("looting {} nourriture".format(view[need["index"]]["nourriture"]))
-		compute_action(bernard, C.PREND, view[need["index"]]["nourriture"], "nourriture")
-		viewcase["nourriture"] -= viewcase["nourriture"]
+		nb_loot = view[need["index"]]["nourriture"]
+		if nb_loot > 6:
+			nb_loot = 6
+		print("looting {} nourriture".format(nb_loot))
+		compute_action(bernard, C.PREND, nb_loot, "nourriture")
+		viewcase["nourriture"] -= nb_loot
 
 #trouve la ressource dans nt la plus proche
 def		find_closest_need(bernard, needs):

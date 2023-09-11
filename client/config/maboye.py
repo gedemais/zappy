@@ -2,7 +2,7 @@ from enum import Enum
 
 from utils.command import C, S, Command
 from action.utils import is_blind, compute_action, send_broadcast
-from action.incant import incant_total
+from action.incant import incant_total, incant_possible
 from config.collect import Collect
 from config.manger import Manger
 from config.meet import Meet
@@ -72,9 +72,12 @@ def		task_assign(bernard):
 		tasks[T.RUSH].state = S.NONE
 	# rush lvl 8
 	bernardindex = view_index(bernard.x, bernard.y)
+	print(bernard.view[bernardindex])
 	if bernard.rushfinal == True:
-		if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
+		if incant_possible(bernard, True) == True\
+				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
 			bernard.foodmin = 1
+			bernard.foodmax = 5
 			tasks[T.RUSH].state = S.NEED
 			return
 		else:
@@ -91,7 +94,7 @@ def		task_assign(bernard):
 	#en attendant d'etre 6 on collect de la nourriture
 	if bernard.team_total < 6:
 		bernard.foodmin = bernard.inventory["nourriture"] + 1
-		bernard.foodmax = bernard.foodmin + 5
+		bernard.foodmax = bernard.foodmin + 1
 		return
 	#on verifie si il manque des ressources pour passer lvl 8
 	bernard.rushlvl = 8
@@ -105,6 +108,7 @@ def		task_assign(bernard):
 	if miss == True:
 		bernard.foodmin = 20
 		bernard.foodmax = 25
+		bernard.rushfinal = False
 		tasks[T.COLLECT].state = S.NEED
 		return
 	else:
@@ -112,11 +116,11 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = 35
-		bernard.foodmax = 45
+		bernard.foodmin = 30
+		bernard.foodmax = 40
 	else:
-		bernard.foodmin = 5
-		bernard.foodmax = 10
+		bernard.foodmin = 10
+		bernard.foodmax = 15
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
@@ -140,12 +144,11 @@ class	Maboye:
 		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		print("[ bernard ] - lvl: {} - food: {} - leader: {} - tt: {} - ts: {} - fmin: {} - fmax: {}".format(\
+		print("[ bernard ] - lvl: {} - food: {} - leader: {} - tt: {} - fmin: {} - fmax: {}".format(\
 			bernard.lvl,\
 			bernard.inventory["nourriture"],\
 			bernard.leader,\
 			bernard.team_total,\
-			bernard.team_slot,\
 			bernard.foodmin,\
 			bernard.foodmax,\
 		))

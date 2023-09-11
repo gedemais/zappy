@@ -3,10 +3,7 @@ from action.utils import compute_action, is_blind, send_broadcast
 from action.view import view_index
 
 
-def		collect_food(bernard, nb_food_max):
-	#collecting foods
-	bernardindex = view_index(bernard.x, bernard.y)
-	viewcase = bernard.view[bernardindex]
+def		collect_food(bernard, viewcase, nb_food_max):
 	if "nourriture" in viewcase and viewcase["nourriture"] > 0:
 		nb_food = viewcase["nourriture"]
 		if nb_food > nb_food_max:
@@ -21,11 +18,13 @@ def		handle_food(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	viewcase = bernard.view[bernardindex]
 
+	if bernard.inventory["nourriture"] < 5:
+		return
 	if "nourriture" in viewcase and viewcase["nourriture"] > 0:
 		if bernard.inventory["nourriture"] < 15:
-			collect_food(bernard, 5)
+			collect_food(bernard, viewcase, 5)
 		elif bernard.inventory["nourriture"] < 20:
-			collect_food(bernard, 3)
+			collect_food(bernard, viewcase, 3)
 	if bernard.inventory["nourriture"] > 25\
 			and "player" in viewcase and viewcase["player"] > 1:
 		value = bernard.inventory["nourriture"] - 20

@@ -48,7 +48,6 @@ def	goto_pos(bernard, targetx, targety):
 	if bernard.x == targetx and bernard.y == targety:
 		return
 	targetindex = view_index(targetx, targety)
-	print("target: {}, {} - index: {}".format(targetx, targety, targetindex))
 	front, back, right, left = dummy_path(bernard.x, bernard.y, targetx, targety)
 	#on push les mouvements nécessaire dans une queue à executer
 	compute_path(bernard, front, back, right, left)
