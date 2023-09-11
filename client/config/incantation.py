@@ -1,7 +1,7 @@
 from utils.command import C
 from action.utils import compute_action, is_blind
 from action.incant import incant_possible, incant_put
-from action.view import view_index
+from config.meet import handle_food
 
 
 def		drop_requirement(bernard):
@@ -22,8 +22,9 @@ class	Incantation:
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
-		if  bernard.lvl > 8 or bernard.inventory["nourriture"] < 5:
+		if  bernard.lvl > 8:
 			return
+		handle_food(bernard)
 		if incant_possible(bernard, True) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")

@@ -166,6 +166,9 @@ class   Connector():
 
         # Determine player position -> if it moved, set walking state to animate
 
+        if player is None or player.x is None:
+            return
+
         new_x, new_y = int(tokens[2]), int(tokens[3])
 
         if player.x < new_x:
