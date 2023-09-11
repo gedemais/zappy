@@ -109,7 +109,6 @@ uint8_t	gevent_egg_hatched(t_env *env)
 
 	printf("EGG HATCHED !\n");
 	fflush(stdout);
-	sleep(3);
 	FLUSH_GRESPONSE
 	sprintf(env->buffers.gresponse, "eht #%d\n", env->gindex);
 	return (gresponse(env));
