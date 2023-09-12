@@ -239,3 +239,45 @@ leader: None - tt: 2 - fmin: 17 - fmax: 17
 {'linemate': 2, 'sibur': 3, 'mendiane': 1, 'phiras': 1, 'player': 1}
 ==================================
 ==================================
+BIENVENUE
+1
+200 150
+I'm blind :'(
+MESSAGE RECEIVED ---------
+message 0,team_name d I just hatched an egg !
+--------------------------
+================================== [ bernard 2 ] [ lvl 1 - food 9 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 2, 'sibur': 1, 'mendiane': 1, 'phiras': 2, 'player': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 1 linemate at 2
+going for linemate at 2
+looting 1 linemate
+looting 3 nourriture
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 1 - food 12 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'nourriture': 0, 'linemate': 0, 'sibur': 1, 'mendiane': 2, 'phiras': 1, 'thystame': 2, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+MESSAGE RECEIVED ---------
+message 3,team_name e I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name m I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name p I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name b I just hatched an egg !
+--------------------------

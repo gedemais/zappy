@@ -15,7 +15,7 @@ def render_food_circles(player, y):
     else:
         color = (255, 0, 0)
 
-    for i in range(food_stock):
+    for i in range(food_stock if food_stock <= 50 else 50):
         pygame.draw.circle(window, color, (i * 5 + 50, y), 3)
 
     text = numbers_font.render(str(food_stock), True, (255, 255, 255), bgd)

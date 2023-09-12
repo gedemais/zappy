@@ -156,3 +156,64 @@ leader: None - tt: 2 - fmin: 17 - fmax: 17
 {'linemate': 1, 'sibur': 1, 'mendiane': 1, 'phiras': 2, 'player': 1}
 ==================================
 ==================================
+BIENVENUE
+1
+200 150
+I'm blind :'(
+MESSAGE RECEIVED ---------
+message 5,team_name m I just hatched an egg !
+message 0,team_name o I just hatched an egg !
+message 1,team_name p I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name i I just hatched an egg !
+message 5,team_name n I just hatched an egg !
+--------------------------
+================================== [ bernard 2 ] [ lvl 1 - food 9 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 2, 'phiras': 1, 'player': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 1 linemate at 1
+going for linemate at 1
+looting 1 linemate
+looting 2 nourriture
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 1,team_name f I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name a I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name d I just hatched an egg !
+--------------------------
+C.PREND nourriture : KO
+C.PREND nourriture : KO
+================================== [ bernard 2 ] [ lvl 1 - food 9 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'nourriture': 0, 'linemate': 0, 'deraumere': 3, 'sibur': 2, 'mendiane': 1, 'thystame': 1, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+MESSAGE RECEIVED ---------
+message 7,team_name e I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 5,team_name m I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name p I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name b I just hatched an egg !
+--------------------------
+---------------------------------- LVL [ 2 ]
+I need to check my stuff !

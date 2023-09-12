@@ -222,3 +222,7 @@ leader: None - tt: 1 - fmin: 17 - fmax: 17
 MESSAGE RECEIVED ---------
 message 3,team_name e I just hatched an egg !
 message 7,team_name m I just hatched an egg !BIENVENUE
+
+message 3,team_name p I just hatched an egg !
+message 3,team_name b I just hatched an egg !
+--------------------------
