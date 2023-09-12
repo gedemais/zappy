@@ -92,7 +92,7 @@ uint8_t	tick(t_env *env)
 
 	if (n % env->settings.t == 0 && env->start)
 		if ((code = update_inventories(env)) != ERR_NONE
-			&& (code = regenerate_food(env)) != ERR_NONE)
+			|| (code = regenerate_food(env)) != ERR_NONE)
 			return (code);
 
 #ifdef MACOS

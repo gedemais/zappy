@@ -100,8 +100,7 @@ class   Connector():
             for line in lines:
                 tokens = line.split(' ')
                 if len(tokens) < 2:
-                    break
-                print(tokens)
+                    continue
                 self.event_functions[tokens[0]](world, tokens)
 
         for command in self.commands_queue:
@@ -343,15 +342,12 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
-        if player is None:
-            return
         player.lvl = int(tokens[2])
 
 
     def _pfk_(self, world, tokens):
         player = self.get_player_by_id(world, tokens[1])
-        if player is None:
-            return
+
         player.state = S.IDLE
         player.step = 1
 

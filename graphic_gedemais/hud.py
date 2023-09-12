@@ -29,9 +29,15 @@ def render_level_bar(player, y):
     pygame.draw.rect(window, (255, 255, 255), (400, y - 5, 202, 12))
     pygame.draw.rect(window, bgd, (401, y + 1 - 5, 200, 10))
 
+    text = numbers_font.render(str(level), True, (255, 255, 255), bgd)
+    rect = text.get_rect()
+    rect.center = (380, y + 1)
+    window.blit(text, rect)
+
+
     for i in range(level):
         color = (255, (255 - i * 30), 0)
-        pygame.draw.rect(window, color, (401 + i * 15, y + 1 - 5, 25, 10))
+        pygame.draw.rect(window, color, (401 + i * 25, y + 1 - 5, 25, 10))
 
 
 
@@ -124,7 +130,7 @@ while is_running:
 
 
     request = s.recv(65536).decode('utf-8')
-    print(request)
+    #print(request)
     teams = json.loads(request)
 
     for i, team in enumerate(teams):
