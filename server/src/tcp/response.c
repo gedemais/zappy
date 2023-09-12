@@ -22,8 +22,8 @@ uint8_t	gresponse(t_env *env)
 
 	if (env->graphical.team != 0)
 	{
-		printf("%s\n", env->buffers.gresponse);
-		fflush(stdout);
+		//printf("%s\n", env->buffers.gresponse);
+		//fflush(stdout);
 		write(*env->graphical.connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
 	}
 
