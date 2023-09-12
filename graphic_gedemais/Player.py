@@ -22,6 +22,8 @@ class   Player():
     def __init__(self, x, y, o, lvl, team, team_index):
         self.x = x
         self.y = y
+        self.next_x = x
+        self.next_y = y
         self.o = o
         self.lvl = lvl
         self.inventory = [0, 0, 0, 0, 0, 0, 0, 0]

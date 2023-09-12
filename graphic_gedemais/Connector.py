@@ -110,6 +110,15 @@ class   Connector():
 
         self.commands_queue = [cmd for cmd in self.commands_queue if cmd['ticks'] > 0]
 
+        to_delete = []
+        for t in world.teams:
+            for egg in world.teams[t].eggs:
+                world.teams[t].eggs[egg].cycles -= 1
+                if world.teams[t].eggs[egg].cycles == 0:
+                    to_delete.append((t, egg))
+
+        for d in to_delete:
+            del world.teams[d[0]].eggs[d[1]]
 
 
     def receive(self):
@@ -173,6 +182,8 @@ class   Connector():
 
         new_x, new_y = int(tokens[2]), int(tokens[3])
 
+        player.next_x = new_x
+        player.next_y = new_y
         if player.x < new_x:
             player.states_queue.append(S.WALKING_EAST)
         elif player.x > new_x:
@@ -418,6 +429,8 @@ class   Connector():
         if found == False:
             print('dead player {} not found'.format(tokens[1]))
             return -1
+
+        print('player {} killed properly !'.format(tokens[1]))
         return 0
 
     def pdi(self, world, tokens):
