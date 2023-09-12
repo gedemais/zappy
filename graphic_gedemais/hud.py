@@ -59,9 +59,9 @@ def render_team(bgd, index, row_size, name, players):
     n = len(players)
     s = '{} player'.format(len(players))
     s += 's' if n > 1 else ''
-    title = subtitles_font.render(s, True, (255, 255, 255), bgd)
+    title = numbers_font.render(s, True, (255, 255, 255), bgd)
     rect = title.get_rect()
-    rect.center = (win_width / 2, off_y + 32 + row_size - row_size / 3)
+    rect.center = (win_width / 2, off_y + 40 + row_size - row_size / 3)
     window.blit(title, rect)
 
     food = subtitles_font.render('Food', True, (255, 255, 255), bgd)

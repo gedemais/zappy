@@ -192,6 +192,7 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 			}
 		}
 		*ret = true;
+		dynarray_free(&group);
 		return (ERR_NONE);
 	}
 	dynarray_free(&group);

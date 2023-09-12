@@ -16,12 +16,14 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 	bool			cmd_found;
 	uint8_t			code;
 
+	if (player->cmd_queue.nb_cells >= MAX_QUEUED_CMD)
+		return (ERR_NONE);
+
 	if (!(lines = ft_strsplit(env->buffers.request, "\n")))
 		return (ERR_MALLOC_FAILED);
 
 	for (uint32_t line = 0; lines[line]; line++)
 	{
-		cmd_found = false;
 		if (strlen(lines[line]) <= 1)
 			continue ;
 
@@ -31,55 +33,57 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			return (ERR_MALLOC_FAILED);
 		}
 
+		cmd_found = false;
 		for (int i = 0; i < CMD_MAX; i++)
 		{
-			if (strcmp(tokens[0], cmd_names[i]) == 0)
+			if (strcmp(tokens[0], cmd_names[i]) != 0)
+				continue;
+			
+			cmd_found = true;
+
+			req = false;
+			if ((code = check_requirements(env, tokens, player, i, &req)))
 			{
-				cmd_found = true;
-
-				req = false;
-				if ((code = check_requirements(env, tokens, player, i, &req)))
-					return (code);
-
-				if (req == false)
-				{
-					FLUSH_RESPONSE
-					send_ko(env, player);
-					break ;
-				}
-
-				if (player->cmd_queue.nb_cells >= MAX_QUEUED_CMD)
-					break ;
-
-				bzero(&new, sizeof(t_cmd));
-				new = commands[i];
-				new.tokens = tokens;
-				new.id = rand() * rand() * rand();
-				new.id *= (new.id >= 0) ? 1 : -1;
-
-				if ((player->cmd_queue.byte_size == 0
-					&& dynarray_init(&player->cmd_queue, sizeof(t_cmd), 10))
-					|| dynarray_push(&player->cmd_queue, &new, false))
-				{
-					ft_arrfree(lines);
-					ft_arrfree(tokens);
-					return (ERR_MALLOC_FAILED);
-				}
-
-				// LOGGING
-				PUTTIME()
-				fprintf(stderr, "[COMMAND STORAGE] message : {%s} from client %d have been stored as command %d\n", lines[line], *player->connection, new.id);
-				break;
+				ft_arrfree(lines);
+				ft_arrfree(tokens);
+				return (code);
 			}
+
+			if (req == false)
+			{
+				FLUSH_RESPONSE
+				send_ko(env, player);
+				ft_arrfree(tokens);
+				break ;
+			}
+
+			bzero(&new, sizeof(t_cmd));
+			new = commands[i];
+			new.tokens = tokens;
+			new.id = rand() * rand() * rand();
+			new.id *= (new.id >= 0) ? 1 : -1;
+
+			if ((player->cmd_queue.byte_size == 0
+				&& dynarray_init(&player->cmd_queue, sizeof(t_cmd), 10))
+				|| dynarray_push(&player->cmd_queue, &new, false))
+			{
+				ft_arrfree(lines);
+				ft_arrfree(tokens);
+				return (ERR_MALLOC_FAILED);
+			}
+
+			// LOGGING
+			PUTTIME()
+			fprintf(stderr, "[COMMAND STORAGE] message : {%s} from client %d have been stored as command %d\n", lines[line], *player->connection, new.id);
+			ft_arrfree(tokens);
+			break;
 		}
 
 		if (!cmd_found)
 		{
 			fprintf(stderr, "|||%s|||\n", tokens[0]);
-			ft_arrfree(tokens);
 			ft_arrfree(lines);
 			return (ERR_NONE);
-			//return (ERR_CMD_NOT_FOUND);
 		}
 	}
 
