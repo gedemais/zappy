@@ -1,7 +1,7 @@
 import random
 
 from utils.command import C, Command
-from action.view import outofview
+from action.view import outofview, view_index
 
 
 # append l'action demandée dans une queue de Command
@@ -28,8 +28,8 @@ def		is_blind(bernard):
 	blind = False
 
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\
-			or len(bernard.view) == 0 or len(bernard.inventory) == 0\
-			or type(bernard.view) != list or type(bernard.inventory) != dict:
+			or type(bernard.view) != list or type(bernard.inventory) != dict\
+				or len(bernard.view) == 0 or len(bernard.inventory) == 0:
 		print("I'm blind :'(")
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
@@ -41,13 +41,16 @@ def		is_blind(bernard):
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
-	elif bernard.ko == True and bernard.leader != -1\
-			and "player" in bernard.view[0] and bernard.view[0]["player"] == 0:
-		print("Someone is around !")
-		view_rand(bernard)
-		compute_action(bernard, C.VOIR, 1)
-		compute_action(bernard, C.CONNECT_NBR, 1)
-		blind = True
+	elif bernard.ko == True:
+		bernardindex = view_index(bernard.x, bernard.y)
+		viewcase = bernard.view[bernardindex]
+
+		if "player" in viewcase and viewcase["player"] < 3:
+			print("Someone is around !")
+			view_rand(bernard)
+			compute_action(bernard, C.VOIR, 1)
+			compute_action(bernard, C.CONNECT_NBR, 1)
+			blind = True
 	#update inventory (each 5s)
 	elif bernard.t - bernard.last_inventory > 5000:
 		print("I need to check my stuff !")

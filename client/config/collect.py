@@ -70,8 +70,6 @@ class	Collect:
 		if is_blind(bernard) == True:
 			return
 		if farm_ressources(bernard, needs) == False:
-			print("going forward !")
-			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
-			view_rand(bernard)
 			print("scooting the area")
+			view_rand(bernard)
 			compute_action(bernard, C.VOIR)

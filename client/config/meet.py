@@ -3,39 +3,44 @@ from action.utils import compute_action, is_blind, send_broadcast
 from action.view import view_index
 
 
-def		collect_food(bernard, viewcase, nb_food_max):
-	if "nourriture" in viewcase and viewcase["nourriture"] > 0:
-		nb_food = viewcase["nourriture"]
-		if nb_food > nb_food_max:
-			nb_food = nb_food_max
-		if nb_food > 6:
-			nb_food = 6
-		print("looting {} nourriture".format(nb_food))
+def		collect_food(bernard, viewcase, drop = False):
+	nb_food = 0
+	if drop == True:
+		nb_food = bernard.inventory["nourriture"] - 20
+	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
+		value = viewcase["nourriture"]
+		p = 100 / 6
+		nb_food = 1 + int((value * p) / 100)
+	if nb_food > 6:
+		nb_food = 6
+	if nb_food == 0:
+		return
+	if drop == True:
+		compute_action(bernard, C.POSE, nb_food, "nourriture")
+		if "nourriture" in viewcase and viewcase["nourriture"] > 0:
+			viewcase["nourriture"] += nb_food
+		else:
+			viewcase["nourriture"] = nb_food
+		bernard.inventory["nourriture"] -= nb_food
+		print("droping {} foods to party".format(nb_food))
+	else:
 		compute_action(bernard, C.PREND, nb_food, "nourriture")
 		viewcase["nourriture"] -= nb_food
+		bernard.inventory["nourriture"] += nb_food
+		print("collecting {} foods from party".format(nb_food))
 
 def		handle_food(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	viewcase = bernard.view[bernardindex]
 
-	if bernard.inventory["nourriture"] < 5:
+	if bernard.inventory["nourriture"] < 5 or ("player" in viewcase and viewcase["player"] == 1):
 		return
-	if "nourriture" in viewcase and viewcase["nourriture"] > 0:
-		if bernard.inventory["nourriture"] < 15:
-			collect_food(bernard, viewcase, 5)
-		elif bernard.inventory["nourriture"] < 20:
-			collect_food(bernard, viewcase, 3)
-	if "nourriture" in viewcase and viewcase["nourriture"] > 50:
+	if bernard.inventory["nourriture"] < 15:
+		collect_food(bernard, viewcase)
+	if "nourriture" in viewcase and viewcase["nourriture"] > 30:
 		return
-	if bernard.inventory["nourriture"] > 25\
-			and "player" in viewcase and viewcase["player"] > 1:
-		value = bernard.inventory["nourriture"] - 20
-		p = 40
-		nb_food = 1 + int((value * p) / 100)
-		if nb_food > 6:
-			nb_food = 6
-		compute_action(bernard, C.POSE, nb_food, "nourriture")
-		print("giving {} food to party".format(nb_food))
+	if bernard.inventory["nourriture"] > 25:
+		collect_food(bernard, viewcase, True)
 
 class	Meet:
 	def	__init__(self):
