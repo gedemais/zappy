@@ -41,7 +41,7 @@ while renderer.is_running:
 
     if connector.ready and cycle % world.t == 0:
         message = json.dumps([team[1].to_dict(renderer, world) for team in world.teams.items()])
-        print('graphic -> hud : ' + message)
+#        print('graphic -> hud : ' + message)
         hud.send(bytes(message.encode('utf-8')))
 
     cycle += 1

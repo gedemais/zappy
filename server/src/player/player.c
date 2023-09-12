@@ -101,8 +101,11 @@ uint8_t	update_inventories(t_env *env)
 			p = dyacc(&team->players, j);
 			env->gplayer = *p;
 			gcmd_player_inventory(env);
+			gcmd_player_level(env);
 		}
 	}
+	//printf("%s\n", env->buffers.gresponse);
+	//sleep(3);
 	return (gresponse(env));
 }
 
