@@ -51,7 +51,7 @@ def render_team(bgd, index, row_size, name, players):
     rect.center = (win_width / 2, off_y + 32)
     window.blit(title, rect)
 
-    sprite = sprites[index]
+    sprite = sprites[index % 8]
     rect = sprite.get_rect()
     rect.center = (win_width / 2, off_y + row_size / 2)
     window.blit(sprite, rect)
@@ -142,7 +142,7 @@ while is_running:
     teams = json.loads(request)
 
     for i, team in enumerate(teams):
-        bgd = ((i + 1) * 20, (i + 1) * 20, (i + 1) * 20)
+        bgd = ((i % 8 + 1) * 20, (i % 8 + 1) * 20, (i % 8 + 1) * 20)
         pygame.draw.rect(window, bgd, (0, i * row_size, win_width, row_size))
         if 'name' in team.keys():
             render_team(bgd, i, row_size, team['name'], team['players'])

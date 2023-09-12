@@ -1,0 +1,313 @@
+BIENVENUE
+1
+15 15
+I'm blind :'(
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+MESSAGE RECEIVED ---------
+You have to wait for the game to start.
+--------------------------
+================================== [ bernard 1 ] [ lvl 1 - food 9 ]
+leader: None - tt: 1 - fmin: 5 - fmax: 10
+{'linemate': 1, 'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 1 linemate at 0
+going for linemate at 0
+looting 1 linemate
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 1 - food 9 ]
+leader: None - tt: 1 - fmin: 5 - fmax: 10
+{'linemate': 0, 'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+---------------------------------- LVL [ 2 ]
+I need to check my stuff !
+================================== [ bernard 1 ] [ lvl 2 - food 7 ]
+leader: None - tt: 1 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 7 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1}
+==================================
+==================================
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 1 ] [ lvl 2 - food 7 ]
+leader: None - tt: 2 - fmin: 8 - fmax: 8
+{'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1}
+I'm hungry >< !
+2 nourriture ! going to pos: 1
+==================================
+==================================
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+I need to check my stuff !
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 1 ] [ lvl 2 - food 7 ]
+leader: None - tt: 2 - fmin: 8 - fmax: 8
+{'sibur': 1, 'mendiane': 1, 'thystame': 1, 'player': 1}
+I'm hungry >< !
+1 nourriture ! going to pos: 1
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 8 ]
+leader: None - tt: 2 - fmin: 8 - fmax: 8
+{'nourriture': 0, 'linemate': 1, 'deraumere': 1, 'sibur': 3, 'mendiane': 2, 'player': 3, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 8 ]
+leader: None - tt: 2 - fmin: 9 - fmax: 9
+{'nourriture': 0, 'linemate': 1, 'deraumere': 1, 'sibur': 3, 'mendiane': 2, 'player': 3, 'visited': False}
+I'm hungry >< !
+2 nourriture ! going to pos: 2
+==================================
+==================================
+C.PREND nourriture : KO
+C.PREND nourriture : KO
+================================== [ bernard 1 ] [ lvl 2 - food 8 ]
+leader: None - tt: 2 - fmin: 9 - fmax: 9
+{'nourriture': 0, 'linemate': 2, 'deraumere': 2, 'mendiane': 1, 'phiras': 1, 'thystame': 1, 'visited': False}
+I'm hungry >< !
+2 nourriture ! going to pos: 3
+==================================
+==================================
+I need to check my stuff !
+================================== [ bernard 1 ] [ lvl 2 - food 9 ]
+leader: None - tt: 2 - fmin: 9 - fmax: 9
+{'nourriture': 1, 'sibur': 2, 'mendiane': 4, 'phiras': 1, 'thystame': 2, 'player': 1}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 9 ]
+leader: None - tt: 2 - fmin: 10 - fmax: 10
+{'nourriture': 1, 'sibur': 2, 'mendiane': 4, 'phiras': 1, 'thystame': 2, 'player': 1}
+I'm hungry >< !
+1 nourriture ! going to pos: 0
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 10 ]
+leader: None - tt: 2 - fmin: 10 - fmax: 10
+{'nourriture': 0, 'sibur': 2, 'mendiane': 4, 'phiras': 1, 'thystame': 2, 'player': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 10 ]
+leader: None - tt: 2 - fmin: 11 - fmax: 11
+{'nourriture': 0, 'sibur': 2, 'mendiane': 4, 'phiras': 1, 'thystame': 2, 'player': 1, 'visited': False}
+I'm hungry >< !
+1 nourriture ! going to pos: 1
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 11 ]
+leader: None - tt: 2 - fmin: 11 - fmax: 11
+{'nourriture': 0, 'sibur': 1, 'mendiane': 1, 'phiras': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 11 ]
+leader: None - tt: 2 - fmin: 12 - fmax: 12
+{'nourriture': 0, 'sibur': 1, 'mendiane': 1, 'phiras': 1, 'visited': False}
+I'm hungry >< !
+2 nourriture ! going to pos: 2
+==================================
+==================================
+C.PREND nourriture : KO
+C.PREND nourriture : KO
+Someone is around !
+I need to check my stuff !BIENVENUE
+1
+15 15
+I'm blind :'(
+MESSAGE RECEIVED ---------
+from: 0 - message: team_name e I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 2 ] [ lvl 1 - food 9 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'sibur': 2, 'mendiane': 3, 'phiras': 1, 'player': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 4 linemate at 3
+going for linemate at 3
+looting 4 linemate
+looting 2 nourriture
+==================================
+==================================
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 2 ] [ lvl 1 - food 11 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'nourriture': 0, 'linemate': 0, 'deraumere': 2, 'sibur': 1, 'phiras': 2, 'thystame': 1, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+---------------------------------- LVL [ 2 ]
+I need to check my stuff !
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 2, 'sibur': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 3 - fmin: 5 - fmax: 10
+{'deraumere': 2, 'sibur': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
+==================================
+==================================
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 3 - fmin: 9 - fmax: 9
+{'deraumere': 2, 'sibur': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
+I'm hungry >< !
+1 nourriture ! going to pos: 1
+==================================
+==================================
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+MESSAGE RECEIVED ---------
+--------------------------
+I need to check my stuff !
+MESSAGE RECEIVED ---------
+--------------------------
+================================== [ bernard 2 ] [ lvl 2 - food 7 ]
+leader: None - tt: 2 - fmin: 9 - fmax: 9
+{'deraumere': 2, 'phiras': 1, 'player': 2}
+I'm hungry >< !
+4 nourriture ! going to pos: 1
+==================================
+==================================

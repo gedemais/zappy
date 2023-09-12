@@ -52,10 +52,10 @@ class   Renderer():
                                 "rabbitSpriteSheet.png"
                             ]
 
-        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index])
+        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index % 8])
 
         # IDLE animations
-        self.player_animations[team_index] = {
+        self.player_animations[team_index % 8] = {
                     'idle_north' : [pygame.transform.scale(animations.subsurface((0, 512, 64, 64)), (self.tile_size, self.tile_size))],
                     'idle_west' : [pygame.transform.scale(animations.subsurface((0, 576, 64, 64)), (self.tile_size, self.tile_size))],
                     'idle_south' : [pygame.transform.scale(animations.subsurface((0, 640, 64, 64)), (self.tile_size, self.tile_size))],
@@ -63,40 +63,39 @@ class   Renderer():
                 }
 
         # Walking animations
-        self.player_animations[team_index]['walking_north'] = []
-        self.player_animations[team_index]['walking_west'] = []
-        self.player_animations[team_index]['walking_south'] = []
-        self.player_animations[team_index]['walking_east'] = []
+        self.player_animations[team_index % 8]['walking_north'] = []
+        self.player_animations[team_index % 8]['walking_west'] = []
+        self.player_animations[team_index % 8]['walking_south'] = []
+        self.player_animations[team_index % 8]['walking_east'] = []
 
         for i in range(1, 9):
             x = i * 64
-            self.player_animations[team_index]['walking_north'].append(pygame.transform.scale(animations.subsurface((x, 512, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['walking_west'].append(pygame.transform.scale(animations.subsurface((x, 576, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['walking_south'].append(pygame.transform.scale(animations.subsurface((x, 640, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['walking_east'].append(pygame.transform.scale(animations.subsurface((x, 704, 64, 64)), (self.tile_size, self.tile_size)))
+            self.player_animations[team_index % 8]['walking_north'].append(pygame.transform.scale(animations.subsurface((x, 512, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['walking_west'].append(pygame.transform.scale(animations.subsurface((x, 576, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['walking_south'].append(pygame.transform.scale(animations.subsurface((x, 640, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['walking_east'].append(pygame.transform.scale(animations.subsurface((x, 704, 64, 64)), (self.tile_size, self.tile_size)))
 
-        self.player_animations[team_index]['pushing_north'] = []
-        self.player_animations[team_index]['pushing_west'] = []
-        self.player_animations[team_index]['pushing_south'] = []
-        self.player_animations[team_index]['pushing_east'] = []
+        self.player_animations[team_index % 8]['pushing_north'] = []
+        self.player_animations[team_index % 8]['pushing_west'] = []
+        self.player_animations[team_index % 8]['pushing_south'] = []
+        self.player_animations[team_index % 8]['pushing_east'] = []
 
         for i in range(8):
             x = i * 64
-            self.player_animations[team_index]['pushing_north'].append(pygame.transform.scale(animations.subsurface((x, 256, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['pushing_west'].append(pygame.transform.scale(animations.subsurface((x, 320, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['pushing_south'].append(pygame.transform.scale(animations.subsurface((x, 384, 64, 64)), (self.tile_size, self.tile_size))),
-            self.player_animations[team_index]['pushing_east'].append(pygame.transform.scale(animations.subsurface((x, 448, 64, 64)), (self.tile_size, self.tile_size)))
+            self.player_animations[team_index % 8]['pushing_north'].append(pygame.transform.scale(animations.subsurface((x, 256, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['pushing_west'].append(pygame.transform.scale(animations.subsurface((x, 320, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['pushing_south'].append(pygame.transform.scale(animations.subsurface((x, 384, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['pushing_east'].append(pygame.transform.scale(animations.subsurface((x, 448, 64, 64)), (self.tile_size, self.tile_size)))
 
-        self.player_animations[team_index]['takeput'] = []
+        self.player_animations[team_index % 8]['takeput'] = []
 
         for i in range(4):
             x = i * 64
-            self.player_animations[team_index]['takeput'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size))),
+            self.player_animations[team_index % 8]['takeput'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size))),
 
-        self.player_animations[team_index]['takeput'].append(self.player_animations[team_index]['takeput'][2])
-        self.player_animations[team_index]['takeput'].append(self.player_animations[team_index]['takeput'][1])
-        self.player_animations[team_index]['takeput'].append(self.player_animations[team_index]['takeput'][0])
-
+        self.player_animations[team_index % 8]['takeput'].append(self.player_animations[team_index % 8]['takeput'][2])
+        self.player_animations[team_index % 8]['takeput'].append(self.player_animations[team_index % 8]['takeput'][1])
+        self.player_animations[team_index % 8]['takeput'].append(self.player_animations[team_index % 8]['takeput'][0])
         self.broadcast_animation = []
         print(broadcast_animation)
         for i in range(7):
@@ -108,33 +107,33 @@ class   Renderer():
             x = i * 64
             incantating_animation.append(pygame.transform.scale(animations.subsurface((x, 128, 64, 64)), (self.tile_size, self.tile_size)))
 
-        self.player_animations[team_index]['incantation'] = []
+        self.player_animations[team_index % 8]['incantation'] = []
         sprite = 0
         for i in range(300):
-            self.player_animations[team_index]['incantation'].append(incantating_animation[sprite])
+            self.player_animations[team_index % 8]['incantation'].append(incantating_animation[sprite])
             if i % 50 == 0:
                 sprite += 1
 
-        self.player_animations[team_index]['laying'] = []
+        self.player_animations[team_index % 8]['laying'] = []
         for i in range(4):
             x = i * 64
-            self.player_animations[team_index]['laying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+            self.player_animations[team_index % 8]['laying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
 
-        self.player_animations[team_index]['laying'].append(self.player_animations[team_index]['laying'][2])
-        self.player_animations[team_index]['laying'].append(self.player_animations[team_index]['laying'][1])
-        self.player_animations[team_index]['laying'].append(self.player_animations[team_index]['laying'][0])
+        self.player_animations[team_index % 8]['laying'].append(self.player_animations[team_index % 8]['laying'][2])
+        self.player_animations[team_index % 8]['laying'].append(self.player_animations[team_index % 8]['laying'][1])
+        self.player_animations[team_index % 8]['laying'].append(self.player_animations[team_index % 8]['laying'][0])
 
         for i in range(5):
-            self.player_animations[team_index]['laying'] += self.player_animations[team_index]['laying']
+            self.player_animations[team_index % 8]['laying'] += self.player_animations[team_index % 8]['laying']
 
-        self.player_animations[team_index]['dying'] = []
+        self.player_animations[team_index % 8]['dying'] = []
         for i in range(7):
             x = i * 64
-            self.player_animations[team_index]['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+            self.player_animations[team_index % 8]['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
 
         x = 5 * 64
         for i in range(35):
-            self.player_animations[team_index]['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
+            self.player_animations[team_index % 8]['dying'].append(pygame.transform.scale(animations.subsurface((x, 1280, 64, 64)), (self.tile_size, self.tile_size)))
 
 
 
@@ -234,26 +233,26 @@ class   Renderer():
 
         #print('state :', player.state)
         if player.state == S.IDLE or player.state == S.BROADCASTING:
-            return self.player_animations[player.team_index]['idle_' + keys[player.o]]
+            return self.player_animations[player.team_index % 8]['idle_' + keys[player.o]]
 
 
         if player.state in walking_states:
-                return self.player_animations[player.team_index]['walking_' + keys[player.o]]
+                return self.player_animations[player.team_index % 8]['walking_' + keys[player.o]]
 
         if player.state == S.PUSHING:
-            return self.player_animations[player.team_index]['pushing_' + keys[player.o]]
+            return self.player_animations[player.team_index % 8]['pushing_' + keys[player.o]]
 
         if player.state == S.TAKING or player.state == S.PUTTING:
-            return self.player_animations[player.team_index]['takeput']
+            return self.player_animations[player.team_index % 8]['takeput']
 
         if player.state == S.INCANTATING:
-            return self.player_animations[player.team_index]['incantation']
+            return self.player_animations[player.team_index % 8]['incantation']
 
         if player.state == S.LAYING_EGG:
-            return self.player_animations[player.team_index]['laying']
+            return self.player_animations[player.team_index % 8]['laying']
 
         if player.state == S.DYING:
-            return self.player_animations[player.team_index]['dying']
+            return self.player_animations[player.team_index % 8]['dying']
 
         print('ANIMATION NOT FOUND')
         assert(False)

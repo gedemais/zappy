@@ -75,7 +75,6 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			// LOGGING
 			PUTTIME()
 			fprintf(stderr, "[COMMAND STORAGE] message : {%s} from client %d have been stored as command %d\n", lines[line], *player->connection, new.id);
-			ft_arrfree(tokens);
 			break;
 		}
 

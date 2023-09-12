@@ -59,7 +59,7 @@ void	print_map(t_env *env)
 			player = env->world.map[y][x].content[LOOT_PLAYER] > 0;
 			if (player && (p = get_player_from_tile(env, x, y)))
 			{
-				strcat(&buffer[index], teams_colors[p->team]);
+				strcat(&buffer[index], teams_colors[p->team % 8]);
 				index += 1;
 				strcat(&buffer[index], directions[p->direction.d]);
 				index += 2;
