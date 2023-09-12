@@ -74,10 +74,10 @@ def		task_assign(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	print(bernard.view[bernardindex])
 	if bernard.rushfinal == True:
-		if incant_possible(bernard, True) == True\
+		if incant_possible(bernard, False) == True\
 				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
-			bernard.foodmin = 1
-			bernard.foodmax = 5
+			bernard.foodmin = 5
+			bernard.foodmax = 10
 			tasks[T.RUSH].state = S.NEED
 			return
 		else:
@@ -100,14 +100,16 @@ def		task_assign(bernard):
 	bernard.rushlvl = 8
 	miss = False
 	it = incant_total(bernard, bernard.rushlvl)
+	print("need total")
 	for item in it:
+		print(item, it[item])
 		if "player" not in item and it[item] > 0:
 			miss = True
 	#si il manque des ressources alors on va les collect
 	#et on prevoit un minimum de bouffe
 	if miss == True:
-		bernard.foodmin = 20
-		bernard.foodmax = 25
+		bernard.foodmin = 20 - bernard.lvl
+		bernard.foodmax = bernard.foodmin + 5
 		bernard.rushfinal = False
 		tasks[T.COLLECT].state = S.NEED
 		return
@@ -116,11 +118,11 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = bernard.wr * 2
-		bernard.foodmax = bernard.foodmin + 5
+		bernard.foodmin = (bernard.wr * 2) / (bernard.lvl - 1)
+		bernard.foodmax = bernard.foodmin + 1
 	else:
-		bernard.foodmin = 10
-		bernard.foodmax = 15
+		bernard.foodmin = 5
+		bernard.foodmax = 10
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
@@ -152,6 +154,7 @@ class	Maboye:
 			bernard.foodmin,\
 			bernard.foodmax,\
 		))
+		print(bernard.inventory)
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False

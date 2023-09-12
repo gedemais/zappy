@@ -25,7 +25,7 @@ class	Incantation:
 		if  bernard.lvl > 8:
 			return
 		handle_food(bernard)
-		if incant_possible(bernard, True) == True:
+		if incant_possible(bernard, False) == True:
 			drop_requirement(bernard)
 			print("I'm Elevating \o/ !")
 			compute_action(bernard, C.INCANTATION)

@@ -36,6 +36,8 @@ def		incant_total(bernard, lvlmax):
 			continue
 		if element in needs and bernard.inventory[element] > 0:
 			needs[element] -= bernard.inventory[element]
+			if needs[element] < 0:
+				needs[element] = 0
 	return needs
 
 #return True if can incant else False

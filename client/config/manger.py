@@ -30,8 +30,6 @@ class	Manger:
 				compute_action(bernard, C.PREND, nb_loot, "nourriture")
 				loot["nourriture"] -= nb_loot
 		else:
-			#non : avancer
-			print("no food nearby. going forward !")
-			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
+			print("no food nearby. looking around !")
 			view_rand(bernard)
 			compute_action(bernard, C.VOIR, 1)
