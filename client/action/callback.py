@@ -56,13 +56,15 @@ class	Callback:
 		two = split[1].strip()
 		bernard.team_slot = int(one)
 		bernard.team_total = int(two)
+		if bernard.id is None:
+			bernard.id = bernard.team_total
 
 	def incantation(bernard, command):
 		bernard.lvl += 1
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
-		time.sleep(4)
+		time.sleep(3.33)
 		os.system("python3 main.py --host {} --port {} --team_name {} &".format(bernard.host, bernard.port, bernard.team_name))
 		bernard.team_total += 1
 		bernard.hatched = True

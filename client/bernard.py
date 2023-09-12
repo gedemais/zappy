@@ -6,6 +6,7 @@ from config.maboye import Maboye
 
 
 class	IA:
+	id = None
 	#time
 	t = 0
 	# view data

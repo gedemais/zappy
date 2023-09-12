@@ -67,12 +67,12 @@ def		incant_put(bernard):
 
 	for item in loots_to_incant:
 		if "player" not in item and loots_to_incant[item] > 0:
-			#si les loot au sol sont < au prérequis
-			if item in bernard.view[index] and bernard.view[index][item] > 0:
-				if bernard.view[index][item] < loots_to_incant[item]:
-					#on fait la diff entre les ressources au sol et celles présente dans l'inventaire
-					needs[item] = loots_to_incant[item] - bernard.view[index][item]
-			else:
+			# #si les loot au sol sont < au prérequis
+			# if item in bernard.view[index] and bernard.view[index][item] > 0:
+			# 	if bernard.view[index][item] < loots_to_incant[item]:
+			# 		#on fait la diff entre les ressources au sol et celles présente dans l'inventaire
+			# 		needs[item] = loots_to_incant[item] - bernard.view[index][item]
+			# else:
 				needs[item] = loots_to_incant[item]
 	return needs
 

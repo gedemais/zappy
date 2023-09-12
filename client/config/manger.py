@@ -25,8 +25,8 @@ class	Manger:
 				print("{} nourriture ! going to pos: {}".format(loot["nourriture"], targetindex))
 				goto_index(bernard, targetindex)
 				nb_loot = loot["nourriture"]
-				if nb_loot > 6:
-					nb_loot = 6
+				if nb_loot > 5:
+					nb_loot = 5
 				compute_action(bernard, C.PREND, nb_loot, "nourriture")
 				loot["nourriture"] -= nb_loot
 		else:

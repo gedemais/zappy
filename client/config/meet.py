@@ -8,12 +8,17 @@ def		collect_food(bernard, viewcase, drop = False):
 	if drop == True:
 		nb_food = bernard.inventory["nourriture"] - 20
 	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
-		value = viewcase["nourriture"]
-		p = 100 / 6
-		nb_food = 1 + int((value * p) / 100)
-	if nb_food > 6:
-		nb_food = 6
-	if nb_food == 0:
+		nb_food = 1 + int(10 * (1 / bernard.inventory["nourriture"]))
+		if bernard.inventory["nourriture"] < 10:
+			nb_food = nb_food + 1
+		elif bernard.lvl > 5:
+			nb_food = 0
+		if nb_food > viewcase["nourriture"]:
+			nb_food = viewcase["nourriture"]
+	if nb_food > 5:
+		nb_food = 5
+	if nb_food < 1:
+		nb_food = 1
 		return
 	if drop == True:
 		compute_action(bernard, C.POSE, nb_food, "nourriture")
@@ -33,7 +38,7 @@ def		handle_food(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	viewcase = bernard.view[bernardindex]
 
-	if bernard.inventory["nourriture"] < 5 or ("player" in viewcase and viewcase["player"] == 1):
+	if bernard.inventory["nourriture"] < 3 or "player" not in viewcase or viewcase["player"] == 1:
 		return
 	if bernard.inventory["nourriture"] < 15:
 		collect_food(bernard, viewcase)
@@ -58,8 +63,8 @@ class	Meet:
 			send_broadcast(bernard, "Come to your leader !")
 			print("Calling team mates to rush lvl 8 !")
 		if bernard.leader == -1:
-			compute_action(bernard, C.VOIR, 1)
 			handle_food(bernard)
+			compute_action(bernard, C.VOIR, 1)
 			return
 
 		dir = bernard.leader
@@ -67,8 +72,8 @@ class	Meet:
 		print("================================== DIR [ {} ]".format(dir))
 
 		if dir == 0:
-			compute_action(bernard, C.VOIR, 1)
 			handle_food(bernard)
+			compute_action(bernard, C.VOIR, 1)
 			return
 
 		# 1 is front

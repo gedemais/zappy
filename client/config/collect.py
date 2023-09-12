@@ -12,16 +12,16 @@ def		farm_case(bernard, needs, need):
 		if "player" not in item and needs[item] > 0:
 			if item in view[need["index"]] and view[need["index"]][item] > 0:
 				nb_loot = view[need["index"]][item]
-				if nb_loot > 6:
-					nb_loot = 6
+				if nb_loot > 5:
+					nb_loot = 5
 				print("looting {} {}".format(nb_loot, item))
 				compute_action(bernard, C.PREND, nb_loot, item)
 				viewcase[item] -= nb_loot
 	#on ramasse un peu de nourriture si il y en a
 	if "nourriture" in view[need["index"]] and view[need["index"]]["nourriture"] > 0:
 		nb_loot = view[need["index"]]["nourriture"]
-		if nb_loot > 6:
-			nb_loot = 6
+		if nb_loot > 5:
+			nb_loot = 5
 		print("looting {} nourriture".format(nb_loot))
 		compute_action(bernard, C.PREND, nb_loot, "nourriture")
 		viewcase["nourriture"] -= nb_loot
@@ -69,6 +69,7 @@ class	Collect:
 	def	run(bernard, needs):
 		if is_blind(bernard) == True:
 			return
+		print("Collecting...")
 		if farm_ressources(bernard, needs) == False:
 			print("scooting the area")
 			view_rand(bernard)
