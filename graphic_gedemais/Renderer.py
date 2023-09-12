@@ -284,7 +284,6 @@ class   Renderer():
 
                 off_x, off_y = 0, 0
 
-                print(player.x, player.y)
                 if player.state == S.WALKING_NORTH:
                     off_y = self.tile_size / len(animation) * player.step
                     off_y *= -1 if player.y == 0 and player.next_y == world.map_height - 1 else 1

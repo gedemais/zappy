@@ -37,7 +37,6 @@ static char		get_direction(t_player *sender, t_player *receiver)
 //	printf("%f / %f = %f\n", ry, rx, m);
 	if (m < -1.0f || m > 1.0f)
 	{
-		printf("north/south\n");
 		if (receiver->tile_y > sender->tile_y) // NORTH
 			dir = BDIR_NORTH;
 		else if (sender->tile_y > receiver->tile_y) // SOUTH
@@ -45,14 +44,12 @@ static char		get_direction(t_player *sender, t_player *receiver)
 	}
 	else if (m >= -1.0f && m <= 1.0f)
 	{
-//		printf("east/west\n");
 		if (receiver->tile_x < sender->tile_x) // EAST
 			dir = BDIR_EAST;
 		else if (sender->tile_x < receiver->tile_x) // WEST
 			dir = BDIR_WEST;
 	}
 
-	//printf("dir : %d\n", dir);
 	return (dir);
 }
 
@@ -84,8 +81,6 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 		assert(false);
 	}
 
-	printf("get_direction : %d\n", dir);
-
 	if (receiver->direction.d == DIR_EAST)
 		dir -= BDIR_EAST;
 	else if (receiver->direction.d == DIR_SOUTH)
@@ -93,29 +88,15 @@ static void		concat_reception_direction(t_env *env, t_player *sender, t_player *
 	else if (receiver->direction.d == DIR_WEST)
 		dir -= BDIR_WEST;
 
-	printf("after receiver direction correction : %d\n", dir);
-
 	if (abs(sender->tile_x - receiver->tile_x) >= env->settings.map_width / 2.0f
 		|| abs(sender->tile_y - receiver->tile_y) >= env->settings.map_height / 2.0f)
 		dir -= 4;
-
-	printf("after overflowing correction : %d\n", dir);
 
 	while (dir < 0)
 		dir += BDIR_MAX;
 
 	while (dir >= BDIR_MAX)
 		dir -= BDIR_MAX;
-
-	printf("after caping correction : %d\n", dir);
-
-
-	if (dir < 0 || dir >= BDIR_MAX)
-	{
-		printf("problemo : %d\n", dir);
-		fflush(stdout);
-		sleep(10);
-	}
 
 	strcat(env->buffers.response, names[(int)dir]);
 	strcat(env->buffers.response, ",");

@@ -8,6 +8,8 @@ class   Team():
 
     def to_dict(self, renderer, world):
 
+        if len(self.players) == 0:
+            return {}
         for player in self.players.items():
             team_index = player[1].team_index
             break

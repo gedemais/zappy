@@ -90,13 +90,10 @@ uint8_t	tick(t_env *env)
 	// LOGGING
 	n++;
 
-	if (n % env->settings.t == 0 && env->start
-		&& (code = regenerate_food(env)) != ERR_NONE)
-		return (code);
-
-	//if (n % env->settings.t == 0 && env->start
-	//	&& (code = update_inventories(env)))
-	//	return (code);
+	if (n % env->settings.t == 0 && env->start)
+		if ((code = update_inventories(env)) != ERR_NONE
+			&& (code = regenerate_food(env)) != ERR_NONE)
+			return (code);
 
 #ifdef MACOS
 	fprintf(stderr, "============= TICK %llu =============\n", n);
