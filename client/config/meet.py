@@ -8,11 +8,15 @@ def		collect_food(bernard, viewcase, drop = False):
 	if drop == True:
 		nb_food = bernard.inventory["nourriture"] - 20
 	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
-		value = viewcase["nourriture"]
-		p = 100 / 6
-		nb_food = int((value * p) / 100)
-	if nb_food > 6:
-		nb_food = 6
+		nb_food = 1 + int(10 * (1 / bernard.inventory["nourriture"]))
+		if bernard.inventory["nourriture"] < 10:
+			nb_food = nb_food + 1
+		elif bernard.lvl > 5:
+			nb_food = 0
+		if nb_food > viewcase["nourriture"]:
+			nb_food = viewcase["nourriture"]
+	if nb_food > 5:
+		nb_food = 5
 	if nb_food < 1:
 		nb_food = 1
 		return

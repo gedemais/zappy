@@ -71,7 +71,10 @@ def		task_assign(bernard):
 	if bernard.rushfinal == True:
 		print("rush final")
 		#on attend 2secondes pour verifier si il ya toujours 6 joueurs sur la case
-		if bernard.t - bernard.rushtime < 2000:
+		r = 2000
+		if "nourriture" in bernard.view and bernard.view["nourriture"] > 0:
+			r = bernard.view["nourriture"] * 100
+		if bernard.t - bernard.rushtime < r:
 			if bernard.leader == -1:
 				send_broadcast(bernard, "Come to your leader !")
 			print("waiting validation")
@@ -110,7 +113,7 @@ def		task_assign(bernard):
 	#si il manque des ressources alors on va les collect
 	#et on prevoit un minimum de bouffe
 	if miss == True:
-		bernard.foodmin = 20 - bernard.lvl
+		bernard.foodmin = bernard.wr / 2
 		bernard.foodmax = bernard.foodmin + 5
 		bernard.rushfinal = False
 		tasks[T.COLLECT].state = S.NEED
@@ -120,11 +123,11 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = int((bernard.wr * 2) / (bernard.lvl - 1))
+		bernard.foodmin = bernard.wr * 2
 		bernard.foodmax = bernard.foodmin + 10
 	else:
-		bernard.foodmin = 10
-		bernard.foodmax = 15
+		bernard.foodmin = bernard.wr / 2
+		bernard.foodmax = bernard.foodmin + 5
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return

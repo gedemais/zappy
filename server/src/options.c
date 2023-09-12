@@ -143,7 +143,6 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	int			max_payers;
 	uint8_t		code;
 	int			opt;
-	int			non_option_args_start;
 
 	// While there is still arguments to read
 	while ((opt = getopt(argc, argv, ":p:x:y:n:c:t:")) != -1)
@@ -157,7 +156,6 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 
 		else if (opt == 'n')
 		{
-            non_option_args_start = optind - 1;
             while (optind < argc && argv[optind - 1][0] != '-')
 			{
 				if ((code = load_team(env, argv[optind - 1])))
