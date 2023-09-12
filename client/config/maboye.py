@@ -91,6 +91,7 @@ def		task_assign(bernard):
 			compute_action(bernard, C.VOIR, 1)
 			tasks[T.RUSH].state = S.NONE
 			bernard.rushfinal = False
+			send_broadcast(bernard, "my level is : {}".format(bernard.lvl))
 	# on recrute le max de joueur possible
 	if bernard.team_total < 6\
 			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
@@ -149,6 +150,12 @@ class	Maboye:
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
+		if bernard.suicide == True and bernard.lvl > 2:
+			for elt in bernard.inventory:
+				if "ttl" in elt:
+					continue
+				compute_action(bernard, C.POSE, bernard.inventory[elt], elt)
+				print("I'm suiciding bitch !")
 		print("================================== [ bernard {} ] [ lvl {} - food {} ]".format(\
 			bernard.id,\
 			bernard.lvl,\
@@ -163,8 +170,9 @@ class	Maboye:
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False
-		if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
+		if bernard.leader is not None and bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
 			bernard.leader = None
+			send_broadcast(bernard, "my level is : {}".format(bernard.lvl))
 		task_assign(bernard)
 		task_manager(bernard)
 		print("==================================")

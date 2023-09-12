@@ -8,7 +8,6 @@ class	Message:
 		message = split[1].strip()
 		split = split[0].split(' ')
 		dir = int(split[1].strip())
-		print("from: {} - message: {}".format(dir, message))
 		if "Come to your leader !" in message:
 			if bernard.leader == -1:
 				bernard.leader = None
@@ -20,6 +19,11 @@ class	Message:
 			pass
 		elif "The king is dead long live the king !" in message:
 			bernard.leader = None
+		elif "my level is : " in message:
+			split = message.split(':')
+			lvl = int(split[1].strip())
+			if bernard.lvl > lvl:
+				bernard.suicide = True
 
 	#format: deplacement <K>
 	# 0 : front, 1 : right, 2 : back, 3 : left

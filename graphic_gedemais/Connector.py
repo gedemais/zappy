@@ -342,6 +342,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.lvl = int(tokens[2])
 
 
