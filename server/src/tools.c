@@ -18,6 +18,7 @@ t_player	*get_player_from_tile(t_env *env, int x, int y)
 
 	return (NULL);
 }
+
 t_player	*get_team_client(t_env *env, int client_fd)
 {
 	t_player	*p;

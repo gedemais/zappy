@@ -13,7 +13,7 @@ uint8_t	spawn_loot_pieces(t_env *env, uint32_t count)
 		y = rand() % env->settings.map_height;
 
 		// Random loot item definition, in respect with LOOT_FOOD
-		loot = rand() % 100 <= FOOD_DENSITY ? LOOT_FOOD : rand() % LOOT_MAX;
+		loot = rand() % 100 <= FOOD_DENSITY ? LOOT_FOOD : rand() % (LOOT_MAX - 1) + 1;
 
 		// Add the newly created loot item to the content array of the tile.
 		env->world.map[y][x].content[loot]++;

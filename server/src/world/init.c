@@ -69,6 +69,8 @@ void	print_map(t_env *env)
 		strcat(&buffer[index], "\n");
 		index++;
 	}
+	strcat(&buffer[index], "\033[0m");
+	index += 1;
 	write(1, buffer, index);
 	fflush(stdout);
 }

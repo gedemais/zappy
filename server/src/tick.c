@@ -53,7 +53,7 @@ static uint8_t	regenerate_food(t_env *env)
 	FLUSH_GRESPONSE
 	printf("SALOPE1\n");
 	fflush(stdout);
-	if (env->consumed_food < 0)
+	if (env->consumed_food > 0)
 	{
 		printf("SALOPE2\n");
 		fflush(stdout);
@@ -64,15 +64,18 @@ static uint8_t	regenerate_food(t_env *env)
 			x = rand() % env->settings.map_width;
 			y = rand() % env->settings.map_height;
 			env->world.map[y][x].content[LOOT_FOOD]++;
+			env->gx = x;
+			env->gy = y;
 			if (env->graphical.team != 0)
 				gcmd_block_content(env);
 		}
+		env->consumed_food = 0;
+		gresponse(env);
+		return (ERR_NONE);
 	}
 
-	printf("SALOPE4\n");
-	fflush(stdout);
 	env->consumed_food = 0;
-	return (gresponse(env));
+	return (ERR_NONE);
 }
 
 uint8_t	tick(t_env *env)
@@ -87,7 +90,8 @@ uint8_t	tick(t_env *env)
 	// LOGGING
 	n++;
 
-	if ((code = regenerate_food(env)))
+	if (n % env->settings.t == 0 && env->start
+		&& (code = regenerate_food(env)) != ERR_NONE)
 		return (code);
 
 	//if (n % env->settings.t == 0 && env->start
