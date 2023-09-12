@@ -418,6 +418,8 @@ class   Connector():
         if found == False:
             print('dead player {} not found'.format(tokens[1]))
             return -1
+
+        print('player {} killed properly !'.format(tokens[1]))
         return 0
 
     def pdi(self, world, tokens):

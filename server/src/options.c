@@ -55,7 +55,7 @@ static uint8_t	opt_load_height(t_env *env, char **args)
 	return (ERR_NONE);
 }
 
-static uint8_t	opt_load_teams(t_env *env, char **args)
+static uint8_t	load_team(t_env *env, char *arg)
 {
 	t_dynarray	*teams;
 	t_team		team;
@@ -66,17 +66,14 @@ static uint8_t	opt_load_teams(t_env *env, char **args)
 	if (teams->byte_size == 0 && dynarray_init(teams, sizeof(t_team), 8))
 		return (ERR_MALLOC_FAILED);
 
-	for (uint32_t i = 0; args[i] && args[i][0] != '-'; i++)
-	{
-		memset(&team, 0, sizeof(t_team));
-		if (!(team.name = ft_strdup(args[i]))) // Saving team name
-			return (ERR_MALLOC_FAILED);
+	memset(&team, 0, sizeof(t_team));
+	if (!(team.name = ft_strdup(arg))) // Saving team name
+		return (ERR_MALLOC_FAILED);
 
-		if (dynarray_push(teams, &team, false)) // Add new team in teams array
-		{
-			free(team.name);
-			return (ERR_MALLOC_FAILED);
-		}
+	if (dynarray_push(teams, &team, false)) // Add new team in teams array
+	{
+		free(team.name);
+		return (ERR_MALLOC_FAILED);
 	}
 	return (ERR_NONE);
 }
@@ -109,24 +106,27 @@ static uint8_t	dispatcher(t_env *env, char opt, char **args, bool filled[OPT_MAX
 		opt_load_port,
 		opt_load_width,
 		opt_load_height,
-		opt_load_teams,
 		opt_load_c,
 		opt_load_t
 	};
-	char	options[OPT_MAX] = "pxynct"; // Options charset
+	char	options[OPT_MAX] = "pxyct"; // Options charset
 	uint8_t	code;
 	bool	match;
 
-	for (uint32_t i = 0; i < OPT_MAX; i++)
+	for (uint32_t i = 0; i < OPT_MAX - 1; i++)
 	{
 		// Does the option match the ith element of the charset ?
 		match = (bool)(opt == options[i]);
+
 		// If so, launches the corresponding routine to load the option
 		if (match && (code = opt_loaders[i](env, args)) != ERR_NONE)
 			return (code);
 		// If the routine executed properly, we can set the option as filled
 		else if (match && filled[i] == false)
+		{
 			filled[i] = true;
+			return (ERR_NONE);
+		}
 		// If the option is set once more, we return a DUPLICATE_OPT error
 		else if (match)
 			return (ERR_DUPLICATE_OPT);
@@ -143,6 +143,7 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	int			max_payers;
 	uint8_t		code;
 	int			opt;
+	int			non_option_args_start;
 
 	// While there is still arguments to read
 	while ((opt = getopt(argc, argv, ":p:x:y:n:c:t:")) != -1)
@@ -153,6 +154,19 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 		// If the option is not one of : p, x, y, n, c, t
 		else if (opt == '?')
 			return (ERR_INVALID_OPT);
+
+		else if (opt == 'n')
+		{
+            non_option_args_start = optind - 1;
+            while (optind < argc && argv[optind - 1][0] != '-')
+			{
+				if ((code = load_team(env, argv[optind - 1])))
+					return (code);
+                optind++;
+            }
+			optind--;
+			filled[5] = true;
+        }
 		// Else, if opt is a valid option, we parse it
 		else if ((code = dispatcher(env, opt, &argv[optind - 1], filled))) // passer l'adresse de argv pour pouvoir itérer sur argv dans les loaders avec optind
 			return (code);

@@ -124,11 +124,15 @@ class   World():
         team = tokens[6]
 
         if team not in self.team_names:
+            print('New team {} created'.format(team))
             self.team_names.append(team)
 
         team_index = self.team_names.index(team)
         # Protect against overflow
         self.teams[team].players[tokens[1]] = Player(x, y, o, l, team, team_index)
+        print('New player {} created in team {}'.format(tokens[1], team))
+        print('Team {} players :'.format(team))
+        print(self.teams[team].players)
         return 0
 
     def parse_new_egg(self):
@@ -142,5 +146,9 @@ class   World():
         x = int(tokens[3])
         y = int(tokens[4])
         self.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
+
+        print('New egg {} created by player {} in team {}'.format(tokens[1], tokens[2], team))
+        print('Team {} eggs :'.format(team))
+        print(self.teams[team].eggs)
 
         return 0
