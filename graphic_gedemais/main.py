@@ -19,16 +19,16 @@ connector.tick = world.t
 
 renderer = Renderer(world, tile_size=50)
 
-# hud_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# hud_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-# hud_socket.bind((socket.gethostbyname(host), 4242))
+hud_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+hud_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+hud_socket.bind((socket.gethostbyname(host), 4242))
 
-# os.system('python3 hud.py &')
+os.system('python3 hud.py &')
 
-# print('Waiting for HUD connection...')
-# hud_socket.listen()
-# hud, hud_address = hud_socket.accept()
-# print('HUD connected !')
+print('Waiting for HUD connection...')
+hud_socket.listen()
+hud, hud_address = hud_socket.accept()
+print('HUD connected !')
 
 cycle = 0
 

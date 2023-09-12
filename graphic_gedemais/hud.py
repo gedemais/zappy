@@ -56,6 +56,14 @@ def render_team(bgd, index, row_size, name, players):
     rect.center = (win_width / 2, off_y + row_size / 2)
     window.blit(sprite, rect)
 
+    n = len(players)
+    s = '{} player'.format(len(players))
+    s += 's' if n > 1 else ''
+    title = subtitles_font.render(s, True, (255, 255, 255), bgd)
+    rect = title.get_rect()
+    rect.center = (win_width / 2, off_y + 32 + row_size - row_size / 3)
+    window.blit(title, rect)
+
     food = subtitles_font.render('Food', True, (255, 255, 255), bgd)
     rect = food.get_rect()
     rect.center = (win_width / 5, off_y + 32)

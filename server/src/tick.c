@@ -59,8 +59,6 @@ static uint8_t	regenerate_food(t_env *env)
 		fflush(stdout);
 		for (int32_t i = 0; i < env->consumed_food; i++)
 		{
-			printf("SALOPE3\n");
-			fflush(stdout);
 			x = rand() % env->settings.map_width;
 			y = rand() % env->settings.map_height;
 			env->world.map[y][x].content[LOOT_FOOD]++;
@@ -70,8 +68,7 @@ static uint8_t	regenerate_food(t_env *env)
 				gcmd_block_content(env);
 		}
 		env->consumed_food = 0;
-		gresponse(env);
-		return (ERR_NONE);
+		return (gresponse(env));
 	}
 
 	env->consumed_food = 0;

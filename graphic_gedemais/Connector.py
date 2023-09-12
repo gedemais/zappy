@@ -98,6 +98,7 @@ class   Connector():
         if response != None:
             lines = response.split('\n')
             for line in lines:
+                print(line)
                 tokens = line.split(' ')
                 if len(tokens) < 2:
                     continue
@@ -226,9 +227,10 @@ class   Connector():
         if len(tokens) != 10:
             print('invalid format for bct')
             return -1
-        world.lines = [' '.join(tokens)]
-        world.line_index = 0
-        return world.parse_bct(int(tokens[1]), int(tokens[2]))
+        x = int(tokens[1])
+        y = int(tokens[2])
+        for i in range(3, 10):
+            world.map[y][x][i - 3] = int(tokens[i])
 
 
     def _pgt_(self, world, tokens):
