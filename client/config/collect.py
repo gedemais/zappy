@@ -69,6 +69,7 @@ class	Collect:
 	def	run(bernard, needs):
 		if is_blind(bernard) == True:
 			return
+		print("Collecting...")
 		if farm_ressources(bernard, needs) == False:
 			print("scooting the area")
 			view_rand(bernard)

@@ -32,32 +32,29 @@ def		task_manager(bernard):
 	#WIP
 	if tasks[T.MANGER].state == S.NEED:
 		#il faut trouver de la nourriture
-		print("T.MANGER")
 		Manger.run(bernard)
 		return
 	if tasks[T.RUSH].state == S.NEED:
 		#rush le lvl demandé (2 puis 8)
-		print("T.RUSH")
 		Rush.run(bernard, bernard.rushlvl)
 		return
 	if tasks[T.HATCH].state == S.NEED:
 		#on recrute le max de joueurs
-		print("T.HATCH")
 		Hatch.run(bernard)
 		return
 	if tasks[T.COLLECT].state == S.NEED:
 		#on collect tout ce qu'il manque pour up lvl 8
-		print("T.COLLECT")
 		Collect.run(bernard, incant_total(bernard, bernard.rushlvl))
 		return
 	if tasks[T.MEET].state == S.NEED:
 		#on rejoins les autres joueurs de la team
-		print("T.MEET")
 		Meet.run(bernard)
 		return
 
 #WIP
 def		task_assign(bernard):
+	bernardindex = view_index(bernard.x, bernard.y)
+	print(bernard.view[bernardindex])
 	#il faut de la nourriture
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
@@ -71,15 +68,22 @@ def		task_assign(bernard):
 	else:
 		tasks[T.RUSH].state = S.NONE
 	# rush lvl 8
-	bernardindex = view_index(bernard.x, bernard.y)
-	print(bernard.view[bernardindex])
 	if bernard.rushfinal == True:
-		if incant_possible(bernard, False) == True\
+		print("rush final")
+		#on attend 2secondes pour verifier si il ya toujours 6 joueurs sur la case
+		if bernard.t - bernard.rushtime < 2000:
+			if bernard.leader == -1:
+				send_broadcast(bernard, "Come to your leader !")
+			print("waiting validation")
+			return
+		#si oui on envoit les 6 incantations
+		elif incant_possible(bernard, False) == True\
 				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
-			bernard.foodmin = 5
+			bernard.foodmin = 1
 			bernard.foodmax = 10
 			tasks[T.RUSH].state = S.NEED
 			return
+		#si non on reprend la phase de meet
 		else:
 			compute_action(bernard, C.VOIR, 1)
 			tasks[T.RUSH].state = S.NONE
@@ -94,15 +98,13 @@ def		task_assign(bernard):
 	#en attendant d'etre 6 on collect de la nourriture
 	if bernard.team_total < 6:
 		bernard.foodmin = bernard.inventory["nourriture"] + 1
-		bernard.foodmax = bernard.foodmin + 1
+		bernard.foodmax = bernard.foodmin
 		return
 	#on verifie si il manque des ressources pour passer lvl 8
 	bernard.rushlvl = 8
 	miss = False
 	it = incant_total(bernard, bernard.rushlvl)
-	print("need total")
 	for item in it:
-		print(item, it[item])
 		if "player" not in item and it[item] > 0:
 			miss = True
 	#si il manque des ressources alors on va les collect
@@ -118,24 +120,24 @@ def		task_assign(bernard):
 	#les premiers bots collectent plus de nourritures que les suivant
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
-		bernard.foodmin = (bernard.wr * 2) / (bernard.lvl - 1)
-		bernard.foodmax = bernard.foodmin + 1
+		bernard.foodmin = int((bernard.wr * 2) / (bernard.lvl - 1))
+		bernard.foodmax = bernard.foodmin + 10
 	else:
-		bernard.foodmin = 5
-		bernard.foodmax = 10
+		bernard.foodmin = 10
+		bernard.foodmax = 15
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
 		return
 	#quand la collecte est terminée on est lvl 2 et on a de quoi up lvl 8
 	#il faut rejoindre les autres joueurs
-	if "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] < 6:
-		print("player on my case: {}".format(bernard.view[bernardindex]["player"]))
+	if "player" not in bernard.view[bernardindex] or bernard.view[bernardindex]["player"] < 6:
 		tasks[T.MEET].state = S.NEED
 		return
 	else:
 		tasks[T.MEET].state = S.NONE
 	#une fois que les 6 joueurs sont sur la même case on les fait tous up du lvl 2 à 8
 	bernard.rushfinal = True
+	bernard.rushtime = bernard.t
 
 class	Maboye:
 	def	__init__(self):
@@ -143,18 +145,19 @@ class	Maboye:
 
 	#celon les données de bernard on assigne de nouvelles taches
 	def	run(bernard):
-		print("road to level 8 ! ================")
 		if is_blind(bernard) == True:
 			return
-		print("[ bernard ] - lvl: {} - food: {} - leader: {} - tt: {} - fmin: {} - fmax: {}".format(\
+		print("================================== [ bernard {} ] [ lvl {} - food {} ]".format(\
+			bernard.id,\
 			bernard.lvl,\
 			bernard.inventory["nourriture"],\
+		))
+		print("leader: {} - tt: {} - fmin: {} - fmax: {}".format(\
 			bernard.leader,\
 			bernard.team_total,\
 			bernard.foodmin,\
 			bernard.foodmax,\
 		))
-		print(bernard.inventory)
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False
@@ -162,4 +165,5 @@ class	Maboye:
 			bernard.leader = None
 		task_assign(bernard)
 		task_manager(bernard)
+		print("==================================")
 		print("==================================")
