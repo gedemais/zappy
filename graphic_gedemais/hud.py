@@ -4,18 +4,13 @@ import socket
 import json
 from time import sleep
 
-def render_food_circles(player, y):
-    food_stock = player['inventory'][0]
-    if food_stock >= 30:
-        color = (0, 255, 0)
-    elif food_stock >= 20:
-        color = (255, 160, 0)
-    elif food_stock >= 10:
-        color = (255, 80, 0)
-    else:
-        color = (255, 0, 0)
+is_rendered = []
 
-    for i in range(food_stock if food_stock <= 50 else 50):
+def render_food_circles(player, y, bgd):
+    food_stock = player['inventory'][0]
+
+    for i in range(food_stock if food_stock <= 42 else 42):
+        color = ((255 - i * 6), i * 6, 0)
         pygame.draw.circle(window, color, (i * 5 + 50, y), 3)
 
     text = numbers_font.render(str(food_stock), True, (255, 255, 255), bgd)
@@ -23,7 +18,7 @@ def render_food_circles(player, y):
     rect.center = (25, y)
     window.blit(text, rect)
 
-def render_level_bar(player, y):
+def render_level_bar(player, y, bgd):
     level = player['level']
 
     pygame.draw.rect(window, (255, 255, 255), (400, y - 5, 202, 12))
@@ -42,14 +37,23 @@ def render_level_bar(player, y):
 
 
 
-def render_team(bgd, index, row_size, name, players):
+def render_team(index, rendereds, row_size, name, players, render):
 
-    off_y = index * row_size
+    off_y = rendereds * row_size + ((index - rendereds) * row_size / 4)
 
-    title = title_font.render('Team ' + name, True, (255, 255, 255), bgd)
+    bgd = ((index % 8 + 1) * 20, (index % 8 + 1) * 20, (index % 8 + 1) * 20)
+    pygame.draw.rect(window, bgd, (0, off_y, win_width, row_size if render else row_size / 4))
+
+    if render:
+        title = title_font.render('Team ' + name, True, (255, 255, 255), bgd)
+    else:
+        title = subtitles_font.render('Team ' + name, True, (255, 255, 255), bgd)
     rect = title.get_rect()
     rect.center = (win_width / 2, off_y + 32)
     window.blit(title, rect)
+
+    if render == False:
+        return
 
     sprite = sprites[index % 8]
     rect = sprite.get_rect()
@@ -76,8 +80,10 @@ def render_team(bgd, index, row_size, name, players):
 
     for p, player in enumerate(players):
         y = off_y + 60 + p * 20
-        render_food_circles(player, y)
-        render_level_bar(player, y)
+        render_food_circles(player, y, bgd)
+        render_level_bar(player, y, bgd)
+
+
 
 
 # Initialize Pygame
@@ -117,7 +123,7 @@ pygame.display.set_caption("Zappy HUD")
 
 # Clock initialization
 clock = pygame.time.Clock()
-fps = 1
+fps = 5
 
 path = './sprites/spritesheets/'
 sprites =   [
@@ -131,23 +137,51 @@ sprites =   [
                 pygame.transform.scale(pygame.image.load(path + "rabbitSpriteSheet.png").subsurface((1, 641, 62, 62)), (row_size / 2, row_size / 2))
             ]
 
+def handle_click(pos_y):
+    off_y = 0
+    for i in range(len(is_rendered)):
+        off_y += row_size / (1 if is_rendered[i] else 4)
+        if off_y >= pos_y:
+            is_rendered[i] = False if is_rendered[i] else True
+            return
+
+
+i = 0
+toggle_all = False
 while is_running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if abs(event.pos[0] - (win_width / 2)) < 100:
+                    handle_click(event.pos[1])
+        elif event.type == pygame.KEYUP:
+
+            if event.key == pygame.K_SPACE:
+                for i in range(len(is_rendered)):
+                    is_rendered[i] = toggle_all
+                toggle_all = False if toggle_all else True
 
 
-    request = s.recv(65536).decode('utf-8')
-    if request is not None:
-        teams = json.loads(request)
+    if i % fps == 0:
+        request = s.recv(65536).decode('utf-8')
+        if request is not None:
+            teams = json.loads(request)
 
+    pygame.draw.rect(window, (0, 0, 0), (0, 0, win_width, win_height))
+
+    rendereds = 0
     for i, team in enumerate(teams):
-        bgd = ((i % 8 + 1) * 20, (i % 8 + 1) * 20, (i % 8 + 1) * 20)
-        pygame.draw.rect(window, bgd, (0, i * row_size, win_width, row_size))
-        if 'name' in team.keys():
-            render_team(bgd, i, row_size, team['name'], team['players'])
+        if i >= len(is_rendered):
+            is_rendered.append(False)
 
+        if 'name' in team.keys():
+            render_team(i, rendereds, row_size, team['name'], team['players'], is_rendered[i])
+
+        if is_rendered[i]:
+            rendereds += 1
 
     pygame.display.flip()
     clock.tick(fps)

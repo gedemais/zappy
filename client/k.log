@@ -1,10 +1,7 @@
 BIENVENUE
 1
-200 150
+20 15
 I'm blind :'(
-MESSAGE RECEIVED ---------
-You have to wait for the game to start.
---------------------------
 MESSAGE RECEIVED ---------
 You have to wait for the game to start.
 --------------------------
@@ -55,19 +52,19 @@ You have to wait for the game to start.
 --------------------------
 ================================== [ bernard 1 ] [ lvl 1 - food 9 ]
 leader: None - tt: 1 - fmin: 5 - fmax: 10
-{'nourriture': 1, 'linemate': 1, 'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1}
+{'nourriture': 1, 'deraumere': 2, 'mendiane': 1, 'phiras': 1, 'thystame': 3, 'player': 1}
 I want to Eleve myself \o/ !
 incantation is not possible yet !
 Collecting...
-found 1 linemate at 0
-going for linemate at 0
+found 1 linemate at 1
+going for linemate at 1
 looting 1 linemate
-looting 1 nourriture
+looting 2 nourriture
 ==================================
 ==================================
-================================== [ bernard 1 ] [ lvl 1 - food 10 ]
+================================== [ bernard 1 ] [ lvl 1 - food 11 ]
 leader: None - tt: 1 - fmin: 5 - fmax: 10
-{'nourriture': 0, 'linemate': 0, 'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1, 'visited': False}
+{'nourriture': 0, 'linemate': 0, 'phiras': 1, 'thystame': 2, 'visited': False}
 I want to Eleve myself \o/ !
 incantation is possible !
 preparing the ritual...
@@ -80,173 +77,448 @@ elevation en cours
 I need to check my stuff !
 ================================== [ bernard 1 ] [ lvl 2 - food 8 ]
 leader: None - tt: 1 - fmin: 5 - fmax: 10
-{'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1}
+{'phiras': 1, 'thystame': 2, 'player': 1}
 My team is not full I need to reproduce !
 ==================================
 ==================================
 ================================== [ bernard 1 ] [ lvl 2 - food 8 ]
 leader: None - tt: 1 - fmin: 5 - fmax: 10
-{'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1}
+{'phiras': 1, 'thystame': 2, 'player': 1}
 ==================================
 ==================================
 MESSAGE RECEIVED ---------
-message 1,team_name b I just hatched an egg !
---------------------------
-================================== [ bernard 1 ] [ lvl 2 - food 8 ]
-leader: None - tt: 1 - fmin: 9 - fmax: 9
-{'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1}
-I'm hungry >< !
-2 nourriture ! going to pos: 1
-==================================
-==================================
-MESSAGE RECEIVED ---------
-message 1,team_name e I just hatched an egg !
-message 7,team_name j I just hatched an egg !
 message 5,team_name l I just hatched an egg !
+message 7,team_name m I just hatched an egg !
+message 7,team_name o I just hatched an egg !
+message 7,team_name e I just hatched an egg !
+message 1,team_name b I just hatched an egg !
+message 7,team_name p I just hatched an egg !
+message 7,team_name d I just hatched an egg !
+message 7,team_name n I just hatched an egg !
+message 7,team_name f I just hatched an egg !
+message 7,team_name a I just hatched an egg !
+message 5,team_name j I just hatched an egg !
 --------------------------
 MESSAGE RECEIVED ---------
 message 7,team_name c I just hatched an egg !
-message 5,team_name g I just hatched an egg !
-message 5,team_name h I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 3,team_name m I just hatched an egg !
-message 7,team_name o I just hatched an egg !
-message 7,team_name p I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 3,team_name i I just hatched an egg !
-message 3,team_name n I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 1,team_name f I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 3,team_name a I just hatched an egg !
---------------------------
-I need to check my stuff !
-MESSAGE RECEIVED ---------
-message 1,team_name d I just hatched an egg !
+message 7,team_name g I just hatched an egg !
+message 3,team_name h I just hatched an egg !
 --------------------------
 ================================== [ bernard 1 ] [ lvl 2 - food 8 ]
+leader: None - tt: 1 - fmin: 9 - fmax: 9
+{'phiras': 1, 'thystame': 2, 'player': 1}
+I'm hungry >< !
+3 nourriture ! going to pos: 2
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 3,team_name i I just hatched an egg !
+--------------------------
+I need to check my stuff !
+================================== [ bernard 1 ] [ lvl 2 - food 10 ]
 leader: None - tt: 2 - fmin: 9 - fmax: 9
-{'linemate': 1, 'deraumere': 1, 'mendiane': 1, 'phiras': 1, 'thystame': 1, 'player': 1}
+{'deraumere': 2, 'thystame': 4, 'player': 1}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 10 ]
+leader: None - tt: 2 - fmin: 11 - fmax: 11
+{'deraumere': 2, 'thystame': 4, 'player': 1}
 I'm hungry >< !
 1 nourriture ! going to pos: 1
 ==================================
 ==================================
-================================== [ bernard 1 ] [ lvl 2 - food 9 ]
-leader: None - tt: 2 - fmin: 9 - fmax: 9
-{'nourriture': 0, 'linemate': 1, 'deraumere': 1, 'mendiane': 1, 'visited': False}
+================================== [ bernard 1 ] [ lvl 2 - food 11 ]
+leader: None - tt: 2 - fmin: 11 - fmax: 11
+{'nourriture': 0, 'linemate': 2, 'sibur': 2, 'visited': False}
 ==================================
 ==================================
-================================== [ bernard 1 ] [ lvl 2 - food 9 ]
-leader: None - tt: 2 - fmin: 10 - fmax: 10
-{'nourriture': 0, 'linemate': 1, 'deraumere': 1, 'mendiane': 1, 'visited': False}
+================================== [ bernard 1 ] [ lvl 2 - food 11 ]
+leader: None - tt: 2 - fmin: 12 - fmax: 12
+{'nourriture': 0, 'linemate': 2, 'sibur': 2, 'visited': False}
 I'm hungry >< !
 4 nourriture ! going to pos: 2
 ==================================
 ==================================
 I need to check my stuff !
-================================== [ bernard 1 ] [ lvl 2 - food 12 ]
-leader: None - tt: 2 - fmin: 10 - fmax: 10
-{'mendiane': 1, 'thystame': 1, 'player': 1}
-==================================
-==================================
-================================== [ bernard 1 ] [ lvl 2 - food 12 ]
-leader: None - tt: 2 - fmin: 13 - fmax: 13
-{'mendiane': 1, 'thystame': 1, 'player': 1}
-I'm hungry >< !
-2 nourriture ! going to pos: 1
-==================================
-==================================
 ================================== [ bernard 1 ] [ lvl 2 - food 14 ]
-leader: None - tt: 2 - fmin: 13 - fmax: 13
-{'nourriture': 0, 'linemate': 2, 'deraumere': 1, 'sibur': 1, 'thystame': 3, 'visited': False}
+leader: None - tt: 2 - fmin: 12 - fmax: 12
+{'linemate': 1, 'deraumere': 1, 'sibur': 3, 'phiras': 2, 'player': 1}
 ==================================
 ==================================
 ================================== [ bernard 1 ] [ lvl 2 - food 14 ]
 leader: None - tt: 2 - fmin: 15 - fmax: 15
-{'nourriture': 0, 'linemate': 2, 'deraumere': 1, 'sibur': 1, 'thystame': 3, 'visited': False}
+{'linemate': 1, 'deraumere': 1, 'sibur': 3, 'phiras': 2, 'player': 1}
 I'm hungry >< !
-1 nourriture ! going to pos: 2
+3 nourriture ! going to pos: 3
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 17 ]
+leader: None - tt: 2 - fmin: 15 - fmax: 15
+{'nourriture': 0, 'deraumere': 3, 'sibur': 2, 'phiras': 1, 'thystame': 2, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 17 ]
+leader: None - tt: 2 - fmin: 18 - fmax: 18
+{'nourriture': 0, 'deraumere': 3, 'sibur': 2, 'phiras': 1, 'thystame': 2, 'visited': False}
+I'm hungry >< !
+4 nourriture ! going to pos: 4
 ==================================
 ==================================
 I need to check my stuff !
-================================== [ bernard 1 ] [ lvl 2 - food 14 ]
-leader: None - tt: 2 - fmin: 15 - fmax: 15
-{'linemate': 1, 'sibur': 1, 'mendiane': 4, 'thystame': 1, 'player': 1}
+================================== [ bernard 1 ] [ lvl 2 - food 19 ]
+leader: None - tt: 2 - fmin: 18 - fmax: 18
+{'linemate': 4, 'sibur': 1, 'phiras': 1, 'thystame': 2, 'player': 3}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 19 ]
+leader: None - tt: 2 - fmin: 18 - fmax: 18
+{'linemate': 4, 'sibur': 1, 'phiras': 1, 'thystame': 2, 'player': 3}
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 5,team_name o I just hatched an egg !
+message 5,team_name p I just hatched an egg !
+message 1,team_name b I just hatched an egg !
+message 1,team_name e I just hatched an egg !
+message 1,team_name a I just hatched an egg !
+message 5,team_name j I just hatched an egg !
+message 7,team_name e I just hatched an egg !
+message 7,team_name p I just hatched an egg !
+message 7,team_name n I just hatched an egg !
+message 4,team_name m I just hatched an egg !
+message 7,team_name n I just hatched an egg !
+message 1,team_name d I just hatched an egg !
+message 7,team_name d I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name a I just hatched an egg !
+message 5,team_name f I just hatched an egg !
+message 7,team_name l I just hatched an egg !
+message 5,team_name i I just hatched an egg !
+message 7,team_name b I just hatched an egg !
+message 5,team_name l I just hatched an egg !
+message 1,team_name j I just hatched an egg !
+message 5,team_name k I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name c I just hatched an egg !
+--------------------------
+================================== [ bernard 1 ] [ lvl 2 - food 19 ]
+leader: None - tt: 2 - fmin: 20 - fmax: 20
+{'linemate': 4, 'sibur': 1, 'phiras': 1, 'thystame': 2, 'player': 3}
+I'm hungry >< !
+no food nearby. looking around !
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 1,team_name m I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 5,team_name h I just hatched an egg !
+message 1,team_name h I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 5,team_name c I just hatched an egg !
+message 5,team_name g I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name i I just hatched an egg !
+message 5,team_name f I just hatched an egg !
+--------------------------
+I need to check my stuff !
+================================== [ bernard 1 ] [ lvl 2 - food 18 ]
+leader: None - tt: 4 - fmin: 20 - fmax: 20
+{'nourriture': 3, 'linemate': 3, 'sibur': 1, 'mendiane': 2, 'thystame': 3, 'player': 1}
+I'm hungry >< !
+3 nourriture ! going to pos: 0
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 21 ]
+leader: None - tt: 4 - fmin: 20 - fmax: 20
+{'nourriture': 0, 'linemate': 3, 'sibur': 1, 'mendiane': 2, 'thystame': 3, 'player': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 21 ]
+leader: None - tt: 4 - fmin: 22 - fmax: 22
+{'nourriture': 0, 'linemate': 3, 'sibur': 1, 'mendiane': 2, 'thystame': 3, 'player': 1, 'visited': False}
+I'm hungry >< !
+4 nourriture ! going to pos: 2
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 25 ]
+leader: None - tt: 4 - fmin: 22 - fmax: 22
+{'nourriture': 0, 'sibur': 2, 'mendiane': 2, 'thystame': 4, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 25 ]
+leader: None - tt: 4 - fmin: 26 - fmax: 26
+{'nourriture': 0, 'sibur': 2, 'mendiane': 2, 'thystame': 4, 'visited': False}
+I'm hungry >< !
+4 nourriture ! going to pos: 3
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 1,team_name g I just hatched an egg !
+--------------------------
+I need to check my stuff !
+================================== [ bernard 1 ] [ lvl 2 - food 27 ]
+leader: None - tt: 4 - fmin: 26 - fmax: 26
+{'nourriture': 1, 'sibur': 1, 'phiras': 1, 'player': 1}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 27 ]
+leader: None - tt: 4 - fmin: 28 - fmax: 28
+{'nourriture': 1, 'sibur': 1, 'phiras': 1, 'player': 1}
+I'm hungry >< !
+1 nourriture ! going to pos: 0
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 28 ]
+leader: None - tt: 4 - fmin: 28 - fmax: 28
+{'nourriture': 0, 'sibur': 1, 'phiras': 1, 'player': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 28 ]
+leader: None - tt: 4 - fmin: 29 - fmax: 29
+{'nourriture': 0, 'sibur': 1, 'phiras': 1, 'player': 1, 'visited': False}
+I'm hungry >< !
+7 nourriture ! going to pos: 1
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 33 ]
+leader: None - tt: 4 - fmin: 29 - fmax: 29
+{'nourriture': 2, 'deraumere': 1, 'sibur': 3, 'phiras': 1, 'thystame': 3, 'player': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 1 ] [ lvl 2 - food 33 ]
+leader: None - tt: 4 - fmin: 34 - fmax: 34
+{'nourriture': 2, 'deraumere': 1, 'sibur': 3, 'phiras': 1, 'thystame': 3, 'player': 1, 'visited': False}
 I'm hungry >< !
 2 nourriture ! going to pos: 1
 ==================================
 ==================================
-================================== [ bernard 1 ] [ lvl 2 - food 16 ]
-leader: None - tt: 2 - fmin: 15 - fmax: 15
-{'nourriture': 0, 'sibur': 2, 'phiras': 2, 'thystame': 2, 'visited': False}
+I need to check my stuff !
+MESSAGE RECEIVED ---------
+message 5,team_name b I just hatched an egg !
+--------------------------
+================================== [ bernard 1 ] [ lvl 2 - food 34 ]
+leader: None - tt: 4 - fmin: 34 - fmax: 34
+{'deraumere': 1, 'sibur': 3, 'phiras': 1, 'thystame': 3, 'player': 3}
 My team is not full I need to reproduce !
 ==================================
 ==================================
-MESSAGE RECEIVED ---------
-message 1,team_name e I just hatched an egg !
---------------------------
-================================== [ bernard 1 ] [ lvl 2 - food 16 ]
-leader: None - tt: 2 - fmin: 15 - fmax: 15
-{'nourriture': 0, 'sibur': 2, 'phiras': 2, 'thystame': 2, 'visited': False}
+================================== [ bernard 1 ] [ lvl 2 - food 34 ]
+leader: None - tt: 4 - fmin: 34 - fmax: 34
+{'deraumere': 1, 'sibur': 3, 'phiras': 1, 'thystame': 3, 'player': 3}
 ==================================
 ==================================
 BIENVENUE
 1
-200 150
+20 15
 I'm blind :'(
 MESSAGE RECEIVED ---------
+message 7,team_name c I just hatched an egg !
 message 0,team_name k I just hatched an egg !
+message 7,team_name g I just hatched an egg !
+message 3,team_name h I just hatched an egg !
 --------------------------
 MESSAGE RECEIVED ---------
-message 5,team_name b I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 5,team_name e I just hatched an egg !
-message 3,team_name j I just hatched an egg !
-message 1,team_name l I just hatched an egg !
+message 3,team_name i I just hatched an egg !
 --------------------------
 ================================== [ bernard 2 ] [ lvl 1 - food 9 ]
 leader: None - tt: 2 - fmin: 5 - fmax: 10
-{'sibur': 2, 'mendiane': 1, 'phiras': 2, 'player': 1}
+{'phiras': 1, 'thystame': 2, 'player': 1}
 I want to Eleve myself \o/ !
 incantation is not possible yet !
 Collecting...
-found 2 linemate at 1
+found 1 linemate at 1
 going for linemate at 1
-looting 2 linemate
-looting 3 nourriture
+looting 1 linemate
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 1 - food 9 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'linemate': 0, 'deraumere': 1, 'mendiane': 1, 'phiras': 2, 'thystame': 1, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+---------------------------------- LVL [ 2 ]
+I need to check my stuff !
+================================== [ bernard 2 ] [ lvl 2 - food 6 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'mendiane': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 6 ]
+leader: None - tt: 2 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'mendiane': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
 ==================================
 ==================================
 MESSAGE RECEIVED ---------
-message 3,team_name c I just hatched an egg !
-message 1,team_name g I just hatched an egg !
-message 1,team_name h I just hatched an egg !
+message 5,team_name o I just hatched an egg !
+message 3,team_name p I just hatched an egg !
+message 1,team_name b I just hatched an egg !
+message 1,team_name e I just hatched an egg !
+message 1,team_name a I just hatched an egg !
+message 3,team_name j I just hatched an egg !
+message 7,team_name e I just hatched an egg !
+message 7,team_name p I just hatched an egg !
+message 7,team_name n I just hatched an egg !
+message 7,team_name m I just hatched an egg !
+message 7,team_name n I just hatched an egg !
+message 5,team_name d I just hatched an egg !
+message 7,team_name d I just hatched an egg !
+message 7,team_name a I just hatched an egg !
+message 3,team_name f I just hatched an egg !
+message 7,team_name l I just hatched an egg !
+message 5,team_name i I just hatched an egg !
+message 1,team_name k I just hatched an egg !
+message 1,team_name b I just hatched an egg !
+message 5,team_name l I just hatched an egg !
+message 5,team_name j I just hatched an egg !
 --------------------------
 MESSAGE RECEIVED ---------
+message 7,team_name c I just hatched an egg !
+--------------------------
+================================== [ bernard 2 ] [ lvl 2 - food 6 ]
+leader: None - tt: 2 - fmin: 7 - fmax: 7
+{'deraumere': 1, 'mendiane': 1, 'phiras': 2, 'thystame': 1, 'player': 1}
+I'm hungry >< !
+3 nourriture ! going to pos: 1
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 5,team_name m I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name h I just hatched an egg !
+message 3,team_name h I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name c I just hatched an egg !
+message 5,team_name g I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name i I just hatched an egg !
+message 5,team_name f I just hatched an egg !
+--------------------------
+I need to check my stuff !
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 4 - fmin: 7 - fmax: 7
+{'deraumere': 1, 'sibur': 2, 'mendiane': 2, 'player': 2}
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 4 - fmin: 9 - fmax: 9
+{'deraumere': 1, 'sibur': 2, 'mendiane': 2, 'player': 2}
+I'm hungry >< !
+no food nearby. looking around !
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 8 ]
+leader: None - tt: 4 - fmin: 9 - fmax: 9
+{'nourriture': 2, 'deraumere': 1, 'sibur': 1, 'phiras': 1, 'thystame': 1, 'player': 1}
+I'm hungry >< !
+2 nourriture ! going to pos: 0
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 10 ]
+leader: None - tt: 4 - fmin: 9 - fmax: 9
+{'nourriture': 0, 'deraumere': 1, 'sibur': 1, 'phiras': 1, 'thystame': 1, 'player': 1, 'visited': False}
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 10 ]
+leader: None - tt: 4 - fmin: 11 - fmax: 11
+{'nourriture': 0, 'deraumere': 1, 'sibur': 1, 'phiras': 1, 'thystame': 1, 'player': 1, 'visited': False}
+I'm hungry >< !
+3 nourriture ! going to pos: 1
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 7,team_name g I just hatched an egg !
+--------------------------
+I need to check my stuff !
+================================== [ bernard 2 ] [ lvl 2 - food 11 ]
+leader: None - tt: 4 - fmin: 11 - fmax: 11
+{'linemate': 1, 'deraumere': 1, 'sibur': 2, 'phiras': 1, 'thystame': 3, 'player': 1}
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 11 ]
+leader: None - tt: 4 - fmin: 12 - fmax: 12
+{'linemate': 1, 'deraumere': 1, 'sibur': 2, 'phiras': 1, 'thystame': 3, 'player': 1}
+I'm hungry >< !
+4 nourriture ! going to pos: 2
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 15 ]
+leader: None - tt: 4 - fmin: 12 - fmax: 12
+{'nourriture': 0, 'phiras': 1, 'thystame': 2, 'visited': False}
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 15 ]
+leader: None - tt: 4 - fmin: 16 - fmax: 16
+{'nourriture': 0, 'phiras': 1, 'thystame': 2, 'visited': False}
+I'm hungry >< !
+3 nourriture ! going to pos: 3
+==================================
+==================================
+I need to check my stuff !
+MESSAGE RECEIVED ---------
+message 5,team_name b I just hatched an egg !
+--------------------------
+================================== [ bernard 2 ] [ lvl 2 - food 17 ]
+leader: None - tt: 4 - fmin: 16 - fmax: 16
+{'mendiane': 3, 'phiras': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 2 ] [ lvl 2 - food 17 ]
+leader: None - tt: 4 - fmin: 16 - fmax: 16
+{'mendiane': 3, 'phiras': 1, 'player': 1}
+==================================
+==================================
+BIENVENUE
+1
+20 15
+I'm blind :'(
+MESSAGE RECEIVED ---------
 message 1,team_name m I just hatched an egg !
-message 5,team_name o I just hatched an egg !
-message 5,team_name p I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name h I just hatched an egg !
+message 7,team_name h I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name c I just hatched an egg !
+message 3,team_name g I just hatched an egg !
 --------------------------
 MESSAGE RECEIVED ---------
 message 7,team_name i I just hatched an egg !
-message 7,team_name n I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
 message 3,team_name f I just hatched an egg !
 --------------------------
-MESSAGE RECEIVED ---------
-message 7,team_name a I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 5,team_name d I just hatched an egg !
---------------------------
-================================== [ bernard 2 ] [ lvl 1 - food 12 ]
-leader: None - tt: 2 - fmin: 5 - fmax: 10
-{'nourriture': 0, 'linemate': 0, 'deraumere': 1, 'phiras': 2, 'thystame': 2, 'visited': False}
+================================== [ bernard 4 ] [ lvl 1 - food 9 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'mendiane': 1, 'phiras': 2, 'thystame': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 2 linemate at 2
+going for linemate at 2
+looting 2 linemate
+looting 1 nourriture
+==================================
+==================================
+C.PREND nourriture : KO
+================================== [ bernard 4 ] [ lvl 1 - food 9 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'nourriture': 0, 'linemate': 0, 'deraumere': 1, 'sibur': 1, 'mendiane': 1, 'phiras': 1, 'visited': False}
 I want to Eleve myself \o/ !
 incantation is possible !
 preparing the ritual...
@@ -256,16 +528,98 @@ I'm Elevating \o/ !
 ==================================
 elevation en cours
 MESSAGE RECEIVED ---------
-message 5,team_name e I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 1,team_name m I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 5,team_name p I just hatched an egg !
---------------------------
-MESSAGE RECEIVED ---------
-message 5,team_name b I just hatched an egg !
+message 3,team_name g I just hatched an egg !
 --------------------------
 ---------------------------------- LVL [ 2 ]
 I need to check my stuff !
+MESSAGE RECEIVED ---------
+message 5,team_name b I just hatched an egg !
+--------------------------
+================================== [ bernard 4 ] [ lvl 2 - food 6 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'sibur': 1, 'mendiane': 1, 'phiras': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 4 ] [ lvl 2 - food 6 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'deraumere': 1, 'sibur': 1, 'mendiane': 1, 'phiras': 1, 'player': 1}
+==================================
+==================================
+BIENVENUE
+2
+20 15
+I'm blind :'(
+MESSAGE RECEIVED ---------
+message 3,team_name j I just hatched an egg !
+message 7,team_name k I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name c I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 3,team_name m I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 1,team_name h I just hatched an egg !
+message 5,team_name h I just hatched an egg !
+--------------------------
+================================== [ bernard 4 ] [ lvl 1 - food 9 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'linemate': 4, 'sibur': 1, 'phiras': 1, 'thystame': 2, 'player': 2}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+nothing found in view range
+scooting the area
+==================================
+==================================
+MESSAGE RECEIVED ---------
+message 1,team_name c I just hatched an egg !
+message 1,team_name g I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 7,team_name i I just hatched an egg !
+message 1,team_name f I just hatched an egg !
+--------------------------
+================================== [ bernard 4 ] [ lvl 1 - food 9 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'linemate': 2, 'deraumere': 1, 'sibur': 1, 'thystame': 1, 'player': 1}
+I want to Eleve myself \o/ !
+incantation is not possible yet !
+Collecting...
+found 2 linemate at 0
+going for linemate at 0
+looting 2 linemate
+==================================
+==================================
+================================== [ bernard 4 ] [ lvl 1 - food 9 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'linemate': 0, 'deraumere': 1, 'sibur': 1, 'thystame': 1, 'player': 1, 'visited': False}
+I want to Eleve myself \o/ !
+incantation is possible !
+preparing the ritual...
+placing 1 linemate
+I'm Elevating \o/ !
+==================================
+==================================
+elevation en cours
+MESSAGE RECEIVED ---------
+message 7,team_name g I just hatched an egg !
+--------------------------
+MESSAGE RECEIVED ---------
+message 8,team_name b I just hatched an egg !
+--------------------------
+---------------------------------- LVL [ 2 ]
+I need to check my stuff !
+================================== [ bernard 4 ] [ lvl 2 - food 6 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'nourriture': 1, 'deraumere': 1, 'sibur': 1, 'thystame': 1, 'player': 1}
+My team is not full I need to reproduce !
+==================================
+==================================
+================================== [ bernard 4 ] [ lvl 2 - food 6 ]
+leader: None - tt: 4 - fmin: 5 - fmax: 10
+{'nourriture': 1, 'deraumere': 1, 'sibur': 1, 'thystame': 1, 'player': 1}
+==================================
+==================================

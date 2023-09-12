@@ -130,9 +130,8 @@ class   Connector():
     def receive(self):
         request = None
         try:
-            request = self.socket.recv(1048576).decode('utf-8')
+            request = self.socket.recv(65536).decode('utf-8')
         except socket.timeout:
-            print('TIMEOUT')
             pass
         return request
 
