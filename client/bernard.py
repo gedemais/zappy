@@ -7,14 +7,10 @@ from config.maboye import Maboye
 
 class	IA:
 	id = None
-	#time
 	t = 0
-	# view data
 	view = []
 	view_size = 0
-	# Position in bot's referential
 	x, y = 0, 0
-	# bernard
 	lvl = 1
 	rushlvl = 2
 	rushfinal = False
@@ -29,6 +25,7 @@ class	IA:
 	last_broadcast = 0
 	last_inventory = 0
 	last_hatch = 0
+	suicide = False
 	#permet de savoir quand un call a été effectué
 	needs = {
 		C.CONNECT_NBR	: Command(id = C.CONNECT_NBR, callback = Callback.connect_nbr ),
@@ -98,6 +95,7 @@ class	IA:
 					Message.start(self, message)
 				elif "message" in message:
 					#server send a broadcast
+					print(message)
 					if self.check_team_id(message) == True:
 						Message.message(self, message)
 				elif "deplacement" in message:

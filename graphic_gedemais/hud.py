@@ -98,7 +98,8 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.connect((socket.gethostbyname(host), port))
 
 request = s.recv(65536).decode('utf-8')
-teams = json.loads(request)
+if request is not None:
+    teams = json.loads(request)
 
 nb_teams = len(teams)
 
@@ -138,8 +139,8 @@ while is_running:
 
 
     request = s.recv(65536).decode('utf-8')
-    #print(request)
-    teams = json.loads(request)
+    if request is not None:
+        teams = json.loads(request)
 
     for i, team in enumerate(teams):
         bgd = ((i % 8 + 1) * 20, (i % 8 + 1) * 20, (i % 8 + 1) * 20)

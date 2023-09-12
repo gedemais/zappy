@@ -8,18 +8,11 @@ def		collect_food(bernard, viewcase, drop = False):
 	if drop == True:
 		nb_food = bernard.inventory["nourriture"] - 20
 	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
-		nb_food = 1 + int(10 * (1 / bernard.inventory["nourriture"]))
-		if bernard.inventory["nourriture"] < 10:
-			nb_food = nb_food + 1
-		elif bernard.lvl > 5:
-			nb_food = 0
+		nb_food = 1 + int(25 * (1 / bernard.inventory["nourriture"]))
 		if nb_food > viewcase["nourriture"]:
 			nb_food = viewcase["nourriture"]
 	if nb_food > 5:
 		nb_food = 5
-	if nb_food < 1:
-		nb_food = 1
-		return
 	if drop == True:
 		compute_action(bernard, C.POSE, nb_food, "nourriture")
 		if "nourriture" in viewcase and viewcase["nourriture"] > 0:
@@ -28,7 +21,7 @@ def		collect_food(bernard, viewcase, drop = False):
 			viewcase["nourriture"] = nb_food
 		bernard.inventory["nourriture"] -= nb_food
 		print("droping {} foods to party".format(nb_food))
-	else:
+	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
 		compute_action(bernard, C.PREND, nb_food, "nourriture")
 		viewcase["nourriture"] -= nb_food
 		bernard.inventory["nourriture"] += nb_food

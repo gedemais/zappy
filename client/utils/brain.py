@@ -59,6 +59,7 @@ class	Brain:
 
 	#transform le tableau de commands input en commande individuelle à transceive
 	#process est busy lorsqu'il traite une série de commandes
+	#quand une commande est received elle est stock dans brain.memory
 	#return True if busy
 	def	process(self):
 		if self.cmd.state is not S.NONE:

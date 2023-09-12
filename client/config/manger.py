@@ -32,4 +32,5 @@ class	Manger:
 		else:
 			print("no food nearby. looking around !")
 			view_rand(bernard)
+			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
 			compute_action(bernard, C.VOIR, 1)

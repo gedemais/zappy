@@ -81,8 +81,8 @@ def		task_assign(bernard):
 			return
 		#si oui on envoit les 6 incantations
 		elif incant_possible(bernard, False) == True\
-				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
-			bernard.foodmin = 1
+				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] >= 6:
+			bernard.foodmin = 5
 			bernard.foodmax = 10
 			tasks[T.RUSH].state = S.NEED
 			return
@@ -91,6 +91,7 @@ def		task_assign(bernard):
 			compute_action(bernard, C.VOIR, 1)
 			tasks[T.RUSH].state = S.NONE
 			bernard.rushfinal = False
+			send_broadcast(bernard, "my level is : {}".format(bernard.lvl))
 	# on recrute le max de joueur possible
 	if bernard.team_total < 6\
 			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
@@ -113,9 +114,10 @@ def		task_assign(bernard):
 	#si il manque des ressources alors on va les collect
 	#et on prevoit un minimum de bouffe
 	if miss == True:
-		bernard.foodmin = bernard.wr / 2
+		bernard.foodmin = int(bernard.wr / 2)
+		if bernard.foodmin > 20:
+			bernard.foodmin = 20
 		bernard.foodmax = bernard.foodmin + 5
-		bernard.rushfinal = False
 		tasks[T.COLLECT].state = S.NEED
 		return
 	else:
@@ -124,9 +126,13 @@ def		task_assign(bernard):
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
 		bernard.foodmin = bernard.wr * 2
+		if bernard.foodmin > 50:
+			bernard.foodmin = 50
 		bernard.foodmax = bernard.foodmin + 10
 	else:
-		bernard.foodmin = bernard.wr / 2
+		bernard.foodmin = int(bernard.wr / 2)
+		if bernard.foodmin > 20:
+			bernard.foodmin = 20
 		bernard.foodmax = bernard.foodmin + 5
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
@@ -150,6 +156,12 @@ class	Maboye:
 	def	run(bernard):
 		if is_blind(bernard) == True:
 			return
+		if bernard.suicide == True and bernard.lvl > 2:
+			for elt in bernard.inventory:
+				if "ttl" in elt:
+					continue
+				compute_action(bernard, C.POSE, bernard.inventory[elt], elt)
+				print("I'm suiciding bitch !")
 		print("================================== [ bernard {} ] [ lvl {} - food {} ]".format(\
 			bernard.id,\
 			bernard.lvl,\
@@ -164,8 +176,9 @@ class	Maboye:
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
 			bernard.hatched = False
-		if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
+		if bernard.leader is not None and bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
 			bernard.leader = None
+			send_broadcast(bernard, "my level is : {}".format(bernard.lvl))
 		task_assign(bernard)
 		task_manager(bernard)
 		print("==================================")

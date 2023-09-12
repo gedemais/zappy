@@ -85,7 +85,12 @@ class   Connector():
         while response == None:
             response = self.receive()
 
-        print(len(response))
+        rest = self.receive()
+        while rest != None:
+            response += rest
+            rest = self.receive()
+
+        print('length : ' + str(len(response)))
 
         self.socket.settimeout(1.0 / self.tick)
 
@@ -125,8 +130,9 @@ class   Connector():
     def receive(self):
         request = None
         try:
-            request = self.socket.recv(65536).decode('utf-8')
+            request = self.socket.recv(1048576).decode('utf-8')
         except socket.timeout:
+            print('TIMEOUT')
             pass
         return request
 
@@ -344,6 +350,8 @@ class   Connector():
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
+        if player is None:
+            return
         player.lvl = int(tokens[2])
 
 

@@ -16,4 +16,3 @@ class   Team():
 
         player_list = [player[1].to_dict() for player in self.players.items()]
         return {'name': self.name, 'players': player_list, 'spritesheet': renderer.spritesheet_paths[team_index % 8]}
-

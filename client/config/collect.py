@@ -73,4 +73,5 @@ class	Collect:
 		if farm_ressources(bernard, needs) == False:
 			print("scooting the area")
 			view_rand(bernard)
+			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
 			compute_action(bernard, C.VOIR)

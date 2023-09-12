@@ -51,6 +51,8 @@ class	Callback:
 		pass
 
 	def	connect_nbr(bernard, command):
+		if len(command.response) > 5:
+			return
 		split = command.response.split(", ")
 		one = split[0].strip()
 		two = split[1].strip()
@@ -66,7 +68,6 @@ class	Callback:
 	def	fork(bernard, command):
 		time.sleep(3.33)
 		os.system("python3 main.py --host {} --port {} --team_name {} &".format(bernard.host, bernard.port, bernard.team_name))
-		bernard.team_total += 1
 		bernard.hatched = True
 		bernard.last_hatch = bernard.t
 

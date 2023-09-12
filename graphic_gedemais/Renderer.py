@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 import numpy as np
 from Player import S
 
