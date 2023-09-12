@@ -110,6 +110,16 @@ class   Connector():
 
         self.commands_queue = [cmd for cmd in self.commands_queue if cmd['ticks'] > 0]
 
+        to_delete = []
+        for t in world.teams:
+            for egg in world.teams[t].eggs:
+                world.teams[t].eggs[egg].cycles -= 1
+                if world.teams[t].eggs[egg].cycles == 0:
+                    to_delete.append((t, egg))
+
+        for d in to_delete:
+            del world.teams[d[0]].eggs[d[1]]
+
 
 
     def receive(self):

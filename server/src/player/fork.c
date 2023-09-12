@@ -9,11 +9,13 @@ uint8_t	update_eggs(t_env *env)
 	for (int i = 0; i < env->world.eggs.nb_cells; i++)
 	{
 		egg = dyacc(&env->world.eggs, i);
+
 		// Egg rots
 		if (egg->hatch_time == 0)
 		{
 			fprintf(stderr, "[EGG ROTTED] Egg %d is rotten\n", egg->id);
 			env->gindex = egg->id;
+
 			gevent_egg_rotted(env);
 
 			team = dyacc(&env->world.teams, egg->team);
