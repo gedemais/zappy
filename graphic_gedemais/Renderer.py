@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 import numpy as np
 from Player import S
 
@@ -52,7 +52,8 @@ class   Renderer():
                                 "rabbitSpriteSheet.png"
                             ]
 
-        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index])
+        i = random.randint(0, len(self.spritesheet_paths) - 1)
+        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[i])
 
         # IDLE animations
         self.player_animations[team_index] = {
@@ -234,26 +235,26 @@ class   Renderer():
 
         #print('state :', player.state)
         if player.state == S.IDLE or player.state == S.BROADCASTING:
-            return self.player_animations[player.team_index]['idle_' + keys[player.o]]
+            return self.player_animations[player.team_index % 8]['idle_' + keys[player.o]]
 
 
         if player.state in walking_states:
-                return self.player_animations[player.team_index]['walking_' + keys[player.o]]
+                return self.player_animations[player.team_index % 8]['walking_' + keys[player.o]]
 
         if player.state == S.PUSHING:
-            return self.player_animations[player.team_index]['pushing_' + keys[player.o]]
+            return self.player_animations[player.team_index % 8]['pushing_' + keys[player.o]]
 
         if player.state == S.TAKING or player.state == S.PUTTING:
-            return self.player_animations[player.team_index]['takeput']
+            return self.player_animations[player.team_index % 8]['takeput']
 
         if player.state == S.INCANTATING:
-            return self.player_animations[player.team_index]['incantation']
+            return self.player_animations[player.team_index % 8]['incantation']
 
         if player.state == S.LAYING_EGG:
-            return self.player_animations[player.team_index]['laying']
+            return self.player_animations[player.team_index % 8]['laying']
 
         if player.state == S.DYING:
-            return self.player_animations[player.team_index]['dying']
+            return self.player_animations[player.team_index % 8]['dying']
 
         print('ANIMATION NOT FOUND')
         assert(False)

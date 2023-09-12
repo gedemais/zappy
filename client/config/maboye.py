@@ -81,7 +81,7 @@ def		task_assign(bernard):
 			return
 		#si oui on envoit les 6 incantations
 		elif incant_possible(bernard, False) == True\
-				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
+				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] >= 6:
 			bernard.foodmin = 5
 			bernard.foodmax = 10
 			tasks[T.RUSH].state = S.NEED
@@ -114,7 +114,9 @@ def		task_assign(bernard):
 	#si il manque des ressources alors on va les collect
 	#et on prevoit un minimum de bouffe
 	if miss == True:
-		bernard.foodmin = bernard.wr / 2
+		bernard.foodmin = int(bernard.wr / 2)
+		if bernard.foodmin > 20:
+			bernard.foodmin = 20
 		bernard.foodmax = bernard.foodmin + 5
 		tasks[T.COLLECT].state = S.NEED
 		return
@@ -124,9 +126,13 @@ def		task_assign(bernard):
 	#quand un leader est set ils le rejoignent avec un seuil de nourriture faible
 	if bernard.leader is None:
 		bernard.foodmin = bernard.wr * 2
+		if bernard.foodmin > 50:
+			bernard.foodmin = 50
 		bernard.foodmax = bernard.foodmin + 10
 	else:
-		bernard.foodmin = bernard.wr / 2
+		bernard.foodmin = int(bernard.wr / 2)
+		if bernard.foodmin > 20:
+			bernard.foodmin = 20
 		bernard.foodmax = bernard.foodmin + 5
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
