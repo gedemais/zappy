@@ -121,7 +121,6 @@ class   Connector():
             del world.teams[d[0]].eggs[d[1]]
 
 
-
     def receive(self):
         request = None
         try:
@@ -183,6 +182,8 @@ class   Connector():
 
         new_x, new_y = int(tokens[2]), int(tokens[3])
 
+        player.next_x = new_x
+        player.next_y = new_y
         if player.x < new_x:
             player.states_queue.append(S.WALKING_EAST)
         elif player.x > new_x:

@@ -284,14 +284,19 @@ class   Renderer():
 
                 off_x, off_y = 0, 0
 
+                print(player.x, player.y)
                 if player.state == S.WALKING_NORTH:
                     off_y = self.tile_size / len(animation) * player.step
+                    off_y *= -1 if player.y == 0 and player.next_y == world.map_height - 1 else 1
                 if player.state == S.WALKING_SOUTH:
                     off_y = -self.tile_size / len(animation) * player.step
+                    off_y *= -1 if player.y == world.map_height - 1 and player.next_y == 0 else 1
                 if player.state == S.WALKING_WEST:
                     off_x = -self.tile_size / len(animation) * player.step
+                    off_x *= -1 if player.x == world.map_width - 1 and player.next_x == 0 else 1
                 elif player.state == S.WALKING_EAST:
                     off_x = self.tile_size / len(animation) * player.step
+                    off_x *= -1 if player.x == 0 and player.next_x == world.map_width - 1 else 1
 
                 off_x *= 1.5
                 off_y *= 1.5
