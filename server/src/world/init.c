@@ -32,7 +32,11 @@ static uint8_t	fill_resources(t_env *env)
 
 void	print_map(t_env *env)
 {
-	char		*teams_colors[4] = {
+	char		*teams_colors[8] = {
+		"\033[1;41m",
+		"\033[1;42m",
+		"\033[1;43m",
+		"\033[1;44m",
 		"\033[1;41m",
 		"\033[1;42m",
 		"\033[1;43m",

@@ -76,12 +76,12 @@ numbers_font = pygame.font.Font('JosefinSans.ttf', 20)
 
 sleep(2)
 
-hostname = 'localhost'
+host = socket.gethostname()
 port = 4242
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s.connect((socket.gethostbyname(hostname), port))
+s.connect((socket.gethostbyname(host), port))
 
 request = s.recv(65536).decode('utf-8')
 teams = json.loads(request)
