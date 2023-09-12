@@ -17,7 +17,7 @@ class	Message:
 			print("joining leader at {}".format(dir))
 			bernard.leader_contact = bernard.t
 		elif "I just hatched an egg !" in message:
-			bernard.team_total += 1
+			pass
 		elif "The king is dead long live the king !" in message:
 			bernard.leader = None
 

@@ -29,7 +29,7 @@ def		is_blind(bernard):
 
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\
 			or type(bernard.view) != list or type(bernard.inventory) != dict\
-				or len(bernard.view) == 0 or len(bernard.inventory) == 0:
+				or len(bernard.view) < 4 or len(bernard.inventory) == 0:
 		print("I'm blind :'(")
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)

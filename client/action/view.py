@@ -7,7 +7,8 @@ def	view_check_neighbors(bernard, x, y, item):
 		return None
 	index = view_index(x, y)
 	#si deja visitée on sort
-	if "visited" in bernard.view[index] and bernard.view[index]["visited"] == True:
+	if ("visited" in bernard.view[index] and bernard.view[index]["visited"] == True)\
+			or ("player" in bernard.view[index] and bernard.view[index]["player"] > 1):
 		return None
 	#has been visited
 	bernard.view[index]["visited"] = True

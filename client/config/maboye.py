@@ -82,7 +82,7 @@ def		task_assign(bernard):
 		#si oui on envoit les 6 incantations
 		elif incant_possible(bernard, False) == True\
 				and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] == 6:
-			bernard.foodmin = 1
+			bernard.foodmin = 5
 			bernard.foodmax = 10
 			tasks[T.RUSH].state = S.NEED
 			return
@@ -115,7 +115,6 @@ def		task_assign(bernard):
 	if miss == True:
 		bernard.foodmin = bernard.wr / 2
 		bernard.foodmax = bernard.foodmin + 5
-		bernard.rushfinal = False
 		tasks[T.COLLECT].state = S.NEED
 		return
 	else:
