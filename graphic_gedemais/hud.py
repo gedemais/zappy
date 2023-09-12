@@ -2,6 +2,7 @@ from sys import argv
 import pygame
 import socket
 import json
+from time import sleep
 
 def render_food_circles(player, y):
     food_stock = player['inventory'][0]
@@ -15,18 +16,22 @@ def render_food_circles(player, y):
         color = (255, 0, 0)
 
     for i in range(food_stock):
-        pygame.draw.circle(window, color, (i * 5 + 10, y), 3)
+        pygame.draw.circle(window, color, (i * 5 + 50, y), 3)
 
+    text = numbers_font.render(str(food_stock), True, (255, 255, 255), bgd)
+    rect = text.get_rect()
+    rect.center = (25, y)
+    window.blit(text, rect)
 
 def render_level_bar(player, y):
     level = player['level']
 
-    pygame.draw.rect(window, (255, 255, 255), (400, y - 10, 202, 22))
-    pygame.draw.rect(window, bgd, (401, y + 1 - 10, 200, 20))
+    pygame.draw.rect(window, (255, 255, 255), (400, y - 5, 202, 12))
+    pygame.draw.rect(window, bgd, (401, y + 1 - 5, 200, 10))
 
     for i in range(level):
         color = (255, (255 - i * 30), 0)
-        pygame.draw.rect(window, color, (401 + i * 25, y + 1 - 10, 25, 20))
+        pygame.draw.rect(window, color, (401 + i * 15, y + 1 - 5, 25, 10))
 
 
 
@@ -56,7 +61,7 @@ def render_team(bgd, index, row_size, name, players):
     window.blit(levels, rect)
 
     for p, player in enumerate(players):
-        y = off_y + 60 + p * 25
+        y = off_y + 60 + p * 20
         render_food_circles(player, y)
         render_level_bar(player, y)
 
@@ -67,7 +72,9 @@ is_running = True
 
 title_font = pygame.font.Font('ChrustyRock.ttf', 32)
 subtitles_font = pygame.font.Font('ChrustyRock.ttf', 20)
-numbers_font = pygame.font.Font('ChrustyRock.ttf', 16)
+numbers_font = pygame.font.Font('JosefinSans.ttf', 20)
+
+sleep(2)
 
 hostname = 'localhost'
 port = 4242
@@ -82,7 +89,7 @@ teams = json.loads(request)
 nb_teams = len(teams)
 
 # Window dimensions
-row_size = 210
+row_size = 180
 
 win_width = 630
 win_height = nb_teams * row_size
@@ -117,12 +124,14 @@ while is_running:
 
 
     request = s.recv(65536).decode('utf-8')
+    print(request)
     teams = json.loads(request)
 
     for i, team in enumerate(teams):
         bgd = ((i + 1) * 20, (i + 1) * 20, (i + 1) * 20)
         pygame.draw.rect(window, bgd, (0, i * row_size, win_width, row_size))
-        render_team(bgd, i, row_size, team['name'], team['players'])
+        if 'name' in team.keys():
+            render_team(bgd, i, row_size, team['name'], team['players'])
 
 
     pygame.display.flip()

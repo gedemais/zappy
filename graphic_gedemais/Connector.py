@@ -15,6 +15,7 @@ class   Connector():
         # Timeout setting to avoid recv from receiving all the time
         self.tick = tick
 #        self.socket.settimeout(1.0 / timeout)
+        self.ready = False
 
         self.event_functions = {
                 #  : placeholder implemented
@@ -146,6 +147,7 @@ class   Connector():
     ########### Server signals ############
 
     def pnw(self, world, tokens):
+        self.ready = True
         if len(tokens) != 7:
             print('invalid format for pnw')
             return -1
