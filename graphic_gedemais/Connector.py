@@ -101,8 +101,6 @@ class   Connector():
                 tokens = line.split(' ')
                 if len(tokens) < 2:
                     continue
-                elif tokens[0] == 'bct':
-                    print(tokens)
                 self.event_functions[tokens[0]](world, tokens)
 
         for command in self.commands_queue:
