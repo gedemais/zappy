@@ -5,11 +5,11 @@ from Egg import Egg
 
 class   World():
 
-    def __init__(self, response):
+    def __init__(self, response, connector):
         self.teams = {}
         self.team_names = []
         self.team_index = 0
-        self.parse_graphical_data(response)
+        self.parse_graphical_data(response, connector)
 
     def get_player_by_id(self, pid):
         for team in self.teams.items():
@@ -19,7 +19,7 @@ class   World():
 
         return None
 
-    def parse_graphical_data(self, response):
+    def parse_graphical_data(self, response, connector):
         self.lines = response.split('\n')
         self.line_index = 0
 
@@ -46,6 +46,7 @@ class   World():
             self.line_index += 1
 
         while self.parse_new_player() == 0:
+            connector.ready = True
             print(self.lines[self.line_index])
             self.line_index += 1
 

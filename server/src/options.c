@@ -186,19 +186,19 @@ uint8_t	parse_options(t_env *env, int argc, char **argv)
 	}
 
 	// Checks
-	printf("Server options :\n");
-	printf("port : %d\n", env->tcp.server_port);
-	printf("x : %d\n", env->settings.map_width);
-	printf("y : %d\n", env->settings.map_height);
-	printf("nb_teams : %d\n", env->world.teams.nb_cells);
-	printf("max_connections : %d\n", env->settings.max_connections);
-	printf("t : %d\n", env->settings.t);
+	//printf("Server options :\n");
+	//printf("port : %d\n", env->tcp.server_port);
+	//printf("x : %d\n", env->settings.map_width);
+	//printf("y : %d\n", env->settings.map_height);
+	//printf("nb_teams : %d\n", env->world.teams.nb_cells);
+	//printf("max_connections : %d\n", env->settings.max_connections);
+	//printf("t : %d\n", env->settings.t);
 
-	printf("Teams :\n");
-	for (int i = 0; i < env->world.teams.nb_cells; i++)
-	{
-		t = dyacc(&env->world.teams, i);
-		printf("%s\n", t->name);
-	}
+	//printf("Teams :\n");
+	//for (int i = 0; i < env->world.teams.nb_cells; i++)
+	//{
+	//	t = dyacc(&env->world.teams, i);
+	//	printf("%s\n", t->name);
+	//}
 	return (ERR_NONE);
 }

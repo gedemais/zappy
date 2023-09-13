@@ -13,7 +13,7 @@ port = 8080                   # The same port as used by the server
 connector = Connector(host, port)
 response = connector.authenticate()
 
-world = World(response)
+world = World(response, connector)
 
 connector.tick = world.t
 
@@ -46,17 +46,19 @@ while renderer.is_running:
         hud.send(bytes(message.encode('utf-8')))
         game_ended = True
         renderer.winner = res
+        break
 
-    elif game_ended == False and connector.ready and cycle % world.t == 0:
+    print('{} {} {} {}'.format(hud_connected, game_ended, connector.ready, cycle % world.t))
+    if hud_connected and game_ended == False and connector.ready and cycle % world.t == 0:
+        print('THERE2')
         teams = [team[1].to_dict(renderer, world) for team in world.teams.items()]
 
         message = json.dumps(teams)
-        if hud_connected:
-            try:
-                hud.send(bytes(message.encode('utf-8')))
-            except:
-                hud_connected = False
-                print('HUD disconnected !')
+        try:
+            hud.send(bytes(message.encode('utf-8')))
+        except:
+            hud_connected = False
+            print('HUD disconnected !')
 
     cycle += 1
 

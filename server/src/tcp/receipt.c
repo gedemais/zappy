@@ -19,6 +19,9 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 
 					PUTTIME()
 					fprintf(stderr, "[CLIENT LOGIN] Client %d logged in\n", env->buffers.connections[i]);
+					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
+					fflush(stdout);
+					//sleep(1);
 
 					// We add a new player in the pending players list
 					if ((code = add_player(env, &env->world.pending, &env->buffers.connections[i], NULL)))
@@ -70,9 +73,6 @@ uint8_t	receipt(t_env *env)
 	log_function((char*)__FUNCTION__);
 	FD_ZERO(&read_fd_set);
 
-	if (timeout.tv_usec > 10000)
-		timeout.tv_usec = 10000;
-
 	int	sets = 0;
 	for (uint32_t i = 0; i < 1024; i++)
 		if (connections[i] >= 0)
@@ -83,6 +83,7 @@ uint8_t	receipt(t_env *env)
 
 	if ((ret = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
+
 		if ((code = connections_receipt(env, &read_fd_set, &new_addr, &addrlen)) != ERR_NONE)
 			return (code);
 
@@ -105,7 +106,7 @@ uint8_t	receipt(t_env *env)
 							close(*env->graphical.connection);
 							*env->graphical.connection = -1;
 							memset(&env->graphical, 0, sizeof(t_player));
-							return (ERR_NONE);
+							continue ;
 						}
 
 						memcpy(&env->gplayer, p, sizeof(t_player));

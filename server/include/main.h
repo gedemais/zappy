@@ -31,8 +31,6 @@
 	while (0);
 	
 
-# define DEV true
-
 # define RESPONSE_SIZE 1048576
 # define FLUSH_RESPONSE memset(env->buffers.response, 0, strlen(env->buffers.response));
 # define FLUSH_GRESPONSE memset(env->buffers.gresponse, 0, strlen(env->buffers.gresponse));

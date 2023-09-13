@@ -20,11 +20,7 @@ uint8_t	response(t_env *env, t_player *p)
 uint8_t	gresponse(t_env *env)
 {
 	if (env->graphical.team != 0)
-	{
-		printf("%s\n", env->buffers.gresponse);
-		fflush(stdout);
 		write(*env->graphical.connection, env->buffers.gresponse, strlen(env->buffers.gresponse));
-	}
 
 	FLUSH_GRESPONSE
 	return (ERR_NONE);

@@ -69,7 +69,6 @@ static uint8_t	update_level(t_env *env, t_player *p)
 		p->elevation = -1;
 
 		bzero(r, sizeof(char) * 128);
-
 		strcat(r, "niveau actuel : ");
 
 		if (!(lvl = ft_itoa((int)p->level)))

@@ -169,6 +169,7 @@ while is_running:
     if cycles % fps == 0:
         try:
             request = s.recv(32768).decode('utf-8')
+            print(request)
         except:
             request = None
         if request is not None:
