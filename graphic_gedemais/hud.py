@@ -123,7 +123,7 @@ pygame.display.set_caption("Zappy HUD")
 
 # Clock initialization
 clock = pygame.time.Clock()
-fps = 5
+fps = 10
 
 path = './sprites/spritesheets/'
 sprites =   [
@@ -145,6 +145,7 @@ def handle_click(pos_y):
             is_rendered[i] = False if is_rendered[i] else True
             return
 
+s.settimeout(0.1)
 
 cycles = 0
 toggle_all = True
@@ -164,8 +165,12 @@ while is_running:
                     is_rendered[i] = toggle_all
                 toggle_all = False if toggle_all else True
 
+
     if cycles % fps == 0:
-        request = s.recv(32768).decode('utf-8')
+        try:
+            request = s.recv(32768).decode('utf-8')
+        except:
+            request = None
         if request is not None:
             tokens = request.split(' ')
             if len(request) > 3 and tokens[0] == 'GW':
@@ -175,8 +180,6 @@ while is_running:
                     teams = json.loads(request)
                 except:
                     exit(0)
-
-    cycles = 0
 
     pygame.draw.rect(window, (0, 0, 0), (0, 0, win_width, win_height))
 
@@ -190,6 +193,8 @@ while is_running:
 
         if is_rendered[i]:
             rendereds += 1
+
+    cycles += 1
 
     pygame.display.flip()
     clock.tick(fps)
