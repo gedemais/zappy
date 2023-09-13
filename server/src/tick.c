@@ -54,12 +54,8 @@ static uint8_t	regenerate_food(t_env *env)
 	int	x, y;
 
 	FLUSH_GRESPONSE
-	printf("SALOPE1\n");
-	fflush(stdout);
 	if (env->consumed_food > 0)
 	{
-		printf("SALOPE2\n");
-		fflush(stdout);
 		for (int32_t i = 0; i < env->consumed_food; i++)
 		{
 			x = rand() % env->settings.map_width;
