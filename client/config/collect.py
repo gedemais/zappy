@@ -14,7 +14,6 @@ def		farm_case(bernard, needs, index):
 				nb_loot = view[index][item]
 				if nb_loot > 5:
 					nb_loot = 5
-				print("looting {} {}".format(nb_loot, item))
 				compute_action(bernard, C.PREND, nb_loot, item)
 				viewcase[item] -= nb_loot
 	#on ramasse un peu de nourriture si il y en a
@@ -22,7 +21,6 @@ def		farm_case(bernard, needs, index):
 		nb_loot = view[index]["nourriture"]
 		if nb_loot > 5:
 			nb_loot = 5
-		print("looting {} nourriture".format(nb_loot))
 		compute_action(bernard, C.PREND, nb_loot, "nourriture")
 		viewcase["nourriture"] -= nb_loot
 
@@ -78,7 +76,6 @@ class	Collect:
 	def	run(bernard, needs):
 		if is_blind(bernard) == True:
 			return
-		print("Collecting...")
 		#looking for the best case around
 		index = find_gorgeous_case(bernard, needs)
 
@@ -86,8 +83,6 @@ class	Collect:
 			goto_path(bernard, index)
 			farm_case(bernard, needs, index)
 		else:
-			print("nothing found in view range")
-			print("scooting the area")
 			set_dir(bernard)
 			compute_action(bernard, C.AVANCE, bernard.lvl + 1)
 			compute_action(bernard, C.VOIR)

@@ -5,14 +5,12 @@ from config.meet import handle_food
 
 
 def		drop_requirement(bernard):
-	print("preparing the ritual...")
 	#incant_put return un array contenant les ressources à poser afin d'incanter
 	needs_to_put = incant_put(bernard)
 	for item in needs_to_put:
 		if "player" in item:
 			continue
 		if needs_to_put[item] > 0:
-			print("placing {} {}".format(needs_to_put[item], item))
 			compute_action(bernard, C.POSE, needs_to_put[item], item)
 
 class	Incantation:
@@ -27,7 +25,6 @@ class	Incantation:
 		handle_food(bernard)
 		if incant_possible(bernard, False) == True:
 			drop_requirement(bernard)
-			print("I'm Elevating \o/ !")
 			compute_action(bernard, C.INCANTATION)
 			compute_action(bernard, C.VOIR)
 			compute_action(bernard, C.CONNECT_NBR)

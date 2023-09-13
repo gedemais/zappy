@@ -46,7 +46,6 @@ while renderer.is_running:
         hud.send(bytes(message.encode('utf-8')))
         game_ended = True
         renderer.winner = res
-        break
 
     if hud_connected and game_ended == False and connector.ready and cycle % world.t == 0:
         teams = [team[1].to_dict(renderer, world) for team in world.teams.items()]

@@ -1,8 +1,5 @@
 import os, time
 
-from utils.command import C
-from action.utils import compute_action, send_broadcast
-
 
 class	Callback:
 	def	__init__(self):
@@ -15,31 +12,23 @@ class	Callback:
 		for loot in command.response:
 			bernard.view.append(loot)
 		bernard.view_size = len(bernard.view)
-		# print("[ voir ]", bernard.view)
 
 	def	inventaire(bernard, command):
 		#last inventory update
 		bernard.last_inventory = bernard.t
 		bernard.inventory = command.response
-		# print("[ inventaire ]", bernard.inventory)
 
 	def	prend(bernard, command):
 		#update inventory
 		for element in bernard.inventory:
 			if element == command.buf:
 				bernard.inventory[element] += 1
-		# 		index = element
-		# print("[ prend ] - {}".format(command.buf))
-		# print("inventaire: {} -> {}".format(bernard.inventory[index] - 1, bernard.inventory[index]))
 
 	def	pose(bernard, command):
 		#update inventory
 		for element in bernard.inventory:
 			if element == command.buf:
 				bernard.inventory[element] -= 1
-		# 		index = element
-		# print("[ pose ] - {}".format(command.buf))
-		# print("inventaire: {} -> {}".format(bernard.inventory[index] + 1, bernard.inventory[index]))
 
 	def	droite(bernard, command):
 		pass
@@ -62,10 +51,8 @@ class	Callback:
 			bernard.id = bernard.team_total
 
 	def incantation(bernard, command):
-		bernard.lvl += 1
 		bernard.view = []
 		bernard.view_size = 0
-		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
 		time.sleep(3.33)

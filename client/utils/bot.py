@@ -91,9 +91,11 @@ class	Bot:
 				#server send death
 				self.death()
 				return
+			elif "niveau" in message:
+				#server send the lvl
+				server_messages.append(message)
 			elif "elevation en cours" in message:
 				#server will send a message when elevation will end so we do nothing until it
-				print("elevation en cours")
 				pass
 			elif cmd.state == S.PENDING and len(message) > 0:
 				#server send our response

@@ -20,6 +20,8 @@ class	IA:
 	foodmax = 10
 	leader = None
 	leader_contact = 0
+	leader_meet = False
+	leader_false = False
 	team_slot = 0
 	team_total = 0
 	inventory = []
@@ -91,17 +93,21 @@ class	IA:
 		if len(server_messages) > 0:
 			print("MESSAGE RECEIVED ---------")
 			for message in server_messages:
+				print(message)
 				if "You have to wait for the game to start" in message:
 					#game didn't start yet
-					Message.start(self, message)
+					pass
 				elif "message" in message:
 					#server send a broadcast
-					print(message)
 					if self.check_team_id(message) == True:
 						Message.message(self, message)
 				elif "deplacement" in message:
 					#server send a kick
 					Message.kick(self, message)
+				elif "niveau actuel :" in message:
+					split = message.split(':')
+					self.lvl = int(split[1])
+					self.brain.reset()
 			print("--------------------------")
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
