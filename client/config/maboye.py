@@ -68,18 +68,19 @@ def		task_assign(bernard):
 	else:
 		tasks[T.RUSH].state = S.NONE
 	# # on recrute le max de joueur possible
-	# if bernard.team_total < 6\
-	# 		and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
-	# 	tasks[T.HATCH].state = S.NEED
-	# 	return
-	# else:
-	# 	tasks[T.HATCH].state = S.NONE
-	# #en attendant d'etre 6 on collect de la nourriture
-	# if bernard.team_total < 6:
-	# 	bernard.foodmin = bernard.inventory["nourriture"] + 1
-	# 	bernard.foodmax = bernard.foodmin
-	# 	bernard.rushfinal = False
-	# 	return
+	if bernard.team_total < 6\
+			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
+		tasks[T.HATCH].state = S.NEED
+		return
+	else:
+		tasks[T.HATCH].state = S.NONE
+	#en attendant d'etre 6 on collect de la nourriture
+	if bernard.team_total < 6:
+		print("farming")
+		bernard.foodmin = bernard.inventory["nourriture"] + 1
+		bernard.foodmax = bernard.foodmin
+		bernard.rushfinal = False
+		return
 	# rush lvl 8
 	if bernard.rushfinal == True:
 		print("rush final")
@@ -112,10 +113,11 @@ def		task_assign(bernard):
 	for item in it:
 		if "player" not in item and it[item] > 0:
 			miss = True
+			break
 	#si il manque des ressources alors on va les collect
 	#et on prevoit un minimum de bouffe
 	if miss == True:
-		bernard.foodmin = 10
+		bernard.foodmin = 15
 		bernard.foodmax = bernard.foodmin + 5
 		tasks[T.COLLECT].state = S.NEED
 		if bernard.leader is not None:
