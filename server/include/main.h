@@ -38,8 +38,6 @@
 # define FLUSH_GRESPONSE memset(env->buffers.gresponse, 0, strlen(env->buffers.gresponse));
 # define REQUEST_BUFF_SIZE 8192
 
-# define MAX_T 300
-
 # define MAP_PRINT true
 # define DATA_PRINT false
 

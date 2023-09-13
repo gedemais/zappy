@@ -1,7 +1,9 @@
 #ifndef WORLD_H
 # define WORLD_H
 
-# define MAX_MAP_DIM_SIZE 200
+# define MAX_MAP_WIDTH 200
+# define MAX_MAP_HEIGHT 150
+# define MAX_T 100
 # define LOOT_DENSITY 8
 // Percentage of loot pieces destined to be food
 # define FOOD_DENSITY 25

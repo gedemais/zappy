@@ -73,6 +73,9 @@ uint8_t	receipt(t_env *env)
 	log_function((char*)__FUNCTION__);
 	FD_ZERO(&read_fd_set);
 
+	if (timeout.tv_usec > 10000)
+		timeout.tv_usec = 10000;
+
 	int	sets = 0;
 	for (uint32_t i = 0; i < 1024; i++)
 		if (connections[i] >= 0)
@@ -83,7 +86,6 @@ uint8_t	receipt(t_env *env)
 
 	if ((ret = select(1024, &read_fd_set, NULL, NULL, &timeout)) >= 0) // If select does not fail
 	{
-
 		if ((code = connections_receipt(env, &read_fd_set, &new_addr, &addrlen)) != ERR_NONE)
 			return (code);
 

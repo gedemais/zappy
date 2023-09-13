@@ -33,7 +33,7 @@ static uint8_t	opt_load_width(t_env *env, char **args)
 		return (ERR_INVALID_MAP_DIMS);
 
 	tmp = (uint16_t)atoi((*args));
-	if (tmp < 1 || tmp > MAX_MAP_DIM_SIZE)
+	if (tmp < 1 || tmp > MAX_MAP_WIDTH)
 		return (ERR_INVALID_MAP_DIMS);
 
 	env->settings.map_width = tmp;
@@ -48,7 +48,7 @@ static uint8_t	opt_load_height(t_env *env, char **args)
 		return (ERR_INVALID_MAP_DIMS);
 
 	tmp = (uint16_t)atoi((*args));
-	if (tmp < 1 || tmp > MAX_MAP_DIM_SIZE)
+	if (tmp < 1 || tmp > MAX_MAP_HEIGHT)
 		return (ERR_INVALID_MAP_DIMS);
 
 	env->settings.map_height = tmp;
@@ -94,6 +94,10 @@ static uint8_t	opt_load_t(t_env *env, char **args)
 		return (ERR_INVALID_TIME_SETTING);
 
 	env->settings.t = atoi(*args);
+
+	if (env->settings.t == 0 || env->settings.t > MAX_T)
+		return (ERR_INVALID_TIME_SETTING);
+
 	return (ERR_NONE);
 }
 
