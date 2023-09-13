@@ -85,10 +85,12 @@ class   Connector():
         while response == None:
             response = self.receive()
 
-        rest = self.receive()
-        while rest != None:
-            response += rest
+        if response[len(response) - 1] == '\n':
+            self.socket.settimeout(0.1)
             rest = self.receive()
+            while rest != None:
+                response += rest
+                rest = self.receive()
 
         print('length : ' + str(len(response)))
 
@@ -103,11 +105,13 @@ class   Connector():
         if response != None:
             lines = response.split('\n')
             for line in lines:
-                print(line)
                 tokens = line.split(' ')
                 if len(tokens) < 2:
                     continue
-                self.event_functions[tokens[0]](world, tokens)
+                ret = self.event_functions[tokens[0]](world, tokens)
+
+                if tokens[0] == 'seg' and ret > -1:
+                    return tokens[1]
 
         for command in self.commands_queue:
             command['ticks'] -= 1
@@ -126,11 +130,12 @@ class   Connector():
         for d in to_delete:
             del world.teams[d[0]].eggs[d[1]]
 
+        return 'done'
 
-    def receive(self):
+    def receive(self, buf_size=32768):
         request = None
         try:
-            request = self.socket.recv(65536).decode('utf-8')
+            request = self.socket.recv(buf_size).decode('utf-8')
         except socket.timeout:
             pass
         return request
@@ -154,7 +159,7 @@ class   Connector():
     def pnw(self, world, tokens):
         self.ready = True
         if len(tokens) != 7:
-            print('invalid format for pnw')
+            #print('invalid format for pnw')
             return -1
         world.lines = [" ".join(tokens)]
         world.line_index = 0
@@ -175,7 +180,7 @@ class   Connector():
 
     def ppo(self, world, tokens):
         if len(tokens) != 5:
-            print('invalid format for ppo')
+            #print('invalid format for ppo')
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
@@ -216,7 +221,7 @@ class   Connector():
 
     def pin(self, world, tokens):
         if len(tokens) != 11:
-            print('invalid format for pin')
+            #print('invalid format for pin')
             return -1
         player = self.get_player_by_id(world, tokens[1])
         if player is None:
@@ -230,7 +235,7 @@ class   Connector():
 
     def bct(self, world, tokens):
         if len(tokens) != 10:
-            print('invalid format for bct')
+            #print('invalid format for bct')
             return -1
         x = int(tokens[1])
         y = int(tokens[2])
@@ -248,7 +253,7 @@ class   Connector():
 
     def pgt(self, world, tokens):
         if len(tokens) != 3:
-            print('invalid format for pgt')
+            #print('invalid format for pgt')
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
@@ -269,7 +274,7 @@ class   Connector():
 
     def pdr(self, world, tokens):
         if len(tokens) != 3:
-            print('invalid format for pgt')
+            #print('invalid format for pgt')
             return -1
 
         player = self.get_player_by_id(world, tokens[1])
@@ -308,7 +313,7 @@ class   Connector():
         player = self.get_player_by_id(world, tokens[1])
         if player is None:
             return
-        print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
+        #print('player {} broadcasted |{}|'.format(tokens[1], ' '.join(tokens[1:])))
         player.states_queue.append(S.BROADCASTING)
         self.commands_queue.append({'id': self._pbc_,  'params': (world, tokens), 'ticks': 7})
 
@@ -328,7 +333,7 @@ class   Connector():
         player = self.get_player_by_id(world, tokens[4])
         if player is None:
             return
-        print('player {} incantating !'.format(tokens[4]))
+        #print('player {} incantating !'.format(tokens[4]))
         player.states_queue.append(S.INCANTATING)
         self.commands_queue.append({'id': self._pic_,  'params': (world, tokens), 'ticks': 300})
 
@@ -368,7 +373,7 @@ class   Connector():
         player = self.get_player_by_id(world, tokens[1])
         if player is None:
             return
-        print('player {} laying egg !'.format(tokens[1], ' '.join(tokens[1:])))
+        #print('player {} laying egg !'.format(tokens[1], ' '.join(tokens[1:])))
         player.states_queue.append(S.LAYING_EGG)
         self.commands_queue.append({'id': self._pfk_,  'params': (world, tokens), 'ticks': 42})
 
@@ -383,7 +388,7 @@ class   Connector():
         x = int(tokens[3])
         y = int(tokens[4])
         world.teams[player.team].eggs[tokens[1]] = Egg(x, y) # Update every egg at every tick
-        print(world.teams[player.team].eggs)
+        #print(world.teams[player.team].eggs)
         #sleep(3)
 
 
@@ -391,19 +396,19 @@ class   Connector():
         pass
 
     def eht(self, world, tokens):
-        print('egg {} hatched !'.format(tokens[1]))
+        #print('egg {} hatched !'.format(tokens[1]))
         #sleep(3)
         for t in world.teams.items():
-            print(t[1].eggs)
+            #print(t[1].eggs)
             for egg in t[1].eggs.items():
-                print(tokens[1], egg)
+                #print(tokens[1], egg)
                 if tokens[1] == egg[0]:
                     del t[1].eggs[tokens[1]]
-                    print('properly !')
+                    #print('properly !')
                     #sleep(3)
                     return 0
 
-        print('UNPROPERLY')
+        #print('UNPROPERLY')
         #sleep(3)
 
     def _edi_(self, world, tokens):
@@ -469,5 +474,12 @@ class   Connector():
         pass
 
     def seg(self, world, tokens):
-        print('GAME OVER')
-        pass
+        if len(tokens) != 2:
+            return -1
+
+        team_index = -1
+        for player in world.teams[tokens[1]].players.items():
+            team_index = player[1].team_index
+            break
+
+        return team_index

@@ -164,7 +164,7 @@ static uint8_t	check_incantation_group(t_env *env, t_player *p, bool *ret)
 		for (int j = 0; j < t->players.nb_cells; j++)
 		{
 			pl = dyacc(&t->players, j);
-			coords = (bool)(pl->tile_x == p->tile_x && pl->tile_y == p->tile_y);
+			coords = (bool)(pl->level < 8 && pl->tile_x == p->tile_x && pl->tile_y == p->tile_y);
 			if (coords && pl->level == p->level)
 			{
 				if (dynarray_push(&group, &pl, false))
@@ -216,6 +216,10 @@ static uint8_t	incantation_req(t_env *env, char **tokens, t_player *p, bool *ret
 	uint8_t	code;
 
 	(void)tokens;
+
+	if (p->level >= 8)
+		return (log_requirement("incantation group", *ret));
+
 	if (!check_resources(env, p))
 		return (log_requirement("incantation resources", *ret));
 

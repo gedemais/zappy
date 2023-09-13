@@ -17,7 +17,7 @@ world = World(response)
 
 connector.tick = world.t
 
-renderer = Renderer(world, tile_size=22)
+renderer = Renderer(world, tile_size=50)
 
 hud_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hud_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -30,17 +30,26 @@ hud_socket.listen()
 hud, hud_address = hud_socket.accept()
 print('HUD connected !')
 
+game_ended = False
 cycle = 0
 
 # Main game loop
 while renderer.is_running:
 
     renderer.process_events()
-    connector.process(world)
-    renderer.render(world)
+    res = connector.process(world)
+    renderer.render(world, game_ended)
 
-    if connector.ready and cycle % world.t == 0:
-        message = json.dumps([team[1].to_dict(renderer, world) for team in world.teams.items()])
+    if res != 'done':
+        message = 'GW {}'.format(res)
+        hud.send(bytes(message.encode('utf-8')))
+        game_ended = True
+        renderer.winner = res
+
+    elif game_ended == False and connector.ready and cycle % world.t == 0:
+        teams = [team[1].to_dict(renderer, world) for team in world.teams.items()]
+
+        message = json.dumps(teams)
         hud.send(bytes(message.encode('utf-8')))
 
     cycle += 1

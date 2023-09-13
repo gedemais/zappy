@@ -9,6 +9,8 @@ class   Renderer():
         pygame.init()
         self.is_running = True
 
+        self.winner = ''
+
     # Window initialization
         # Map dimensions
         self.map_width = world.map_width
@@ -42,10 +44,10 @@ class   Renderer():
 
     def load_spritesheet(self, broadcast_animation, team_index):
         self.spritesheet_paths = [
-                                "goldenarmorSpriteSheet.png",
-                                "elvenSpriteSheet.png",
                                 "chainSpriteSheet.png",
                                 "darkmaleSpriteSheet.png",
+                                "elvenSpriteSheet.png",
+                                "goldenarmorSpriteSheet.png",
                                 "leatherSpriteSheet.png",
                                 "plateSpriteSheet.png",
                                 "platefemaleSpriteSheet.png",
@@ -97,7 +99,7 @@ class   Renderer():
         self.player_animations[team_index % 8]['takeput'].append(self.player_animations[team_index % 8]['takeput'][1])
         self.player_animations[team_index % 8]['takeput'].append(self.player_animations[team_index % 8]['takeput'][0])
         self.broadcast_animation = []
-        print(broadcast_animation)
+        #print(broadcast_animation)
         for i in range(7):
             x = i * 64
             self.broadcast_animation.append(pygame.transform.scale(broadcast_animation.subsurface((x, 0, 64, 64)), (self.tile_size / 2, self.tile_size / 2)))
@@ -145,6 +147,7 @@ class   Renderer():
         self.bgd_tile_rect = self.bgd_tile.get_rect()
         self.generate_background()
 
+        self.ge_font = pygame.font.Font('ChrustyRock.ttf', int(self.tile_size * self.map_width / 12))
         eggs = pygame.image.load('./sprites/eggs.png')
         self.egg = pygame.transform.scale(eggs, (self.tile_size / 2, self.tile_size / 2))
         broadcast_animation = pygame.image.load('./sprites/broadcast.png')
@@ -272,7 +275,7 @@ class   Renderer():
                     if player.state != S.BROADCASTING or player.step == 7:
                         if len(player.states_queue) > 0:
                             player.state = player.states_queue[0]
-                            print(player.state)
+                            #print(player.state)
                             player.states_queue.pop(0)
                         else:
                             player.state = S.IDLE
@@ -315,7 +318,7 @@ class   Renderer():
                 player.step += 1
 
 
-    def render(self, world):
+    def render(self, world, game_ended):
         self.loot_tile_size = self.tile_size / 3
         self.images = self.loot_images
         size = self.loot_tile_size * self.loot_scale
@@ -331,6 +334,24 @@ class   Renderer():
 
         self.render_eggs(world)
         self.render_players(world)
+
+        if game_ended == True:
+            width = self.tile_size * self.map_width
+            height = self.tile_size * self.map_height
+            victory_text = self.ge_font.render('Victory', True, (0, 0, 0))
+            team_text = self.ge_font.render('Team {} won the battle'.format(self.winner), True, (0, 0, 0))
+
+            rect = victory_text.get_rect()
+            rect.center = (width / 2, height / 2 - (width / 12))
+            self.window.blit(victory_text, rect)
+
+            rect = team_text.get_rect()
+            rect.center = (width / 2, height / 2 + (width / 12))
+            self.window.blit(team_text, rect)
+
+            pygame.display.flip()
+            self.clock.tick(self.fps)
+            return
 
         pygame.display.flip()
         self.clock.tick(self.fps)

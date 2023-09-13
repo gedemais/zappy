@@ -10,7 +10,7 @@ def render_food_circles(player, y, bgd):
     food_stock = player['inventory'][0]
 
     for i in range(food_stock if food_stock <= 42 else 42):
-        color = ((255 - i * 6), i * 6, 0)
+        color = (max(255 - i * 10, 0), min(255, i * 10), 0)
         pygame.draw.circle(window, color, (i * 5 + 50, y), 3)
 
     text = numbers_font.render(str(food_stock), True, (255, 255, 255), bgd)
@@ -146,8 +146,8 @@ def handle_click(pos_y):
             return
 
 
-i = 0
-toggle_all = False
+cycles = 0
+toggle_all = True
 while is_running:
 
     for event in pygame.event.get():
@@ -164,11 +164,16 @@ while is_running:
                     is_rendered[i] = toggle_all
                 toggle_all = False if toggle_all else True
 
-
-    if i % fps == 0:
-        request = s.recv(65536).decode('utf-8')
+    if cycles % fps == 0:
+        request = s.recv(32768).decode('utf-8')
         if request is not None:
-            teams = json.loads(request)
+            tokens = request.split(' ')
+            if len(request) > 3 and tokens[0] == 'GW':
+                exit(0)
+            else:
+                teams = json.loads(request)
+
+    cycles = 0
 
     pygame.draw.rect(window, (0, 0, 0), (0, 0, win_width, win_height))
 
@@ -185,7 +190,5 @@ while is_running:
 
     pygame.display.flip()
     clock.tick(fps)
-
-
 
 pygame.quit()
