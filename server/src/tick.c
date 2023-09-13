@@ -15,9 +15,10 @@ static void	check_game_start(t_env *env)
 	fprintf(stderr, "[GAME_STARTED] Game started with %d teams of %d players !\n", env->world.teams.nb_cells, env->settings.max_connections);
 }
 
-static void	check_game_end(t_env *env)
+static uint8_t	check_game_end(t_env *env)
 {
 	t_team		*team;
+	t_team		*winner;
 	t_player	*player;
 	bool		won;
 
@@ -25,6 +26,7 @@ static void	check_game_end(t_env *env)
 	{
 		team = dyacc(&env->world.teams, i);
 		won = team->players.nb_cells == 6;
+		winner = team;
 		if (won)
 			for (int p = 0; p < team->players.nb_cells; p++)
 			{
@@ -36,14 +38,15 @@ static void	check_game_end(t_env *env)
 				}
 			}
 
-		if (won == true)
+		if (won)
 		{
 			env->gindex = i;
 			gevent_game_ended(env);
-			printf("GAME WIN\n");
-			exit(0);
+			printf("GAME WIN : Team %s won the battle !\n", winner->name);
+			return (1);
 		}
 	}
+	return (0);
 }
 
 static uint8_t	regenerate_food(t_env *env)
@@ -102,7 +105,16 @@ uint8_t	tick(t_env *env)
 
 	teams_log(env, true);
 	teams_log(env, false);
-	env->start ? check_game_end(env) : check_game_start(env);
+	if (env->start)
+	{
+		if (check_game_end(env))
+		{
+			env->end = true;
+			return (ERR_NONE);
+		}
+	}
+	else
+		check_game_start(env);
 
 	if ((code = receipt(env)) != ERR_NONE
 		|| (env->start && (code = update_players(env)) != ERR_NONE)

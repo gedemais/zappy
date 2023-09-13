@@ -171,7 +171,10 @@ while is_running:
             if len(request) > 3 and tokens[0] == 'GW':
                 exit(0)
             else:
-                teams = json.loads(request)
+                try:
+                    teams = json.loads(request)
+                except:
+                    exit(0)
 
     cycles = 0
 

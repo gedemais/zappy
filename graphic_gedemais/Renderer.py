@@ -152,6 +152,7 @@ class   Renderer():
         self.egg = pygame.transform.scale(eggs, (self.tile_size / 2, self.tile_size / 2))
         broadcast_animation = pygame.image.load('./sprites/broadcast.png')
         broadcast_animation.set_colorkey((0, 0, 0))
+        incantation = pygame.image.load('./sprites/spritesheets/incantation_animation.png')
         minerals = pygame.image.load('./sprites/minerals.png')
         food = pygame.image.load('./sprites/apple.png')
 
@@ -164,6 +165,12 @@ class   Renderer():
                 minerals.subsurface((115, 115, 28, 28)),
                 minerals.subsurface((230, 115, 28, 28)),
                 ]
+
+        self.incantation_animation = []
+        for i in range(8):
+            x = i * 174
+            self.incantation_animation.append(pygame.transform.scale(incantation.subsurface((x, 0, 174, 140)), (self.tile_size, self.tile_size)))
+        
 
         self.player_animations = []
         for i in range(8):
@@ -309,7 +316,11 @@ class   Renderer():
 
                 self.window.blit(sprite, (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 
-                if player.state == S.BROADCASTING:
+                if player.state == S.INCANTATING:
+                    sprite = self.incantation_animation[player.step % 8]
+                    self.window.blit(sprite, (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
+
+                elif player.state == S.BROADCASTING:
                     animation = self.broadcast_animation
                     off_x += self.tile_size / 2
                     player.step = player.step if player.step < len(animation) else 6

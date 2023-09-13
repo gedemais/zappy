@@ -29,6 +29,7 @@ print('Waiting for HUD connection...')
 hud_socket.listen()
 hud, hud_address = hud_socket.accept()
 print('HUD connected !')
+hud_connected = True
 
 game_ended = False
 cycle = 0
@@ -50,7 +51,12 @@ while renderer.is_running:
         teams = [team[1].to_dict(renderer, world) for team in world.teams.items()]
 
         message = json.dumps(teams)
-        hud.send(bytes(message.encode('utf-8')))
+        if hud_connected:
+            try:
+                hud.send(bytes(message.encode('utf-8')))
+            except:
+                hud_connected = False
+                print('HUD disconnected !')
 
     cycle += 1
 

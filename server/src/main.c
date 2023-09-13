@@ -22,6 +22,9 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 		// Server tasks
 		if ((code = tick(env)))
 			return (code);
+
+		if (env->end)
+			run = false;
 	}
 
 	return (ERR_NONE);

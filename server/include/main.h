@@ -93,6 +93,7 @@ struct	s_env
 	char		*gstr;
 	t_settings	settings;
 	bool		start;
+	bool		end;
 	int32_t	consumed_food;
 };
 
