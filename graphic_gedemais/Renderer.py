@@ -270,6 +270,7 @@ class   Renderer():
 
     def render_players(self, world):
 
+        incantations = []
         for team in world.teams.items():
             team = team[1]
             for player in team.players.items():
@@ -317,8 +318,7 @@ class   Renderer():
                 self.window.blit(sprite, (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 
                 if player.state == S.INCANTATING:
-                    sprite = self.incantation_animation[player.step % 8]
-                    self.window.blit(sprite, (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
+                    incantations.append((player, off_x, off_y))
 
                 elif player.state == S.BROADCASTING:
                     animation = self.broadcast_animation
@@ -327,6 +327,11 @@ class   Renderer():
                     self.window.blit(animation[player.step], (player.x * self.tile_size + player.x + off_x, player.y * self.tile_size + player.y + off_y))
 
                 player.step += 1
+
+        for i in incantations:
+            sprite = self.incantation_animation[i[0].step % 8]
+            self.window.blit(sprite, (i[0].x * self.tile_size + i[0].x + i[1], i[0].y * self.tile_size + i[0].y + i[2]))
+
 
 
     def render(self, world, game_ended):

@@ -48,9 +48,7 @@ while renderer.is_running:
         renderer.winner = res
         break
 
-    print('{} {} {} {}'.format(hud_connected, game_ended, connector.ready, cycle % world.t))
     if hud_connected and game_ended == False and connector.ready and cycle % world.t == 0:
-        print('THERE2')
         teams = [team[1].to_dict(renderer, world) for team in world.teams.items()]
 
         message = json.dumps(teams)
