@@ -85,12 +85,11 @@ class   Connector():
         while response == None:
             response = self.receive()
 
-        if response[len(response) - 1] == '\n':
-            self.socket.settimeout(0.1)
+        self.socket.settimeout(0.1)
+        rest = self.receive()
+        while rest != None:
+            response += rest
             rest = self.receive()
-            while rest != None:
-                response += rest
-                rest = self.receive()
 
         print('length : ' + str(len(response)))
 
