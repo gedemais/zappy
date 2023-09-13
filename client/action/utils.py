@@ -34,10 +34,27 @@ def		set_dir(bernard, default = True):
 	back = 0
 	left = 0
 
+	if bernard.leader is not None and bernard.leader != -1 and bernard.leader_meet == True:
+		d = bernard.leader
+		if d == 1 or d == 2 or d == 8:
+			#front
+			view_rand(bernard)
+		elif d == 7:
+			#right
+			compute_action(bernard, C.DROITE, 1)
+		if d == 5 or d == 4 or d == 6:
+			#back
+			compute_action(bernard, C.DROITE, 2)
+		elif d == 3:
+			#left
+			compute_action(bernard, C.GAUCHE, 1)
+		return
+
+
 	if len(bernard.bdir) > 5:
 		for d in bernard.bdir:
 			if d == 1 or d == 2 or d == 8:
-				#go front
+				#front
 				front = front + 1
 			elif d == 7:
 				#right
@@ -77,7 +94,6 @@ def		is_blind(bernard):
 	if bernard.view == None or bernard.inventory == None or bernard.team_slot == None\
 			or type(bernard.view) != list or type(bernard.inventory) != dict\
 				or len(bernard.view) < 4 or len(bernard.inventory) == 0:
-		print("I'm blind :'(")
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
@@ -85,25 +101,22 @@ def		is_blind(bernard):
 		blind = True
 	#update view if out of view array
 	elif outofview(bernard, bernard.x, bernard.y) == True:
-		print("I'm lost in the dark")
 		set_dir(bernard, False)
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
 	elif bernard.ko == True and bernard.leader is not None:
-		print("Someone is around !")
 		view_rand(bernard)
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
 	#update inventory (each 5s)
 	elif bernard.t - bernard.last_inventory > 5000:
-		print("I need to check my stuff !")
 		set_dir(bernard, False)
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
-		if bernard.leader is None:
+		if bernard.leader != -1 and bernard.leader is not None:
 			send_broadcast(bernard, "My level is : {}".format(bernard.lvl))
 		blind = True
 	return blind

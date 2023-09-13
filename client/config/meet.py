@@ -20,22 +20,21 @@ def		collect_food(bernard, viewcase, drop = False):
 		else:
 			viewcase["nourriture"] = nb_food
 		bernard.inventory["nourriture"] -= nb_food
-		print("droping {} foods to party".format(nb_food))
 	elif "nourriture" in viewcase and viewcase["nourriture"] > 0:
 		compute_action(bernard, C.PREND, nb_food, "nourriture")
 		viewcase["nourriture"] -= nb_food
 		bernard.inventory["nourriture"] += nb_food
-		print("collecting {} foods from party".format(nb_food))
 
 def		handle_food(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
 	viewcase = bernard.view[bernardindex]
 
-	if bernard.inventory["nourriture"] < 3 or "player" not in viewcase or viewcase["player"] == 1:
+	if "player" not in viewcase or viewcase["player"] == 1:
 		return
-	if bernard.inventory["nourriture"] < 15:
+	if bernard.inventory["nourriture"] < 20:
 		collect_food(bernard, viewcase)
-	if "nourriture" in viewcase and viewcase["nourriture"] > 30:
+	if "nourriture" in viewcase and viewcase["nourriture"] > 30\
+			or bernard.leader == -1:
 		return
 	if bernard.inventory["nourriture"] > 25:
 		collect_food(bernard, viewcase, True)
@@ -48,14 +47,8 @@ class	Meet:
 		if is_blind(bernard) == True:
 			return
 
-		#leader assignation
-		if bernard.leader is None:
-			bernard.leader = -1
-			send_broadcast(bernard, "Come to your leader !")
 		if bernard.leader == -1: # and bernard.t - bernard.last_broadcast > 100:
 			send_broadcast(bernard, "Come to your leader !")
-			print("Calling team mates to rush lvl 8 !")
-		if bernard.leader == -1:
 			handle_food(bernard)
 			compute_action(bernard, C.VOIR, 1)
 			return
