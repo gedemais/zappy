@@ -348,8 +348,8 @@ class   Renderer():
             for x in range(self.map_width):
                 self.render_loot(world, x, y)
 
-        self.render_eggs(world)
         self.render_players(world)
+        self.render_eggs(world)
 
         if game_ended == True:
             width = self.tile_size * self.map_width
