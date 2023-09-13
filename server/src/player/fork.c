@@ -65,15 +65,8 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 	{
 		env->gplayer = *p;
 		gevent_player_new(env);
-		printf("NEW_PLAYER : EGG NOT FOUND\n");
-		fflush(stdout);
-		//sleep(3);
 		return (ERR_NONE);
 	}
-
-	printf("NEW_PLAYER : EGG FOUND\n");
-	fflush(stdout);
-	//sleep(3);
 
 	p->tile_x = oldest_egg->x;
 	p->tile_y = oldest_egg->y;
@@ -84,10 +77,6 @@ uint8_t	check_connected_egg(t_env *env, t_player *p)
 	env->gindex = oldest_egg->id;
 	gevent_player_connected_for_egg(env);
 
-
-	//printf("connection : %d %d %d\n", env->gindex, p->tile_x, p->tile_y);
-	//fflush(stdout);
-	//sleep(5);
 	dynarray_extract(eggs, index);
 	return (gevent_egg_hatched(env));
 }
@@ -108,9 +97,6 @@ uint8_t	hatch_egg(t_env *env, t_player *p)
 	new.pid = p->pid;
 	new.x = p->tile_x;
 	new.y = p->tile_y;
-	//printf("hatching : %d %d %d\n", new.id, p->tile_x, p->tile_y);
-	//fflush(stdout);
-	//sleep(5);
 	if (env->world.eggs.byte_size == 0 && dynarray_init(&env->world.eggs, sizeof(t_egg), env->world.teams.nb_cells))
 		return (ERR_MALLOC_FAILED);
 

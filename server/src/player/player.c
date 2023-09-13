@@ -104,8 +104,6 @@ uint8_t	update_inventories(t_env *env)
 			gcmd_player_level(env);
 		}
 	}
-	//printf("%s\n", env->buffers.gresponse);
-	//sleep(3);
 	return (gresponse(env));
 }
 

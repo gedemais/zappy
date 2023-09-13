@@ -19,9 +19,6 @@ uint8_t	connections_receipt(t_env *env, fd_set *read_fd_set, struct sockaddr_in 
 
 					PUTTIME()
 					fprintf(stderr, "[CLIENT LOGIN] Client %d logged in\n", env->buffers.connections[i]);
-					printf("New client connected on slot %d (fd : %d)\n", i, new_fd);
-					fflush(stdout);
-					//sleep(1);
 
 					// We add a new player in the pending players list
 					if ((code = add_player(env, &env->world.pending, &env->buffers.connections[i], NULL)))
@@ -142,7 +139,6 @@ uint8_t	receipt(t_env *env)
 			{
 				fprintf(stderr, "slot %d : fd %d\n", i, connections[i]);
 				fflush(stderr);
-				//sleep(1);
 			}
 		}
 
