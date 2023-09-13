@@ -1,7 +1,7 @@
 import random
 
 from utils.command import C, Command
-from action.view import outofview, view_index
+from action.view import outofview
 
 
 # append l'action demandée dans une queue de Command
@@ -24,6 +24,53 @@ def		view_rand(bernard):
 	else:
 		compute_action(bernard, C.GAUCHE, 1)
 
+# 1 is front
+# 2 1 8
+# 3 X 7
+# 4 5 6
+def		set_dir(bernard, default = True):
+	front = 0
+	right = 0
+	back = 0
+	left = 0
+
+	if len(bernard.bdir) > 5:
+		for d in bernard.bdir:
+			if d == 1 or d == 2 or d == 8:
+				#go front
+				front = front + 1
+			elif d == 7:
+				#right
+				right = right + 1
+			if d == 5 or d == 4 or d == 6:
+				#back
+				back = back + 1
+			elif d == 3:
+				#left
+				left = left + 1
+		bernard.bdir = []
+		# 0 : front - 1 : right - 2 : back - 3 : left
+		tmp = 0
+		if right > front:
+			front = right
+			tmp = 1
+		if back > front:
+			front = back
+			tmp = 2
+		if left > front:
+			front = left
+			tmp = 3
+		if tmp == 0:
+			pass
+		elif tmp == 1:
+			compute_action(bernard, C.DROITE, 1)
+		elif tmp == 2:
+			compute_action(bernard, C.DROITE, 2)
+		elif tmp == 3:
+			compute_action(bernard, C.GAUCHE, 1)
+	elif default == True:
+		view_rand(bernard)
+
 def		is_blind(bernard):
 	blind = False
 
@@ -34,32 +81,47 @@ def		is_blind(bernard):
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
+		send_broadcast(bernard, "My level is : {}".format(bernard.lvl))
 		blind = True
 	#update view if out of view array
 	elif outofview(bernard, bernard.x, bernard.y) == True:
 		print("I'm lost in the dark")
+		set_dir(bernard, False)
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
 		blind = True
-	elif bernard.ko == True:
-		bernardindex = view_index(bernard.x, bernard.y)
-		viewcase = bernard.view[bernardindex]
-
-		if "player" in viewcase and viewcase["player"] < 3:
-			print("Someone is around !")
-			view_rand(bernard)
-			compute_action(bernard, C.VOIR, 1)
-			compute_action(bernard, C.CONNECT_NBR, 1)
-			blind = True
+	elif bernard.ko == True and bernard.leader is not None:
+		print("Someone is around !")
+		view_rand(bernard)
+		compute_action(bernard, C.VOIR, 1)
+		compute_action(bernard, C.CONNECT_NBR, 1)
+		blind = True
 	#update inventory (each 5s)
 	elif bernard.t - bernard.last_inventory > 5000:
 		print("I need to check my stuff !")
+		set_dir(bernard, False)
 		compute_action(bernard, C.VOIR, 1)
 		compute_action(bernard, C.INVENTAIRE, 1)
 		compute_action(bernard, C.CONNECT_NBR, 1)
+		if bernard.leader is None:
+			send_broadcast(bernard, "My level is : {}".format(bernard.lvl))
 		blind = True
 	return blind
 
-#WIP
-def	send_broadcast(bernard, message):
+def		send_broadcast(bernard, message):
 	compute_action(bernard, C.BROADCAST, 1, "team_name " + bernard.team_name + ' ' + message)
+
+def		case_value(case, values):
+	tmp = 0
+	#pour chaque items
+	for item in case:
+		if "player" not in item and "visited" not in item:
+			#on lui attribue un poid qui depend de la quantite dont il a besoin de l'item
+			if "nourriture" in item:
+				r = 0.5
+			elif item in values:
+				r = values[item]
+			else:
+				break
+			tmp = tmp + case[item] * r
+	return tmp

@@ -13,7 +13,7 @@ def		collect_food(bernard, viewcase, drop = False):
 			nb_food = viewcase["nourriture"]
 	if nb_food > 5:
 		nb_food = 5
-	if drop == True:
+	if drop == True and bernard.lvl < 7:
 		compute_action(bernard, C.POSE, nb_food, "nourriture")
 		if "nourriture" in viewcase and viewcase["nourriture"] > 0:
 			viewcase["nourriture"] += nb_food
@@ -64,9 +64,11 @@ class	Meet:
 
 		print("================================== DIR [ {} ]".format(dir))
 
-		if dir == 0:
+		bernardindex = view_index(bernard.x, bernard.y)
+		if dir == 0 and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] > 1:
 			handle_food(bernard)
 			compute_action(bernard, C.VOIR, 1)
+			send_broadcast(bernard, "My level is : {}".format(bernard.lvl))
 			return
 
 		# 1 is front

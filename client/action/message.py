@@ -13,17 +13,19 @@ class	Message:
 				bernard.leader = None
 				return
 			bernard.leader = dir
-			print("joining leader at {}".format(dir))
 			bernard.leader_contact = bernard.t
 		elif "I just hatched an egg !" in message:
 			pass
-		elif "The king is dead long live the king !" in message:
+		elif "The king is dead long live the king !" in message\
+				or "I'm not ready !" in message:
 			bernard.leader = None
-		elif "my level is : " in message:
+		elif "My level is : " in message:
 			split = message.split(':')
 			lvl = int(split[1].strip())
-			if bernard.lvl > lvl:
+			if bernard.lvl > lvl + 1:
 				bernard.suicide = True
+		if dir > 0:
+			bernard.bdir.append(dir)
 
 	#format: deplacement <K>
 	# 0 : front, 1 : right, 2 : back, 3 : left

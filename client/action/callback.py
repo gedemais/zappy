@@ -63,6 +63,8 @@ class	Callback:
 
 	def incantation(bernard, command):
 		bernard.lvl += 1
+		bernard.view = []
+		bernard.view_size = 0
 		print("---------------------------------- LVL [ {} ]".format(bernard.lvl))
 
 	def	fork(bernard, command):
