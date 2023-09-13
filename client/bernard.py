@@ -8,6 +8,7 @@ from config.maboye import Maboye
 class	IA:
 	id = None
 	t = 0
+	bdir = []
 	view = []
 	view_size = 0
 	x, y = 0, 0

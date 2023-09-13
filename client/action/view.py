@@ -61,7 +61,7 @@ def	view_distance(a ,b):
 #return the index of bernard in view with x, y
 def	view_index(x, y):
 	index = 0
-	if x == 0 and y == 0:
+	if x <= 0 and y <= 0:
 		return index
 	y = abs(y)
 	middle = y * (y + 1)

@@ -30,3 +30,4 @@ class	Incantation:
 			print("I'm Elevating \o/ !")
 			compute_action(bernard, C.INCANTATION)
 			compute_action(bernard, C.VOIR)
+			compute_action(bernard, C.CONNECT_NBR)
