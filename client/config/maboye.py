@@ -57,9 +57,6 @@ def		task_assign(bernard):
 
 	if bernard.leader == -1 and bernard.t - bernard.last_broadcast > 1000:
 		send_broadcast(bernard, "I'm your leader !")
-	# if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
-	# 	bernard.leader = None
-	# 	bernard.leader_meet = False
 
 	#il faut de la nourriture
 	if bernard.inventory["nourriture"] < bernard.foodmin:
@@ -68,7 +65,7 @@ def		task_assign(bernard):
 	elif bernard.inventory["nourriture"] >= bernard.foodmax:
 		tasks[T.MANGER].state = S.NONE
 
-	# # on recrute le max de joueur possible
+	# on recrute le max de joueur possible
 	if bernard.team_total < 6\
 			and (bernard.last_hatch == 0 or bernard.t - bernard.last_hatch > 20000):
 		tasks[T.HATCH].state = S.NEED
@@ -115,6 +112,10 @@ def		task_assign(bernard):
 			tasks[T.RUSH].state = S.NONE
 			bernard.rushfinal = False
 		return
+
+	if bernard.leader != -1 and bernard.t - bernard.leader_contact > 20000:
+		bernard.leader = None
+		bernard.leader_meet = False
 
 	if bernard.leader is None and bernard.has_hatch == True\
 			and bernard.inventory["nourriture"] > 30:

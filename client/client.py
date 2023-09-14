@@ -1,4 +1,4 @@
-import socket
+import socket, sys
 
 from utils.bot import Bot
 from utils.command import S
@@ -18,13 +18,27 @@ class	Client:
 		self.qreceive = Queue()
 		self.qtransceive = Queue()
 		self.bot = Bot(self)
+		self.connected = False
 
 	#connect to server and return world size
 	def connect(self):
-		self.s.connect((self.host, self.port))
-		response = self.s.recv(1024).decode("utf-8")
-		self.s.send(bytes(self.team_name.encode("utf-8")))
-		response = self.s.recv(1024).decode("utf-8")
+		try:
+			self.s.connect((self.host, self.port))
+		except:
+			print("client connect problem")
+			sys.exit(1)
+			return 0, 0
+		self.connected = True
+		try:
+			response = self.s.recv(1024).decode("utf-8")
+			self.s.send(bytes(self.team_name.encode("utf-8")))
+			response = self.s.recv(1024).decode("utf-8")
+		except:
+			print("client init problem")
+			self.connected = False
+			sys.exit(1)
+			return 0, 0
+
 		#world size
 		wsize = [0, 0]
 		split = response.split('\n')
@@ -34,6 +48,7 @@ class	Client:
 		return int(wsize[0]), int(wsize[1])
 
 	def	close(self):
+		self.connected = False
 		self.s.close()
 
 	#receive data from server
@@ -42,12 +57,17 @@ class	Client:
 		server_messages = []
 		self.s.settimeout(0.1)
 		while True:
+			data = None
 			try:
 				data = self.s.recv(8192)
 			except socket.timeout:
 				break
-			if not data:
-				break
+			except:
+				print("client receive problem")
+				self.connected = False
+			if not data or data is None:
+				self.connected = False
+				return None
 			split = data.decode("utf-8").split('\n')
 			for message in split:
 				if len(message) > 0:
@@ -66,7 +86,10 @@ class	Client:
 			#si le cmd.state a été push dans la queue et qu'une queue existe
 			if cmd.state == S.TRANSCEIVED:
 				for command in self.qtransceive.buf:
-					self.s.send(bytes(command.encode("utf-8")))
+					try:
+						self.s.send(bytes(command.encode("utf-8")))
+					except:
+						self.connected = False
 				self.qtransceive.reset()
 				#cmd has been sent so state is now pending
 				cmd.state = S.PENDING

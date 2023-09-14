@@ -42,19 +42,24 @@ def	main():
 	#server sent by the server
 	server_messages = []
 
-	if wx > 0 and wy > 0:
-		bernard = IA(host, port, team_name, wx, wy)
-		ts = int(time.time() * 1000)
-		while client.bot.alive == True:
-			t = int(time.time() * 1000) - ts
-			#bernard créé une cmd a transceive au serveur
-			#il attend la réponse et actualise son état
-			#brain lui permet de préparer des list de cmd à transceive
-			#la list est executée cmd par cmd (create, transceive, receive)
-			bernard.interact(t, server_messages)
-			client.transceive(bernard.brain.cmd)
-			server_messages = client.receive(bernard.brain.cmd)
-			te = int(time.time() * 1000) - t
+	if client.connected == False:
+		client.close()
+		return
+
+	bernard = IA(host, port, team_name, wx, wy)
+	ts = int(time.time() * 1000)
+	while client.bot.alive == True and client.connected == True:
+		t = int(time.time() * 1000) - ts
+		#bernard créé une cmd a transceive au serveur
+		#il attend la réponse et actualise son état
+		#brain lui permet de préparer des list de cmd à transceive
+		#la list est executée cmd par cmd (create, transceive, receive)
+		bernard.interact(t, server_messages)
+		client.transceive(bernard.brain.cmd)
+		if client.connected == False:
+			return
+		server_messages = client.receive(bernard.brain.cmd)
+		te = int(time.time() * 1000) - t
 	client.close()
 
 if __name__ == "__main__":
