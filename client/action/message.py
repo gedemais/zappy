@@ -12,12 +12,10 @@ class	Message:
 			bernard.leader = dir
 			bernard.leader_contact = bernard.t
 			bernard.leader_meet = True
-		elif "I'm your leader !" in message:
-			bernard.leader = dir
-			bernard.leader_contact = bernard.t
 			if bernard.leader == -1:
-				bernard.leader_false = True
-		elif "You are not the leader !" in message:
+				bernard.doppleganger = True
+		elif "I'm your leader !" in message\
+				or "I'm the true leader !" in message:
 			bernard.leader = dir
 			bernard.leader_contact = bernard.t
 		elif "I just hatched an egg !" in message:
@@ -34,7 +32,6 @@ class	Message:
 	# 0 : front, 1 : right, 2 : back, 3 : left
 	#the kick message reset bernard's brain
 	def	kick(bernard, message):
-		print("bot has been kick")
 		#comme on a été poussé alors il faut revoir les commandes en cours
 		bernard.brain.reset()
 		bernard.view = []

@@ -1,1 +1,1 @@
-zsh: permission denied: ./server
+valgrind: ./server: is a directory
