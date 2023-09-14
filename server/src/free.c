@@ -32,6 +32,8 @@ static void	free_world(t_env *env)
 	for (uint32_t i = 0; i < env->settings.map_height; i++)
 		free(env->world.map[i]);
 	free(env->world.map);
+
+	dynarray_free(&env->world.eggs);
 }
 
 static void	free_buffers(t_env *env)

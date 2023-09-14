@@ -11,7 +11,10 @@ static uint8_t	run_command(t_env *env, t_player *p, t_cmd *cmd)
 	fprintf(stderr, "[COMMAND EXECUTION] Client %d sent a command with id %d : {%s}\n", *p->connection, cmd->id, cmd->tokens[0]);
 
 	if ((code = cmd->cmd_func(env, p, true)) != ERR_NONE)
+	{
+		free_cmd(cmd);
 		return (code);
+	}
 
 	// LOGGING
 	PUTTIME()

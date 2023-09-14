@@ -1,5 +1,4 @@
 import pygame, random
-import numpy as np
 from Player import S
 
 class   Renderer():
@@ -54,7 +53,7 @@ class   Renderer():
                                 "rabbitSpriteSheet.png"
                             ]
 
-        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index % 8])
+        animations = pygame.image.load('./sprites/spritesheets/' + self.spritesheet_paths[team_index % 8]).convert_alpha()
 
         # IDLE animations
         self.player_animations[team_index % 8] = {
@@ -142,19 +141,19 @@ class   Renderer():
 
     def load_resources(self):
         # Background resource loading
-        self.bgd_tile = pygame.image.load('./sprites/grassFlower.jpeg')
+        self.bgd_tile = pygame.image.load('./sprites/grassFlower.jpeg').convert()
         self.bgd_tile = pygame.transform.scale(self.bgd_tile, (self.tile_size, self.tile_size))
         self.bgd_tile_rect = self.bgd_tile.get_rect()
         self.generate_background()
 
         self.ge_font = pygame.font.Font('ChrustyRock.ttf', int(self.tile_size * self.map_width / 12))
-        eggs = pygame.image.load('./sprites/eggs.png')
+        eggs = pygame.image.load('./sprites/eggs.png').convert_alpha()
         self.egg = pygame.transform.scale(eggs, (self.tile_size / 2, self.tile_size / 2))
-        broadcast_animation = pygame.image.load('./sprites/broadcast.png')
+        broadcast_animation = pygame.image.load('./sprites/broadcast.png').convert()
         broadcast_animation.set_colorkey((0, 0, 0))
-        incantation = pygame.image.load('./sprites/spritesheets/incantation_animation.png')
-        minerals = pygame.image.load('./sprites/minerals.png')
-        food = pygame.image.load('./sprites/apple.png')
+        incantation = pygame.image.load('./sprites/spritesheets/incantation_animation.png').convert_alpha()
+        minerals = pygame.image.load('./sprites/minerals.png').convert_alpha()
+        food = pygame.image.load('./sprites/apple.png').convert_alpha()
 
         self.loot_images = [
                 food,

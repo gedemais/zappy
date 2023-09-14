@@ -20,7 +20,7 @@ static uint8_t		zappy_server(t_env *env, int argc, char **argv)
 		fflush(stdout);
 
 		// Server tasks
-		if ((code = tick(env)))
+		if ((code = tick(env)) != ERR_NONE)
 			return (code);
 
 		if (env->end)

@@ -26,7 +26,8 @@ void	teams_log(t_env *env, bool log)
 		for (int e = 0; e < env->world.eggs.nb_cells; e++)
 		{
 			egg = dyacc(&env->world.eggs, e);
-			fprintf(log ? stderr : stdout, "Egg %d | x : %d | y : %d | Hatch time : %d | Team : %d\n", egg->id, egg->x, egg->y, egg->hatch_time, egg->team);
+			if (egg->team == team)
+				fprintf(log ? stderr : stdout, "Egg %d | x : %d | y : %d | Hatch time : %d | Team : %d\n", egg->id, egg->x, egg->y, egg->hatch_time, egg->team);
 		}
 	}
 	fprintf(log ? stderr : stdout, "===========================\n");
