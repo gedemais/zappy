@@ -20,7 +20,7 @@ static uint8_t	run_command(t_env *env, t_player *p, t_cmd *cmd)
 	PUTTIME()
 	fprintf(stderr, "[COMMAND SUCCESS] Command %d sent by client %d executed properly\n", cmd->id, *p->connection);
 
-	free_cmd(cmd);
+	ft_arrfree(cmd->tokens);
 	dynarray_pop(&p->cmd_queue, true);
 
 	PUTTIME()

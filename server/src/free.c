@@ -4,6 +4,7 @@ static void	free_teams(t_env *env)
 {
 	t_team		*t;
 	t_player	*player;
+	t_cmd		*cmd;
 
 	// For each team
 	for (int i = 0; i < env->world.teams.nb_cells; i++)
@@ -14,6 +15,11 @@ static void	free_teams(t_env *env)
 		for (int p = 0; p < t->players.nb_cells; p++)
 		{
 			player = dyacc(&t->players, p);
+			for (int c = 0; c < player->cmd_queue.nb_cells; c++)
+			{
+				cmd = dyacc(&player->cmd_queue, c);
+				ft_arrfree(cmd->tokens);
+			}
 			dynarray_free(&player->cmd_queue);
 		}
 		dynarray_free(&t->players);

@@ -38,7 +38,7 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 		{
 			if (strcmp(tokens[0], cmd_names[i]) != 0)
 				continue;
-			
+
 			cmd_found = true;
 
 			req = false;
@@ -85,7 +85,7 @@ uint8_t	place_command_in_queue(t_env *env, t_player *player)
 			ft_arrfree(tokens);
 			return (ERR_NONE);
 		}
-		ft_arrfree(tokens);
+
 	}
 
 	ft_arrfree(lines);
