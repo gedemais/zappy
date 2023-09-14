@@ -17,7 +17,7 @@ world = World(response, connector)
 
 connector.tick = world.t
 
-renderer = Renderer(world, tile_size=50)
+renderer = Renderer(world, tile_size=20)
 
 hud_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hud_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -32,10 +32,17 @@ print('HUD connected !')
 hud_connected = True
 
 game_ended = False
+
 cycle = 0
+
+import cProfile
 
 # Main game loop
 while renderer.is_running:
+
+    #cProfile.run('renderer.process_events()')
+    #cProfile.run('res = connector.process(world)')
+    #cProfile.run('renderer.render(world, game_ended)')
 
     renderer.process_events()
     res = connector.process(world)

@@ -62,6 +62,8 @@ static uint8_t	load_team(t_env *env, char *arg)
 
 	teams = &env->world.teams;
 
+	if (teams->nb_cells >= MAX_TEAMS)
+		return (ERR_TOO_MANY_TEAMS);
 	// Initialization of teams array
 	if (teams->byte_size == 0 && dynarray_init(teams, sizeof(t_team), 8))
 		return (ERR_MALLOC_FAILED);

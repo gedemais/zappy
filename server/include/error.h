@@ -23,6 +23,7 @@ enum	e_error_id
 	ERR_ACCEPT_FAILED,
 	ERR_RECV_FAILED,
 	ERR_SELECT_FAILED,
+	ERR_TOO_MANY_TEAMS,
 	ERR_MAX
 };
 
@@ -45,12 +46,13 @@ static const t_error	errors[ERR_MAX] = {
 	[ERR_MISSING_OPT] = {"Missing option in command line\n", true, false},
 	[ERR_CMD_NOT_FOUND] = {"Command not found\n", false, false},
 	[ERR_SOCKET_FAILED] = {"Socket creation failed\n", false, true},
-	[ERR_SETSOCKOPT_FAILED] = {"setsockopt() failed", false, true},
-	[ERR_BIND_FAILED] = {"bind() failed", false, true},
-	[ERR_LISTEN_FAILED] = {"listen() failed", false, true},
-	[ERR_ACCEPT_FAILED] = {"accept() failed", false, true},
-	[ERR_RECV_FAILED] = {"recv() failed", false, true},
-	[ERR_SELECT_FAILED] = {"select() failed", false, true}
+	[ERR_SETSOCKOPT_FAILED] = {"setsockopt() failed\n", false, true},
+	[ERR_BIND_FAILED] = {"bind() failed\n", false, true},
+	[ERR_LISTEN_FAILED] = {"listen() failed\n", false, true},
+	[ERR_ACCEPT_FAILED] = {"accept() failed\n", false, true},
+	[ERR_RECV_FAILED] = {"recv() failed\n", false, true},
+	[ERR_SELECT_FAILED] = {"select() failed\n", false, true},
+	[ERR_TOO_MANY_TEAMS] = {"Too many teams\n", true, false}
 	//[] = {"", false}
 	//[] = {"", false}
 	//[] = {"", false}
