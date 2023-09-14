@@ -34,23 +34,6 @@ def		set_dir(bernard, default = True):
 	back = 0
 	left = 0
 
-	if bernard.leader is not None and bernard.leader != -1 and bernard.leader_meet == True:
-		d = bernard.leader
-		if d == 1 or d == 2 or d == 8:
-			#front
-			view_rand(bernard)
-		elif d == 7:
-			#right
-			compute_action(bernard, C.DROITE, 1)
-		if d == 5 or d == 4 or d == 6:
-			#back
-			compute_action(bernard, C.DROITE, 2)
-		elif d == 3:
-			#left
-			compute_action(bernard, C.GAUCHE, 1)
-		return
-
-
 	if len(bernard.bdir) > 5:
 		for d in bernard.bdir:
 			if d == 1 or d == 2 or d == 8:
@@ -137,4 +120,12 @@ def		case_value(case, values):
 			else:
 				break
 			tmp = tmp + case[item] * r
+		
+		if "player" in item:
+			if case[item] >= 5:
+				tmp = -999
+			else:
+				tmp = tmp - case[item] * 10
+			if tmp < 0:
+				tmp = 0
 	return tmp

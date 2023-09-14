@@ -22,7 +22,6 @@ class	Bot:
 		}
 
 	def	death(self):
-		print("bot has die")
 		self.alive = False
 
 	#push the cmd in a queue

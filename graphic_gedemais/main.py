@@ -17,7 +17,7 @@ world = World(response, connector)
 
 connector.tick = world.t
 
-renderer = Renderer(world, tile_size=50)
+renderer = Renderer(world, tile_size=25)
 
 hud_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 hud_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

@@ -55,8 +55,6 @@ class	Meet:
 
 		dir = bernard.leader
 
-		print("================================== DIR [ {} ]".format(dir))
-
 		bernardindex = view_index(bernard.x, bernard.y)
 		if dir == 0 and "player" in bernard.view[bernardindex] and bernard.view[bernardindex]["player"] > 1:
 			handle_food(bernard)

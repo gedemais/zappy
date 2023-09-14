@@ -54,7 +54,13 @@ def		task_manager(bernard):
 #WIP
 def		task_assign(bernard):
 	bernardindex = view_index(bernard.x, bernard.y)
-	print(bernard.view[bernardindex])
+
+	if bernard.leader == -1 and bernard.t - bernard.last_broadcast > 1000:
+		send_broadcast(bernard, "I'm your leader !")
+	# if bernard.leader != -1 and bernard.t - bernard.leader_contact > 5000:
+	# 	bernard.leader = None
+	# 	bernard.leader_meet = False
+
 	#il faut de la nourriture
 	if bernard.inventory["nourriture"] < bernard.foodmin:
 		tasks[T.MANGER].state = S.NEED
@@ -90,8 +96,8 @@ def		task_assign(bernard):
 			handle_food(bernard)
 			bernard.leader_meet = False
 			return
-		if bernard.leader_false == True:
-			send_broadcast(bernard, "You are not the leader !")
+		if bernard.doppleganger == True:
+			send_broadcast(bernard, "I'm the true leader !")
 		#on attend 2secondes pour verifier si il ya toujours 6 joueurs sur la case
 		#plus il y a de nourriture plus on attend
 		r = 2000
@@ -110,7 +116,8 @@ def		task_assign(bernard):
 			bernard.rushfinal = False
 		return
 
-	if bernard.leader is None and bernard.inventory["nourriture"] > 30:
+	if bernard.leader is None and bernard.has_hatch == True\
+			and bernard.inventory["nourriture"] > 30:
 		send_broadcast(bernard, "I'm your leader !")
 		bernard.leader = -1
 		bernard.foodmin = 10
@@ -123,8 +130,6 @@ def		task_assign(bernard):
 		return
 
 	if bernard.leader == -1:
-		if bernard.t - bernard.last_broadcast > 1000:
-			send_broadcast(bernard, "I'm your leader !")
 		#on verifie si il manque des ressources pour passer lvl 8
 		bernard.rushlvl = 8
 		miss = False
@@ -169,19 +174,9 @@ class	Maboye:
 				compute_action(bernard, C.POSE, bernard.inventory[elt], elt)
 			return
 		bernard.suicide = False
-		print("================================== [ bernard {} ] [ lvl {} - leader {} ]".format(\
-			bernard.id,\
-			bernard.lvl,\
-			bernard.leader,\
-		))
-		print("tt: {} - fmin: {} - fmax: {}".format(\
-			bernard.team_total,\
-			bernard.foodmin,\
-			bernard.foodmax,\
-		))
 		if bernard.hatched == True:
 			send_broadcast(bernard, "I just hatched an egg !")
+			bernard.has_hatch = True
 			bernard.hatched = False
 		task_assign(bernard)
 		task_manager(bernard)
-		print("==================================")

@@ -23,14 +23,11 @@ class	Client:
 	def connect(self):
 		self.s.connect((self.host, self.port))
 		response = self.s.recv(1024).decode("utf-8")
-		print(response.strip()) # BIENVENUE
 		self.s.send(bytes(self.team_name.encode("utf-8")))
 		response = self.s.recv(1024).decode("utf-8")
-		print(response.strip())
 		#world size
 		wsize = [0, 0]
 		split = response.split('\n')
-		#split[0] "int" - split[1] "wx, wy"
 		if len(split) == 3:
 			wsize = split[1].split(' ')
 			self.wx, self.wy = wsize[0], wsize[1]

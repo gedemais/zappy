@@ -16,12 +16,13 @@ class	IA:
 	rushlvl = 2
 	rushfinal = False
 	hatched = False
+	has_hatch = False
 	foodmin = 5
 	foodmax = 10
 	leader = None
 	leader_contact = 0
 	leader_meet = False
-	leader_false = False
+	doppleganger = False
 	team_slot = 0
 	team_total = 0
 	inventory = []
@@ -91,9 +92,7 @@ class	IA:
 
 	def	handle_server_messages(self, server_messages):
 		if len(server_messages) > 0:
-			print("MESSAGE RECEIVED ---------")
 			for message in server_messages:
-				print(message)
 				if "You have to wait for the game to start" in message:
 					#game didn't start yet
 					pass
@@ -108,7 +107,6 @@ class	IA:
 					split = message.split(':')
 					self.lvl = int(split[1])
 					self.brain.reset()
-			print("--------------------------")
 
 	#fonction à executer quand le state est pending et qu'on a reçu une response
 	def	receive(self, cmd):
@@ -117,7 +115,7 @@ class	IA:
 				if "ko" not in command.response:
 					self.needs[command.id].callback(self, command)
 				else:
-					print("{} {} : KO".format(command.id, command.buf))
+					pass
 					self.ko = True
 				command.state = S.NONE
 	
